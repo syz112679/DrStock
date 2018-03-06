@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "12358503525",
+    "firebase_url": "https://dr-stock547.firebaseio.com",
+    "project_id": "dr-stock547",
+    "storage_bucket": "dr-stock547.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12358503525:android:6bb88c2479449d2b",
+        "android_client_info": {
+          "package_name": "com.smarthuman.drstock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "12358503525-ssv4inghjqnkm33ebhpapuie0g3h4ffi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2AEN_OaIk-AIx0G2BPR2QIkUep21-ir8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
