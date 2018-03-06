@@ -15,6 +15,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jingle on 04/03/2018.
@@ -32,6 +34,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
     private Button mRegisterbtn;
     private Button mMyStockbtn;
     private Button mFavoritebtn;
+    private Button mAdd1000;
 
 
 
@@ -61,6 +64,8 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
             mMyStockbtn.setOnClickListener(this);
             mFavoritebtn = view.findViewById(R.id.display_favorite);
             mFavoritebtn.setOnClickListener(this);
+            mAdd1000 = view.findViewById(R.id.add_money_btn);
+            mAdd1000.setOnClickListener(this);
 
             ((MainActivity) getActivity()).mDatabaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -116,6 +121,29 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                 startActivity(intent);
                 break;
 
+            case R.id.no_user_register:
+                Intent intent2 = new Intent(getActivity(), RegisterActivity.class);
+                startActivity(intent2);
+                break;
+
+            case R.id.add_money_btn:
+                ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Map<String, Object> postValues = new HashMap<String,Object>();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            postValues.put(snapshot.getKey(),snapshot.getValue());
+                        }
+                        double money = Double.parseDouble(mMoney.getText().toString());
+                        postValues.put("money", money+1000);
+                        ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).updateChildren(postValues);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
         }
     }

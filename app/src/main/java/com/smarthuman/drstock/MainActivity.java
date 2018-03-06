@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.navigation_account:
-                if(!isLogin)
+                if(isLogin)
                     fragment = new com.smarthuman.drstock.AccountFragment();
                 else
                     fragment = new com.smarthuman.drstock.LoginFragment();

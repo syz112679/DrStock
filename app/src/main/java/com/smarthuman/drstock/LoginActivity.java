@@ -86,9 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("FlashChat", "Problem signing in: " + task.getException());
                     showErrorDialog("There was a problem signing in");
                 } else {
-                    Intent intent = new Intent(LoginActivity.this, UserActivity.class);
                     finish();
-                    startActivity(intent);
                 }
 
             }

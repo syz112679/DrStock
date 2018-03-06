@@ -10,7 +10,9 @@ import java.util.ArrayList;
 public class UserInformation {
     private String userName;
     private String email;
-    private double money;
+    private double initialMoney;
+    private double earning;
+    private double balance;
     ArrayList<String> myStocks;
     ArrayList<String> favorites;
 
@@ -19,7 +21,9 @@ public class UserInformation {
     public UserInformation(String userName, String email) {
         this.userName = userName;
         this.email = email;
-        this.money = 0;
+        this.initialMoney = 0;
+        this.balance = 0;
+        this.earning = 0;
         this.myStocks = new ArrayList<String>();
         this.favorites = new ArrayList<String>();
         favorites.add("placeholder");
@@ -45,7 +49,7 @@ public class UserInformation {
     }
 
     public void setMoney(double money) {
-        this.money = money;
+        this.initialMoney = money;
     }
 
     public void setMyStocks(ArrayList<String> myStocks) {
@@ -58,7 +62,15 @@ public class UserInformation {
 
     public void setSuperUser(boolean superUser) {  this.isSuperUser = superUser; }
 
+    public void setEarning(double earning) {  this.earning = earning; }
+
+    public void setBalance(double balance) {   this.balance = balance;  }
+
     //getter
+
+    public double getEarning() {   return earning; }
+
+    public double getBalance() {   return balance; }
 
     public ArrayList<String> getFavorites() {
         return favorites;
@@ -73,7 +85,7 @@ public class UserInformation {
     }
 
     public double getMoney() {
-        return money;
+        return initialMoney;
     }
 
     public ArrayList<String> getMyStocks() {
