@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class UserInformation {
     private String userName;
     private String email;
-    private double initialMoney;
+    private double money; // initial money
     private double earning;
     private double balance;
     ArrayList<String> myStocks;
@@ -21,7 +21,7 @@ public class UserInformation {
     public UserInformation(String userName, String email) {
         this.userName = userName;
         this.email = email;
-        this.initialMoney = 0;
+        this.money = 0;
         this.balance = 0;
         this.earning = 0;
         this.myStocks = new ArrayList<String>();
@@ -49,7 +49,7 @@ public class UserInformation {
     }
 
     public void setMoney(double money) {
-        this.initialMoney = money;
+        this.money = money;
     }
 
     public void setMyStocks(ArrayList<String> myStocks) {
@@ -85,7 +85,7 @@ public class UserInformation {
     }
 
     public double getMoney() {
-        return initialMoney;
+        return money;
     }
 
     public ArrayList<String> getMyStocks() {

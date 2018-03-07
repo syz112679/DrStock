@@ -27,6 +27,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
     String mUid;
     private TextView mUserName;
     private TextView mMoney;
+    private TextView mEarning;
     private ArrayList<String> mMyStock;
     private ArrayList<String> mFavorites;
     private Button mSignInbtn;
@@ -46,6 +47,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
 
         mUserName = view.findViewById(R.id.display_username);
         mMoney = view.findViewById(R.id.display_money);
+        mEarning = view.findViewById(R.id.display_earning);
 
 
 
@@ -72,9 +74,11 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String userName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
                     double money = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
+                    double earning = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
 
                     mUserName.setText(userName);
                     mMoney.setText(String.valueOf(money));
+                    mEarning.setText(String.valueOf(earning));
                     mFavorites = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("favorites").getValue();
                     mMyStock = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("myStocks").getValue();
                 }
