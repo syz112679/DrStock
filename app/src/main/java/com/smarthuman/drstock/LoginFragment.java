@@ -27,10 +27,12 @@ public class LoginFragment extends android.support.v4.app.Fragment implements  V
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
         mSignInbtn = view.findViewById(R.id.no_user_sign_in);
         mSignInbtn.setOnClickListener(this);
         mRegisterbtn = view.findViewById(R.id.no_user_register);
         mRegisterbtn.setOnClickListener(this);
+
         return view;
     }
 

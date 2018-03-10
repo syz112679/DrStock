@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="myWhite">
+        <attr name="myWhite" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="myGrey">
+        <attr name="myGrey" format="reference" />
+    </declare-styleable>
+</resources>

@@ -6,14 +6,13 @@
         <item name="actionBarStyle">@style/MyActionBar</item>
     </style>
 
-    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-        <item name="background">@drawable/actionbar_color</item>
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="background">@color/myWhite</item>
         <item name="titleTextStyle">@style/MyTitleTextStyle</item>
     </style>
 
     <style name="MyTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/myGrey</item>
     </style>
 
 </resources>

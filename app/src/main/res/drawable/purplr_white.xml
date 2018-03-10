@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
-        android:startColor="#fc00ff"
-        android:endColor="#00dbde"
+        android:startColor="#BA5370"
+        android:endColor="#F4E2D8"
         android:type="linear"
         android:angle="45"
         />
 
-    <corners
-        android:radius="100dp" />
+    <!--android:startColor="#ee9ca7"-->
+    <!--android:endColor="#ffdde1"-->
+
     <!--android:startColor="#aa000000"  渐变起始色值
     android:centerColor=""      渐变中间色值
     android:endColor="#ffffffff"    渐变结束颜色

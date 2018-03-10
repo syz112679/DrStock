@@ -1,13 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ViewFlipper
+        android:id="@+id/flipper"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/title_home"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-</RelativeLayout>
+        android:layout_alignParentTop="true"
+        android:background="@drawable/timber"
+        android:flipInterval="2000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="春眠不觉晓"
+            android:textSize="16dp"
+            android:textColor="#ffffff"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="处处闻啼鸟"
+            android:textSize="16dp"
+            android:textColor="#ffffff"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="夜来风雨声"
+            android:textSize="16dp"
+            android:textColor="#ffffff"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="花落知多少"
+            android:textSize="16dp"
+            android:textColor="#ffffff"
+            android:textAlignment="center" />
+
+    </ViewFlipper>
+
+</android.support.constraint.ConstraintLayout>
