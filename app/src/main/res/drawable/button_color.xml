@@ -8,7 +8,7 @@
         />
 
     <corners
-        android:radius="100dp" />
+        android:radius="20dp" />
     <!--android:startColor="#aa000000"  渐变起始色值
     android:centerColor=""      渐变中间色值
     android:endColor="#ffffffff"    渐变结束颜色
