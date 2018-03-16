@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity
     public FirebaseAuth mAuth;
     public DatabaseReference mDatabaseReference;
     public String mUid;
+    public SectionStatePagerAdapter mSectionStatePagerAdapter;
+    static public ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +40,20 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
 
+        mSectionStatePagerAdapter = new SectionStatePagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.fragment_container);
+
+
+        setupViewPager(mViewPager);
+
+
         mAuth = FirebaseAuth.getInstance();
         mfirebaseUser = mAuth.getCurrentUser();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
-        if(mfirebaseUser == null) {
-            isLogin = false;
-        } else {
-            isLogin = true;
-            mUid = mfirebaseUser.getUid();
+        if(mfirebaseUser != null){
 
+            mUid = mfirebaseUser.getUid();
 
         }
 
@@ -102,28 +109,33 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        Fragment fragment = null;
+       // Fragment fragment = null;
 
         switch(item.getItemId()){
 
             case R.id.navigation_home:
-                fragment = new com.smarthuman.drstock.HomeFragment();
+                //fragment = new com.smarthuman.drstock.HomeFragment();
+                setViewPager(0);
                 break;
 
             case R.id.navigation_stock:
-                fragment = new com.smarthuman.drstock.StockFragment();
+                //fragment = new com.smarthuman.drstock.StockFragment();
+                setViewPager(1);
                 break;
 
             case R.id.navigation_account:
-                if(isLogin)
-                    fragment = new com.smarthuman.drstock.AccountFragment();
-                else
-                    fragment = new com.smarthuman.drstock.LoginFragment();
+                if(mAuth.getCurrentUser()!=null) {
+                    //fragment = new com.smarthuman.drstock.AccountFragment();
+                    setViewPager(3);
+                } else {
+                    //fragment = new com.smarthuman.drstock.LoginFragment();
+                    setViewPager(2);
+                }
                 break;
 
         }
 
-        return loadFragment(fragment);
+        return true;
     }
 
     public void signIn(View v) {
@@ -132,4 +144,22 @@ public class MainActivity extends AppCompatActivity
         finish();
         startActivity(intent);
     }
+
+    public void setupViewPager(ViewPager viewPager) {
+        SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());
+
+        adapter.addFragment(new HomeFragment(), "HomeFragment");
+        adapter.addFragment(new StockFragment(), "StockFragment");
+        adapter.addFragment(new LoginFragment(), "LoginFragment");
+        adapter.addFragment(new AccountFragment(), "AccountFragment");
+
+
+        viewPager.setAdapter(adapter);
+    }
+
+    static public void setViewPager(int index) {
+        Log.d("setViewPager", "called:" + index);
+        mViewPager.setCurrentItem(index);
+    }
+
 }

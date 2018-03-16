@@ -50,45 +50,41 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         mEarning = view.findViewById(R.id.display_earning);
 
 
+        ((MainActivity)getActivity()).mfirebaseUser = ((MainActivity)getActivity()).mAuth.getCurrentUser();
+        if( ((MainActivity)getActivity()).mfirebaseUser != null)
+            ((MainActivity)getActivity()).mUid = ((MainActivity)getActivity()).mfirebaseUser.getUid();
 
-        if(((MainActivity)getActivity()).mfirebaseUser == null) {
-            view = inflater.inflate(R.layout.fragment_login, container, false);
-            mSignInbtn = view.findViewById(R.id.no_user_sign_in);
-            mSignInbtn.setOnClickListener(this);
-            mRegisterbtn = view.findViewById(R.id.no_user_register);
-            mRegisterbtn.setOnClickListener(this);
-        } else {
-            mUid = ((MainActivity)getActivity()).mUid;
+        mUid = ((MainActivity)getActivity()).mUid;
 
-            mSignOutbtn = view.findViewById(R.id.user_sign_out);
-            mSignOutbtn.setOnClickListener(this);
-            mMyStockbtn = view.findViewById(R.id.display_my_stock);
-            mMyStockbtn.setOnClickListener(this);
-            mFavoritebtn = view.findViewById(R.id.display_favorite);
-            mFavoritebtn.setOnClickListener(this);
-            mAdd1000 = view.findViewById(R.id.add_money_btn);
-            mAdd1000.setOnClickListener(this);
+        mSignOutbtn = view.findViewById(R.id.user_sign_out);
+        mSignOutbtn.setOnClickListener(this);
+        mMyStockbtn = view.findViewById(R.id.display_my_stock);
+        mMyStockbtn.setOnClickListener(this);
+        mFavoritebtn = view.findViewById(R.id.display_favorite);
+        mFavoritebtn.setOnClickListener(this);
+        mAdd1000 = view.findViewById(R.id.add_money_btn);
+        mAdd1000.setOnClickListener(this);
 
-            ((MainActivity) getActivity()).mDatabaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String userName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
-                    double money = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
-                    double earning = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
+        ((MainActivity) getActivity()).mDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
+                double money = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
+                double earning = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
 
-                    mUserName.setText(userName);
-                    mMoney.setText(String.valueOf(money));
-                    mEarning.setText(String.valueOf(earning));
-                    mFavorites = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("favorites").getValue();
-                    mMyStock = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("myStocks").getValue();
-                }
+                mUserName.setText(userName);
+                mMoney.setText(String.valueOf(money));
+                mEarning.setText(String.valueOf(earning));
+                mFavorites = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("favorites").getValue();
+                mMyStock = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("myStocks").getValue();
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
-        }
+            }
+        });
+
         return view;
     }
 
@@ -108,8 +104,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
 
                 Toast.makeText(getActivity(), "Signed Out...", Toast.LENGTH_SHORT).show();
 
-                mUserName.setText("Please sign in first");
-                mMoney.setText("0.0");
+                ((MainActivity)getActivity()).setViewPager(2);
                 break;
 
             case R.id.display_favorite:

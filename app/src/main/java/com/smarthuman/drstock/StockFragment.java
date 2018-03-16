@@ -139,7 +139,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
             public void run() {
                 refreshStocks();
             }
-        }, 0, 10000); // 10 seconds
+        }, 0, 1000000); // 1000 seconds
 
         addStockBtn = v.findViewById(R.id.stockFrag_addStock);
         addStockBtn.setOnClickListener(this);
