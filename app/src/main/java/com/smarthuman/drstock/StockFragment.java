@@ -137,9 +137,10 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                refreshStocks();
+                if(getContext()!=null)
+                    refreshStocks();
             }
-        }, 0, 1000000); // 1000 seconds
+        }, 0, 10000); // 10 seconds
 
         addStockBtn = v.findViewById(R.id.stockFrag_addStock);
         addStockBtn.setOnClickListener(this);

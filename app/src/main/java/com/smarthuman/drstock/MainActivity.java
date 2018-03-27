@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity
         adapter.addFragment(new StockFragment(), "StockFragment");
         adapter.addFragment(new LoginFragment(), "LoginFragment");
         adapter.addFragment(new AccountFragment(), "AccountFragment");
-
+        adapter.addFragment(new MyStockListFragment(), "StockListFragment");
 
         viewPager.setAdapter(adapter);
     }
@@ -162,4 +162,9 @@ public class MainActivity extends AppCompatActivity
         mViewPager.setCurrentItem(index);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("MainActivity", "onResume: called");
+    }
 }

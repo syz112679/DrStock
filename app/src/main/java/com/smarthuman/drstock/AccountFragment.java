@@ -109,10 +109,12 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
 
             case R.id.display_favorite:
                 Toast.makeText(getActivity(), "To My Favorites...", Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).setViewPager(4);
                 break;
 
             case R.id.display_my_stock:
                 Toast.makeText(getActivity(), "To My Stocks...", Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).setViewPager(4);
                 break;
 
             case R.id.no_user_sign_in:
