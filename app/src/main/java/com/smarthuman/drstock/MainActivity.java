@@ -1,6 +1,5 @@
 package com.smarthuman.drstock;
 
-import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
@@ -26,30 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 /****************************************************/
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -58,28 +36,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.Vector;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 /*******************************************************************/
 
 public class MainActivity extends AppCompatActivity
@@ -114,34 +77,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //--------------------------------------------------------------------------------------------------
 
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        String idsStr = sharedPref.getString(StockIdsKey_, ShIndex + "," + SzIndex + "," + ChuangIndex);
-
-        String[] ids = idsStr.split(",");
-        StockIds_.clear();
-        for (String id : ids) {
-            StockIds_.add(id);
-        }
-
-        Log.d("mainActivity", "LIne 126");
-        Timer timer = new Timer("RefreshStocks");
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                refreshStocks();
-            }
-        }, 0, 10000); // 10 seconds
-        Log.d("mainActivity", "LIne 134");
-        //--------------------------------------------------------------------------------------------------
-
-
-        mSectionStatePagerAdapter = new SectionStatePagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.fragment_container);
-
-
-        setupViewPager(mViewPager);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -154,10 +90,40 @@ public class MainActivity extends AppCompatActivity
 
         }
 
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
-        loadFragment(new com.smarthuman.drstock.StockFragment());
+//        loadFragment(new com.smarthuman.drstock.StockFragment());
+        mSectionStatePagerAdapter = new SectionStatePagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.fragment_container);
+
+
+        setupViewPager(mViewPager);
+        setViewPager(0);
+
+
+        //--------------------------------------------------------------------------------------------------
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String idsStr = sharedPref.getString(StockIdsKey_, ShIndex + "," + SzIndex + "," + ChuangIndex);
+
+        String[] ids = idsStr.split(",");
+        StockIds_.clear();
+        for (String id : ids) {
+            StockIds_.add(id);
+        }
+
+
+        Timer timer = new Timer("RefreshStocks");
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                refreshStocks();
+            }
+        }, 0, 10000); // 10 seconds
+        //--------------------------------------------------------------------------------------------------
+
 
 
     }
@@ -237,12 +203,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void signIn(View v) {
-        Log.d("main ", "called here signIn");
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        finish();
-        startActivity(intent);
-    }
 
     public void setupViewPager(ViewPager viewPager) {
         SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());

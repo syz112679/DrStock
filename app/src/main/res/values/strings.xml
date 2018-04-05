@@ -16,6 +16,7 @@
     <string name="add_money">Add 1000</string>
     <string name="add_to_favorite">Add To Favorites</string>
     <string name="buy_stock">Buy Stock</string>
+    <string name="chat_room">Chat Room</string>
 
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">Password too short or does not match</string>

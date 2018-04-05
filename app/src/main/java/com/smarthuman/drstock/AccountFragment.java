@@ -25,7 +25,7 @@ import java.util.Map;
 public class AccountFragment extends android.support.v4.app.Fragment implements View.OnClickListener{
 
     String mUid;
-    private TextView mUserName;
+    public static TextView mUserName;
     private TextView mMoney;
     private TextView mEarning;
     private ArrayList<String> mMyStock;
@@ -147,5 +147,9 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                 });
 
         }
+    }
+
+    static String getUserName() {
+        return mUserName.getText().toString();
     }
 }
