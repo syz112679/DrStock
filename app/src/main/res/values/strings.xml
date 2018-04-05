@@ -54,4 +54,14 @@
     <string name="stock_buy">Buy</string>
     <string name="stock_sell">Sell</string>
 
+    //eachstock:
+    <string name="buy">Buy</string>
+    <string name="sell">Sell</string>
+    <string name="high">High</string>
+    <string name="low">Low</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="volume">Volume</string>
+    <string name="turnover">Turnover</string> // cheng jiao jin e
+
 </resources>
