@@ -103,8 +103,8 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class StockFragment extends Fragment implements View.OnClickListener {
 
-    private final static int UpColor_ = Color.RED;
-    private final static int DownColor_ = Color.GREEN;
+    private final static int UpColor_ = Color.GREEN;
+    private final static int DownColor_ = Color.RED;
     private final static int BackgroundColor_ = Color.WHITE;
     private final static int HighlightColor_ = Color.rgb(210, 233, 255);
     private final static String ShIndex = "sh000001";
@@ -112,6 +112,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
     private final static String ChuangIndex = "sz399006";
     private final static String StockIdsKey_ = "StockIds";
     private final static int StockLargeTrade_ = 1000000;
+
     private Button addStockBtn;
     private View v;
     @Override
@@ -696,11 +697,6 @@ var hq_str_sz000001="平安银行,9.170,9.190,9.060,9.180,9.050,9.060,9.070,4214
 
             table.addView(row);
             //table.setMinimumHeight(60);
-
-            String sid = stock.id_;
-            sid = sid.replaceAll("sh", "");
-            sid = sid.replaceAll("sz", "");
-
         }
     }
 }

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@drawable/timber"
+        android:background="@drawable/color_sky"
         android:flipInterval="2000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +27,7 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:text="@string/stock_sz_name"
+                android:textColor="@color/myGrey"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -53,6 +54,7 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:text="@string/stock_sh_name"
+                android:textColor="@color/myGrey"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -79,6 +81,7 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:text="@string/stock_chuang_name"
+                android:textColor="@color/myGrey"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="wrap_content"

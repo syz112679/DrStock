@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity
     public static HashSet<String> StockIds_ = new HashSet();
     public static Vector<String> SelectedStockItems_ = new Vector();
     static TreeMap<String, Stock> stockMap = new TreeMap<String, Stock>();
-    public final static int UpColor_ = Color.RED;
-    public final static int DownColor_ = Color.GREEN;
+    public final static int UpColor_ = Color.GREEN;
+    public final static int DownColor_ = Color.RED;
     public final static int BackgroundColor_ = Color.WHITE;
     public final static int HighlightColor_ = Color.rgb(210, 233, 255);
     public final static String ShIndex = "sh000001";
@@ -260,7 +260,13 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("setViewPager", "called:" + index);
         mViewPager.setCurrentItem(index);
-        if(index==1) {
+        if(index==0) {
+            HomeFragment frag0 = (HomeFragment)mViewPager
+                    .getAdapter()
+                    .instantiateItem(mViewPager, mViewPager.getCurrentItem());
+            frag0.updateThreeIndex();
+        }
+        else if(index==1) {
             StockFragment frag1 = (StockFragment)mViewPager
                     .getAdapter()
                     .instantiateItem(mViewPager, mViewPager.getCurrentItem());
@@ -419,9 +425,12 @@ var hq_str_sz000001="平安银行,9.170,9.190,9.060,9.180,9.050,9.060,9.070,4214
                     @Override
                     public void onResponse(String response) {
                         stockMap = sinaResponseToStocks(response);
-
-
-                        if(mViewPager.getCurrentItem()==1) {
+                        if(mViewPager.getCurrentItem()==0) {
+                            HomeFragment frag0 = (HomeFragment)mViewPager
+                                    .getAdapter()
+                                    .instantiateItem(mViewPager, mViewPager.getCurrentItem());
+                            frag0.updateThreeIndex();
+                        }else if(mViewPager.getCurrentItem()==1) {
                             StockFragment frag1 = (StockFragment)mViewPager
                                     .getAdapter()
                                     .instantiateItem(mViewPager, mViewPager.getCurrentItem());
