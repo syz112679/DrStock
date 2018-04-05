@@ -17,29 +17,84 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/stock_sh_name"
-            android:textSize="16dp"
-            android:textColor="#ffffff"
-            android:layout_gravity="left" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25sp"
+            android:orientation="horizontal"
+            android:gravity="center" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/stock_sz_name"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/sz_index"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:id="@+id/sz_change"
+                android:gravity="center"/>
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/stock_sz_name"
-            android:textSize="16dp"
-            android:textColor="#ffffff"
-            android:layout_gravity="left" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25sp"
+            android:orientation="horizontal"
+            android:gravity="center" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/stock_sh_name"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/sh_index"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:id="@+id/sh_change"
+                android:gravity="center"/>
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/stock_chuang_name"
-            android:textSize="16dp"
-            android:textColor="#ffffff"
-            android:layout_gravity="left" />
-    </ViewFlipper>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25sp"
+            android:orientation="horizontal"
+            android:gravity="center" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/stock_chuang_name"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/chuang_index"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:id="@+id/chuang_change"
+                android:gravity="center"/>
+        </LinearLayout>
+
+</ViewFlipper>
 
 </android.support.constraint.ConstraintLayout>

@@ -103,8 +103,6 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class StockFragment extends Fragment implements View.OnClickListener {
 
-    private static HashSet<String> StockIds_ = new HashSet();
-    private static Vector<String> SelectedStockItems_ = new Vector();
     private final static int UpColor_ = Color.RED;
     private final static int DownColor_ = Color.GREEN;
     private final static int BackgroundColor_ = Color.WHITE;
@@ -120,27 +118,8 @@ public class StockFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_stock, container, false);
 
-
         initEdt();
         initPop();
-
-        SharedPreferences sharedPref = this.getActivity().getPreferences(Context.MODE_PRIVATE);
-        String idsStr = sharedPref.getString(StockIdsKey_, ShIndex + "," + SzIndex + "," + ChuangIndex);
-
-        String[] ids = idsStr.split(",");
-        StockIds_.clear();
-        for (String id : ids) {
-            StockIds_.add(id);
-        }
-
-        Timer timer = new Timer("RefreshStocks");
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if(getContext()!=null)
-                    refreshStocks();
-            }
-        }, 0, 10000); // 10 seconds
 
         addStockBtn = v.findViewById(R.id.stockFrag_addStock);
         addStockBtn.setOnClickListener(this);
@@ -183,11 +162,11 @@ public class StockFragment extends Fragment implements View.OnClickListener {
             return true;
         }
         else if(id == R.id.action_delete){
-            if(SelectedStockItems_.isEmpty())
+            if(MainActivity.SelectedStockItems_.isEmpty())
                 return true;
 
-            for (String selectedId : SelectedStockItems_){
-                StockIds_.remove(selectedId);
+            for (String selectedId : MainActivity.SelectedStockItems_){
+                MainActivity.StockIds_.remove(selectedId);
                 TableLayout table = (TableLayout)v.findViewById(R.id.stock_table);
                 int count = table.getChildCount();
                 for (int i = 1; i < count; i++){
@@ -201,10 +180,10 @@ public class StockFragment extends Fragment implements View.OnClickListener {
                 }
             }
 
-            SelectedStockItems_.clear();
+            MainActivity.SelectedStockItems_.clear();
         } else if (id == R.id.action_detail) {
             // send intent to Kmap_activity
-            if (!SelectedStockItems_.isEmpty()) {
+            if (!MainActivity.SelectedStockItems_.isEmpty()) {
 
 
 //                Intent intent = new Intent(MainActivity.this, KChartActivity.class);
@@ -221,7 +200,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
 
     private void saveStocksToPreferences(){
         String ids = "";
-        for (String id : StockIds_){
+        for (String id : MainActivity.StockIds_){
             ids += id;
             ids += ",";
         }
@@ -345,38 +324,6 @@ var hq_str_sz000001="平安银行,9.170,9.190,9.060,9.180,9.050,9.060,9.070,4214
         return stockMap;
     }
 
-    public void querySinaStocks(String list){
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this.getActivity());
-        String url ="http://hq.sinajs.cn/list=" + list;
-        //http://hq.sinajs.cn/list=sh600000,sh600536
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        updateStockListView(sinaResponseToStocks(response));
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                });
-        System.out.println("------\n"+stringRequest+"\n------\n");
-        queue.add(stringRequest);
-    }
-
-    private void refreshStocks(){
-        String ids = "";
-        for (String id : StockIds_){
-            ids += id;
-            ids += ",";
-        }
-        querySinaStocks(ids);
-    }
-
     public void addStock(View view) {
         Log.d("addstock", "add stock function here");
         EditText editText = (EditText) v.findViewById(R.id.editText_stockId);
@@ -391,271 +338,9 @@ var hq_str_sz000001="平安银行,9.170,9.190,9.060,9.180,9.050,9.060,9.070,4214
         } else
             return;
 
-        StockIds_.add(stockId);
-        refreshStocks();
+        MainActivity.StockIds_.add(stockId);
     }
 
-    public void sendNotifation(int id, String title, String text){
-        NotificationCompat.Builder nBuilder =
-                new NotificationCompat.Builder(this.getActivity());
-        nBuilder.setSmallIcon(R.drawable.ic_launcher);
-        nBuilder.setContentTitle(title);
-        nBuilder.setContentText(text);
-        nBuilder.setVibrate(new long[]{100, 100, 100});
-        nBuilder.setLights(Color.RED, 1000, 1000);
-
-        NotificationManager notifyMgr = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
-        notifyMgr.notify(id, nBuilder.build());
-    }
-
-    public void updateStockListView(TreeMap<String, Stock> stockMap){
-//        String stock_name = getResources().getString(R.string.stock_name);
-//        String stock_id = getResources().getString(R.string.stock_id);
-//        String stock_now = getResources().getString(R.string.stock_now);
-
-//        ListView list = (ListView) findViewById(R.id.listView);
-//
-//        ArrayList<HashMap<String, String>> stockList = new ArrayList<>();
-//        HashMap<String, String> mapTitle = new HashMap<>();
-//        mapTitle.put(stock_name, getResources().getString(R.string.stock_name_title));
-//        //mapTitle.put(stock_id, "");
-//        mapTitle.put(stock_now, getResources().getString(R.string.stock_now_title));
-//        stockList.add(mapTitle);
-//
-//        for(Stock stock : stocks)
-//        {
-//            HashMap<String, String> map = new HashMap<>();
-//            map.put(stock_name, stock.name_);
-//            String id = stock.id_.replaceAll("sh", "");
-//            id = id.replaceAll("sz", "");
-//            map.put(stock_id, id);
-//            map.put(stock_now, stock.now_);
-//            stockList.add(map);
-//        }
-//
-//        SimpleAdapter adapter = new SimpleAdapter(this,
-//                stockList,
-//                R.layout.stock_listitem,
-//                new String[] {stock_name, stock_id, stock_now},
-//                new int[] {R.id.stock_name, R.id.stock_id, R.id.stock_now});
-//        list.setAdapter(adapter);
-
-        // Table
-        TableLayout table = (TableLayout)v.findViewById(R.id.stock_table);
-        table.setStretchAllColumns(true);
-        table.setShrinkAllColumns(true);
-        table.removeAllViews();
-
-        // Title
-        TableRow rowTitle = new TableRow(this.getActivity());
-
-        TextView nameTitle = new TextView(this.getActivity());
-        nameTitle.setText(getResources().getString(R.string.stock_name_title));
-        rowTitle.addView(nameTitle);
-
-        TextView nowTitle = new TextView(this.getActivity());
-        nowTitle.setGravity(Gravity.CENTER);
-        nowTitle.setText(getResources().getString(R.string.stock_now_title));
-        rowTitle.addView(nowTitle);
-
-        TextView percentTitle = new TextView(this.getActivity());
-        percentTitle.setGravity(Gravity.CENTER);
-        percentTitle.setText(getResources().getString(R.string.stock_increase_percent_title));
-        rowTitle.addView(percentTitle);
-
-        TextView increaseTitle = new TextView(this.getActivity());
-        increaseTitle.setGravity(Gravity.CENTER);
-        increaseTitle.setText(getResources().getString(R.string.stock_increase_title));
-        rowTitle.addView(increaseTitle);
-
-        table.addView(rowTitle);
-
-        Collection<Stock> stocks = stockMap.values();
-
-        for(Stock stock : stocks)
-        {
-            if(stock.id_.equals(ShIndex) || stock.id_.equals(SzIndex) || stock.id_.equals(ChuangIndex)){
-                Double dNow = Double.parseDouble(stock.now_);
-                Double dYesterday = Double.parseDouble(stock.yesterday_);
-                Double dIncrease = dNow - dYesterday;
-                Double dPercent = dIncrease / dYesterday * 100;
-                String change = String.format("%.2f", dPercent) + "% " + String.format("%.2f", dIncrease);
-
-                int indexId;
-                int changeId;
-                if(stock.id_.equals(ShIndex)) {
-                    indexId = R.id.stock_sh_index;
-                    changeId = R.id.stock_sh_change;
-                }
-                else if(stock.id_.equals(SzIndex)) {
-                    indexId = R.id.stock_sz_index;
-                    changeId = R.id.stock_sz_change;
-                }
-                else{
-                    indexId = R.id.stock_chuang_index;
-                    changeId = R.id.stock_chuang_change;
-                }
-
-                TextView indexText = (TextView)v.findViewById(indexId);
-                indexText.setText(stock.now_);
-                int color = Color.BLACK;
-                //System.out.println("-----|" + dIncrease + "|------");
-                if(dIncrease > 0) {
-                    color = UpColor_;
-                }
-                else if(dIncrease < 0){
-                    color = DownColor_;
-                }
-                //System.out.println("-----|" + color + "|------");
-                indexText.setTextColor(color);
-
-                TextView changeText = (TextView)v.findViewById(changeId);
-                changeText.setText(change);
-                changeText.setTextColor(color);
-
-                continue;
-            }
-
-            TableRow row = new TableRow(this.getActivity());
-            row.setMinimumHeight(200); //////////////////////////////////////////////
-            row.setGravity(Gravity.CENTER_VERTICAL);
-            //int color = R.color.colorSelected;
-            if (SelectedStockItems_.contains(stock.id_)){
-                row.setBackgroundColor(HighlightColor_);
-            }
-
-            LinearLayout nameId = new LinearLayout(this.getActivity());
-            nameId.setOrientation(LinearLayout.VERTICAL);
-
-            TextView name = new TextView(this.getActivity());
-            name.setText(stock.name_);
-            nameId.addView(name);
-
-            TextView id = new TextView(this.getActivity());
-            id.setTextSize(15);
-            id.setText(stock.id_);
-            nameId.addView(id);
-
-            row.addView(nameId);
-
-            TextView now = new TextView(this.getActivity());
-            now.setGravity(Gravity.RIGHT);
-            now.setText(stock.now_);
-            row.addView(now);
-
-            TextView percent = new TextView(this.getActivity());
-            percent.setGravity(Gravity.RIGHT);
-            TextView increaseValue = new TextView(this.getActivity());
-            increaseValue.setGravity(Gravity.RIGHT);
-            Double dOpen = Double.parseDouble(stock.open_);
-            Double dB1 = Double.parseDouble(stock.bp1_);
-            Double dS1 = Double.parseDouble(stock.sp1_);
-
-            if(dOpen == 0 && dB1 == 0 && dS1 == 0) {
-                percent.setText("--");
-                increaseValue.setText("--");
-            }
-            else{
-                Double dNow = Double.parseDouble(stock.now_);
-                if(dNow == 0) {// before open
-                    if(dS1 == 0) {
-                        dNow = dB1;
-                        now.setText(stock.bp1_);
-                    }
-                    else {
-                        dNow = dS1;
-                        now.setText(stock.sp1_);
-                    }
-                }
-                Double dYesterday = Double.parseDouble(stock.yesterday_);
-                Double dIncrease = dNow - dYesterday;
-                Double dPercent = dIncrease / dYesterday * 100;
-                percent.setText(String.format("%.2f", dPercent) + "%");
-                increaseValue.setText(String.format("%.2f", dIncrease));
-                int color = Color.BLACK;
-                if(dIncrease > 0) {
-                    color = UpColor_;
-                }
-                else if(dIncrease < 0){
-                    color = DownColor_;
-                }
-
-                now.setTextColor(color);
-                percent.setTextColor(color);
-                increaseValue.setTextColor(color);
-            }
-
-            row.addView(percent);
-            row.addView(increaseValue);
-            row.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ViewGroup group = (ViewGroup) v;
-                    ViewGroup nameId = (ViewGroup) group.getChildAt(0);
-                    TextView idText = (TextView) nameId.getChildAt(1);
-                    //System.out.println("-----\n" + idText.getText().toString() + "\n-------");
-
-                    // TODO : call funciton here
-
-
-
-                    if (SelectedStockItems_.contains(idText.getText().toString())) {
-                        v.setBackgroundColor(BackgroundColor_);
-                        SelectedStockItems_.remove(idText.getText().toString());
-                    } else {
-                        v.setBackgroundColor(HighlightColor_);
-                        SelectedStockItems_.add(idText.getText().toString());
-                    }
-
-                    Intent intent = new Intent(getActivity(), ChartActivity.class);
-                    startActivity(intent);
-                }
-            });
-
-            table.addView(row);
-            //table.setMinimumHeight(60);
-
-            String sid = stock.id_;
-            sid = sid.replaceAll("sh", "");
-            sid = sid.replaceAll("sz", "");
-
-            String text = "";
-            String sBuy = getResources().getString(R.string.stock_buy);
-            String sSell = getResources().getString(R.string.stock_sell);
-            if(Double.parseDouble(stock.b1_ )>= StockLargeTrade_) {
-                text += sBuy + "1:" + stock.b1_ + ",";
-            }
-            if(Double.parseDouble(stock.b2_ )>= StockLargeTrade_) {
-                text += sBuy + "2:" + stock.b2_ + ",";
-            }
-            if(Double.parseDouble(stock.b3_ )>= StockLargeTrade_) {
-                text += sBuy + "3:" + stock.b3_ + ",";
-            }
-            if(Double.parseDouble(stock.b4_ )>= StockLargeTrade_) {
-                text += sBuy + "4:" + stock.b4_ + ",";
-            }
-            if(Double.parseDouble(stock.b5_ )>= StockLargeTrade_) {
-                text += sBuy + "5:" + stock.b5_ + ",";
-            }
-            if(Double.parseDouble(stock.s1_ )>= StockLargeTrade_) {
-                text += sSell + "1:" + stock.s1_ + ",";
-            }
-            if(Double.parseDouble(stock.s2_ )>= StockLargeTrade_) {
-                text += sSell + "2:" + stock.s2_ + ",";
-            }
-            if(Double.parseDouble(stock.s3_ )>= StockLargeTrade_) {
-                text += sSell + "3:" + stock.s3_ + ",";
-            }
-            if(Double.parseDouble(stock.s4_ )>= StockLargeTrade_) {
-                text += sSell + "4:" + stock.s4_ + ",";
-            }
-            if(Double.parseDouble(stock.s5_ )>= StockLargeTrade_) {
-                text += sSell + "5:" + stock.s5_ + ",";
-            }
-            if(text.length() > 0)
-                sendNotifation(Integer.parseInt(sid), stock.name_, text);
-        }
-    }
 
     //----------------------------------------------Followings are for search association-------------------------------------------------
 
@@ -667,13 +352,6 @@ var hq_str_sz000001="平安银行,9.170,9.190,9.060,9.180,9.050,9.060,9.070,4214
     private List<String> mSearchList = new ArrayList<>(); //搜索结果的数据源
     private PublishSubject<String> mPublishSubject;
     private CompositeDisposable mCompositeDisposable;
-
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        mCompositeDisposable.clear();
-//        mPop.dismiss();
-//    }
 
     private void initEdt() {
         editText = (EditText) v.findViewById(R.id.editText_stockId);
@@ -825,5 +503,204 @@ var hq_str_sz000001="平安银行,9.170,9.190,9.060,9.180,9.050,9.060,9.070,4214
 
             }
         });
+    }
+
+    public void updateStockListView() {
+//        String stock_name = getResources().getString(R.string.stock_name);
+//        String stock_id = getResources().getString(R.string.stock_id);
+//        String stock_now = getResources().getString(R.string.stock_now);
+
+//        ListView list = (ListView) findViewById(R.id.listView);
+//
+//        ArrayList<HashMap<String, String>> stockList = new ArrayList<>();
+//        HashMap<String, String> mapTitle = new HashMap<>();
+//        mapTitle.put(stock_name, getResources().getString(R.string.stock_name_title));
+//        //mapTitle.put(stock_id, "");
+//        mapTitle.put(stock_now, getResources().getString(R.string.stock_now_title));
+//        stockList.add(mapTitle);
+//
+//        for(Stock stock : stocks)
+//        {
+//            HashMap<String, String> map = new HashMap<>();
+//            map.put(stock_name, stock.name_);
+//            String id = stock.id_.replaceAll("sh", "");
+//            id = id.replaceAll("sz", "");
+//            map.put(stock_id, id);
+//            map.put(stock_now, stock.now_);
+//            stockList.add(map);
+//        }
+//
+//        SimpleAdapter adapter = new SimpleAdapter(this,
+//                stockList,
+//                R.layout.stock_listitem,
+//                new String[] {stock_name, stock_id, stock_now},
+//                new int[] {R.id.stock_name, R.id.stock_id, R.id.stock_now});
+//        list.setAdapter(adapter);
+
+        // Table
+        TableLayout table = (TableLayout) v.findViewById(R.id.stock_table);
+        table.setStretchAllColumns(true);
+        table.setShrinkAllColumns(true);
+        table.removeAllViews();
+
+        // Title
+        TableRow rowTitle = new TableRow(getActivity());
+
+        TextView nameTitle = new TextView(getActivity());
+        nameTitle.setText(getResources().getString(R.string.stock_name_title));
+        rowTitle.addView(nameTitle);
+
+        TextView nowTitle = new TextView(getActivity());
+        nowTitle.setGravity(Gravity.CENTER);
+        nowTitle.setText(getResources().getString(R.string.stock_now_title));
+        rowTitle.addView(nowTitle);
+
+        TextView percentTitle = new TextView(getActivity());
+        percentTitle.setGravity(Gravity.CENTER);
+        percentTitle.setText(getResources().getString(R.string.stock_increase_percent_title));
+        rowTitle.addView(percentTitle);
+
+        TextView increaseTitle = new TextView(getActivity());
+        increaseTitle.setGravity(Gravity.CENTER);
+        increaseTitle.setText(getResources().getString(R.string.stock_increase_title));
+        rowTitle.addView(increaseTitle);
+
+        table.addView(rowTitle);
+
+        Collection<MainActivity.Stock> stocks = MainActivity.stockMap.values();
+
+        for (MainActivity.Stock stock : stocks) {
+            if (stock.id_.equals(ShIndex) || stock.id_.equals(SzIndex) || stock.id_.equals(ChuangIndex)) {
+                Double dNow = Double.parseDouble(stock.now_);
+                Double dYesterday = Double.parseDouble(stock.yesterday_);
+                Double dIncrease = dNow - dYesterday;
+                Double dPercent = dIncrease / dYesterday * 100;
+                String change = String.format("%.2f", dPercent) + "% " + String.format("%.2f", dIncrease);
+
+                int indexId;
+                int changeId;
+                if (stock.id_.equals(ShIndex)) {
+                    indexId = R.id.stock_sh_index;
+                    changeId = R.id.stock_sh_change;
+                } else if (stock.id_.equals(SzIndex)) {
+                    indexId = R.id.stock_sz_index;
+                    changeId = R.id.stock_sz_change;
+                } else {
+                    indexId = R.id.stock_chuang_index;
+                    changeId = R.id.stock_chuang_change;
+                }
+
+                TextView indexText = (TextView) v.findViewById(indexId);
+                indexText.setText(stock.now_);
+                int color = Color.BLACK;
+                //System.out.println("-----|" + dIncrease + "|------");
+                if (dIncrease > 0) {
+                    color = UpColor_;
+                } else if (dIncrease < 0) {
+                    color = DownColor_;
+                }
+                //System.out.println("-----|" + color + "|------");
+                indexText.setTextColor(color);
+
+                TextView changeText = (TextView) v.findViewById(changeId);
+                changeText.setText(change);
+                changeText.setTextColor(color);
+
+                continue;
+            }
+
+            TableRow row = new TableRow(getActivity());
+            row.setMinimumHeight(200); //////////////////////////////////////////////
+            row.setGravity(Gravity.CENTER_VERTICAL);
+            //int color = R.color.colorSelected;
+            if (MainActivity.SelectedStockItems_.contains(stock.id_)) {
+                row.setBackgroundColor(HighlightColor_);
+            }
+
+            LinearLayout nameId = new LinearLayout(getActivity());
+            nameId.setOrientation(LinearLayout.VERTICAL);
+
+            TextView name = new TextView(getActivity());
+            name.setText(stock.name_);
+            nameId.addView(name);
+
+            TextView id = new TextView(getActivity());
+            id.setTextSize(15);
+            id.setText(stock.id_);
+            nameId.addView(id);
+
+            row.addView(nameId);
+
+            TextView now = new TextView(getActivity());
+            now.setGravity(Gravity.RIGHT);
+            now.setText(stock.now_);
+            row.addView(now);
+
+            TextView percent = new TextView(getActivity());
+            percent.setGravity(Gravity.RIGHT);
+            TextView increaseValue = new TextView(getActivity());
+            increaseValue.setGravity(Gravity.RIGHT);
+            Double dOpen = Double.parseDouble(stock.open_);
+            Double dB1 = Double.parseDouble(stock.bp1_);
+            Double dS1 = Double.parseDouble(stock.sp1_);
+
+            if (dOpen == 0 && dB1 == 0 && dS1 == 0) {
+                percent.setText("--");
+                increaseValue.setText("--");
+            } else {
+                Double dNow = Double.parseDouble(stock.now_);
+                if (dNow == 0) {// before open
+                    if (dS1 == 0) {
+                        dNow = dB1;
+                        now.setText(stock.bp1_);
+                    } else {
+                        dNow = dS1;
+                        now.setText(stock.sp1_);
+                    }
+                }
+                Double dYesterday = Double.parseDouble(stock.yesterday_);
+                Double dIncrease = dNow - dYesterday;
+                Double dPercent = dIncrease / dYesterday * 100;
+                percent.setText(String.format("%.2f", dPercent) + "%");
+                increaseValue.setText(String.format("%.2f", dIncrease));
+                int color = Color.BLACK;
+                if (dIncrease > 0) {
+                    color = UpColor_;
+                } else if (dIncrease < 0) {
+                    color = DownColor_;
+                }
+
+                now.setTextColor(color);
+                percent.setTextColor(color);
+                increaseValue.setTextColor(color);
+            }
+
+            row.addView(percent);
+            row.addView(increaseValue);
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ViewGroup group = (ViewGroup) v;
+                    ViewGroup nameId = (ViewGroup) group.getChildAt(0);
+                    TextView idText = (TextView) nameId.getChildAt(1);
+                    //System.out.println("-----\n" + idText.getText().toString() + "\n-------");
+                    if (MainActivity.SelectedStockItems_.contains(idText.getText().toString())) {
+                        v.setBackgroundColor(BackgroundColor_);
+                        MainActivity.SelectedStockItems_.remove(idText.getText().toString());
+                    } else {
+                        v.setBackgroundColor(HighlightColor_);
+                        MainActivity.SelectedStockItems_.add(idText.getText().toString());
+                    }
+                }
+            });
+
+            table.addView(row);
+            //table.setMinimumHeight(60);
+
+            String sid = stock.id_;
+            sid = sid.replaceAll("sh", "");
+            sid = sid.replaceAll("sz", "");
+
+        }
     }
 }
