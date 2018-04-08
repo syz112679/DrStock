@@ -14,11 +14,13 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="136dp"
         android:background="@drawable/button_color"
+        android:textColor="@color/myWhite"
         android:text="@string/action_sign_in_short"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:alpha="0.75"/>
 
     <Button
         android:id="@+id/no_user_register"
@@ -29,10 +31,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
         android:background="@drawable/button_color"
+        android:textColor="@color/myWhite"
         android:text="@string/action_register"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/no_user_sign_in" />
+        app:layout_constraintTop_toBottomOf="@+id/no_user_sign_in"
+        android:alpha="0.75"/>
 
 </android.support.constraint.ConstraintLayout>

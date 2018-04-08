@@ -7,19 +7,15 @@
               android:paddingLeft="@dimen/activity_horizontal_margin"
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:paddingTop="@dimen/activity_vertical_margin"
-              android:background="@drawable/background_welcome_min"
+              android:background="@drawable/background_welcome"
               tools:context="com.smarthuman.drstock.LoginActivity"
-              android:gravity="bottom">
-
-
-
+              android:gravity="center">
 
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/white"
-        >
+        android:textColorHint="@color/white">
 
         <AutoCompleteTextView
             android:id="@+id/login_email"
@@ -27,11 +23,11 @@
             android:layout_height="wrap_content"
             android:hint="@string/prompt_email"
             android:imeOptions="actionNext"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:textIsSelectable="false"/>
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textIsSelectable="false" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -60,7 +56,7 @@
     <Button
         android:id="@+id/login_sign_in_button"
         style="?android:textAppearanceMedium"
-        android:background="@color/green"
+        android:background="#ACB6E5"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,8 +68,8 @@
     <Button
         android:id="@+id/login_register_button"
         style="?android:textAppearanceMedium"
-        android:background="@color/white"
-        android:textColor="@color/green"
+        android:background="#fdeff9"
+        android:textColor="#d9a7c7"
         android:onClick="registerNewUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

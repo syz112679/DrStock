@@ -74,7 +74,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/earning_text" />
+            app:layout_constraintTop_toBottomOf="@+id/earning_text"
+            android:alpha="0.75"/>
 
         <Button
             android:id="@+id/display_my_stock"
@@ -92,7 +93,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_money_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/add_money_btn"
+            android:alpha="0.75"/>
 
         <Button
             android:id="@+id/display_favorite"
@@ -110,7 +112,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/display_my_stock" />
+            app:layout_constraintTop_toBottomOf="@+id/display_my_stock"
+            android:alpha="0.75"/>
 
         <Button
             android:id="@+id/user_sign_out"
@@ -128,7 +131,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/display_favorite" />
+            app:layout_constraintTop_toBottomOf="@+id/display_favorite"
+            android:alpha="0.75"/>
 
 
 </android.support.constraint.ConstraintLayout>

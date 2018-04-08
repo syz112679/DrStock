@@ -8,9 +8,9 @@
               android:paddingLeft="@dimen/activity_horizontal_margin"
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:paddingTop="@dimen/activity_vertical_margin"
-              android:background="@drawable/background_login_min"
+              android:background="@drawable/background_login"
               tools:context="com.smarthuman.drstock.RegisterActivity"
-              android:gravity="top">
+              android:gravity="center">
 
 
 
@@ -105,8 +105,8 @@
         <Button
             android:id="@+id/register_sign_up_button"
             style="?android:textAppearanceMedium"
-            android:background="@color/white"
-            android:textColor="@color/green"
+            android:background="#fdeff9"
+            android:textColor="#5B86E5"
             android:onClick="signUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,8 +117,8 @@
     <Button
         android:id="@+id/back_sign_in_button"
         style="?android:textAppearanceMedium"
-        android:background="@color/white"
-        android:textColor="@color/green"
+        android:background="#fdeff9"
+        android:textColor="#5B86E5"
         android:onClick="backSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

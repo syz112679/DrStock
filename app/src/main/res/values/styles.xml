@@ -3,8 +3,12 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:editTextStyle">@style/EditTextStyle</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
     </style>
+
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText"/>
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
         <item name="background">@color/myWhite</item>
