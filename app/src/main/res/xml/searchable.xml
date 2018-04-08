@@ -4,6 +4,7 @@
     android:hint="@string/search_hint"
     android:inputType="text"
     android:searchButtonText="search"
-    android:voiceSearchMode="showVoiceSearchButton|launchRecognizer" >
+    android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
+    >
 
 </searchable>

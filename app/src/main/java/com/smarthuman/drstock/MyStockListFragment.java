@@ -22,10 +22,10 @@ import java.util.List;
 public class MyStockListFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
 
     String mUid = "";
-    private ArrayList<String> mMyStock = new ArrayList<>();
+    private ArrayList<StockSnippet> mMyStock = new ArrayList<StockSnippet>();
     private ArrayList<String> mFavorites = new ArrayList<>();
     private ListView mMyStockListView, mFavoritesListView;
-    ArrayAdapter<String> mStockAdapter;
+    ArrayAdapter<StockSnippet> mStockAdapter;
     ArrayAdapter<String> mFavoriteAdapter;
 
 
@@ -39,7 +39,7 @@ public class MyStockListFragment extends android.support.v4.app.Fragment impleme
             mMyStockListView = view.findViewById(R.id.my_stocks_listview);
             mFavoritesListView = view.findViewById(R.id.my_favorite_listview);
 
-            mStockAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mMyStock);
+            mStockAdapter = new ArrayAdapter<StockSnippet>(getActivity(), android.R.layout.simple_list_item_1, mMyStock);
             mFavoriteAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mFavorites);
 
             mMyStockListView.setAdapter(mStockAdapter);
@@ -55,9 +55,11 @@ public class MyStockListFragment extends android.support.v4.app.Fragment impleme
 
 
                         mFavorites = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("favorites").getValue();
-                        mMyStock = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("myStocks").getValue();
+                        for (DataSnapshot child: dataSnapshot.child("users").child(mUid).child("myStocks").getChildren()) {
+                            mMyStock.add(child.getValue(StockSnippet.class));
+                        }
 
-                        mStockAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mMyStock);
+                        mStockAdapter = new ArrayAdapter<StockSnippet>(getActivity(), android.R.layout.simple_list_item_1, mMyStock);
                         mStockAdapter.notifyDataSetChanged();
                         mFavoriteAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mFavorites);
                         mFavoriteAdapter.notifyDataSetChanged();

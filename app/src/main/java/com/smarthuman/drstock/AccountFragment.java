@@ -3,6 +3,7 @@ package com.smarthuman.drstock;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,12 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,7 +31,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
     public static TextView mUserName;
     private TextView mMoney;
     private TextView mEarning;
-    private ArrayList<String> mMyStock;
+    private ArrayList<StockSnippet> mMyStock = new ArrayList<StockSnippet>();;
     private ArrayList<String> mFavorites;
     private Button mSignInbtn;
     private Button mSignOutbtn;
@@ -65,26 +68,36 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         mAdd1000 = view.findViewById(R.id.add_money_btn);
         mAdd1000.setOnClickListener(this);
 
-        ((MainActivity) getActivity()).mDatabaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String userName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
-                double money = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
-                double earning = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
+        final GenericTypeIndicator<ArrayList<StockSnippet>> t = new GenericTypeIndicator<ArrayList<StockSnippet>>() {};
 
-                mUserName.setText(userName);
-                mMoney.setText(String.valueOf(money));
-                mEarning.setText(String.valueOf(earning));
-                mFavorites = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("favorites").getValue();
-                mMyStock = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("myStocks").getValue();
-            }
+        if( ((MainActivity)getActivity()).mfirebaseUser != null) {
+            ((MainActivity) getActivity()).mDatabaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String userName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
+                    double money = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
+                    double earning = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                    mUserName.setText(userName);
+                    mMoney.setText(String.valueOf(money));
+                    mEarning.setText(String.valueOf(earning));
 
-            }
-        });
+                    mFavorites = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("favorites").getValue();
 
+
+
+                    for (DataSnapshot child: dataSnapshot.child("users").child(mUid).child("myStocks").getChildren()) {
+                        mMyStock.add(child.getValue(StockSnippet.class));
+                    }
+                    Log.d("listener", "mMyStock: " + mMyStock.get(0).getId());
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
         return view;
     }
 
@@ -128,6 +141,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                 break;
 
             case R.id.add_money_btn:
+                //addStockToAccount("000389", 1000, 38.5);
                 ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -151,5 +165,14 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
 
     static String getUserName() {
         return mUserName.getText().toString();
+    }
+
+    void buyStockToAccount(String stockname, double amount, double price) {
+        StockSnippet stock = new StockSnippet(stockname, amount, price);
+        ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).child("myStocks").push().setValue(stock);
+    }
+
+    void addFavoriteChangeOnAccount(String stockname) {
+        ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).child("favorites").push().setValue(stockname);
     }
 }

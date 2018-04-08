@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -98,9 +99,13 @@ public class MainActivity extends AppCompatActivity
         mSectionStatePagerAdapter = new SectionStatePagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.fragment_container);
 
-
+        //mAuth.signOut();  // sign out mannually
         setupViewPager(mViewPager);
         setViewPager(0);
+
+
+
+
 
 
         //--------------------------------------------------------------------------------------------------
@@ -416,5 +421,6 @@ var hq_str_sz000001="平安银行,9.170,9.190,9.060,9.180,9.050,9.060,9.070,4214
         }
         querySinaStocks(ids);
     }
+
 
 }
