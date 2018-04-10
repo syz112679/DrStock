@@ -8,6 +8,7 @@ public class StockSnippet {
     private String id;
     private double boughtPrice;
     private double amount;
+    private double currentPrice;
 
     public StockSnippet(String id, double boughtPrice, double amount) {
         this.id = id;
@@ -43,5 +44,19 @@ public class StockSnippet {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    // TODO: get current Price
+    public double getCurrentPrice() {
+        return 0.0;
+    }
+
+    // TODO: get Stock Name
+    public String getName() {
+        return "Stock Name";
+    }
+
+    public void setCurrentPrice(double currentPrice) {
+        this.currentPrice = currentPrice;
     }
 }

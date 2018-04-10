@@ -48,14 +48,12 @@ public class UserActivity  extends AppCompatActivity {
         if(mfirebaseUser == null) {
             findViewById(R.id.add_money_btn).setVisibility(View.INVISIBLE);
             findViewById(R.id.display_my_stock).setVisibility(View.INVISIBLE);
-            findViewById(R.id.display_favorite).setVisibility(View.INVISIBLE);
             findViewById(R.id.user_sign_out).setVisibility(View.INVISIBLE);
             findViewById(R.id.no_user_register).setVisibility(View.VISIBLE);
             findViewById(R.id.no_user_sign_in).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.add_money_btn).setVisibility(View.VISIBLE);
             findViewById(R.id.display_my_stock).setVisibility(View.VISIBLE);
-            findViewById(R.id.display_favorite).setVisibility(View.VISIBLE);
             findViewById(R.id.user_sign_out).setVisibility(View.VISIBLE);
             findViewById(R.id.no_user_register).setVisibility(View.INVISIBLE);
             findViewById(R.id.no_user_sign_in).setVisibility(View.INVISIBLE);
@@ -148,7 +146,6 @@ public class UserActivity  extends AppCompatActivity {
         // Google sign out ??
         findViewById(R.id.add_money_btn).setVisibility(View.INVISIBLE);
         findViewById(R.id.display_my_stock).setVisibility(View.INVISIBLE);
-        findViewById(R.id.display_favorite).setVisibility(View.INVISIBLE);
         findViewById(R.id.user_sign_out).setVisibility(View.INVISIBLE);
         findViewById(R.id.no_user_register).setVisibility(View.VISIBLE);
         findViewById(R.id.no_user_sign_in).setVisibility(View.VISIBLE);

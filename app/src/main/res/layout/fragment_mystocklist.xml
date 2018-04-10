@@ -23,20 +23,6 @@
             android:background="#da9494" >
         </ListView>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:gravity="center_vertical"
-            android:text="@string/my_favorites" />
-
-        <ListView
-            android:id="@+id/my_favorite_listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:background="#75d196" >
-        </ListView>
     </LinearLayout>
 
 </ScrollView>

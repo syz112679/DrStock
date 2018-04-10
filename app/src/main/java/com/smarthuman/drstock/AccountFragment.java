@@ -31,13 +31,8 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
     public static TextView mUserName;
     private TextView mMoney;
     private TextView mEarning;
-    private ArrayList<StockSnippet> mMyStock = new ArrayList<StockSnippet>();;
-    private ArrayList<String> mFavorites;
-    private Button mSignInbtn;
     private Button mSignOutbtn;
-    private Button mRegisterbtn;
     private Button mMyStockbtn;
-    private Button mFavoritebtn;
     private Button mAdd1000;
 
 
@@ -63,8 +58,6 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         mSignOutbtn.setOnClickListener(this);
         mMyStockbtn = view.findViewById(R.id.display_my_stock);
         mMyStockbtn.setOnClickListener(this);
-        mFavoritebtn = view.findViewById(R.id.display_favorite);
-        mFavoritebtn.setOnClickListener(this);
         mAdd1000 = view.findViewById(R.id.add_money_btn);
         mAdd1000.setOnClickListener(this);
 
@@ -82,14 +75,6 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                     mMoney.setText(String.valueOf(money));
                     mEarning.setText(String.valueOf(earning));
 
-                    mFavorites = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("favorites").getValue();
-
-
-
-                    for (DataSnapshot child: dataSnapshot.child("users").child(mUid).child("myStocks").getChildren()) {
-                        mMyStock.add(child.getValue(StockSnippet.class));
-                    }
-                    Log.d("listener", "mMyStock: " + mMyStock.get(0).getId());
                 }
 
                 @Override
@@ -120,10 +105,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                 ((MainActivity)getActivity()).setViewPager(2);
                 break;
 
-            case R.id.display_favorite:
-                Toast.makeText(getActivity(), "To My Favorites...", Toast.LENGTH_SHORT).show();
-                ((MainActivity)getActivity()).setViewPager(4);
-                break;
+
 
             case R.id.display_my_stock:
                 Toast.makeText(getActivity(), "To My Stocks...", Toast.LENGTH_SHORT).show();
@@ -172,7 +154,4 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).child("myStocks").push().setValue(stock);
     }
 
-    void addFavoriteChangeOnAccount(String stockname) {
-        ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).child("favorites").push().setValue(stockname);
-    }
 }

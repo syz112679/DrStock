@@ -97,42 +97,25 @@
             android:alpha="0.75"/>
 
         <Button
-            android:id="@+id/display_favorite"
-            android:layout_width="300dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:onClick="favorites"
-            android:background="@drawable/button_color"
-            android:text="@string/my_favorites"
-            android:textSize="18sp"
-            android:textColor="@color/myWhite"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/display_my_stock"
-            android:alpha="0.75"/>
-
-        <Button
             android:id="@+id/user_sign_out"
             android:layout_width="300dp"
             android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:onClick="signOut"
+            android:layout_marginTop="20dp"
+            android:alpha="0.75"
             android:background="@drawable/button_color"
+            android:onClick="signOut"
             android:text="@string/action_sign_out"
-            android:textSize="18sp"
             android:textColor="@color/myWhite"
+            android:textSize="18sp"
             android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/display_favorite"
-            android:alpha="0.75"/>
+            app:layout_constraintTop_toBottomOf="@+id/display_my_stock"
+            tools:ignore="MissingConstraints" />
 
 
 </android.support.constraint.ConstraintLayout>

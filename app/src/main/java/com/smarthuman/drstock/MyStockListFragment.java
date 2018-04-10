@@ -23,10 +23,9 @@ public class MyStockListFragment extends android.support.v4.app.Fragment impleme
 
     String mUid = "";
     private ArrayList<StockSnippet> mMyStock = new ArrayList<StockSnippet>();
-    private ArrayList<String> mFavorites = new ArrayList<>();
-    private ListView mMyStockListView, mFavoritesListView;
-    ArrayAdapter<StockSnippet> mStockAdapter;
-    ArrayAdapter<String> mFavoriteAdapter;
+    private ListView mMyStockListView;
+    StockItemAdapter mStockAdapter;
+
 
 
     @Nullable
@@ -37,13 +36,12 @@ public class MyStockListFragment extends android.support.v4.app.Fragment impleme
         if(((MainActivity)getActivity()).mfirebaseUser != null) {
             mUid = ((MainActivity) getActivity()).mUid;
             mMyStockListView = view.findViewById(R.id.my_stocks_listview);
-            mFavoritesListView = view.findViewById(R.id.my_favorite_listview);
 
-            mStockAdapter = new ArrayAdapter<StockSnippet>(getActivity(), android.R.layout.simple_list_item_1, mMyStock);
-            mFavoriteAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mFavorites);
+
+            mStockAdapter = new StockItemAdapter(getActivity(), mMyStock);
+
 
             mMyStockListView.setAdapter(mStockAdapter);
-            mFavoritesListView.setAdapter(mFavoriteAdapter);
 
             ((MainActivity) getActivity()).mDatabaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -52,17 +50,16 @@ public class MyStockListFragment extends android.support.v4.app.Fragment impleme
                         String userName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
                         double money = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
                         double earning = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
+                        mMyStock.clear();
 
 
-                        mFavorites = (ArrayList<String>) dataSnapshot.child("users").child(mUid).child("favorites").getValue();
                         for (DataSnapshot child: dataSnapshot.child("users").child(mUid).child("myStocks").getChildren()) {
                             mMyStock.add(child.getValue(StockSnippet.class));
                         }
 
-                        mStockAdapter = new ArrayAdapter<StockSnippet>(getActivity(), android.R.layout.simple_list_item_1, mMyStock);
+                        mStockAdapter = mStockAdapter = new StockItemAdapter(getActivity(), mMyStock);
                         mStockAdapter.notifyDataSetChanged();
-                        mFavoriteAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mFavorites);
-                        mFavoriteAdapter.notifyDataSetChanged();
+
                     }
                 }
 
