@@ -13,7 +13,7 @@ public class UserInformation {
     private double money; // initial money
     private double earning;
     private double balance;
-    ArrayList<String> myStocks;
+    ArrayList<StockSnippet> myStocks;
     ArrayList<String> favorites;
 
     private boolean isSuperUser;
@@ -24,14 +24,14 @@ public class UserInformation {
         this.money = 0;
         this.balance = 0;
         this.earning = 0;
-        this.myStocks = new ArrayList<String>();
+        this.myStocks = new ArrayList<StockSnippet>();
         this.favorites = new ArrayList<String>();
         favorites.add("placeholder");
-        myStocks.add("placeholder");
+        myStocks.add(new StockSnippet());
         isSuperUser = false;
     }
 
-    public void addStock(String stock) {
+    public void addStock(StockSnippet stock) {
         myStocks.add(stock);
     }
 
@@ -52,7 +52,7 @@ public class UserInformation {
         this.money = money;
     }
 
-    public void setMyStocks(ArrayList<String> myStocks) {
+    public void setMyStocks(ArrayList<StockSnippet> myStocks) {
         this.myStocks = myStocks;
     }
 
@@ -88,7 +88,7 @@ public class UserInformation {
         return money;
     }
 
-    public ArrayList<String> getMyStocks() {
+    public ArrayList<StockSnippet> getMyStocks() {
         return myStocks;
     }
 
