@@ -10,7 +10,7 @@
 
     <style name="EditTextStyle" parent="Widget.AppCompat.EditText"/>
 
-    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar"> 
         <item name="background">@color/myWhite</item>
         <item name="titleTextStyle">@style/MyTitleTextStyle</item>
     </style>

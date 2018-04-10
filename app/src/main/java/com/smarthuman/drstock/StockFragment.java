@@ -103,8 +103,8 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class StockFragment extends Fragment implements View.OnClickListener {
 
-    private final static int UpColor_ = Color.GREEN;
-    private final static int DownColor_ = Color.RED;
+    private final static int UpColor_ = Color.rgb(51,153,102);
+    private final static int DownColor_ = Color.rgb(255, 102,102);
     private final static int BackgroundColor_ = Color.WHITE;
     private final static int HighlightColor_ = Color.rgb(210, 233, 255);
     private final static String ShIndex = "sh000001";
