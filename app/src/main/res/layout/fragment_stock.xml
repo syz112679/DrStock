@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_add_label"
-            android:id="@+id/stockFrag_addStock" />
+            android:id="@+id/stockFrag_searchStock" />
     </LinearLayout>
 
     <!--ListView

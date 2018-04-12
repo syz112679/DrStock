@@ -118,19 +118,21 @@ public class StockFragment extends Fragment implements View.OnClickListener {
     private Button addStockBtn;
     private View v;
 
-    public static HashSet<String> StockIds_ = new HashSet();  // [sz000001] [hk02318] [gb_lx]
+//    public static HashSet<String> MainActivity.StockIds_ = new HashSet();  // [sz000001] [hk02318] [gb_lx]
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_stock, container, false);
 
-        StockIds_ = MainActivity.StockIds_;
+//        MainActivity.StockIds_ = MainActivity.MainActivity.StockIds_;
 
         initEdt();
         initPop();
 
-        addStockBtn = v.findViewById(R.id.stockFrag_addStock);
+        addStockBtn = v.findViewById(R.id.stockFrag_searchStock);
         addStockBtn.setOnClickListener(this);
+
+        refreshStocks();
 
         Log.d("mainActivity", "LIne 126");
         Timer timer = new Timer("RefreshStocks");
@@ -143,6 +145,16 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         Log.d("mainActivity", "LIne 134");
 
         return v;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.stockFrag_searchStock:
+                Log.d("addstock", "here");
+//                addStock(v);
+                searchStock(v);
+        }
     }
 
     @Override
@@ -185,7 +197,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
 //                return true;
 //
 //            for (String selectedId : MainActivity.SelectedStockItems_){
-//                StockIds_.remove(selectedId);
+//                MainActivity.StockIds_.remove(selectedId);
 //                TableLayout table = (TableLayout)v.findViewById(R.id.stock_table);
 //                int count = table.getChildCount();
 //                for (int i = 1; i < count; i++){
@@ -219,7 +231,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
 
     private void saveStocksToPreferences() {
         String ids = "";                        // sz000001,hk02318,gb_lx
-        for (String id : StockIds_) {
+        for (String id : MainActivity.StockIds_) {
             ids += id;
             ids += ",";
         }
@@ -230,95 +242,43 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         editor.commit();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.stockFrag_addStock:
-                Log.d("addstock", "here");
-                addStock(v);
-        }
-    }
-
     public TreeMap<String, Stock> sinaResponseToStocks(String response) {
         response = response.replaceAll("\n", "");
         String[] stocks = response.split(";");
-        System.out.println("---------stocks:");
-        for(String s:stocks) {
-            System.out.println(s);
-        }
-        System.out.println("---------");
+//        System.out.println("---------stocks:");
+//        for(String s:stocks) {
+//            System.out.println(s);
+//        }
+//        System.out.println("---------");
 
-        TreeMap<String, Stock> stockMap = new TreeMap();
+        TreeMap<String, Stock> stockMap = new TreeMap<>();
         for (String stock : stocks) {
-            Stock stockNow = new Stock();
-
-            String[] leftRight = stock.split("=");
-            if (leftRight.length < 2)
-                continue;
-
-            String left = leftRight[0];
-            if (left.isEmpty())
-                continue;
-            String[] lefts = left.split("_");
-            String market = lefts[2];
-            if (market.length() == 2) { // US
-                stockNow.marketId_ = "US";
-                stockNow.size_ = 28;
-            } else if (market.substring(0, 2).equals("hk")) {    // HK
-                stockNow.marketId_ = market.substring(0, 2).toUpperCase();
-                stockNow.size_ = 19;
-            } else {
-//                stockNow.marketId_ = market.substring(0, 2);
-                stockNow.marketId_ = market.substring(0, 2).toUpperCase();
-                stockNow.size_ = 33;
-            }
-
-
-            String right = leftRight[1].replaceAll("\"", "");
-            if (right.isEmpty())
-                continue;
-
-
-            String[] values = right.split(",");
-            for (int i = 0; i < values.length; i++) {
-                stockNow.values[i] = values[i];
-            }
-
-            // TODO: English name for SH and SZ
-            if (stockNow.marketId_.equals("US")) {
-                stockNow.id_ = lefts[3];
-                stockNow.name_ = lefts[3];
-
-            } else if (stockNow.marketId_.equals("HK")) {
-                stockNow.id_ = market.substring(2);
-                stockNow.name_ = values[0];
-
-            } else { // ZH & SH
-                stockNow.id_ = market.substring(2);
-                stockNow.name_ = values[0];
-
-            }
-
+            Stock stockNow = new Stock(stock);
             stockMap.put(stockNow.id_, stockNow);           // lx -> Stock
         }
+
+        System.out.println("-------------stockMap:\n" + stockMap + "----------");
 
         return stockMap;
     }
 
     public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
+//        System.out.println("--------list: \n" + list + "\n------");
+
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this.getActivity());
         String url = "http://hq.sinajs.cn/list=" + list;
         //http://hq.sinajs.cn/list=sh600000,sh600536
 
+        System.out.println("--------url: \n" + url + "\n------");
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-//                        System.out.println("***************************Response**************************");
-//                        System.out.println(response);
-//                        System.out.println("*****************************************************************");
+                        System.out.println("***************************Response**************************");
+                        System.out.println(response);
+                        System.out.println("*****************************************************************");
                         updateStockListView(sinaResponseToStocks(response));
                     }
                 },
@@ -333,8 +293,10 @@ public class StockFragment extends Fragment implements View.OnClickListener {
 
     public void refreshStocks() {
 
+        System.out.println("--------refreshStocks: \n" + MainActivity.StockIds_ + "\n------");
+
         String ids = "";
-        for (String id : StockIds_) {
+        for (String id : MainActivity.StockIds_) {
             ids += id;
             ids += ",";
         }
@@ -343,17 +305,12 @@ public class StockFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    public void addStock(View view) {
-        Log.d("addstock", "add stock function here");
-        EditText editText = (EditText) v.findViewById(R.id.editText_stockId);
+    public static String input2enqury(String inputID) {
 
-        String inputID = editText.getText().toString();
-
-        // TODO: US Market
         if (Character.isDigit(inputID.charAt(0))) {
 
             if (inputID.length() < 5 || inputID.length() > 6) {
-                return;
+                return null;
             }
 
             if (inputID.length() == 5) {
@@ -363,17 +320,37 @@ public class StockFragment extends Fragment implements View.OnClickListener {
             } else if (inputID.startsWith("0") || inputID.startsWith("3")) {
                 inputID = "sz" + inputID;
             } else
-                return;
+                return null;
         } else {    // US
             inputID = "gb_" + inputID;
         }
 
+        return inputID;
+    }
 
-        StockIds_.add(inputID);
+    public void addStock(View view) {
+        EditText editText = (EditText) v.findViewById(R.id.editText_stockId);
+        String inputID = editText.getText().toString();
+        String enquryId = input2enqury(inputID);
 
-        MainActivity.StockIds_ = StockIds_;
+        MainActivity.StockIds_.add(enquryId);
 
         refreshStocks();
+    }
+
+    public void searchStock(View view) {
+        EditText editText = (EditText) v.findViewById(R.id.editText_stockId);
+        String inputID = editText.getText().toString();
+        String enquryId = input2enqury(inputID);
+
+        MainActivity.searchHistory.add(enquryId);
+        System.out.println("--------searchHistory:");
+        System.out.println(MainActivity.searchHistory);
+        System.out.println("--------------------");
+
+        Intent intent = new Intent(getActivity(), EachStockActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, enquryId);
+        startActivity(intent);
     }
 
     //----------------------------------------------Followings are for search association-------------------------------------------------
@@ -648,10 +625,10 @@ public class StockFragment extends Fragment implements View.OnClickListener {
             percent.setText(stock.getChangePercent() + "%");
             increaseValue.setText("--");
             int color = Color.BLACK;
-            if (stock.getChangePercent().charAt(0) == '-') {
-                color = MainActivity.DownColor_;
-            } else {
+            if (stock.isRising()) {
                 color = MainActivity.UpColor_;
+            } else {
+                color = MainActivity.DownColor_;
             }
 
             now.setTextColor(color);
@@ -677,6 +654,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
             });
 
             table.addView(row);
+            System.out.println("addRow!!!");
         }
     }
 }

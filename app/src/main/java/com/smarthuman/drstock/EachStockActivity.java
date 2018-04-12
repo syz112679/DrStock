@@ -1,11 +1,16 @@
 package com.smarthuman.drstock;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -22,26 +27,47 @@ import java.util.TreeMap;
  * Created by shiyuzhou on 5/4/2018.
  */
 
-public class EachStockActivity extends AppCompatActivity {
+public class EachStockActivity extends AppCompatActivity implements View.OnClickListener  {
 
     public static String stockId_Market;
     public static Stock myStock;
+
+    private Button addButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_eachstock);
 
+        setGridLayout();
+
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         stockId_Market = intent.getStringExtra(StockFragment.EXTRA_MESSAGE);
 
-
         System.out.println("stockId_Market: " + stockId_Market);
+
+        addButton = findViewById(R.id.add_to_favorite);
+        addButton.setOnClickListener(this);
 
         querySinaStocks(getEnqueryId(stockId_Market));
 
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.add_to_favorite:
+                Log.d("addstock", "here");
+                addStock(v);
+//                searchStock(v);
+        }
+    }
+
+    public void addStock(View v) {
+        MainActivity.StockIds_.add(myStock.getEnqueryId());
+
+        System.out.println("add favourite: " + myStock.getEnqueryId() + ";");
     }
 
     public String getEnqueryId(String stockI_M) {
@@ -49,17 +75,26 @@ public class EachStockActivity extends AppCompatActivity {
 
         String[] stockI_Ms = stockI_M.split("\\.");
 
-        System.out.println("---------StockI_Ms:");
-        for(String s:stockI_Ms) {
-            System.out.println(s);
+        if (stockI_Ms.length == 1) {            // if stockI_M is already the enquryId
+            return stockI_M;
         }
-        System.out.println("---------");
 
 
         if (stockI_Ms[1].equals("US")) {
             return "gb_" + stockI_Ms[0];
         } else {
             return stockI_Ms[1].toLowerCase() + stockI_Ms[0];
+        }
+    }
+
+    public void setGridLayout() {
+        GridLayout mGridLayout = (GridLayout) findViewById(R.id.eachStock_gridLayout);
+        int columnCount = mGridLayout.getColumnCount();
+        int screenWidth = this.getWindowManager().getDefaultDisplay().getWidth();
+//        Log.e(TAG, "column:" + columnCount + ";  screenwidth:" + screenWidth);
+        for (int i = 0; i < mGridLayout.getChildCount(); i++) {
+            TextView button = (TextView) mGridLayout.getChildAt(i);
+            button.setWidth(screenWidth / columnCount);
         }
     }
 
@@ -72,12 +107,14 @@ public class EachStockActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("", "---------response:\n" + response + "------------\n");
                         sinaResponseToStocks(response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Log.d("", "---------error:\n" + error + "------------\n");
                     }
                 });
         queue.add(stringRequest);
@@ -86,52 +123,7 @@ public class EachStockActivity extends AppCompatActivity {
     public void sinaResponseToStocks(String response) {
         response = response.replaceAll("\n", "");
 
-        Stock stockNow = new Stock();
-
-        String[] leftRight = response.split("=");
-        if (leftRight.length < 2)
-            return;
-
-        String left = leftRight[0];
-        if (left.isEmpty())
-            return;
-        String[] lefts = left.split("_");
-        String market = lefts[2];
-        if (market.length() == 2) { // US
-            stockNow.marketId_ = "US";
-            stockNow.size_ = 28;
-        } else if (market.substring(0, 2).equals("hk")) {    // HK
-            stockNow.marketId_ = market.substring(0, 2).toUpperCase();
-            stockNow.size_ = 19;
-        } else {
-            stockNow.marketId_ = market.substring(0, 2).toUpperCase();
-            stockNow.size_ = 33;
-        }
-
-        String right = leftRight[1].replaceAll("\"", "");
-        if (right.isEmpty())
-            return;
-
-
-        String[] values = right.split(",");
-        for (int i = 0; i < values.length; i++) {
-            stockNow.values[i] = values[i];
-        }
-
-        // TODO: English name for SH and SZ
-        if (stockNow.marketId_.equals("US")) {
-            stockNow.id_ = lefts[3];
-            stockNow.name_ = lefts[3];
-
-        } else if (stockNow.marketId_.equals("HK")) {
-            stockNow.id_ = market.substring(2);
-            stockNow.name_ = values[0];
-
-        } else { // ZH & SH
-            stockNow.id_ = market.substring(2);
-            stockNow.name_ = values[0];
-
-        }
+        Stock stockNow = new Stock(response);
 
         myStock = stockNow;
 
@@ -155,8 +147,8 @@ public class EachStockActivity extends AppCompatActivity {
         TextView changePercent = findViewById(R.id.eachstock_percent);
         changePercent.setText(myStock.getChangePercent() + "%");
 
-        TextView currency = findViewById(R.id.eachstock_currency);
-        currency.setText(myStock.getCurrency());
+//        TextView currency = findViewById(R.id.eachstock_currency);
+//        currency.setText(myStock.getCurrency());
 
         if (myStock.isRising()) {
             currentPrice.setTextColor(MainActivity.UpColor_);

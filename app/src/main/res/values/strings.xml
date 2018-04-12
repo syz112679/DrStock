@@ -43,7 +43,7 @@
     <string name="action_detail">detail</string>
     <string name="action_add">add</string>
 
-    <string name="button_add_label">add</string>
+    <string name="button_add_label">Search</string>
 
     <string name="stock_name_title">Name</string>
     <string name="stock_now_title">Index</string>

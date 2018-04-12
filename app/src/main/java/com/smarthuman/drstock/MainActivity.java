@@ -88,8 +88,11 @@ public class MainActivity extends AppCompatActivity
 
     //--------------------------------------------------------------------------------------------------
 
-    public static HashSet<String> StockIds_ = new HashSet();        // [sz000001] [hk02318] [gb_lx]
+    private final static String searchHistoryKey_ = "SearchHistory";
+    public static HashSet<String> searchHistory  = new HashSet<>();
+
     private final static String StockIdsKey_ = "StockIds";
+    public static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
 
     public final static int UpColor_ = Color.GREEN;
     public final static int DownColor_ = Color.RED;
@@ -106,19 +109,43 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // TEST
+//        System.out.println("------------TEST:");
+//        String s_ = "abcd";
+//        String[] ss_ = s_.split("_");
+//        for (String s : ss_) {
+//            System.out.println(s);
+//        }
+//        System.out.println("------------");
+        // END
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //--------------------------------------------------------------------------------------------------
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        String idsStr = sharedPref.getString(StockIdsKey_, "");
+        String idsStr = sharedPref.getString(StockIdsKey_, null);
+        String histories = sharedPref.getString(searchHistoryKey_, null);
 
         String[] ids = idsStr.split(",");
         StockIds_.clear();
         for (String id : ids) {
+            if (id.equals(null))
+                continue;
             StockIds_.add(id);
         }
+        System.out.println("----------StockIds\n" + StockIds_ + "\n----------");
+        // update the searchHistory
+        ids = histories.split(",");
+        searchHistory.clear();
+        for (String id : ids) {
+            if (id.equals(null))
+                continue;
+            searchHistory.add(id);
+        }
+
 
         mSectionStatePagerAdapter = new SectionStatePagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.fragment_container);
@@ -140,8 +167,6 @@ public class MainActivity extends AppCompatActivity
         navigation.setOnNavigationItemSelectedListener(this);
 
         loadFragment(new com.smarthuman.drstock.StockFragment());
-
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -226,6 +251,33 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+//    public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
+//
+//        // Instantiate the RequestQueue.
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        String url = "http://hq.sinajs.cn/list=" + list;
+//        //http://hq.sinajs.cn/list=sh600000,sh600536
+//
+//        // Request a string response from the provided URL.
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+////                        System.out.println("***************************Response**************************");
+////                        System.out.println(response);
+////                        System.out.println("*****************************************************************");
+//                        searchHistory = StockFragment.sinaResponseToStocks(response);
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                    }
+//                });
+//
+//        queue.add(stringRequest);
+//    }
+
     public void setupViewPager(ViewPager viewPager) {
         SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());
 
@@ -246,7 +298,7 @@ public class MainActivity extends AppCompatActivity
             StockFragment frag1 = (StockFragment)mViewPager
                     .getAdapter()
                     .instantiateItem(mViewPager, mViewPager.getCurrentItem());
-            frag1.refreshStocks();
+//            frag1.refreshStocks();
         }
     }
 
@@ -277,9 +329,15 @@ public class MainActivity extends AppCompatActivity
             ids += ",";
         }
 
+        String histories = "";
+        for (String s:searchHistory) {
+            histories += s + ",";
+        }
+
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(StockIdsKey_, ids);
+        editor.putString(searchHistoryKey_, histories);
         editor.commit();
     }
 

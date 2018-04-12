@@ -5,249 +5,288 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/stock_id"
-        android:layout_width="120dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Stock ID"
-        android:textAlignment="center"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/stock_company_name"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/add_to_favorite"
-        android:layout_width="45dp"
-        android:layout_height="38dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:text="+"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/stock_company_name"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Company Name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/eachstock_price"
-        android:layout_width="136dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Price"
-        android:textAlignment="textEnd"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stock_company_name" />
-
-    <TextView
-        android:id="@+id/eachstock_pricechange"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginTop="8dp"
-        android:text="price change"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_to_favorite" />
-
-    <TextView
-        android:id="@+id/eachstock_percent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="4dp"
-        android:text="___%"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eachstock_pricechange" />
-
-    <TextView
-        android:id="@+id/eachstock_currency"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="48dp"
-        android:text="HKD"
-        app:layout_constraintEnd_toStartOf="@+id/eachstock_percent"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintStart_toEndOf="@+id/eachstock_price"
-        app:layout_constraintTop_toBottomOf="@+id/stock_id"
-        tools:ignore="MissingConstraints" />
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="228dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="124dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/bottom_button">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:columnCount="6"
+                        android:rowCount="4">
+
+                        <TextView
+                            android:id="@+id/stock_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:layout_columnSpan="3"
+                            android:text="Stock ID"
+                            android:textAlignment="center"
+                            android:textSize="14sp"
+                            android:layout_gravity="fill" />
+
+                        <TextView
+                            android:id="@+id/stock_company_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:layout_columnSpan="3"
+                            android:text="Company Name"
+                            android:layout_gravity="fill"
+                            android:textAlignment="center"/>
+
+                        <TextView
+                            android:id="@+id/eachstock_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:layout_columnSpan="6"
+                            android:text="Price"
+                            android:textAlignment="center"
+                            android:textSize="30sp" />
+
+                        <TextView
+                            android:id="@+id/eachstock_pricechange"
+                            android:text="change"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="3"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_rowWeight="1"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/eachstock_percent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="3"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_rowWeight="1"
+                            android:text="__%"
+                            android:textAlignment="center" />
+
+
+
+                    </GridLayout>
+
+                    <GridLayout
+                        android:id="@+id/eachStock_gridLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alignmentMode="alignBounds"
+                        android:columnCount="6"
+                        android:orientation="horizontal"
+                        android:rowCount="3">
+
+                        <TextView
+                            android:id="@+id/high_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/high" />
+
+                        <TextView
+                            android:id="@+id/high_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="0" />
+
+                        <TextView
+                            android:id="@+id/open_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/open" />
+
+                        <TextView
+                            android:id="@+id/open_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="0" />
+
+                        <TextView
+                            android:id="@+id/volume_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/volume" />
+
+                        <TextView
+                            android:id="@+id/volume_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="0" />
+
+                        <TextView
+                            android:id="@+id/low_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/low" />
+
+                        <TextView
+                            android:id="@+id/low_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="0" />
+
+                        <TextView
+                            android:id="@+id/close_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/close" />
+
+                        <TextView
+                            android:id="@+id/close_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="0" />
+
+                        <TextView
+                            android:id="@+id/turnover_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/turnover" />
+
+                        <TextView
+                            android:id="@+id/turnover_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="0" />
+
+                    </GridLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minHeight="200dp" />
+
+
+            </LinearLayout>
+        </ScrollView>
+
+
+        <RelativeLayout
+            android:id="@+id/bottom_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
             <Button
+                android:id="@+id/eachstock_buy_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="start"
+                android:layout_marginStart="18dp"
+                android:text="@string/buy" />
 
             <Button
+                android:id="@+id/add_to_favorite"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2" />
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
+                android:text="+" />
 
             <Button
+                android:id="@+id/eachstock_sell_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="end"
+                android:layout_marginEnd="18dp"
+                android:text="@string/sell" />
+        </RelativeLayout>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2" />
-
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/high_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/high" />
-
-        <TextView
-            android:id="@+id/open_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_row="1"
-            android:text="@string/open" />
-
-        <TextView
-            android:id="@+id/high_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_row="0"
-            android:text="0" />
-
-        <TextView
-            android:id="@+id/open_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_row="1"
-            android:text="0" />
-
-        <TextView
-            android:id="@+id/low_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="3"
-            android:layout_row="0"
-            android:text="@string/low" />
-
-        <TextView
-            android:id="@+id/low_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="4"
-            android:layout_row="0"
-            android:text="0" />
-
-        <TextView
-            android:id="@+id/close_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="3"
-            android:layout_row="1"
-            android:text="@string/close" />
-
-        <TextView
-            android:id="@+id/close_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="4"
-            android:layout_row="1"
-            android:text="0" />
-
-        <TextView
-            android:id="@+id/volume_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_row="2"
-            android:text="@string/volume" />
-
-        <TextView
-            android:id="@+id/volume_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_row="2"
-            android:text="0" />
-
-        <TextView
-            android:id="@+id/turnover_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="3"
-            android:layout_row="2"
-            android:text="@string/turnover" />
-
-        <TextView
-            android:id="@+id/turnover_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="4"
-            android:layout_row="2"
-            android:text="0" />
-
-        <Button
-            android:id="@+id/eachstock_buy_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="3"
-            android:layout_row="3"
-            android:text="@string/buy" />
-
-        <Button
-            android:id="@+id/eachstock_sell_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_row="3"
-            android:text="@string/sell" />
-
-    </GridLayout>
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
