@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SyncStatusObserver;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -72,6 +73,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,33 +99,49 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 //--------------------------------------------------------------------------------------------------
 
 
 public class StockFragment extends Fragment implements View.OnClickListener {
 
-    private final static int UpColor_ = Color.rgb(51,153,102);
-    private final static int DownColor_ = Color.rgb(255, 102,102);
+    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+
+
     private final static int BackgroundColor_ = Color.WHITE;
     private final static int HighlightColor_ = Color.rgb(210, 233, 255);
     private final static String ShIndex = "sh000001";
     private final static String SzIndex = "sz399001";
     private final static String ChuangIndex = "sz399006";
     private final static String StockIdsKey_ = "StockIds";
-    private final static int StockLargeTrade_ = 1000000;
-
     private Button addStockBtn;
     private View v;
+
+    public static HashSet<String> StockIds_ = new HashSet();  // [sz000001] [hk02318] [gb_lx]
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_stock, container, false);
+
+        StockIds_ = MainActivity.StockIds_;
 
         initEdt();
         initPop();
 
         addStockBtn = v.findViewById(R.id.stockFrag_addStock);
         addStockBtn.setOnClickListener(this);
+
+        Log.d("mainActivity", "LIne 126");
+        Timer timer = new Timer("RefreshStocks");
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                refreshStocks();
+            }
+        }, 0, 10000); // 10 seconds
+        Log.d("mainActivity", "LIne 134");
+
         return v;
     }
 
@@ -151,57 +169,57 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         inflater.inflate(R.menu.menu_main, menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//        else if(id == R.id.action_delete){
+//            if(MainActivity.SelectedStockItems_.isEmpty())
+//                return true;
+//
+//            for (String selectedId : MainActivity.SelectedStockItems_){
+//                StockIds_.remove(selectedId);
+//                TableLayout table = (TableLayout)v.findViewById(R.id.stock_table);
+//                int count = table.getChildCount();
+//                for (int i = 1; i < count; i++){
+//                    TableRow row = (TableRow)table.getChildAt(i);
+//                    LinearLayout nameId = (LinearLayout)row.getChildAt(0);
+//                    TextView idText = (TextView)nameId.getChildAt(1);
+//                    if(idText != null && idText.getText().toString() == selectedId){
+//                        table.removeView(row);
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            MainActivity.SelectedStockItems_.clear();
+//        } else if (id == R.id.action_detail) {
+//            // send intent to Kmap_activity
+//            if (!MainActivity.SelectedStockItems_.isEmpty()) {
+//
+//
+////                Intent intent = new Intent(MainActivity.this, KChartActivity.class);
+////                intent.putExtra("stockId", SelectedStockItems_.elementAt(0));
+////                //System.out.println("----------------startActivity--------------");
+////                startActivity(intent);
+//            }
+//        } else if (id == R.id.action_add) {
+//
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        else if(id == R.id.action_delete){
-            if(MainActivity.SelectedStockItems_.isEmpty())
-                return true;
-
-            for (String selectedId : MainActivity.SelectedStockItems_){
-                MainActivity.StockIds_.remove(selectedId);
-                TableLayout table = (TableLayout)v.findViewById(R.id.stock_table);
-                int count = table.getChildCount();
-                for (int i = 1; i < count; i++){
-                    TableRow row = (TableRow)table.getChildAt(i);
-                    LinearLayout nameId = (LinearLayout)row.getChildAt(0);
-                    TextView idText = (TextView)nameId.getChildAt(1);
-                    if(idText != null && idText.getText().toString() == selectedId){
-                        table.removeView(row);
-                        break;
-                    }
-                }
-            }
-
-            MainActivity.SelectedStockItems_.clear();
-        } else if (id == R.id.action_detail) {
-            // send intent to Kmap_activity
-            if (!MainActivity.SelectedStockItems_.isEmpty()) {
-
-
-//                Intent intent = new Intent(MainActivity.this, KChartActivity.class);
-//                intent.putExtra("stockId", SelectedStockItems_.elementAt(0));
-//                //System.out.println("----------------startActivity--------------");
-//                startActivity(intent);
-            }
-        } else if (id == R.id.action_add) {
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void saveStocksToPreferences(){
-        String ids = "";
-        for (String id : MainActivity.StockIds_){
+    private void saveStocksToPreferences() {
+        String ids = "";                        // sz000001,hk02318,gb_lx
+        for (String id : StockIds_) {
             ids += id;
             ids += ",";
         }
@@ -221,127 +239,142 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    // 浦发银行,15.06,15.16,15.25,15.27,14.96,15.22,15.24,205749026,3113080980,
-    // 51800,15.22,55979,15.21,1404740,15.20,1016176,15.19,187800,15.18,300,15.24,457700,15.25,548900,15.26,712266,15.27,1057960,15.28,2015-09-10,15:04:07,00
-    public class Stock {
-        public String id_, name_;
-        public String open_, yesterday_, now_, high_, low_;
-        public String b1_, b2_, b3_, b4_, b5_;
-        public String bp1_, bp2_, bp3_, bp4_, bp5_;
-        public String s1_, s2_, s3_, s4_, s5_;
-        public String sp1_, sp2_, sp3_, sp4_, sp5_;
-        public String time_;
-    }
-
-    /*
-var hq_str_sz000001="平安银行,9.170,9.190,9.060,9.180,9.050,9.060,9.070,42148125,384081266.460,624253,9.060,638540,9.050,210600,9.040,341700,9.030,2298300,9.020,227184,9.070,178200,9.080,188240,9.090,293536,9.100,295300,9.110,2016-09-14,15:11:03,00";
-这个字符串由许多数据拼接在一起，不同含义的数据用逗号隔开了，按照程序员的思路，顺序号从0开始。
-0：“平安银行”，股票名字；                name
-1：“9.170”，今日开盘价；                open
-2：“9.190”，昨日收盘价；                yesterday
-3：“9.060”，当前价格；                  now
-4：“9.180”，今日最高价；                high
-5：“9.050”，今日最低价；                low
-
-6：“9.060”，竞买价，即“买一“报价；
-7：“9.070”，竞卖价，即“卖一“报价；
-8：“42148125”，成交的股票数，由于股票交易以一百股为基本单位，所以在使用时，通常把该值除以一百；
-9：“384081266.460”，成交金额，单位为“元“，为了一目了然，通常以“万元“为成交金额的单位，所以通常把该值除以一万；
-
-10：“624253”，“买一”申请624253股，即6243手；       b1_
-11：“9.060”，“买一”报价；                                  bp1_
-12：“638540”，“买二”申报股数；                   b2_
-13：“9.050”，“买二”报价；                                  bp2_
-14：“210600”，“买三”申报股数；                   b3_
-15：“9.040”，“买三”报价；                                  bp3_
-16：“341700”，“买四”申报股数；                   b4_
-17：“9.030”，“买四”报价；                                  bp4_
-18：“2298300”，“买五”申报股数；                  b5_
-19：“9.020”，“买五”报价；                                  bfp5_
-20：“227184”，“卖一”申报227184股，即2272手；       s1_
-21：“9.070”，“卖一”报价；                                  sp1_
-(22, 23), (24, 25), (26,27), (28, 29)分别为“卖二”至“卖五”的申报股数及其价格；
-30：“2016-09-14”，日期；                         time_
-31：“15:11:03”，时间；                           time_
-
-作者：江湖人称_赫大侠
-链接：https://www.jianshu.com/p/fabe3811a01d
-來源：简书
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-    * */
-
-    public TreeMap<String, Stock> sinaResponseToStocks(String response){
+    public TreeMap<String, Stock> sinaResponseToStocks(String response) {
         response = response.replaceAll("\n", "");
         String[] stocks = response.split(";");
+        System.out.println("---------stocks:");
+        for(String s:stocks) {
+            System.out.println(s);
+        }
+        System.out.println("---------");
 
         TreeMap<String, Stock> stockMap = new TreeMap();
-        for(String stock : stocks) {
+        for (String stock : stocks) {
+            Stock stockNow = new Stock();
+
             String[] leftRight = stock.split("=");
             if (leftRight.length < 2)
-                continue;
-
-            String right = leftRight[1].replaceAll("\"", "");
-            if (right.isEmpty())
                 continue;
 
             String left = leftRight[0];
             if (left.isEmpty())
                 continue;
+            String[] lefts = left.split("_");
+            String market = lefts[2];
+            if (market.length() == 2) { // US
+                stockNow.marketId_ = "US";
+                stockNow.size_ = 28;
+            } else if (market.substring(0, 2).equals("hk")) {    // HK
+                stockNow.marketId_ = market.substring(0, 2).toUpperCase();
+                stockNow.size_ = 19;
+            } else {
+//                stockNow.marketId_ = market.substring(0, 2);
+                stockNow.marketId_ = market.substring(0, 2).toUpperCase();
+                stockNow.size_ = 33;
+            }
 
-            Stock stockNow = new Stock();
-            stockNow.id_ = left.split("_")[2];
+
+            String right = leftRight[1].replaceAll("\"", "");
+            if (right.isEmpty())
+                continue;
+
 
             String[] values = right.split(",");
-            stockNow.name_ = values[0];
-            stockNow.open_ = values[1];
-            stockNow.yesterday_ = values[2];
-            stockNow.now_ = values[3];
-            stockNow.high_ = values[4];
-            stockNow.low_ = values[5];
-            stockNow.b1_ = values[10];
-            stockNow.b2_ = values[12];
-            stockNow.b3_ = values[14];
-            stockNow.b4_ = values[16];
-            stockNow.b5_ = values[18];
-            stockNow.bp1_ = values[11];
-            stockNow.bp2_ = values[13];
-            stockNow.bp3_ = values[15];
-            stockNow.bp4_ = values[17];
-            stockNow.bp5_ = values[19];
-            stockNow.s1_ = values[20];
-            stockNow.s2_ = values[22];
-            stockNow.s3_ = values[24];
-            stockNow.s4_ = values[26];
-            stockNow.s5_ = values[28];
-            stockNow.sp1_ = values[21];
-            stockNow.sp2_ = values[23];
-            stockNow.sp3_ = values[25];
-            stockNow.sp4_ = values[27];
-            stockNow.sp5_ = values[29];
-            stockNow.time_ = values[values.length - 3] + "_" + values[values.length - 2];
-            stockMap.put(stockNow.id_, stockNow);
+            for (int i = 0; i < values.length; i++) {
+                stockNow.values[i] = values[i];
+            }
+
+            // TODO: English name for SH and SZ
+            if (stockNow.marketId_.equals("US")) {
+                stockNow.id_ = lefts[3];
+                stockNow.name_ = lefts[3];
+
+            } else if (stockNow.marketId_.equals("HK")) {
+                stockNow.id_ = market.substring(2);
+                stockNow.name_ = values[0];
+
+            } else { // ZH & SH
+                stockNow.id_ = market.substring(2);
+                stockNow.name_ = values[0];
+
+            }
+
+            stockMap.put(stockNow.id_, stockNow);           // lx -> Stock
         }
 
         return stockMap;
     }
 
+    public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this.getActivity());
+        String url = "http://hq.sinajs.cn/list=" + list;
+        //http://hq.sinajs.cn/list=sh600000,sh600536
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        System.out.println("***************************Response**************************");
+//                        System.out.println(response);
+//                        System.out.println("*****************************************************************");
+                        updateStockListView(sinaResponseToStocks(response));
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+
+        queue.add(stringRequest);
+    }
+
+    public void refreshStocks() {
+
+        String ids = "";
+        for (String id : StockIds_) {
+            ids += id;
+            ids += ",";
+        }
+
+        querySinaStocks(ids);
+
+    }
+
     public void addStock(View view) {
         Log.d("addstock", "add stock function here");
         EditText editText = (EditText) v.findViewById(R.id.editText_stockId);
-        String stockId = editText.getText().toString();
-        if(stockId.length() != 6)
-            return;
 
-        if (stockId.startsWith("6")) {
-            stockId = "sh" + stockId;
-        } else if (stockId.startsWith("0") || stockId.startsWith("3")) {
-            stockId = "sz" + stockId;
-        } else
-            return;
+        String inputID = editText.getText().toString();
 
-        MainActivity.StockIds_.add(stockId);
+        // TODO: US Market
+        if (Character.isDigit(inputID.charAt(0))) {
+
+            if (inputID.length() < 5 || inputID.length() > 6) {
+                return;
+            }
+
+            if (inputID.length() == 5) {
+                inputID = "hk" + inputID;
+            } else if (inputID.startsWith("6")) {
+                inputID = "sh" + inputID;
+            } else if (inputID.startsWith("0") || inputID.startsWith("3")) {
+                inputID = "sz" + inputID;
+            } else
+                return;
+        } else {    // US
+            inputID = "gb_" + inputID;
+        }
+
+
+        StockIds_.add(inputID);
+
+        MainActivity.StockIds_ = StockIds_;
+
+        refreshStocks();
     }
-
 
     //----------------------------------------------Followings are for search association-------------------------------------------------
 
@@ -499,124 +532,93 @@ var hq_str_sz000001="平安银行,9.170,9.190,9.060,9.180,9.050,9.060,9.070,4214
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), SearchResultActivity.class);
                 intent.putExtra("result", mSearchList.get(position));
-                System.out.println("----------------startActivity--------------");
+                //System.out.println("----------------startActivity--------------");
                 startActivity(intent);
 
             }
         });
     }
 
-    public void updateStockListView() {
-//        String stock_name = getResources().getString(R.string.stock_name);
-//        String stock_id = getResources().getString(R.string.stock_id);
-//        String stock_now = getResources().getString(R.string.stock_now);
-
-//        ListView list = (ListView) findViewById(R.id.listView);
-//
-//        ArrayList<HashMap<String, String>> stockList = new ArrayList<>();
-//        HashMap<String, String> mapTitle = new HashMap<>();
-//        mapTitle.put(stock_name, getResources().getString(R.string.stock_name_title));
-//        //mapTitle.put(stock_id, "");
-//        mapTitle.put(stock_now, getResources().getString(R.string.stock_now_title));
-//        stockList.add(mapTitle);
-//
-//        for(Stock stock : stocks)
-//        {
-//            HashMap<String, String> map = new HashMap<>();
-//            map.put(stock_name, stock.name_);
-//            String id = stock.id_.replaceAll("sh", "");
-//            id = id.replaceAll("sz", "");
-//            map.put(stock_id, id);
-//            map.put(stock_now, stock.now_);
-//            stockList.add(map);
-//        }
-//
-//        SimpleAdapter adapter = new SimpleAdapter(this,
-//                stockList,
-//                R.layout.stock_listitem,
-//                new String[] {stock_name, stock_id, stock_now},
-//                new int[] {R.id.stock_name, R.id.stock_id, R.id.stock_now});
-//        list.setAdapter(adapter);
+    public void updateStockListView(TreeMap<String, Stock> stockMap) {
 
         // Table
-        TableLayout table = (TableLayout) v.findViewById(R.id.stock_table);
+        TableLayout table = v.findViewById(R.id.stock_table);
         table.setStretchAllColumns(true);
         table.setShrinkAllColumns(true);
         table.removeAllViews();
 
         // Title
-        TableRow rowTitle = new TableRow(getActivity());
+//        TableRow rowTitle = new TableRow(getActivity());
+//
+//        TextView nameTitle = new TextView(getActivity());
+//        nameTitle.setText(getResources().getString(R.string.stock_name_title));
+//        rowTitle.addView(nameTitle);
+//
+//        TextView nowTitle = new TextView(getActivity());
+//        nowTitle.setGravity(Gravity.CENTER);
+//        nowTitle.setText(getResources().getString(R.string.stock_now_title));
+//        rowTitle.addView(nowTitle);
+//
+//        TextView percentTitle = new TextView(getActivity());
+//        percentTitle.setGravity(Gravity.CENTER);
+//        percentTitle.setText(getResources().getString(R.string.stock_increase_percent_title));
+//        rowTitle.addView(percentTitle);
+//
+//        TextView increaseTitle = new TextView(getActivity());
+//        increaseTitle.setGravity(Gravity.CENTER);
+//        increaseTitle.setText(getResources().getString(R.string.stock_increase_title));
+//        rowTitle.addView(increaseTitle);
+//
+//        table.addView(rowTitle);
 
-        TextView nameTitle = new TextView(getActivity());
-        nameTitle.setText(getResources().getString(R.string.stock_name_title));
-        rowTitle.addView(nameTitle);
+        //
 
-        TextView nowTitle = new TextView(getActivity());
-        nowTitle.setGravity(Gravity.CENTER);
-        nowTitle.setText(getResources().getString(R.string.stock_now_title));
-        rowTitle.addView(nowTitle);
+        Collection<Stock> stocks = stockMap.values();
 
-        TextView percentTitle = new TextView(getActivity());
-        percentTitle.setGravity(Gravity.CENTER);
-        percentTitle.setText(getResources().getString(R.string.stock_increase_percent_title));
-        rowTitle.addView(percentTitle);
-
-        TextView increaseTitle = new TextView(getActivity());
-        increaseTitle.setGravity(Gravity.CENTER);
-        increaseTitle.setText(getResources().getString(R.string.stock_increase_title));
-        rowTitle.addView(increaseTitle);
-
-        table.addView(rowTitle);
-
-        Collection<MainActivity.Stock> stocks = MainActivity.stockMap.values();
-
-        for (MainActivity.Stock stock : stocks) {
-            if (stock.id_.equals(ShIndex) || stock.id_.equals(SzIndex) || stock.id_.equals(ChuangIndex)) {
-                Double dNow = Double.parseDouble(stock.now_);
-                Double dYesterday = Double.parseDouble(stock.yesterday_);
-                Double dIncrease = dNow - dYesterday;
-                Double dPercent = dIncrease / dYesterday * 100;
-                String change = String.format("%.2f", dPercent) + "% " + String.format("%.2f", dIncrease);
-
-                int indexId;
-                int changeId;
-                if (stock.id_.equals(ShIndex)) {
-                    indexId = R.id.stock_sh_index;
-                    changeId = R.id.stock_sh_change;
-                } else if (stock.id_.equals(SzIndex)) {
-                    indexId = R.id.stock_sz_index;
-                    changeId = R.id.stock_sz_change;
-                } else {
-                    indexId = R.id.stock_chuang_index;
-                    changeId = R.id.stock_chuang_change;
-                }
-
-                TextView indexText = (TextView) v.findViewById(indexId);
-                indexText.setText(stock.now_);
-                int color = Color.BLACK;
-                //System.out.println("-----|" + dIncrease + "|------");
-                if (dIncrease > 0) {
-                    color = UpColor_;
-                } else if (dIncrease < 0) {
-                    color = DownColor_;
-                }
-                //System.out.println("-----|" + color + "|------");
-                indexText.setTextColor(color);
-
-                TextView changeText = (TextView) v.findViewById(changeId);
-                changeText.setText(change);
-                changeText.setTextColor(color);
-
-                continue;
-            }
+        for (Stock stock : stocks) {
+//            System.out.println("Stock stock");
+//            if (stock.id_.equals(ShIndex) || stock.id_.equals(SzIndex) || stock.id_.equals(ChuangIndex)) {
+//                Float dNow = Float.parseFloat(stock.now_);
+//                Float dYesterday = Float.parseFloat(stock.yesterday_);
+//                Float dIncrease = dNow - dYesterday;
+//                Float dPercent = dIncrease / dYesterday * 100;
+//                String change = String.format("%.2f", dPercent) + "% " + String.format("%.2f", dIncrease);
+//
+//                int indexId;
+//                int changeId;
+//                if (stock.id_.equals(ShIndex)) {
+//                    indexId = R.id.stock_sh_index;
+//                    changeId = R.id.stock_sh_change;
+//                } else if (stock.id_.equals(SzIndex)) {
+//                    indexId = R.id.stock_sz_index;
+//                    changeId = R.id.stock_sz_change;
+//                } else {
+//                    indexId = R.id.stock_chuang_index;
+//                    changeId = R.id.stock_chuang_change;
+//                }
+//
+//                TextView indexText = (TextView) v.findViewById(indexId);
+//                indexText.setText(stock.now_);
+//                int color = Color.BLACK;
+//                //System.out.println("-----|" + dIncrease + "|------");
+//                if (dIncrease > 0) {
+//                    color = UpColor_;
+//                } else if (dIncrease < 0) {
+//                    color = DownColor_;
+//                }
+//                //System.out.println("-----|" + color + "|------");
+//                indexText.setTextColor(color);
+//
+//                TextView changeText = (TextView) v.findViewById(changeId);
+//                changeText.setText(change);
+//                changeText.setTextColor(color);
+//
+//                continue;
+//            }
 
             TableRow row = new TableRow(getActivity());
             row.setMinimumHeight(200); //////////////////////////////////////////////
             row.setGravity(Gravity.CENTER_VERTICAL);
-            //int color = R.color.colorSelected;
-            if (MainActivity.SelectedStockItems_.contains(stock.id_)) {
-                row.setBackgroundColor(HighlightColor_);
-            }
 
             LinearLayout nameId = new LinearLayout(getActivity());
             nameId.setOrientation(LinearLayout.VERTICAL);
@@ -627,54 +629,34 @@ var hq_str_sz000001="平安银行,9.170,9.190,9.060,9.180,9.050,9.060,9.070,4214
 
             TextView id = new TextView(getActivity());
             id.setTextSize(15);
-            id.setText(stock.id_);
+            String id_market = stock.id_ + "." + stock.marketId_;
+            id.setText(id_market);
             nameId.addView(id);
 
             row.addView(nameId);
 
             TextView now = new TextView(getActivity());
             now.setGravity(Gravity.RIGHT);
-            now.setText(stock.now_);
+            now.setText(stock.getCurrentPrice_());
             row.addView(now);
 
             TextView percent = new TextView(getActivity());
             percent.setGravity(Gravity.RIGHT);
             TextView increaseValue = new TextView(getActivity());
             increaseValue.setGravity(Gravity.RIGHT);
-            Double dOpen = Double.parseDouble(stock.open_);
-            Double dB1 = Double.parseDouble(stock.bp1_);
-            Double dS1 = Double.parseDouble(stock.sp1_);
 
-            if (dOpen == 0 && dB1 == 0 && dS1 == 0) {
-                percent.setText("--");
-                increaseValue.setText("--");
+            percent.setText(stock.getChangePercent() + "%");
+            increaseValue.setText("--");
+            int color = Color.BLACK;
+            if (stock.getChangePercent().charAt(0) == '-') {
+                color = MainActivity.DownColor_;
             } else {
-                Double dNow = Double.parseDouble(stock.now_);
-                if (dNow == 0) {// before open
-                    if (dS1 == 0) {
-                        dNow = dB1;
-                        now.setText(stock.bp1_);
-                    } else {
-                        dNow = dS1;
-                        now.setText(stock.sp1_);
-                    }
-                }
-                Double dYesterday = Double.parseDouble(stock.yesterday_);
-                Double dIncrease = dNow - dYesterday;
-                Double dPercent = dIncrease / dYesterday * 100;
-                percent.setText(String.format("%.2f", dPercent) + "%");
-                increaseValue.setText(String.format("%.2f", dIncrease));
-                int color = Color.BLACK;
-                if (dIncrease > 0) {
-                    color = UpColor_;
-                } else if (dIncrease < 0) {
-                    color = DownColor_;
-                }
-
-                now.setTextColor(color);
-                percent.setTextColor(color);
-                increaseValue.setTextColor(color);
+                color = MainActivity.UpColor_;
             }
+
+            now.setTextColor(color);
+            percent.setTextColor(color);
+            increaseValue.setTextColor(color);
 
             row.addView(percent);
             row.addView(increaseValue);
@@ -684,19 +666,17 @@ var hq_str_sz000001="平安银行,9.170,9.190,9.060,9.180,9.050,9.060,9.070,4214
                     ViewGroup group = (ViewGroup) v;
                     ViewGroup nameId = (ViewGroup) group.getChildAt(0);
                     TextView idText = (TextView) nameId.getChildAt(1);
-                    //System.out.println("-----\n" + idText.getText().toString() + "\n-------");
-                    if (MainActivity.SelectedStockItems_.contains(idText.getText().toString())) {
-                        v.setBackgroundColor(BackgroundColor_);
-                        MainActivity.SelectedStockItems_.remove(idText.getText().toString());
-                    } else {
-                        v.setBackgroundColor(HighlightColor_);
-                        MainActivity.SelectedStockItems_.add(idText.getText().toString());
-                    }
+                    String stockID_Market = idText.getText().toString();
+
+                    Intent intent = new Intent(getActivity(), EachStockActivity.class);
+                    intent.putExtra(EXTRA_MESSAGE, stockID_Market);
+                    startActivity(intent);
+
+                    System.out.println("-----\n" + idText.getText().toString() + "\n-------");
                 }
             });
 
             table.addView(row);
-            //table.setMinimumHeight(60);
         }
     }
 }

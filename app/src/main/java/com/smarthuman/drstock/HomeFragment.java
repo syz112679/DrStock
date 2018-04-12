@@ -82,81 +82,81 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         return v;
     }
 
-    public void updateThreeIndex() {
-//        String stock_name = getResources().getString(R.string.stock_name);
-//        String stock_id = getResources().getString(R.string.stock_id);
-//        String stock_now = getResources().getString(R.string.stock_now);
-
-//        ListView list = (ListView) findViewById(R.id.listView);
+//    public void updateThreeIndex() {
+////        String stock_name = getResources().getString(R.string.stock_name);
+////        String stock_id = getResources().getString(R.string.stock_id);
+////        String stock_now = getResources().getString(R.string.stock_now);
 //
-//        ArrayList<HashMap<String, String>> stockList = new ArrayList<>();
-//        HashMap<String, String> mapTitle = new HashMap<>();
-//        mapTitle.put(stock_name, getResources().getString(R.string.stock_name_title));
-//        //mapTitle.put(stock_id, "");
-//        mapTitle.put(stock_now, getResources().getString(R.string.stock_now_title));
-//        stockList.add(mapTitle);
+////        ListView list = (ListView) findViewById(R.id.listView);
+////
+////        ArrayList<HashMap<String, String>> stockList = new ArrayList<>();
+////        HashMap<String, String> mapTitle = new HashMap<>();
+////        mapTitle.put(stock_name, getResources().getString(R.string.stock_name_title));
+////        //mapTitle.put(stock_id, "");
+////        mapTitle.put(stock_now, getResources().getString(R.string.stock_now_title));
+////        stockList.add(mapTitle);
+////
+////        for(Stock stock : stocks)
+////        {
+////            HashMap<String, String> map = new HashMap<>();
+////            map.put(stock_name, stock.name_);
+////            String id = stock.id_.replaceAll("sh", "");
+////            id = id.replaceAll("sz", "");
+////            map.put(stock_id, id);
+////            map.put(stock_now, stock.now_);
+////            stockList.add(map);
+////        }
+////
+////        SimpleAdapter adapter = new SimpleAdapter(this,
+////                stockList,
+////                R.layout.stock_listitem,
+////                new String[] {stock_name, stock_id, stock_now},
+////                new int[] {R.id.stock_name, R.id.stock_id, R.id.stock_now});
+////        list.setAdapter(adapter);
 //
-//        for(Stock stock : stocks)
-//        {
-//            HashMap<String, String> map = new HashMap<>();
-//            map.put(stock_name, stock.name_);
-//            String id = stock.id_.replaceAll("sh", "");
-//            id = id.replaceAll("sz", "");
-//            map.put(stock_id, id);
-//            map.put(stock_now, stock.now_);
-//            stockList.add(map);
+//        Collection<MainActivity.Stock> stocks = MainActivity.stockMap.values();
+//
+//        for (MainActivity.Stock stock : stocks) {
+//
+//            if (stock.id_.equals(ShIndex) || stock.id_.equals(SzIndex) || stock.id_.equals(ChuangIndex)) {
+//                Double dNow = Double.parseDouble(stock.now_);
+//                Double dYesterday = Double.parseDouble(stock.yesterday_);
+//                Double dIncrease = dNow - dYesterday;
+//                Double dPercent = dIncrease / dYesterday * 100;
+//                String change = String.format("%.2f", dPercent) + "% " + String.format("%.2f", dIncrease);
+//
+//                int indexId;
+//                int changeId;
+//                if (stock.id_.equals(ShIndex)) {
+//                    indexId = R.id.sh_index;
+//                    changeId = R.id.sh_change;
+//                } else if (stock.id_.equals(SzIndex)) {
+//                    indexId = R.id.sz_index;
+//                    changeId = R.id.sz_change;
+//                } else {
+//                    indexId = R.id.chuang_index;
+//                    changeId = R.id.chuang_change;
+//                }
+//
+//                TextView indexText = (TextView) v.findViewById(indexId);
+//                indexText.setText(stock.now_);
+//                int color = Color.BLACK;
+//                //System.out.println("-----|" + dIncrease + "|------");
+//                if (dIncrease > 0) {
+//                    color = UpColor_;
+//                } else if (dIncrease < 0) {
+//                    color = DownColor_;
+//                }
+//                //System.out.println("-----|" + color + "|------");
+//                indexText.setTextColor(color);
+//
+//                TextView changeText = (TextView) v.findViewById(changeId);
+//                changeText.setText(change);
+//                changeText.setTextColor(color);
+//
+//                continue;
+//            }
 //        }
-//
-//        SimpleAdapter adapter = new SimpleAdapter(this,
-//                stockList,
-//                R.layout.stock_listitem,
-//                new String[] {stock_name, stock_id, stock_now},
-//                new int[] {R.id.stock_name, R.id.stock_id, R.id.stock_now});
-//        list.setAdapter(adapter);
-
-        Collection<MainActivity.Stock> stocks = MainActivity.stockMap.values();
-
-        for (MainActivity.Stock stock : stocks) {
-
-            if (stock.id_.equals(ShIndex) || stock.id_.equals(SzIndex) || stock.id_.equals(ChuangIndex)) {
-                Double dNow = Double.parseDouble(stock.now_);
-                Double dYesterday = Double.parseDouble(stock.yesterday_);
-                Double dIncrease = dNow - dYesterday;
-                Double dPercent = dIncrease / dYesterday * 100;
-                String change = String.format("%.2f", dPercent) + "% " + String.format("%.2f", dIncrease);
-
-                int indexId;
-                int changeId;
-                if (stock.id_.equals(ShIndex)) {
-                    indexId = R.id.sh_index;
-                    changeId = R.id.sh_change;
-                } else if (stock.id_.equals(SzIndex)) {
-                    indexId = R.id.sz_index;
-                    changeId = R.id.sz_change;
-                } else {
-                    indexId = R.id.chuang_index;
-                    changeId = R.id.chuang_change;
-                }
-
-                TextView indexText = (TextView) v.findViewById(indexId);
-                indexText.setText(stock.now_);
-                int color = Color.BLACK;
-                //System.out.println("-----|" + dIncrease + "|------");
-                if (dIncrease > 0) {
-                    color = UpColor_;
-                } else if (dIncrease < 0) {
-                    color = DownColor_;
-                }
-                //System.out.println("-----|" + color + "|------");
-                indexText.setTextColor(color);
-
-                TextView changeText = (TextView) v.findViewById(changeId);
-                changeText.setText(change);
-                changeText.setTextColor(color);
-
-                continue;
-            }
-        }
-    }
+//    }
 
 }

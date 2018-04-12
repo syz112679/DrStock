@@ -11,6 +11,8 @@ public class Stock {
     public String id_;              // 02318
     public String name_;            // PING AN
 
+
+
     public int size_ = 33;
     public String[] values = new String[size_];
 
