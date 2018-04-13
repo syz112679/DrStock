@@ -65,4 +65,13 @@
     <string name="volume">Volume</string>
     <string name="turnover">Turnover</string> // cheng jiao jin e
 
+    <string name="bidPanel">Bid Queue</string>
+    <string name="sellPanel">Sell Queue</string>
+    <string name="bid1">Bid 1</string>
+    <string name="sell1">Sell 1</string>
+
+    <string name="text_back">Back</string>
+    <string name="text_forward">Forward</string>
+
+
 </resources>

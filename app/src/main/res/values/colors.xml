@@ -7,7 +7,7 @@
     <color name="myWhite">#ffffff</color>
     <color name="myGrey">#8e9eab</color>
 
-    <!--gudatui-->
+    <!--Samuel_GU-->
 
     <color name="yellow">#f1c40f</color>
     <color name="white">#FFFFFF</color>
@@ -17,6 +17,10 @@
     <color name="light_green">#50d050</color>
     <color name="dark_green">#008000</color>
 
+    <color name="titleBarDemo">#ed4255</color>
+    <!-- 标题栏按钮背景颜色 -->
+    <drawable name="button_backward_pressed">#FF3030</drawable>
+    <drawable name="button_backward_normal">#0000</drawable>
 
     <!--hanhantui-->
 

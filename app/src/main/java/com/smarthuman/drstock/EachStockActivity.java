@@ -1,15 +1,11 @@
 package com.smarthuman.drstock;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
@@ -19,20 +15,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.smarthuman.drstock.R;
-
-import java.util.TreeMap;
 
 /**
  * Created by shiyuzhou on 5/4/2018.
  */
 
-public class EachStockActivity extends AppCompatActivity implements View.OnClickListener  {
+public class EachStockActivity extends TitleActivity {
 
     public static String stockId_Market;
     public static Stock myStock;
 
     private Button addButton;
+    private Button backButton, forwardButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,8 +35,14 @@ public class EachStockActivity extends AppCompatActivity implements View.OnClick
 
 
         // START: update the data of TextViews [Samuel_GU]
+//        setTitle("Each Stock");
+//        setTitleBackground(R.color.titleBarDemo);
+//        setTitleBackground(MainActivity.UpColor_);
 
-        setGridLayout();
+        showBackwardView(R.string.text_back, true);
+        showForwardView(R.string.text_forward, true);
+
+//        setGridLayout();
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
@@ -57,9 +57,6 @@ public class EachStockActivity extends AppCompatActivity implements View.OnClick
 
         // END: update the data of TextViews [Samuel_GU]
 
-
-
-
     }
 
 
@@ -68,6 +65,8 @@ public class EachStockActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
+
         switch (v.getId()) {
             case R.id.add_to_favorite:
                 Log.d("addstock", "here");
@@ -143,12 +142,15 @@ public class EachStockActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void updateContent() {
-        Log.d("updatecontent", "function called");
-        TextView id_Market = findViewById(R.id.stock_id);
-        id_Market.setText(myStock.getId_Market());
+//        Log.d("updatecontent", "function called");
 
-        TextView stockName = findViewById(R.id.stock_company_name);
-        stockName.setText(myStock.name_);
+        setTitle(myStock.name_ + " (" + myStock.getId_Market() + ")");
+
+        TextView id_Market = findViewById(R.id.eachstock_date);
+        id_Market.setText(myStock.getDate());
+
+        TextView stockName = findViewById(R.id.eachstock_time);
+        stockName.setText(myStock.getTime());
 
         TextView currentPrice = findViewById(R.id.eachstock_price);
         currentPrice.setText(myStock.getCurrentPrice_());

@@ -18,6 +18,7 @@ public class Stock {
     public String[] values = new String[size_];
 
     public Stock(String inputStock) {
+        inputStock = inputStock.replaceAll(";", "");
         String[] leftRight = inputStock.split("=");
         if (leftRight.length < 2)
             return;
@@ -126,6 +127,28 @@ public class Stock {
                 return "HKD";
             default:
                 return "CNY";
+        }
+    }
+
+    public String getDate() {
+        switch (marketId_) {
+            case "US":
+                return values[3].split(" ")[0];
+            case "HK":
+                return values[17];
+            default:
+                return values[30];
+        }
+    }
+
+    public String getTime() {
+        switch (marketId_) {
+            case "US":
+                return values[3].split(" ")[1];
+            case "HK":
+                return values[18];
+            default:
+                return values[31];
         }
     }
 

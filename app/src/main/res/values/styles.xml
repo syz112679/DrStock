@@ -6,6 +6,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:editTextStyle">@style/EditTextStyle</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
+
     </style>
 
     <style name="EditTextStyle" parent="Widget.AppCompat.EditText"/>
