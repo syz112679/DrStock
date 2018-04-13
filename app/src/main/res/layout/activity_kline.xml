@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lchart"
+    <com.github.mikephil.charting.charts.CombinedChart
+        android:id="@+id/kline_chart"
         android:layout_width="match_parent"
         android:layout_height="400sp" />
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/bchart"
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/RSI_chart"
         android:layout_width="match_parent"
         android:layout_height="200sp" />
 

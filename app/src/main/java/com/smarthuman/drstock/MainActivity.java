@@ -126,8 +126,8 @@ public class MainActivity extends AppCompatActivity
         //--------------------------------------------------------------------------------------------------
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        String idsStr = sharedPref.getString(StockIdsKey_, null);
-        String histories = sharedPref.getString(searchHistoryKey_, null);
+        String idsStr = sharedPref.getString(StockIdsKey_, "");
+        String histories = sharedPref.getString(searchHistoryKey_, "");
 
         String[] ids = idsStr.split(",");
         StockIds_.clear();

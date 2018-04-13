@@ -27,10 +27,10 @@
     <color name="common_divider">#303341</color>
     <color name="common_transparent">#00000000</color>
 
-    <color name="bg_yellow">#ffe100</color>
+    <color name="bg_yellow">#FFE100</color>
     <color name="home_tab_bg">#262733</color>
     <color name="home_tab_text">#194B70</color>
-    <color name="home_page_bg">#1E1E26</color>
+    <color name="home_page_bg">#FFFFFF</color>
     <color name="transparent_black">#40000000</color>
     <color name="transparent_black2">#80000000</color>
 
@@ -45,11 +45,11 @@
     <!--辅助文字色，用于稍微弱些的文字表现。info_tab_unselect改名为text_grey_light-->
     <color name="text_grey_light">#A7ADBC</color>
 
-    <color name="text_red">#FC0544</color>
-    <color name="text_green">#51FFB9</color>
+    <color name="text_red">#FF0000</color>
+    <color name="text_green">#00d300</color>
     <color name="text_grey">#5E5E6A</color>
     <color name="text_blue">#118CDE</color>
-    <color name="text_orange">#fcae05</color>
+    <color name="text_orange">#FCAE05</color>
 
     <color name="btn_blue">#118CDE</color>
     <color name="btn_blue_pressed">#0070BB</color>
@@ -60,4 +60,9 @@
     <color name="ma5">#823E66</color>
     <color name="ma10">#B99C7A</color>
     <color name="ma20">#3C7193</color>
+
+    <color name="line_chart_color">#ff9a7a</color>
+
+    <color name="marker_bg">#1C232E</color>
+
 </resources>

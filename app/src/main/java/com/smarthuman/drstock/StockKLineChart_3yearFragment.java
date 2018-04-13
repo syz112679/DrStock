@@ -2,12 +2,14 @@ package com.smarthuman.drstock;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.widget.Button;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,14 +32,16 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChartActivity extends AppCompatActivity {
+/**
+ * Created by Li Shuhan on 2018/4/12.
+ */
+
+public class StockKLineChart_3yearFragment extends android.support.v4.app.Fragment {
     private String TAG = "qqq";
     private CombinedChart mChart;
-    private Button btn;
     private int itemcount;
     private LineData lineData;
     private CandleData candleData;
@@ -51,28 +55,29 @@ public class ChartActivity extends AppCompatActivity {
     private int colorMa10;
     private int colorMa20;
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-        }
-    };
-
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_combine);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_kline, container, false);
 
-        mChart = (CombinedChart) findViewById(R.id.chart);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=L555O39L1KYEB8IL",
+        //setContentView(R.layout.activity_kline);
+
+        mChart = (CombinedChart) view.findViewById(R.id.kline_chart);
+        //http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt
+        //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://money18.on.cc/chartdata/full/price/00700_price_full.txt",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         //System.out.println("-----Main setdata-----:"+response);
                         Model.setData(response);
+
                         initChart();
+
                         loadChartData();
+
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -80,15 +85,11 @@ public class ChartActivity extends AppCompatActivity {
                 Log.e("TAG", error.getMessage(), error);
             }
         });
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
         mQueue.add(stringRequest);
 
-
-//        initChart();
-//        loadChartData();
+        return view;
     }
-
-
 
     private void initChart() {
         colorHomeBg = getResources().getColor(R.color.home_page_bg);
@@ -128,23 +129,23 @@ public class ChartActivity extends AppCompatActivity {
         rightAxis.setEnabled(false);
 
         int[] colors = {colorMa5, colorMa10, colorMa20};
-        String[] labels = {"MA5", "MA10", "MA20"};
+        String[] labels = {"MA10", "MA20", "MA50"};
         Legend legend = mChart.getLegend();
         legend.setCustom(colors, labels);
         legend.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
-        legend.setTextColor(Color.WHITE);
+        legend.setTextColor(Color.BLACK);
 
         mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry entry, int i, Highlight highlight) {
-                CandleEntry candleEntry = (CandleEntry) entry;
-                float change = (candleEntry.getClose() - candleEntry.getOpen()) / candleEntry.getOpen();
-                NumberFormat nf = NumberFormat.getPercentInstance();
-                nf.setMaximumFractionDigits(2);
-                String changePercentage = nf.format(Double.valueOf(String.valueOf(change)));
-                Log.d("qqq", "最高" + candleEntry.getHigh() + " 最低" + candleEntry.getLow() +
-                        " 开盘" + candleEntry.getOpen() + " 收盘" + candleEntry.getClose() +
-                        " 涨跌幅" + changePercentage);
+//                CandleEntry candleEntry = (CandleEntry) entry;
+//                float change = (candleEntry.getClose() - candleEntry.getOpen()) / candleEntry.getOpen();
+//                NumberFormat nf = NumberFormat.getPercentInstance();
+//                nf.setMaximumFractionDigits(2);
+//                String changePercentage = nf.format(Double.valueOf(String.valueOf(change)));
+//                Log.d("qqq", "最高" + candleEntry.getHigh() + " 最低" + candleEntry.getLow() +
+//                        " 开盘" + candleEntry.getOpen() + " 收盘" + candleEntry.getClose() +
+//                        " 涨跌幅" + changePercentage);
             }
 
             @Override
@@ -158,14 +159,14 @@ public class ChartActivity extends AppCompatActivity {
     private void loadChartData() {
         mChart.resetTracking();
 
-        candleEntries = Model.getCandleEntries();
+        candleEntries = Model.getCandleEntries_3year();
 
         itemcount = candleEntries.size();
         System.out.println("----itemcount : "+itemcount);
         //List<StockListBean.eachTime> stockBeans = Model.getData();
         List<String> DateInfo = Model.getDate();
         xVals = new ArrayList<>();
-        for (int i = itemcount-1; i >=0; i--) {
+        for (int i = 0; i < itemcount; i++) {
             xVals.add(DateInfo.get(i));
         }
 
@@ -175,28 +176,19 @@ public class ChartActivity extends AppCompatActivity {
         candleData = generateCandleData();
         combinedData.setData(candleData);
 
-//        /*ma5*/
-//        ArrayList<Entry> ma5Entries = new ArrayList<Entry>();
-//        for (int index = 0; index < itemcount; index++) {
-//            ma5Entries.add(new Entry(stockBeans.get(index).getMa5(), index));
-//        }
-//        /*ma10*/
-//        ArrayList<Entry> ma10Entries = new ArrayList<Entry>();
-//        for (int index = 0; index < itemcount; index++) {
-//            ma10Entries.add(new Entry(stockBeans.get(index).getMa10(), index));
-//        }
-//        /*ma20*/
-//        ArrayList<Entry> ma20Entries = new ArrayList<Entry>();
-//        for (int index = 0; index < itemcount; index++) {
-//            ma20Entries.add(new Entry(stockBeans.get(index).getMa20(), index));
-//        }
+        /*ma10*/
+        List<Entry> ma10Entries = Model.getMa10Entries_3year();
+        /*ma20*/
+        List<Entry> ma20Entries = Model.getMa20Entries_3year();
+        /*ma50*/
+        List<Entry> ma50Entries = Model.getMa50Entries_3year();
 
-//        lineData = generateMultiLineData(
-//                generateLineDataSet(ma5Entries, colorMa5, "ma5"),
-//                generateLineDataSet(ma10Entries, colorMa10, "ma10"),
-//                generateLineDataSet(ma20Entries, colorMa20, "ma20"));
+        lineData = generateMultiLineData(
+                generateLineDataSet(ma10Entries, colorMa5, "ma10"),
+                generateLineDataSet(ma20Entries, colorMa10, "ma20"),
+                generateLineDataSet(ma50Entries, colorMa20, "ma50"));
 
-        //combinedData.setData(lineData);
+        combinedData.setData(lineData);
         mChart.setData(combinedData);//当前屏幕会显示所有的数据
         mChart.invalidate();
     }
@@ -205,12 +197,18 @@ public class ChartActivity extends AppCompatActivity {
         LineDataSet set = new LineDataSet(entries, label);
         set.setColor(color);
         set.setLineWidth(1f);
-        set.setDrawCubic(true);//圆滑曲线
+        //set.setDrawCubic(true);//圆滑曲线
+        set.setHighlightEnabled(true);
+        set.setDrawHighlightIndicators(true);
+        set.setHighLightColor(Color.BLACK);
+        set.setLineWidth(2);
         set.setDrawCircles(false);
         set.setDrawCircleHole(false);
         set.setDrawValues(false);
-        set.setHighlightEnabled(false);
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set.setDrawFilled(true);
+        Drawable drawable = ContextCompat.getDrawable(this.getActivity(), R.drawable.fade_red);
+        set.setFillDrawable(drawable);
 
         return set;
     }
@@ -251,4 +249,5 @@ public class ChartActivity extends AppCompatActivity {
 
         return candleData;
     }
+
 }

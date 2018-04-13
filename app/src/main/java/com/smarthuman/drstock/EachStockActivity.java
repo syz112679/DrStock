@@ -39,6 +39,9 @@ public class EachStockActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_eachstock);
 
+
+        // START: update the data of TextViews [Samuel_GU]
+
         setGridLayout();
 
         // Get the Intent that started this activity and extract the string
@@ -52,7 +55,16 @@ public class EachStockActivity extends AppCompatActivity implements View.OnClick
 
         querySinaStocks(getEnqueryId(stockId_Market));
 
+        // END: update the data of TextViews [Samuel_GU]
+
+
+
+
     }
+
+
+
+    // START: update the data of TextViews [Samuel_GU]
 
     @Override
     public void onClick(View v) {
@@ -160,4 +172,10 @@ public class EachStockActivity extends AppCompatActivity implements View.OnClick
             changePercent.setTextColor(MainActivity.DownColor_);
         }
     }
+
+    // END: update the data of TextViews [Samuel_GU]
+
+
+
+
 }

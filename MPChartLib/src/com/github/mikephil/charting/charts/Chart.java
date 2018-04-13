@@ -670,9 +670,9 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
             int xIndex = highlight.getXIndex();
             int dataSetIndex = highlight.getDataSetIndex();
 
-            float deltaX = mXAxis != null 
-                ? mXAxis.mAxisRange
-                : ((mData == null ? 0.f : mData.getXValCount()) - 1.f);
+            float deltaX = mXAxis != null
+                    ? mXAxis.mAxisRange
+                    : ((mData == null ? 0.f : mData.getXValCount()) - 1.f);
 
             if (xIndex <= deltaX && xIndex <= deltaX * mAnimator.getPhaseX()) {
 
@@ -956,6 +956,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     public void setOnChartValueSelectedListener(OnChartValueSelectedListener l) {
         this.mSelectionListener = l;
     }
+
 
     /**
      * Sets a gesture-listener for the chart for custom callbacks when executing
