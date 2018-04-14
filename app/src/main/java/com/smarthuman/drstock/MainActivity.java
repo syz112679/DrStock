@@ -223,12 +223,7 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("setViewPager", "called:" + index);
         mViewPager.setCurrentItem(index);
-        if(index==1) {
-            StockFragment frag1 = (StockFragment)mViewPager
-                    .getAdapter()
-                    .instantiateItem(mViewPager, mViewPager.getCurrentItem());
-//            frag1.refreshStocks();
-        }
+
     }
 
     @Override
