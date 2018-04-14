@@ -44,6 +44,7 @@ public class SettingActivity extends TitleActivity{
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (buttonView.isChecked()) {
+
                     MainActivity.UpColor_ = R.color.green;
                     MainActivity.DownColor_ = R.color.red;
                 } else {

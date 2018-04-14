@@ -17,7 +17,10 @@ public class RefreshActivity extends TitleActivity {
     private TableLayout tableLayout_mobile, tableLayout_wifi;
 //    private TableRow[] tableRows_mobile = new TableRow[3];
 //    private TableRow[] tableRows_wifi = new TableRow[];
-//    private
+    private TableRow selectedMobileRow, newMobileRow;
+    private TableRow selectedWifiRow, newWifiRow;
+
+    private final int index_imageView = 2;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,10 @@ public class RefreshActivity extends TitleActivity {
         setTitle(R.string.refreshActivity);
         showBackwardView(R.string.text_back, true);
 
+        initialize();
+    }
+
+    void initialize() {
         tableLayout_mobile = findViewById(R.id.TableLayout_mobile);
         tableLayout_wifi = findViewById(R.id.TableLayout_wifi);
         for (int i = 1; i < tableLayout_mobile.getChildCount(); i++) {
@@ -38,6 +45,37 @@ public class RefreshActivity extends TitleActivity {
 //            tableRows_wifi[i-1].setOnClickListener(this);
             tableLayout_wifi.getChildAt(i).setOnClickListener(this);
         }
+
+        if (MainActivity.enableMobileRefresh) {
+            switch (MainActivity.mobileRefreshTime) {
+                case 5:
+                    selectedMobileRow = (TableRow) tableLayout_mobile.getChildAt(2);
+                    break;
+                case 15:
+                    selectedMobileRow = (TableRow) tableLayout_mobile.getChildAt(3);
+                    break;
+                case 30:
+                    selectedMobileRow = (TableRow) tableLayout_mobile.getChildAt(4);
+                    break;
+                case 60:
+                    selectedMobileRow = (TableRow) tableLayout_mobile.getChildAt(5);
+                    break;
+            }
+        } else {
+            selectedMobileRow = (TableRow) tableLayout_mobile.getChildAt(1);
+        }
+        selectedMobileRow.getChildAt(index_imageView).setVisibility(View.VISIBLE);
+
+        if (MainActivity.enableWifiRefresh) {
+            switch (MainActivity.wifiRefreshTime) {
+                case 5:
+                    selectedWifiRow = (TableRow) tableLayout_wifi.getChildAt(2);
+                    break;
+            }
+        } else {
+            selectedWifiRow = (TableRow) tableLayout_wifi.getChildAt(1);
+        }
+        selectedWifiRow.getChildAt(index_imageView).setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -47,42 +85,63 @@ public class RefreshActivity extends TitleActivity {
         switch (v.getId()) {
             case R.id.mobile_noRefresh:
                 MainActivity.enableMobileRefresh = false;
+                newMobileRow = (TableRow) tableLayout_mobile.getChildAt(1);
                 Toast.makeText(this, "enableMobileRefresh = false", Toast.LENGTH_LONG).show();
                 break;
             case R.id.mobile_5s:
                 MainActivity.enableMobileRefresh = true;
                 MainActivity.mobileRefreshTime = 5;
+                newMobileRow = (TableRow) tableLayout_mobile.getChildAt(2);
                 Toast.makeText(this, "mobileRefreshTime = 5", Toast.LENGTH_LONG).show();
                 break;
             case R.id.mobile_15s:
                 MainActivity.enableMobileRefresh = true;
                 MainActivity.mobileRefreshTime = 15;
+                newMobileRow = (TableRow) tableLayout_mobile.getChildAt(3);
                 Toast.makeText(this, "mobileRefreshTime = 15", Toast.LENGTH_LONG).show();
-
                 break;
             case R.id.mobile_30s:
                 MainActivity.enableMobileRefresh = true;
                 MainActivity.mobileRefreshTime = 30;
+                newMobileRow = (TableRow) tableLayout_mobile.getChildAt(4);
                 Toast.makeText(this, "mobileRefreshTime = 30", Toast.LENGTH_LONG).show();
-
                 break;
             case R.id.mobile_60s:
                 MainActivity.enableMobileRefresh = true;
                 MainActivity.mobileRefreshTime = 60;
+                newMobileRow = (TableRow) tableLayout_mobile.getChildAt(5);
                 Toast.makeText(this, "mobileRefreshTime = 60", Toast.LENGTH_LONG).show();
-
                 break;
             case R.id.wifi_noRefresh:
                 MainActivity.enableWifiRefresh = false;
+                newWifiRow = (TableRow) tableLayout_wifi.getChildAt(1);
                 Toast.makeText(this, "enableWifiRefresh = false", Toast.LENGTH_LONG).show();
-
                 break;
             case R.id.wifi_5s:
                 MainActivity.enableWifiRefresh = true;
                 MainActivity.wifiRefreshTime = 5;
+                newWifiRow = (TableRow) tableLayout_wifi.getChildAt(2);
                 Toast.makeText(this, "wifiRefreshTime = 5", Toast.LENGTH_LONG).show();
-
                 break;
         }
+
+        if (newMobileRow != null) {
+            if (newMobileRow != selectedMobileRow) {
+                selectedMobileRow.getChildAt(index_imageView).setVisibility(View.INVISIBLE);
+                newMobileRow.getChildAt(index_imageView).setVisibility(View.VISIBLE);
+                selectedMobileRow = newMobileRow;
+            }
+            newMobileRow = null;
+        }
+
+        if (newWifiRow != null) {
+            if (newWifiRow != selectedWifiRow) {
+                selectedWifiRow.getChildAt(index_imageView).setVisibility(View.INVISIBLE);
+                newWifiRow.getChildAt(index_imageView).setVisibility(View.VISIBLE);
+                selectedWifiRow = newWifiRow;
+            }
+            newWifiRow = null;
+        }
+
     }
 }

@@ -76,7 +76,7 @@
                 android:id="@+id/imageView_mobile_15s"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="invisible"
                 app:srcCompat="@drawable/ic_check_black_24dp" />
 
         </TableRow>
@@ -171,7 +171,7 @@
                 android:id="@+id/imageView_wifi_5s"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="invisible"
                 app:srcCompat="@drawable/ic_check_black_24dp" />
 
         </TableRow>
