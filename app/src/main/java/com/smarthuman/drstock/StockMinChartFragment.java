@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -74,32 +75,37 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.activity_combine, container, false);
 
         //setContentView(R.layout.activity_kline);
+        Stock stock = ((EachStockActivity) getActivity()).myStock;
+        if (stock.marketId_.equals("HK")) {
+            String money18url = "http://money18.on.cc/chartdata/d1/price/" + stock.id_ + "_price_d1.txt";
+            Log.d("url", "url is "+money18url);
+            mChart = (CombinedChart) view.findViewById(R.id.kline_chart);      //http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt
+            lineChart = (LineChart) view.findViewById(R.id.lchart);       //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
+            barChart = (BarChart) view.findViewById(R.id.bchart);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, money18url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            //System.out.println("-----Main setdata-----:"+response);
+                            Model.setDataF(response);
 
-        mChart = (CombinedChart) view.findViewById(R.id.kline_chart);      //http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt
-        lineChart = (LineChart) view.findViewById(R.id.lchart);       //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
-        barChart = (BarChart) view.findViewById(R.id.bchart);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //System.out.println("-----Main setdata-----:"+response);
-                        Model.setData(response);
+                            initChartF();
 
-                        initChartF();
-
-                        loadChartDataF();
+                            loadChartDataF();
 
 
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
-            }
-        });
-        RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
-        mQueue.add(stringRequest);
-
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("TAG", error.getMessage(), error);
+                }
+            });
+            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
+            mQueue.add(stringRequest);
+        } else{
+            Toast.makeText(getContext(),"Sorry, you can only see HK stock's graph.",Toast.LENGTH_LONG).show();
+        }
         return view;
     }
 

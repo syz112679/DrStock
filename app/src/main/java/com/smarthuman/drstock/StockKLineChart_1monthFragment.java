@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -65,32 +66,38 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
 
         //setContentView(R.layout.activity_kline);
 
-        mChart = (CombinedChart) view.findViewById(R.id.kline_chart);
+
         //http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt
         //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
+        Stock stock = ((EachStockActivity) getActivity()).myStock;
+        if (stock.marketId_.equals("HK")) {
+            String money18url = "http://money18.on.cc/chartdata/full/price/" + stock.id_ + "_price_full.txt";
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://money18.on.cc/chartdata/full/price/00700_price_full.txt",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //System.out.println("-----Main setdata-----:"+response);
-                        Model.setData(response);
+            mChart = (CombinedChart) view.findViewById(R.id.kline_chart);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, money18url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            //System.out.println("-----Main setdata-----:"+response);
+                            Model.setData(response);
 
-                        initChart();
+                            initChart();
 
-                        loadChartData();
+                            loadChartData();
 
 
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", error.getMessage(), error);
-            }
-        });
-        RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
-        mQueue.add(stringRequest);
-
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("TAG", error.getMessage(), error);
+                }
+            });
+            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
+            mQueue.add(stringRequest);
+        } else{
+            Toast.makeText(getContext(),"Sorry, you can only see HK stock's graph.",Toast.LENGTH_LONG).show();
+        }
         return view;
     }
 

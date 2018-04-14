@@ -2,6 +2,9 @@ package com.smarthuman.drstock;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
+
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,11 +31,13 @@ public class EachStockActivity extends TitleActivity {
     private Button addButton;
     private Button backButton, forwardButton;
 
+    public ViewPager mViewPager;
+    public ChartPagerAdapter mAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_eachstock);
-
 
         // START: update the data of TextViews [Samuel_GU]
 //        setTitle("Each Stock");
@@ -47,13 +52,17 @@ public class EachStockActivity extends TitleActivity {
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         stockId_Market = intent.getStringExtra(StockFragment.EXTRA_MESSAGE);
+        querySinaStocks(getEnqueryId(stockId_Market));
 
         System.out.println("stockId_Market: " + stockId_Market);
 
         addButton = findViewById(R.id.add_to_favorite);
         addButton.setOnClickListener(this);
 
-        querySinaStocks(getEnqueryId(stockId_Market));
+
+        mAdapter = new ChartPagerAdapter(getSupportFragmentManager());
+
+        mViewPager = (ViewPager) findViewById(R.id.chartviewpager);
 
         // END: update the data of TextViews [Samuel_GU]
 
@@ -98,16 +107,6 @@ public class EachStockActivity extends TitleActivity {
         }
     }
 
-    public void setGridLayout() {
-        GridLayout mGridLayout = (GridLayout) findViewById(R.id.eachStock_gridLayout);
-        int columnCount = mGridLayout.getColumnCount();
-        int screenWidth = this.getWindowManager().getDefaultDisplay().getWidth();
-//        Log.e(TAG, "column:" + columnCount + ";  screenwidth:" + screenWidth);
-        for (int i = 0; i < mGridLayout.getChildCount(); i++) {
-            TextView button = (TextView) mGridLayout.getChildAt(i);
-            button.setWidth(screenWidth / columnCount);
-        }
-    }
 
     public void querySinaStocks(String queryId) {
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -137,6 +136,9 @@ public class EachStockActivity extends TitleActivity {
         Stock stockNow = new Stock(response);
 
         myStock = stockNow;
+
+        setupViewPager(mViewPager);
+        setViewPager(0);
 
         updateContent();
     }
@@ -173,6 +175,42 @@ public class EachStockActivity extends TitleActivity {
             priceChange.setTextColor(MainActivity.DownColor_);
             changePercent.setTextColor(MainActivity.DownColor_);
         }
+    }
+
+    public String getStockId() {
+        if(stockId_Market.isEmpty())
+            return null;
+
+        return stockId_Market.split("\\.")[0];
+    }
+
+    public String getMarketCode() {
+        if(stockId_Market.isEmpty())
+            return null;
+        if (stockId_Market.toUpperCase().indexOf("HK")>0) {            // if stockI_M is already the enquryId
+            return "HK";
+        }
+
+        return null;
+
+    }
+
+    public void setupViewPager(ViewPager viewPager) {
+        SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());
+
+        adapter.addFragment(new StockMinChartFragment(), "MinChart");
+        adapter.addFragment(new StockKLineChart_1monthFragment(), "OneMonth");
+        adapter.addFragment(new StockKLineChart_3monthFragment(), "ThreeMonth");
+        adapter.addFragment(new StockKLineChart_1yearFragment(), "OneYear");
+        adapter.addFragment(new StockKLineChart_3yearFragment(), "ThreeYear");
+
+        viewPager.setAdapter(adapter);
+    }
+
+    public void setViewPager(int index) {
+        Log.d("EachStockActivity", "setViewPager called:" + index);
+        mViewPager.setCurrentItem(index);
+
     }
 
     // END: update the data of TextViews [Samuel_GU]

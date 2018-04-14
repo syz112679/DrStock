@@ -21,6 +21,7 @@ package com.smarthuman.drstock;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +37,7 @@ import android.widget.Toast;
  * @author gao_chun
  * 自定义标题栏
  */
-public class TitleActivity extends Activity implements OnClickListener{
+public class TitleActivity extends AppCompatActivity implements OnClickListener{
 
     //private RelativeLayout mLayoutTitleBar;
     private TextView mTitleTextView;
