@@ -30,6 +30,8 @@ public class EachStockActivity extends TitleActivity {
 
     private Button addButton;
     private Button backButton, forwardButton;
+    private Button minBtn, oneMonthBtn, threeMonthBtn, oneYearBtn, threeYearBtn;
+
 
     public ViewPager mViewPager;
     public ChartPagerAdapter mAdapter;
@@ -65,7 +67,16 @@ public class EachStockActivity extends TitleActivity {
         mViewPager = (ViewPager) findViewById(R.id.chartviewpager);
 
         // END: update the data of TextViews [Samuel_GU]
-
+        minBtn = (Button) findViewById(R.id.min_graph_btn);
+        minBtn.setOnClickListener(this);
+        oneMonthBtn = (Button) findViewById(R.id.one_month_btn);
+        oneMonthBtn.setOnClickListener(this);
+        threeMonthBtn = (Button) findViewById(R.id.three_month_btn);
+        threeMonthBtn.setOnClickListener(this);
+        oneYearBtn = (Button) findViewById(R.id.one_year_btn);
+        oneYearBtn.setOnClickListener(this);
+        threeYearBtn = (Button) findViewById(R.id.three_year_btn);
+        threeYearBtn.setOnClickListener(this);
     }
 
 
@@ -81,6 +92,22 @@ public class EachStockActivity extends TitleActivity {
                 Log.d("addstock", "here");
                 addStock(v);
 //                searchStock(v);
+                break;
+            case R.id.min_graph_btn:
+                setViewPager(0);
+                break;
+            case R.id.one_month_btn:
+                setViewPager(1);
+                break;
+            case R.id.three_month_btn:
+                setViewPager(2);
+                break;
+            case R.id.one_year_btn:
+                setViewPager(3);
+                break;
+            case R.id.three_year_btn:
+                setViewPager(4);
+                break;
         }
     }
 

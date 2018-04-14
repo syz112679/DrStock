@@ -7,11 +7,11 @@
     <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/kline_chart"
         android:layout_width="match_parent"
-        android:layout_height="400sp" />
+        android:layout_height="300sp" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/RSI_chart"
         android:layout_width="match_parent"
-        android:layout_height="200sp" />
+        android:layout_height="100sp" />
 
 </LinearLayout>

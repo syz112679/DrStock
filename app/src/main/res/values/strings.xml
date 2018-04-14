@@ -73,5 +73,9 @@
     <string name="text_back">Back</string>
     <string name="text_forward">Forward</string>
 
-
+    <string name="minute">Minute</string>
+    <string name="one_month">1 Month</string>
+    <string name="three_month">3 Month</string>
+    <string name="one_year">1 Year</string>
+    <string name="three_year">3 Year</string>
 </resources>
