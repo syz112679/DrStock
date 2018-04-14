@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.scwang.smartrefresh.layout.SmartRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:id="@+id/Table_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/line_h"
+        android:showDividers="middle|end"
+        android:stretchColumns="1">
+
+        <TableRow
+            android:id="@+id/tableRow_colour"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/colour_setting" />
+
+            <TextView />
+
+            <TextView />
+
+            <Switch
+                android:id="@+id/switch_risingColour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/rise_red"
+                android:textOn="@string/rise_green" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow_refresh"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/refresh_rate_label" />
+
+            <TextView />
+
+            <TextView
+                android:id="@+id/refresh_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/per_10s" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow_feedback"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/feedback" />
+
+            <TextView />
+
+            <TextView />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow_credits"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/credits" />
+
+            <TextView />
+
+            <TextView />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

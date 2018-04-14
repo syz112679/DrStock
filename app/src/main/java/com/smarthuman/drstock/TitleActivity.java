@@ -20,6 +20,7 @@ package com.smarthuman.drstock;
 //import org.gaochun.ui.R;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -81,6 +82,12 @@ public class TitleActivity extends AppCompatActivity implements OnClickListener{
             }
         } // else ignored
     }
+
+//    protected void setBackward(Drawable drawable, String text) {
+//        mBackwardbButton
+//        mBackwardbButton.setBackground(drawable);
+//        mBackwardbButton.setText(text);
+//    }
 
     /**
      * 提供是否显示提交按钮

@@ -72,6 +72,26 @@
 
     <string name="text_back">Back</string>
     <string name="text_forward">Forward</string>
+    <string name="colour_setting">Color Setting</string>
+    <string name="rise_green">Green means Rising</string>
+    <string name="refresh_rate_label">Refresh Rate</string>
+    <string name="per_10s">10s</string>
+    <string name="feedback">Feedback</string>
+    <string name="credits">Credits</string>
+    <string name="disclaimer">Disclaimer</string>
+    <string name="hotline_hk">Hotline(HK)</string>
+    <string name="hotline_mainland">Hotline(Mainland)</string>
+    <string name="hotline_us">Hotline(US)</string>
+    <string name="email">Email</string>
+    <string name="refreshSetting_mobileRefresh">Mobile Data Auto Refresh</string>
+    <string name="refreshSetting_noRefresh">No Auto Refresh</string>
+    <string name="refreshSetting_wifiRefresh">WiFi Data Auto Refresh</string>
+    <string name="rise_red">Red means Rising</string>
+    <string name="refreshActivity">Refresh Setting</string>
+    <string name="feedbackActivity">Feedback</string>
+    <string name="creditsActivity">Credits</string>
+    <string name="mainActivity">Home</string>
+    <string name="setting">Setting</string>
 
     <string name="minute">Minute</string>
     <string name="one_month">1 Month</string>

@@ -22,7 +22,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/title_button_selector"
         android:drawableLeft="@drawable/back_arrow"
-        android:drawablePadding="6dp"
         android:ellipsize="end"
         android:gravity="center"
         android:onClick="onClick"

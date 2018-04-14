@@ -1,10 +1,12 @@
 package com.smarthuman.drstock;
 
+import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -25,14 +27,65 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 /****************************************************/
-
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import java.util.HashSet;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.TreeMap;
+import java.util.Vector;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 /*******************************************************************/
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends TitleActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     //--------------------------------------------------------------------------------------------------
@@ -43,8 +96,13 @@ public class MainActivity extends AppCompatActivity
     private final static String StockIdsKey_ = "StockIds";
     public static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
 
-    public final static int UpColor_ = Color.GREEN;
-    public final static int DownColor_ = Color.RED;
+    public static int UpColor_ = R.color.green;
+    public static int DownColor_ = R.color.red;
+
+    public static boolean enableMobileRefresh = true;
+    public static int mobileRefreshTime = 15;
+    public static boolean enableWifiRefresh = true;
+    public static int wifiRefreshTime = 5;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -55,7 +113,6 @@ public class MainActivity extends AppCompatActivity
     public String mUid;
     public SectionStatePagerAdapter mSectionStatePagerAdapter;
     static public ViewPager mViewPager;
-    public SharedPreferences mSharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +130,15 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setTitle(R.string.mainActivity);
+        showBackwardView(R.string.setting, true);
+//        setBackward(getResources().getDrawable(R.drawable.ic_settings_black_24dp), "");
+
         //--------------------------------------------------------------------------------------------------
 
-        mSharedPref = getPreferences(Context.MODE_PRIVATE);
-        String idsStr = mSharedPref.getString(StockIdsKey_, "");
-        String histories = mSharedPref.getString(searchHistoryKey_, "");
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String idsStr = sharedPref.getString(StockIdsKey_, "");
+        String histories = sharedPref.getString(searchHistoryKey_, "");
 
         String[] ids = idsStr.split(",");
         StockIds_.clear();
@@ -116,7 +177,14 @@ public class MainActivity extends AppCompatActivity
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
+        loadFragment(new com.smarthuman.drstock.StockFragment());
+    }
 
+    @Override
+    protected void onBackward(View backwardView) {
+//        Log.d("each", "onBackward");
+        Toast.makeText(this, "点击返回，可在此处调用finish()", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(this, SettingActivity.class));
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -147,6 +215,20 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    private boolean loadFragment(Fragment fragment) {
+
+        if (fragment != null) {
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
+
+            return true;
+        }
+
+        return false;
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -178,6 +260,13 @@ public class MainActivity extends AppCompatActivity
         }
 
         return true;
+    }
+
+    public void signIn(View v) {
+        Log.d("main ", "called here signIn");
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        finish();
+        startActivity(intent);
     }
 
 //    public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
