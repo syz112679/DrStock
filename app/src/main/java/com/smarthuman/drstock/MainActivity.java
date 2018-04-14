@@ -64,6 +64,9 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Timer;
@@ -111,8 +114,10 @@ public class MainActivity extends TitleActivity
     public FirebaseAuth mAuth;
     public DatabaseReference mDatabaseReference;
     public String mUid;
+
     public SectionStatePagerAdapter mSectionStatePagerAdapter;
     static public ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,7 +182,6 @@ public class MainActivity extends TitleActivity
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
-        loadFragment(new com.smarthuman.drstock.StockFragment());
     }
 
     @Override
@@ -215,20 +219,6 @@ public class MainActivity extends TitleActivity
     }
 
 
-    private boolean loadFragment(Fragment fragment) {
-
-        if (fragment != null) {
-
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
-
-            return true;
-        }
-
-        return false;
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -260,13 +250,6 @@ public class MainActivity extends TitleActivity
         }
 
         return true;
-    }
-
-    public void signIn(View v) {
-        Log.d("main ", "called here signIn");
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        finish();
-        startActivity(intent);
     }
 
 //    public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
@@ -319,6 +302,7 @@ public class MainActivity extends TitleActivity
     public void onResume() {
         super.onResume();
         Log.d("MainActivity", "onResume: called");
+        //updateDatabase();
     }
 
     // from GU's stock
@@ -326,6 +310,7 @@ public class MainActivity extends TitleActivity
     public void onDestroy() {
         super.onDestroy();  // Always call the superclass
         saveStocksToPreferences();
+        //updateDatabase();
     }
 
     @Override
@@ -351,7 +336,39 @@ public class MainActivity extends TitleActivity
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(StockIdsKey_, ids);
         editor.putString(searchHistoryKey_, histories);
-        editor.commit();
+        editor.apply();
     }
+
+    public void clearSharedPref() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        sharedPref.edit().clear().commit();
+    }
+
+    public void updateDatabase() {
+        if(mfirebaseUser != null) {
+            Log.d("MainActivity", "UpdateDatabase called");
+            SharedPreferences SharedPref = getPreferences(Context.MODE_PRIVATE);
+            String username = SharedPref.getString("username","");
+            String email = SharedPref.getString("email","");
+
+            ArrayList<StockSnippet> myStocks = new ArrayList<>();
+            ArrayList<String> favorites = new ArrayList<>();
+            for (String id : StockIds_){
+                favorites.add(id);
+            }
+
+            UserInformation userInfo = new UserInformation(username, email);
+            userInfo.setFavorites(favorites);
+            userInfo.setMyStocks(myStocks);
+            userInfo.setBalance(Double.parseDouble(SharedPref.getString("balance", "0")));
+            userInfo.setMoney(Double.parseDouble(SharedPref.getString("money", "0")));
+            userInfo.setEarning(Double.parseDouble(SharedPref.getString("earning", "0")));
+            userInfo.setSuperUser(false);
+
+            mDatabaseReference.child("users").child(mUid).setValue(userInfo);
+
+        }
+    }
+
 
 }

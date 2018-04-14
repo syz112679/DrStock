@@ -1,6 +1,8 @@
 package com.smarthuman.drstock;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -86,14 +88,6 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         return view;
     }
 
-
-
-
-    public void register(View v) {
-        Intent intent = new Intent(getActivity(), RegisterActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -103,6 +97,8 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                 Toast.makeText(getActivity(), "Signed Out...", Toast.LENGTH_SHORT).show();
 
                 ((MainActivity)getActivity()).setViewPager(2);
+                ((MainActivity)getActivity()).updateDatabase();
+                ((MainActivity)getActivity()).clearSharedPref();
                 break;
 
 
@@ -124,6 +120,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
 
             case R.id.add_money_btn:
                 //addStockToAccount("000389", 1000, 38.5);
+
                 ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -153,5 +150,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         StockSnippet stock = new StockSnippet(stockname, amount, price);
         ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).child("myStocks").push().setValue(stock);
     }
+
+
 
 }
