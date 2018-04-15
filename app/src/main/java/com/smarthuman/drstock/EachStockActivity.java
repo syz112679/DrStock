@@ -1,17 +1,12 @@
 package com.smarthuman.drstock;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v4.app.Fragment;
 
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -41,7 +36,7 @@ public class EachStockActivity extends TitleActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_eachstock);
+        setContentView(R.layout.activity_eachstock);
 
         // START: update the data of TextViews [Samuel_GU]
 //        setTitle("Each Stock");
