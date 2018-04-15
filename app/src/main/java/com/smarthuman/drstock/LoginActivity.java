@@ -1,6 +1,8 @@
 package com.smarthuman.drstock;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -68,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
     // : Complete the attemptLogin() method
     private void attemptLogin() {
 
-        String email = mEmailView.getText().toString();
+        final String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         if (email.isEmpty())
@@ -87,7 +89,10 @@ public class LoginActivity extends AppCompatActivity {
                     showErrorDialog("There was a problem signing in");
                 } else {
                     //login successfully
-
+                    SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("email", email);
+                    editor.apply();
                     finish();
                     MainActivity.setViewPager(0);
 

@@ -1,6 +1,8 @@
 package com.smarthuman.drstock;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.app.Fragment;
@@ -194,13 +196,13 @@ public class EachStockActivity extends TitleActivity {
 //        currency.setText(myStock.getCurrency());
 
         if (myStock.isRising()) {
-            currentPrice.setTextColor(MainActivity.UpColor_);
-            priceChange.setTextColor(MainActivity.UpColor_);
-            changePercent.setTextColor(MainActivity.UpColor_);
+            currentPrice.setTextColor(getResources().getColor(MainActivity.UpColor_));
+            priceChange.setTextColor(getResources().getColor(MainActivity.UpColor_));
+            changePercent.setTextColor(getResources().getColor(MainActivity.UpColor_));
         } else {
-            currentPrice.setTextColor(MainActivity.DownColor_);
-            priceChange.setTextColor(MainActivity.DownColor_);
-            changePercent.setTextColor(MainActivity.DownColor_);
+            currentPrice.setTextColor(getResources().getColor(MainActivity.DownColor_));
+            priceChange.setTextColor(getResources().getColor(MainActivity.DownColor_));
+            changePercent.setTextColor(getResources().getColor(MainActivity.DownColor_));
         }
     }
 

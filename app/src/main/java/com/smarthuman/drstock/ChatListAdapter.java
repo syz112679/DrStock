@@ -133,7 +133,7 @@ public class ChatListAdapter extends BaseAdapter {
 
 
             holder.params.gravity = Gravity.END;
-            holder.authorName.setTextColor(Color.GREEN);
+            holder.authorName.setTextColor(Color.rgb(255,89,131));
 
             // If you want to use colours from colors.xml
             // int colourAsARGB = ContextCompat.getColor(mActivity.getApplicationContext(), R.color.yellow);
@@ -142,7 +142,7 @@ public class ChatListAdapter extends BaseAdapter {
             holder.body.setBackgroundResource(R.drawable.bubble2);
         } else {
             holder.params.gravity = Gravity.START;
-            holder.authorName.setTextColor(Color.BLUE);
+            holder.authorName.setTextColor(Color.rgb(29,176,184));
             holder.body.setBackgroundResource(R.drawable.bubble1);
         }
 

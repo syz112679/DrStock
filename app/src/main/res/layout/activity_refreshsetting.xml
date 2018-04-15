@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/notitle">
+
+    <TableLayout
+        android:id="@+id/TableLayout_mobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/line_h"
+        android:showDividers="middle|end"
+        android:stretchColumns="1">
+
+        <TableRow
+            android:background="@android:color/darker_gray"
+            android:gravity="center_vertical"
+            android:minHeight="20dp">
+
+            <TextView android:text="@string/refreshSetting_mobileRefresh" />
+
+            <TextView />
+
+            <TextView />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/mobile_noRefresh"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView android:text="@string/refreshSetting_noRefresh" />
+
+            <TextView />
+
+            <ImageView
+                android:id="@+id/imageView_mobile_noRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/mobile_5s"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView android:text="5s" />
+
+            <TextView />
+
+            <ImageView
+                android:id="@+id/imageView_mobile_5s"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/mobile_15s"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView android:text="15s" />
+
+            <TextView />
+
+            <ImageView
+                android:id="@+id/imageView_mobile_15s"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/mobile_30s"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView android:text="30s" />
+
+            <TextView />
+
+            <ImageView
+                android:id="@+id/imageView_mobile_30s"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/mobile_60s"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView android:text="60s" />
+
+            <TextView />
+
+            <ImageView
+                android:id="@+id/imageView_mobile_60s"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/TableLayout_wifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/line_h"
+        android:showDividers="middle|end"
+        android:stretchColumns="1">
+
+        <TableRow
+            android:background="@android:color/darker_gray"
+            android:gravity="center_vertical"
+            android:minHeight="20dp">
+
+            <TextView android:text="@string/refreshSetting_wifiRefresh" />
+
+            <TextView />
+
+            <TextView />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/wifi_noRefresh"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView android:text="@string/refreshSetting_noRefresh" />
+
+            <TextView />
+
+            <ImageView
+                android:id="@+id/imageView_wifi_noRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/wifi_5s"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView android:text="5s" />
+
+            <TextView />
+
+            <ImageView
+                android:id="@+id/imageView_wifi_5s"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

@@ -70,6 +70,27 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity android:name=".DetailsActivity"/>
+
+        <activity
+            android:name="com.smarthuman.drstock.SettingActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.smarthuman.drstock.RefreshActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.smarthuman.drstock.FeedbackActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.smarthuman.drstock.CreditsActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
     </application>
 
