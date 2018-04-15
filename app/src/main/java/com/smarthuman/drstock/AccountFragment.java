@@ -149,10 +149,6 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         }
     }
 
-    static String getUserName() {
-        return mUserName.getText().toString();
-    }
-
     void buyStockToAccount(String stockname, double amount, double price) {
         StockSnippet stock = new StockSnippet(stockname, amount, price);
         ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).child("myStocks").push().setValue(stock);
