@@ -50,7 +50,7 @@ public class EachStockActivity extends TitleActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        stockId_Market = intent.getStringExtra(StockFragment.EXTRA_MESSAGE);
+        stockId_Market = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         querySinaStocks(getEnqueryId(stockId_Market));
 
         System.out.println("stockId_Market: " + stockId_Market);
@@ -109,9 +109,10 @@ public class EachStockActivity extends TitleActivity {
     }
 
     public void addStock(View v) {
-        MainActivity.StockIds_.add(myStock.getEnqueryId());
+       MainActivity.addStockIds_(myStock.getEnqueryId());
 
         System.out.println("add favourite: " + myStock.getEnqueryId() + ";");
+        System.out.println("StockIds_: " + MainActivity.getStockIds_() + ";");
     }
 
     public String getEnqueryId(String stockI_M) {

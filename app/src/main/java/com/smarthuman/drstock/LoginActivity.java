@@ -103,7 +103,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     finish();
                     MainActivity.setViewPager(0);
-
                 }
 
             }

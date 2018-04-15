@@ -93,7 +93,7 @@ import io.reactivex.subjects.PublishSubject;
 /*******************************************************************/
 
 public class MainActivity extends TitleActivity
-        implements BottomNavigationView.OnNavigationItemSelectedListener {
+        implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     //--------------------------------------------------------------------------------------------------
 
@@ -101,7 +101,10 @@ public class MainActivity extends TitleActivity
     public static HashSet<String> searchHistory  = new HashSet<>();
 
     private final static String StockIdsKey_ = "StockIds";
-    public static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
+
+    private static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
+
+    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
     public static int UpColor_ = Color.rgb(0, 153, 102);
     public static int DownColor_ = Color.rgb(255, 102, 102);
@@ -126,7 +129,6 @@ public class MainActivity extends TitleActivity
     public SectionStatePagerAdapter mSectionStatePagerAdapter;
     static public ViewPager mViewPager;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -146,6 +148,16 @@ public class MainActivity extends TitleActivity
         setTitle(R.string.mainActivity);
         showBackwardView(R.string.setting, true);
 //        setBackward(getResources().getDrawable(R.drawable.ic_settings_black_24dp), "");
+
+        Log.d("mainActivity", "LIne 126");
+        Timer timer = new Timer("RefreshStocks");
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                refreshStocks();
+            }
+        }, 0, 10000); // 10 seconds
+        Log.d("mainActivity", "LIne 134");
 
         //--------------------------------------------------------------------------------------------------
 
@@ -190,6 +202,17 @@ public class MainActivity extends TitleActivity
 
     }
 
+    public static HashSet<String> getStockIds_() {
+        return StockIds_;
+    }
+
+    public static void addStockIds_(String stockIds_) {
+        if (stockIds_ == null)
+            return;
+        StockIds_.add(stockIds_);
+        System.out.println("addStockIds_:" + StockIds_ + ";");
+    }
+
     @Override
     protected void onBackward(View backwardView) {
 //        Log.d("each", "onBackward");
@@ -224,6 +247,227 @@ public class MainActivity extends TitleActivity
         return true;
     }
 
+
+    // Samuel GU START
+
+    public TreeMap<String, Stock> sinaResponseToStocks(String response) {
+        response = response.replaceAll("\n", "");
+        String[] stocks = response.split(";");
+//        System.out.println("---------stocks:");
+//        for(String s:stocks) {
+//            System.out.println(s);
+//        }
+//        System.out.println("---------");
+
+        TreeMap<String, Stock> stockMap = new TreeMap<>();
+        for (String stock : stocks) {
+            Stock stockNow = new Stock(stock);
+            stockMap.put(stockNow.id_, stockNow);           // lx -> Stock
+        }
+
+        System.out.println("-------------stockMap:\n" + stockMap + "----------");
+
+        return stockMap;
+    }
+
+    public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
+//        System.out.println("--------list: \n" + list + "\n------");
+
+        // Instantiate the RequestQueue.
+//        System.out.println(this.this);
+//        Log.d("StockFragment", this);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://hq.sinajs.cn/list=" + list;
+        //http://hq.sinajs.cn/list=sh600000,sh600536
+
+        System.out.println("--------url: \n" + url + "\n------");
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println("***************************Response**************************");
+                        System.out.println(response);
+                        System.out.println("*****************************************************************");
+                        updateStockListView(sinaResponseToStocks(response));
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+
+        queue.add(stringRequest);
+    }
+
+    public void refreshStocks() {
+
+        System.out.println("--------refreshStocks: \n" + StockIds_ + "\n------");
+
+//        if (StockIds_.size() == 0)
+//            return;
+
+        String ids = "";
+        for (String id : StockIds_) {
+            ids += id;
+            ids += ",";
+        }
+
+        querySinaStocks(ids);
+    }
+
+    protected void updateStockListView(TreeMap<String, Stock> stockMap) {
+
+        // Table
+        TableLayout table = findViewById(R.id.stock_table);
+        table.setStretchAllColumns(true);
+        table.setShrinkAllColumns(true);
+        table.removeAllViews();
+
+        // Title
+//        TableRow rowTitle = new TableRow(this);
+//
+//        TextView nameTitle = new TextView(this);
+//        nameTitle.setText(getResources().getString(R.string.stock_name_title));
+//        rowTitle.addView(nameTitle);
+//
+//        TextView nowTitle = new TextView(this);
+//        nowTitle.setGravity(Gravity.CENTER);
+//        nowTitle.setText(getResources().getString(R.string.stock_now_title));
+//        rowTitle.addView(nowTitle);
+//
+//        TextView percentTitle = new TextView(this);
+//        percentTitle.setGravity(Gravity.CENTER);
+//        percentTitle.setText(getResources().getString(R.string.stock_increase_percent_title));
+//        rowTitle.addView(percentTitle);
+//
+//        TextView increaseTitle = new TextView(this);
+//        increaseTitle.setGravity(Gravity.CENTER);
+//        increaseTitle.setText(getResources().getString(R.string.stock_increase_title));
+//        rowTitle.addView(increaseTitle);
+//
+//        table.addView(rowTitle);
+
+        //
+
+        Collection<Stock> stocks = stockMap.values();
+
+        for (Stock stock : stocks) {
+//            System.out.println("Stock stock");
+//            if (stock.id_.equals(ShIndex) || stock.id_.equals(SzIndex) || stock.id_.equals(ChuangIndex)) {
+//                Float dNow = Float.parseFloat(stock.now_);
+//                Float dYesterday = Float.parseFloat(stock.yesterday_);
+//                Float dIncrease = dNow - dYesterday;
+//                Float dPercent = dIncrease / dYesterday * 100;
+//                String change = String.format("%.2f", dPercent) + "% " + String.format("%.2f", dIncrease);
+//
+//                int indexId;
+//                int changeId;
+//                if (stock.id_.equals(ShIndex)) {
+//                    indexId = R.id.stock_sh_index;
+//                    changeId = R.id.stock_sh_change;
+//                } else if (stock.id_.equals(SzIndex)) {
+//                    indexId = R.id.stock_sz_index;
+//                    changeId = R.id.stock_sz_change;
+//                } else {
+//                    indexId = R.id.stock_chuang_index;
+//                    changeId = R.id.stock_chuang_change;
+//                }
+//
+//                TextView indexText = (TextView) v.findViewById(indexId);
+//                indexText.setText(stock.now_);
+//                int color = Color.BLACK;
+//                //System.out.println("-----|" + dIncrease + "|------");
+//                if (dIncrease > 0) {
+//                    color = UpColor_;
+//                } else if (dIncrease < 0) {
+//                    color = DownColor_;
+//                }
+//                //System.out.println("-----|" + color + "|------");
+//                indexText.setTextColor(color);
+//
+//                TextView changeText = (TextView) v.findViewById(changeId);
+//                changeText.setText(change);
+//                changeText.setTextColor(color);
+//
+//                continue;
+//            }
+
+            TableRow row = new TableRow(this);
+            row.setMinimumHeight(200); //////////////////////////////////////////////
+            row.setGravity(Gravity.CENTER_VERTICAL);
+
+            LinearLayout nameId = new LinearLayout(this);
+            nameId.setOrientation(LinearLayout.VERTICAL);
+
+            TextView name = new TextView(this);
+            name.setText(stock.name_);
+            nameId.addView(name);
+
+            TextView id = new TextView(this);
+            id.setTextSize(15);
+            String id_market = stock.id_ + "." + stock.marketId_;
+            id.setText(id_market);
+            nameId.addView(id);
+
+            row.addView(nameId);
+
+            TextView now = new TextView(this);
+            now.setGravity(Gravity.RIGHT);
+            now.setText(stock.getCurrentPrice_());
+            row.addView(now);
+
+            TextView percent = new TextView(this);
+            percent.setGravity(Gravity.RIGHT);
+            TextView increaseValue = new TextView(this);
+            increaseValue.setGravity(Gravity.RIGHT);
+
+            percent.setText(stock.getChangePercent() + "%");
+            increaseValue.setText("--");
+            int color = Color.BLACK;
+            if (stock.isRising()) {
+                color = UpColor_;
+            } else {
+                color = DownColor_;
+            }
+
+            now.setTextColor(color);
+            percent.setTextColor(color);
+            increaseValue.setTextColor(color);
+
+            row.addView(percent);
+            row.addView(increaseValue);
+            row.setOnClickListener(this);
+
+            table.addView(row);
+            System.out.println("addRow!!!");
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+
+        if (v instanceof TableRow) {
+            ViewGroup group = (ViewGroup) v;
+            ViewGroup nameId = (ViewGroup) group.getChildAt(0);
+            TextView idText = (TextView) nameId.getChildAt(1);
+            //System.out.println("-----\n" + idText.getText().toString() + "\n-------");
+
+            String stockID_Market = idText.getText().toString();
+
+            System.out.println(stockID_Market);
+
+            Intent intent = new Intent(this, EachStockActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, stockID_Market);
+            startActivity(intent);
+
+            System.out.println("-----\n" + idText.getText().toString() + "\n-------");
+        }
+    }
+
+    // Samuel GU END
 
 
     @Override
@@ -306,10 +550,11 @@ public class MainActivity extends TitleActivity
 
     @Override
     public void onResume() {
-        super.onResume();
         Log.d("MainActivity", "onResume: called");
-        if(FirebaseAuth.getInstance().getCurrentUser() != null)
-            updateUserInfo();
+
+        super.onResume();
+//        if(FirebaseAuth.getInstance().getCurrentUser() != null)
+//            updateUserInfo();
         //updateDatabase();
     }
 
@@ -318,11 +563,14 @@ public class MainActivity extends TitleActivity
     public void onDestroy() {
         super.onDestroy();  // Always call the superclass
         saveStocksToPreferences();
+
+        System.out.println("onDestroy();");
         //updateDatabase();
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
+        System.out.println("onSaveInstanceState;");
         saveStocksToPreferences();
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
@@ -397,7 +645,7 @@ public class MainActivity extends TitleActivity
             }
         });
 
-        StockIds_= new HashSet<String>(mFavorites);
+        StockIds_ = new HashSet<String>(mFavorites);
     }
 
     void clearLocalData() {

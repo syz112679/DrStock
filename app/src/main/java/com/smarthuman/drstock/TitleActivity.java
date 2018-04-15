@@ -111,7 +111,7 @@ public class TitleActivity extends AppCompatActivity implements OnClickListener{
      */
     protected void onBackward(View backwardView) {
 //        Log.d("each", "onBackward");
-        Toast.makeText(this, "点击返回，可在此处调用finish()", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "点击返回", Toast.LENGTH_LONG).show();
         finish();
     }
 
@@ -196,5 +196,6 @@ public class TitleActivity extends AppCompatActivity implements OnClickListener{
             default:
                 break;
         }
+
     }
 }
