@@ -102,8 +102,8 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                 Toast.makeText(getActivity(), "Signed Out...", Toast.LENGTH_SHORT).show();
 
                 ((MainActivity)getActivity()).setViewPager(2);
- //               ((MainActivity)getActivity()).updateDatabase();
-//                ((MainActivity)getActivity()).clearSharedPref();
+                //((MainActivity)getActivity()).updateDatabase();
+                //((MainActivity)getActivity()).clearSharedPref();
                 break;
 
 

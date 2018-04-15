@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    public DatabaseReference mDatabaseReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                     showErrorDialog("There was a problem signing in");
                 } else {
                     //login successfully
+
                     finish();
                     MainActivity.setViewPager(0);
 

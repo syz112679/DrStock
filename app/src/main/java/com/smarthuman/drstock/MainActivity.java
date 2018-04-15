@@ -182,7 +182,6 @@ public class MainActivity extends TitleActivity
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         if (mfirebaseUser != null) {
-
             updateUserInfo();
         }
 
@@ -311,7 +310,6 @@ public class MainActivity extends TitleActivity
         Log.d("MainActivity", "onResume: called");
         if(FirebaseAuth.getInstance().getCurrentUser() != null)
             updateUserInfo();
-        //updateDatabase();
     }
 
     // from GU's stock
@@ -319,7 +317,6 @@ public class MainActivity extends TitleActivity
     public void onDestroy() {
         super.onDestroy();  // Always call the superclass
         saveStocksToPreferences();
-        //updateDatabase();
     }
 
     @Override
@@ -360,33 +357,36 @@ public class MainActivity extends TitleActivity
         sharedPref.edit().commit();
     }
 
-    public void updateDatabase() {
-        if(mfirebaseUser != null) {
-            Log.d("MainActivity", "UpdateDatabase called");
-            SharedPreferences SharedPref = getPreferences(Context.MODE_PRIVATE);
-            String username = SharedPref.getString("username","");
-            String email = SharedPref.getString("email","");
-
-            ArrayList<StockSnippet> myStocks = new ArrayList<>();
-            ArrayList<String> favorites = new ArrayList<>();
-            for (String id : StockIds_){
-                favorites.add(id);
-            }
-
-            UserInformation userInfo = new UserInformation(username, email);
-            userInfo.setFavorites(favorites);
-            userInfo.setMyStocks(myStocks);
-            userInfo.setBalance(Double.parseDouble(SharedPref.getString("balance", "0")));
-            userInfo.setMoney(Double.parseDouble(SharedPref.getString("money", "0")));
-            userInfo.setEarning(Double.parseDouble(SharedPref.getString("earning", "0")));
-            userInfo.setSuperUser(false);
-
-            mDatabaseReference.child("users").child(mUid).setValue(userInfo);
-
-        }
-    }
+//    public void updateDatabase() {
+//        if(mfirebaseUser != null) {
+//            Log.d("MainActivity", "UpdateDatabase called");
+//            SharedPreferences SharedPref = getPreferences(Context.MODE_PRIVATE);
+//            String username = SharedPref.getString("username","");
+//            String email = SharedPref.getString("email","");
+//
+//            ArrayList<StockSnippet> myStocks = new ArrayList<>();
+//            ArrayList<String> favorites = new ArrayList<>();
+//            for (String id : StockIds_){
+//                favorites.add(id);
+//            }
+//
+//            UserInformation userInfo = new UserInformation(username, email);
+//            userInfo.setFavorites(favorites);
+//            userInfo.setMyStocks(myStocks);
+//            userInfo.setBalance(Double.parseDouble(SharedPref.getString("balance", "0")));
+//            userInfo.setMoney(Double.parseDouble(SharedPref.getString("money", "0")));
+//            userInfo.setEarning(Double.parseDouble(SharedPref.getString("earning", "0")));
+//            userInfo.setSuperUser(false);
+//
+//            mDatabaseReference.child("users").child(mUid).setValue(userInfo);
+//
+//        }
+//    }
 
     static void updateUserInfo() {
+        mAuth = FirebaseAuth.getInstance();
+        mfirebaseUser = mAuth.getCurrentUser();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         final GenericTypeIndicator<ArrayList<String>> favorite_t = new GenericTypeIndicator<ArrayList<String>>() {};
         final GenericTypeIndicator<ArrayList<StockSnippet>> stockRecord_t = new GenericTypeIndicator<ArrayList<StockSnippet>>() {};
 
