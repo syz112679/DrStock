@@ -321,9 +321,9 @@ public class StockKLineChart_1yearFragment extends android.support.v4.app.Fragme
         CandleDataSet set = new CandleDataSet(candleEntries, "");
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         set.setShadowWidth(0.7f);
-        set.setDecreasingColor(Color.RED);
+        set.setDecreasingColor(MainActivity.DownColor_);
         set.setDecreasingPaintStyle(Paint.Style.FILL);
-        set.setIncreasingColor(Color.GREEN);
+        set.setIncreasingColor(MainActivity.UpColor_);
         set.setIncreasingPaintStyle(Paint.Style.STROKE);
         set.setNeutralColor(Color.RED);
         set.setShadowColorSameAsCandle(true);
