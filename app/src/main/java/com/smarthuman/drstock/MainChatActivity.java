@@ -4,6 +4,7 @@ package com.smarthuman.drstock;
  * Created by shiyuzhou on 5/4/2018.
  */
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -67,9 +68,7 @@ public class MainChatActivity extends AppCompatActivity {
     // Retrieve the display name from the Shared Preferences
     private void setupDisplayName(){
 
-
-
-        mDisplayName = AccountFragment.getUserName();
+        mDisplayName = MainActivity.mUserName;
 
         if (mDisplayName == null) mDisplayName = "Anonymous";
     }

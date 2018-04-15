@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -22,6 +23,8 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -59,11 +62,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Timer;
@@ -106,13 +114,19 @@ public class MainActivity extends TitleActivity
 
     //--------------------------------------------------------------------------------------------------
 
-    boolean isLogin = false;
-    public FirebaseUser mfirebaseUser;
-    public FirebaseAuth mAuth;
-    public DatabaseReference mDatabaseReference;
-    public String mUid;
+    public static FirebaseUser mfirebaseUser;
+    public static FirebaseAuth mAuth;
+    public static DatabaseReference mDatabaseReference;
+    public static String mUid;
+    public static String mUserName = "";
+    public static double mMoney=0.0, mEarning=0.0, mBalance=0.0;
+    public static ArrayList<StockSnippet> mStockRecords = new ArrayList<StockSnippet>();
+    public static ArrayList<String> mFavorites = new ArrayList<String>();
+
+
     public SectionStatePagerAdapter mSectionStatePagerAdapter;
     static public ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,14 +184,12 @@ public class MainActivity extends TitleActivity
 
         if (mfirebaseUser != null) {
 
-            mUid = mfirebaseUser.getUid();
-
+            updateUserInfo();
         }
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
-        loadFragment(new com.smarthuman.drstock.StockFragment());
     }
 
     @Override
@@ -215,20 +227,6 @@ public class MainActivity extends TitleActivity
     }
 
 
-    private boolean loadFragment(Fragment fragment) {
-
-        if (fragment != null) {
-
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
-
-            return true;
-        }
-
-        return false;
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -260,13 +258,6 @@ public class MainActivity extends TitleActivity
         }
 
         return true;
-    }
-
-    public void signIn(View v) {
-        Log.d("main ", "called here signIn");
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        finish();
-        startActivity(intent);
     }
 
 //    public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
@@ -319,6 +310,9 @@ public class MainActivity extends TitleActivity
     public void onResume() {
         super.onResume();
         Log.d("MainActivity", "onResume: called");
+        if(FirebaseAuth.getInstance().getCurrentUser() != null)
+            updateUserInfo();
+        //updateDatabase();
     }
 
     // from GU's stock
@@ -326,6 +320,7 @@ public class MainActivity extends TitleActivity
     public void onDestroy() {
         super.onDestroy();  // Always call the superclass
         saveStocksToPreferences();
+        //updateDatabase();
     }
 
     @Override
@@ -351,7 +346,82 @@ public class MainActivity extends TitleActivity
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(StockIdsKey_, ids);
         editor.putString(searchHistoryKey_, histories);
-        editor.commit();
+        editor.apply();
+    }
+
+    public void clearSharedPref() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        sharedPref.edit().remove("userName");
+        sharedPref.edit().remove("money");
+        sharedPref.edit().remove("earning");
+        sharedPref.edit().remove("balance");
+        sharedPref.edit().remove("isSuperUser");
+        Log.d("MainActivity", "clear shared pref called");
+
+        sharedPref.edit().commit();
+    }
+
+    public void updateDatabase() {
+        if(mfirebaseUser != null) {
+            Log.d("MainActivity", "UpdateDatabase called");
+            SharedPreferences SharedPref = getPreferences(Context.MODE_PRIVATE);
+            String username = SharedPref.getString("username","");
+            String email = SharedPref.getString("email","");
+
+            ArrayList<StockSnippet> myStocks = new ArrayList<>();
+            ArrayList<String> favorites = new ArrayList<>();
+            for (String id : StockIds_){
+                favorites.add(id);
+            }
+
+            UserInformation userInfo = new UserInformation(username, email);
+            userInfo.setFavorites(favorites);
+            userInfo.setMyStocks(myStocks);
+            userInfo.setBalance(Double.parseDouble(SharedPref.getString("balance", "0")));
+            userInfo.setMoney(Double.parseDouble(SharedPref.getString("money", "0")));
+            userInfo.setEarning(Double.parseDouble(SharedPref.getString("earning", "0")));
+            userInfo.setSuperUser(false);
+
+            mDatabaseReference.child("users").child(mUid).setValue(userInfo);
+
+        }
+    }
+
+    static void updateUserInfo() {
+        final GenericTypeIndicator<ArrayList<String>> favorite_t = new GenericTypeIndicator<ArrayList<String>>() {};
+        final GenericTypeIndicator<ArrayList<StockSnippet>> stockRecord_t = new GenericTypeIndicator<ArrayList<StockSnippet>>() {};
+
+        mUid = mfirebaseUser.getUid();
+        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mUserName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
+                mMoney = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
+                mEarning  = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
+                mBalance = dataSnapshot.child("users").child(mUid).child("balance").getValue(double.class);
+
+                mFavorites = dataSnapshot.child("users").child(mUid).child("favorites").getValue(favorite_t);
+                mStockRecords = dataSnapshot.child("users").child(mUid).child("myStocks").getValue(stockRecord_t);
+                Log.d("MainActivity", "single event listener called, mUserName=" + mUserName);
+                System.out.println(mFavorites);
+                System.out.println(mStockRecords);
+                System.out.println("***********************************");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    void clearLocalData() {
+        mMoney = 0.0;
+        mEarning = 0.0;
+        mBalance = 0.0;
+        mFavorites = new ArrayList<String>();
+        mStockRecords = new ArrayList<StockSnippet>();
+        mUserName = null;
     }
 
 }

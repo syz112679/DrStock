@@ -22,7 +22,8 @@
             android:layout_width="70dp"
             android:layout_height="50dp"
             />
-    </LinearLayout>
+
+        </LinearLayout>
 
 
 
@@ -95,13 +96,10 @@
                             android:text="Time"/>
                     </LinearLayout>
 
-
-
                 </LinearLayout>
 
 
-
-            </LinearLayout>
+</LinearLayout>
 
 
 

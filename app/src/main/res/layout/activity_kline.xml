@@ -9,6 +9,35 @@
         android:layout_width="match_parent"
         android:layout_height="300sp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+    <Button
+        android:id="@+id/rsi_10_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:text="@string/rsi_10"
+        android:textSize="9dp"/>
+
+    <Button
+        android:id="@+id/rsi_14_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:text="@string/rsi_14"
+        android:textSize="9dp"/>
+
+    <Button
+        android:id="@+id/rsi_20_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:text="@string/rsi_20"
+        android:textSize="9dp"/>
+
+    </LinearLayout>
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/RSI_chart"
         android:layout_width="match_parent"
