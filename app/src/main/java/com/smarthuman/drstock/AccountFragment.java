@@ -31,12 +31,12 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
 
     String mUid;
     public static TextView mUserName;
-    private TextView mMoney;
+    private TextView mMoney, mTotalAsset; //money is balance
     private TextView mEarning;
     private Button mSignOutbtn;
     private Button mMyStockbtn;
     private Button mAdd1000;
-    private double money=0.0, earning=0.0, balance=0.0;
+
 
 
     @Nullable
@@ -47,6 +47,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
 
         mUserName = view.findViewById(R.id.display_username);
         mMoney = view.findViewById(R.id.display_money);
+        mTotalAsset = view.findViewById(R.id.total_assets);
         mEarning = view.findViewById(R.id.display_earning);
 
 
@@ -64,8 +65,10 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         mAdd1000.setOnClickListener(this);
 
         mUserName.setText(MainActivity.mUserName);
-        mMoney.setText(String.valueOf(MainActivity.mMoney));
+        mMoney.setText(String.valueOf(MainActivity.mBalance));
+        mTotalAsset.setText(String.valueOf(MainActivity.mMoney));
         mEarning.setText(String.valueOf(MainActivity.mEarning));
+
 
 //       final GenericTypeIndicator<ArrayList<StockSnippet>> t = new GenericTypeIndicator<ArrayList<StockSnippet>>() {};
 
@@ -78,7 +81,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
 //                    earning  = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
 //                    balance = dataSnapshot.child("users").child(mUid).child("balance").getValue(double.class);
 //
-//                    mUserName.setText();
+//                    mUserName.setText(userName);
 //                    mMoney.setText(String.valueOf(money));
 //                    mEarning.setText(String.valueOf(earning));
 //
@@ -134,9 +137,15 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                             postValues.put(snapshot.getKey(),snapshot.getValue());
                         }
 
-                        postValues.put("money", money+1000);
+
                         ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).updateChildren(postValues);
                         ((MainActivity)getActivity()).mMoney += 1000;
+                        ((MainActivity)getActivity()).mBalance += 1000;
+                        postValues.put("money", ((MainActivity)getActivity()).mMoney);
+                        postValues.put("balance", ((MainActivity)getActivity()).mBalance);
+                        mMoney.setText(String.valueOf(MainActivity.mBalance));
+                        mTotalAsset.setText(String.valueOf(MainActivity.mMoney));
+
                     }
 
 
