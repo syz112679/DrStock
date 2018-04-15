@@ -107,7 +107,6 @@
             android:background="#E0EAFC"
             android:textSize="15dp"
             android:text="@string/button_add_label"
-            android:textColor="@color/myWhite"
             android:id="@+id/stockFrag_searchStock" />
 
     </LinearLayout>

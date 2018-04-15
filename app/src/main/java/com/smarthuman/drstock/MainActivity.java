@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -118,7 +117,7 @@ public class MainActivity extends TitleActivity
     public static FirebaseAuth mAuth;
     public static DatabaseReference mDatabaseReference;
     public static String mUid;
-    public static String mUserName = "";
+    public static String mUserName = "", mEmail = "";
     public static double mMoney=0.0, mEarning=0.0, mBalance=0.0;
     public static ArrayList<StockSnippet> mStockRecords = new ArrayList<StockSnippet>();
     public static ArrayList<String> mFavorites = new ArrayList<String>();
@@ -183,7 +182,6 @@ public class MainActivity extends TitleActivity
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         if (mfirebaseUser != null) {
-
             updateUserInfo();
         }
 
@@ -349,38 +347,21 @@ public class MainActivity extends TitleActivity
         editor.apply();
     }
 
-    public void clearSharedPref() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        sharedPref.edit().remove("userName");
-        sharedPref.edit().remove("money");
-        sharedPref.edit().remove("earning");
-        sharedPref.edit().remove("balance");
-        sharedPref.edit().remove("isSuperUser");
-        Log.d("MainActivity", "clear shared pref called");
-
-        sharedPref.edit().commit();
-    }
 
     public void updateDatabase() {
         if(mfirebaseUser != null) {
             Log.d("MainActivity", "UpdateDatabase called");
-            SharedPreferences SharedPref = getPreferences(Context.MODE_PRIVATE);
-            String username = SharedPref.getString("username","");
-            String email = SharedPref.getString("email","");
+            mFavorites = new ArrayList<String>(StockIds_);
 
-            ArrayList<StockSnippet> myStocks = new ArrayList<>();
-            ArrayList<String> favorites = new ArrayList<>();
-            for (String id : StockIds_){
-                favorites.add(id);
-            }
 
-            UserInformation userInfo = new UserInformation(username, email);
-            userInfo.setFavorites(favorites);
-            userInfo.setMyStocks(myStocks);
-            userInfo.setBalance(Double.parseDouble(SharedPref.getString("balance", "0")));
-            userInfo.setMoney(Double.parseDouble(SharedPref.getString("money", "0")));
-            userInfo.setEarning(Double.parseDouble(SharedPref.getString("earning", "0")));
+            UserInformation userInfo = new UserInformation(mUserName,mEmail);
+            userInfo.setFavorites(mFavorites);
+            userInfo.setMyStocks(mStockRecords);
+            userInfo.setBalance(mBalance);
+            userInfo.setMoney(mMoney);
+            userInfo.setEarning(mEarning);
             userInfo.setSuperUser(false);
+
 
             mDatabaseReference.child("users").child(mUid).setValue(userInfo);
 
@@ -388,24 +369,26 @@ public class MainActivity extends TitleActivity
     }
 
     static void updateUserInfo() {
+        mAuth = FirebaseAuth.getInstance();
+        mfirebaseUser = mAuth.getCurrentUser();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         final GenericTypeIndicator<ArrayList<String>> favorite_t = new GenericTypeIndicator<ArrayList<String>>() {};
         final GenericTypeIndicator<ArrayList<StockSnippet>> stockRecord_t = new GenericTypeIndicator<ArrayList<StockSnippet>>() {};
+
 
         mUid = mfirebaseUser.getUid();
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mUserName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
+                mEmail = dataSnapshot.child("users").child(mUid).child("email").getValue(String.class);
                 mMoney = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
                 mEarning  = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
                 mBalance = dataSnapshot.child("users").child(mUid).child("balance").getValue(double.class);
 
                 mFavorites = dataSnapshot.child("users").child(mUid).child("favorites").getValue(favorite_t);
                 mStockRecords = dataSnapshot.child("users").child(mUid).child("myStocks").getValue(stockRecord_t);
-                Log.d("MainActivity", "single event listener called, mUserName=" + mUserName);
-                System.out.println(mFavorites);
-                System.out.println(mStockRecords);
-                System.out.println("***********************************");
+
             }
 
             @Override
@@ -413,6 +396,8 @@ public class MainActivity extends TitleActivity
 
             }
         });
+
+        StockIds_= new HashSet<String>(mFavorites);
     }
 
     void clearLocalData() {
