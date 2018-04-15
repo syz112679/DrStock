@@ -52,7 +52,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     private View v;
 
     String API_KEY = "8190df9eb51445228e397e4185311a66"; // ### YOUE NEWS API HERE ###
-    String NEWS_SOURCE = "bbc-news";
+    String NEWS_SOURCE = "business-insider";
     ListView listNews;
     ProgressBar loader;
 
