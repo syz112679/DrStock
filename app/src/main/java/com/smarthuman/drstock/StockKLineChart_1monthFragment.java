@@ -2,6 +2,7 @@ package com.smarthuman.drstock;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -39,6 +41,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.Utils;
 
@@ -232,14 +236,14 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
         mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry entry, int i, Highlight highlight) {
-                CandleEntry candleEntry = (CandleEntry) entry;
-                float change = (candleEntry.getClose() - candleEntry.getOpen()) / candleEntry.getOpen();
-                NumberFormat nf = NumberFormat.getPercentInstance();
-                nf.setMaximumFractionDigits(2);
-                String changePercentage = nf.format(Double.valueOf(String.valueOf(change)));
-                Log.d("qqq", "最高" + candleEntry.getHigh() + " 最低" + candleEntry.getLow() +
-                        " 开盘" + candleEntry.getOpen() + " 收盘" + candleEntry.getClose() +
-                        " 涨跌幅" + changePercentage);
+//                CandleEntry candleEntry = (CandleEntry) entry;
+//                float change = (candleEntry.getClose() - candleEntry.getOpen()) / candleEntry.getOpen();
+//                NumberFormat nf = NumberFormat.getPercentInstance();
+//                nf.setMaximumFractionDigits(2);
+//                String changePercentage = nf.format(Double.valueOf(String.valueOf(change)));
+//                Log.d("qqq", "最高" + candleEntry.getHigh() + " 最低" + candleEntry.getLow() +
+//                        " 开盘" + candleEntry.getOpen() + " 收盘" + candleEntry.getClose() +
+//                        " 涨跌幅" + changePercentage);
             }
 
             @Override
@@ -287,6 +291,10 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
         combinedData.setData(lineData);
         mChart.setData(combinedData);//当前屏幕会显示所有的数据
         setOffset();
+        mChart.setOnChartGestureListener(new CoupleChartGestureListener(
+                mChart, rsiChart));
+        rsiChart.setOnChartGestureListener(new CoupleChartGestureListener(
+                rsiChart, mChart));
         mChart.invalidate();
     }
 
@@ -444,7 +452,7 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
         }
 
         /*k line*/
-        LineDataSet set = generateLineDataSet(lineEntries, colorMa5, "rsi10");
+        LineDataSet set = generateLineDataSet(lineEntries, colorMa20, "rsi10");
         LineData data = new LineData(xVals,set);
         rsiChart.setData(data);
         //setOffset();
@@ -464,7 +472,7 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
         }
 
         /*k line*/
-        LineDataSet set = generateLineDataSet(lineEntries, colorMa5, "rsi14");
+        LineDataSet set = generateLineDataSet(lineEntries, colorMa20, "rsi14");
         LineData data = new LineData(xVals,set);
         rsiChart.setData(data);
         //setOffset();
@@ -484,7 +492,7 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
         }
 
         /*k line*/
-        LineDataSet set = generateLineDataSet(lineEntries, colorMa5, "rsi20");
+        LineDataSet set = generateLineDataSet(lineEntries, colorMa20, "rsi20");
         LineData data = new LineData(xVals,set);
         rsiChart.setData(data);
         //setOffset();
@@ -517,6 +525,83 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
 
     }
 
+    public class CoupleChartGestureListener implements OnChartGestureListener {
+
+        private Chart srcChart;
+        private Chart dstChart;
+
+        public CoupleChartGestureListener(Chart srcChart, Chart dstChart) {
+            this.srcChart = srcChart;
+            this.dstChart = dstChart;
+        }
+
+
+        @Override
+        public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+
+        }
+
+        @Override
+        public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+
+        }
+
+        @Override
+        public void onChartLongPressed(MotionEvent me) {
+
+        }
+
+        @Override
+        public void onChartDoubleTapped(MotionEvent me) {
+
+        }
+
+        @Override
+        public void onChartSingleTapped(MotionEvent me) {
+
+        }
+
+        @Override
+        public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
+
+        }
+
+        @Override
+        public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
+            //Log.d(TAG, "onChartScale " + scaleX + "/" + scaleY + " X=" + me.getX() + "Y=" + me.getY());
+            syncCharts();
+        }
+
+        @Override
+        public void onChartTranslate(MotionEvent me, float dX, float dY) {
+            //Log.d(TAG, "onChartTranslate " + dX + "/" + dY + " X=" + me.getX() + "Y=" + me.getY());
+            syncCharts();
+        }
+
+        public void syncCharts() {
+            Matrix srcMatrix;
+            float[] srcVals = new float[9];
+            Matrix dstMatrix;
+            float[] dstVals = new float[9];
+
+            // get src chart translation matrix:
+            srcMatrix = srcChart.getViewPortHandler().getMatrixTouch();
+            srcMatrix.getValues(srcVals);
+
+            // apply X axis scaling and position to dst charts:
+
+                if (dstChart.getVisibility() == View.VISIBLE) {
+                    dstMatrix = dstChart.getViewPortHandler().getMatrixTouch();
+                    dstMatrix.getValues(dstVals);
+                    dstVals[Matrix.MSCALE_X] = srcVals[Matrix.MSCALE_X];
+                    dstVals[Matrix.MTRANS_X] = srcVals[Matrix.MTRANS_X];
+                    dstMatrix.setValues(dstVals);
+                    dstChart.getViewPortHandler().refresh(dstMatrix, dstChart, true);
+                }
+
+        }
+
+    }
 
     public class CustomMarkerView extends MarkerView {
 

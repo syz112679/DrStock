@@ -627,8 +627,10 @@ public class StockFragment extends Fragment implements View.OnClickListener {
             int color = Color.BLACK;
             if (stock.isRising()) {
                 color = MainActivity.UpColor_;
+                System.out.println("------upcolor in main-----: "+color);
             } else {
                 color = MainActivity.DownColor_;
+                System.out.println("------downcolor in main-----: "+color);
             }
 
             now.setTextColor(color);

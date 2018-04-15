@@ -62,9 +62,9 @@
 
     <color name="label_etf_bg">#2C2C37</color>
 
-    <color name="ma5">#823E66</color>
-    <color name="ma10">#B99C7A</color>
-    <color name="ma20">#3C7193</color>
+    <color name="ma5">#FF9966</color>
+    <color name="ma10">#99CC99</color>
+    <color name="ma20">#0099CC</color>
 
     <color name="line_chart_color">#ff9a7a</color>
 

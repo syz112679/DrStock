@@ -191,13 +191,13 @@ public class EachStockActivity extends TitleActivity {
 //        currency.setText(myStock.getCurrency());
 
         if (myStock.isRising()) {
-            currentPrice.setTextColor(getResources().getColor(MainActivity.UpColor_));
-            priceChange.setTextColor(getResources().getColor(MainActivity.UpColor_));
-            changePercent.setTextColor(getResources().getColor(MainActivity.UpColor_));
+            currentPrice.setTextColor(MainActivity.UpColor_);
+            priceChange.setTextColor(MainActivity.UpColor_);
+            changePercent.setTextColor(MainActivity.UpColor_);
         } else {
-            currentPrice.setTextColor(getResources().getColor(MainActivity.DownColor_));
-            priceChange.setTextColor(getResources().getColor(MainActivity.DownColor_));
-            changePercent.setTextColor(getResources().getColor(MainActivity.DownColor_));
+            currentPrice.setTextColor(MainActivity.DownColor_);
+            priceChange.setTextColor(MainActivity.DownColor_);
+            changePercent.setTextColor(MainActivity.DownColor_);
         }
     }
 
