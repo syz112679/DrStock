@@ -23,6 +23,7 @@ import java.util.Map;
 public class Model {
     public static String data = " ";
     public static String dataF = " ";
+    public static String dataR = " ";
     //k line
     public static void setData(String d) {
         data = d;
@@ -46,7 +47,14 @@ public class Model {
         return new Gson().fromJson(dataF, StockDayBean.class).getPrice().getValues();
     }
 
+    //Rsi chart
+    public static void setData_Rsi(String d){
+        dataR = d;
+        System.out.println("-----Model setdataR-----:"+dataR);
+    }
 
+
+    //fenshi chart
     public static List<Entry> getLineEntries(){
         List<Float> rawDataPrice = new Gson().fromJson(dataF, StockDayBean.class).getPrice().getValues();
         List<Entry> entries = new ArrayList<>();
@@ -64,6 +72,7 @@ public class Model {
         return entries;
     }
 
+    //fenshi barchart
     public static List<BarEntry> getBarEntries(){
         List<Integer> rawDataVol = new Gson().fromJson(dataF, StockDayBean.class).getVol().getValues();
         List<BarEntry> entries = new ArrayList<>();
@@ -80,7 +89,7 @@ public class Model {
         List<Float> rawDataHigh = new Gson().fromJson(data, StockListBean.class).getHigh().getValues();
         List<Float> rawDataLow = new Gson().fromJson(data, StockListBean.class).getLow().getValues();
         List<Float> rawDataOpen = new Gson().fromJson(data, StockListBean.class).getOpen().getValues();
-        List<Float> rawDataClose = new Gson().fromJson(data, StockListBean.class).getHigh().getValues();
+        List<Float> rawDataClose = new Gson().fromJson(data, StockListBean.class).getPrice().getValues();
         String rawDataEname = new Gson().fromJson(data, StockListBean.class).getEng_name().getValues();
         return getCandleEntries(rawDataHigh, rawDataLow, rawDataOpen, rawDataClose,rawDataHigh.size()-21);
     }
@@ -90,7 +99,7 @@ public class Model {
         List<Float> rawDataHigh = new Gson().fromJson(data, StockListBean.class).getHigh().getValues();
         List<Float> rawDataLow = new Gson().fromJson(data, StockListBean.class).getLow().getValues();
         List<Float> rawDataOpen = new Gson().fromJson(data, StockListBean.class).getOpen().getValues();
-        List<Float> rawDataClose = new Gson().fromJson(data, StockListBean.class).getHigh().getValues();
+        List<Float> rawDataClose = new Gson().fromJson(data, StockListBean.class).getPrice().getValues();
         String rawDataEname = new Gson().fromJson(data, StockListBean.class).getEng_name().getValues();
         return getCandleEntries(rawDataHigh, rawDataLow, rawDataOpen, rawDataClose,rawDataHigh.size()-60);
     }
@@ -100,7 +109,7 @@ public class Model {
         List<Float> rawDataHigh = new Gson().fromJson(data, StockListBean.class).getHigh().getValues();
         List<Float> rawDataLow = new Gson().fromJson(data, StockListBean.class).getLow().getValues();
         List<Float> rawDataOpen = new Gson().fromJson(data, StockListBean.class).getOpen().getValues();
-        List<Float> rawDataClose = new Gson().fromJson(data, StockListBean.class).getHigh().getValues();
+        List<Float> rawDataClose = new Gson().fromJson(data, StockListBean.class).getPrice().getValues();
         String rawDataEname = new Gson().fromJson(data, StockListBean.class).getEng_name().getValues();
         return getCandleEntries(rawDataHigh, rawDataLow, rawDataOpen, rawDataClose,rawDataHigh.size()-246);
     }
@@ -110,7 +119,7 @@ public class Model {
         List<Float> rawDataHigh = new Gson().fromJson(data, StockListBean.class).getHigh().getValues();
         List<Float> rawDataLow = new Gson().fromJson(data, StockListBean.class).getLow().getValues();
         List<Float> rawDataOpen = new Gson().fromJson(data, StockListBean.class).getOpen().getValues();
-        List<Float> rawDataClose = new Gson().fromJson(data, StockListBean.class).getHigh().getValues();
+        List<Float> rawDataClose = new Gson().fromJson(data, StockListBean.class).getPrice().getValues();
         String rawDataEname = new Gson().fromJson(data, StockListBean.class).getEng_name().getValues();
         return getCandleEntries(rawDataHigh, rawDataLow, rawDataOpen, rawDataClose,0);
     }
@@ -148,7 +157,7 @@ public class Model {
 
     public static List<Entry> getMa50Entries_1month(){
         List<Float> ma50Entries = new Gson().fromJson(data, StockListBean.class).getSma50().getValues();
-        return getMa10Entries(ma50Entries, ma50Entries.size()-21);
+        return getMa50Entries(ma50Entries, ma50Entries.size()-21);
     }
 
     //3 months ma lines
@@ -164,7 +173,7 @@ public class Model {
 
     public static List<Entry> getMa50Entries_3month(){
         List<Float> ma50Entries = new Gson().fromJson(data, StockListBean.class).getSma50().getValues();
-        return getMa10Entries(ma50Entries, ma50Entries.size()-60);
+        return getMa50Entries(ma50Entries, ma50Entries.size()-60);
     }
 
     //1 year ma lines
@@ -180,7 +189,7 @@ public class Model {
 
     public static List<Entry> getMa50Entries_1year(){
         List<Float> ma50Entries = new Gson().fromJson(data, StockListBean.class).getSma50().getValues();
-        return getMa10Entries(ma50Entries, ma50Entries.size()-246);
+        return getMa50Entries(ma50Entries, ma50Entries.size()-246);
     }
 
     //1 year ma lines
@@ -196,7 +205,7 @@ public class Model {
 
     public static List<Entry> getMa50Entries_3year(){
         List<Float> ma50Entries = new Gson().fromJson(data, StockListBean.class).getSma50().getValues();
-        return getMa10Entries(ma50Entries, 0);
+        return getMa50Entries(ma50Entries, 0);
     }
 
 
@@ -229,6 +238,107 @@ public class Model {
         for (int i = startIndex; i < ma50Entries.size(); i++) {
             Float ma50 = ma50Entries.get(i);
             Entry entry = new Entry(ma50,i-startIndex);
+            entries.add(entry);
+        }
+        return entries;
+    }
+
+    //k line RSI chart
+
+    //1 month
+    public static List<Entry> getRsi10Entries_1month(){
+        List<Float> rsi_10Entries = new Gson().fromJson(dataR, StockRsiBean.class).getRsi10().getValues();
+        return getRsi10Entries(rsi_10Entries, rsi_10Entries.size()-21);
+    }
+
+    public static List<Entry> getRsi14Entries_1month(){
+        List<Float> rsi_14Entries = new Gson().fromJson(dataR, StockRsiBean.class).getRsi14().getValues();
+        return getRsi14Entries(rsi_14Entries, rsi_14Entries.size()-21);
+    }
+
+    public static List<Entry> getRsi20Entries_1month(){
+        List<Float> rsi_20Entries = new Gson().fromJson(dataR, StockRsiBean.class).getRsi20().getValues();
+        return getRsi20Entries(rsi_20Entries, rsi_20Entries.size()-21);
+    }
+
+    //3 months
+
+    public static List<Entry> getRsi10Entries_3month(){
+        List<Float> rsi_10Entries = new Gson().fromJson(dataR, StockRsiBean.class).getRsi10().getValues();
+        return getRsi10Entries(rsi_10Entries, rsi_10Entries.size()-60);
+    }
+
+    public static List<Entry> getRsi14Entries_3month(){
+        List<Float> rsi_14Entries = new Gson().fromJson(dataR, StockRsiBean.class).getRsi14().getValues();
+        return getRsi14Entries(rsi_14Entries, rsi_14Entries.size()-60);
+    }
+
+    public static List<Entry> getRsi20Entries_3month(){
+        List<Float> rsi_20Entries = new Gson().fromJson(dataR, StockRsiBean.class).getRsi20().getValues();
+        return getRsi20Entries(rsi_20Entries, rsi_20Entries.size()-60);
+    }
+
+    //1 year
+
+    public static List<Entry> getRsi10Entries_1year(){
+        List<Float> rsi_10Entries = new Gson().fromJson(dataR, StockRsiBean.class).getRsi10().getValues();
+        return getRsi10Entries(rsi_10Entries, rsi_10Entries.size()-246);
+    }
+
+    public static List<Entry> getRsi14Entries_1year(){
+        List<Float> rsi_14Entries = new Gson().fromJson(dataR, StockRsiBean.class).getRsi14().getValues();
+        return getRsi14Entries(rsi_14Entries, rsi_14Entries.size()-246);
+    }
+
+    public static List<Entry> getRsi20Entries_1year(){
+        List<Float> rsi_20Entries = new Gson().fromJson(dataR, StockRsiBean.class).getRsi20().getValues();
+        return getRsi20Entries(rsi_20Entries, rsi_20Entries.size()-246);
+    }
+
+    //3 years
+    public static List<Entry> getRsi10Entries_3year(){
+        List<Float> rsi_10Entries = new Gson().fromJson(dataR, StockRsiBean.class).getRsi10().getValues();
+        return getRsi10Entries(rsi_10Entries, 0);
+    }
+
+    public static List<Entry> getRsi14Entries_3year(){
+        List<Float> rsi_14Entries = new Gson().fromJson(dataR, StockRsiBean.class).getRsi14().getValues();
+        return getRsi14Entries(rsi_14Entries, 0);
+    }
+
+    public static List<Entry> getRsi20Entries_3year(){
+        List<Float> rsi_20Entries = new Gson().fromJson(dataR, StockRsiBean.class).getRsi20().getValues();
+        return getRsi20Entries(rsi_20Entries, 0);
+    }
+
+
+
+
+    public static List<Entry> getRsi10Entries(List<Float> rsi_10Entries, int startIndex){
+        List<Entry> entries = new ArrayList<>();
+        for (int i = startIndex; i < rsi_10Entries.size(); i++) {
+            Float rsi_10 = rsi_10Entries.get(i);
+            Entry entry = new Entry(rsi_10,i-startIndex);
+            entries.add(entry);
+        }
+        return entries;
+    }
+
+    public static List<Entry> getRsi14Entries(List<Float> rsi_14Entries, int startIndex){
+        List<Entry> entries = new ArrayList<>();
+        for (int i = startIndex; i < rsi_14Entries.size(); i++) {
+            Float rsi_14 = rsi_14Entries.get(i);
+            Entry entry = new Entry(rsi_14,i-startIndex);
+            entries.add(entry);
+        }
+        return entries;
+    }
+
+    public static List<Entry> getRsi20Entries(List<Float> rsi_20Entries, int startIndex){
+        List<Entry> entries = new ArrayList<>();
+        for (int i = startIndex; i < rsi_20Entries.size(); i++) {
+            Float rsi_20 = rsi_20Entries.get(i);
+            Entry entry = new Entry(rsi_20,i-startIndex);
             entries.add(entry);
         }
         return entries;

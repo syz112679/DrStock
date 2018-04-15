@@ -1,5 +1,6 @@
 package com.smarthuman.drstock;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -21,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.CandleData;
@@ -30,11 +34,14 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.Utils;
 
 import java.io.DataInput;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +49,12 @@ import java.util.List;
  * Created by Li Shuhan on 2018/4/12.
  */
 
-public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragment {
+public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragment implements  View.OnClickListener {
     private String TAG = "qqq";
     private CombinedChart mChart;
     private int itemcount;
     private LineData lineData;
+    private LineChart rsiChart;
     private CandleData candleData;
     private CombinedData combinedData;
     private ArrayList<String> xVals;
@@ -57,6 +65,9 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
     private int colorMa5;
     private int colorMa10;
     private int colorMa20;
+    private Button rsi10_Btn, rsi14_Btn, rsi20_Btn;
+    public String storedData;
+    Stock stock = ((EachStockActivity) getActivity()).myStock;
 
     @Nullable
     @Override
@@ -95,8 +106,77 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
         } else{
             Toast.makeText(getContext(),"Sorry, you can only see HK stock's graph.",Toast.LENGTH_LONG).show();
         }
+
+        if (stock.marketId_.equals("HK")) {
+            String money18_rsi_url = "http://money18.on.cc/chartdata/full/rsi/" + stock.id_ + "_rsi_full.txt";
+
+            rsiChart = (LineChart) view.findViewById(R.id.RSI_chart);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, money18_rsi_url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            //System.out.println("-----Main setdata-----:"+response);
+                            storedData = response;
+
+                            Model.setData_Rsi(response);
+
+                            initChart_Rsi();
+
+                            loadChartData_Rsi10();
+
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("TAG", error.getMessage(), error);
+                }
+            });
+            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
+            mQueue.add(stringRequest);
+        } else{
+            Toast.makeText(getContext(),"Sorry, you can only see HK stock's graph.",Toast.LENGTH_LONG).show();
+        }
+
+        rsi10_Btn = (Button) view.findViewById(R.id.rsi_10_btn);
+        rsi10_Btn.setOnClickListener(this);
+        rsi14_Btn = (Button) view.findViewById(R.id.rsi_14_btn);
+        rsi14_Btn.setOnClickListener(this);
+        rsi20_Btn = (Button) view.findViewById(R.id.rsi_20_btn);
+        rsi20_Btn.setOnClickListener(this);
         return view;
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rsi_10_btn:
+                Log.d("render rsi 10 chart", "here");
+                Model.setData_Rsi(storedData);
+                Log.d("stored data", storedData);
+                initChart_Rsi();
+
+                loadChartData_Rsi10();
+                break;
+            case R.id.rsi_14_btn:
+                Log.d("render rsi 14 chart", "here");
+                Model.setData_Rsi(storedData);
+                Log.d("stored data", storedData);
+                initChart_Rsi();
+
+                loadChartData_Rsi14();
+                break;
+            case R.id.rsi_20_btn:
+                Log.d("render rsi 20 chart", "here");
+                Model.setData_Rsi(storedData);
+                Log.d("stored data", storedData);
+                initChart_Rsi();
+
+                loadChartData_Rsi20();
+                break;
+        }
+    }
+
 
     private void initChart() {
         colorHomeBg = getResources().getColor(R.color.home_page_bg);
@@ -197,6 +277,7 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
 
         combinedData.setData(lineData);
         mChart.setData(combinedData);//当前屏幕会显示所有的数据
+        setOffset();
         mChart.invalidate();
     }
 
@@ -204,6 +285,7 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
         LineDataSet set = new LineDataSet(entries, label);
         set.setColor(color);
         set.setLineWidth(1f);
+        set.setDrawCubic(true);//圆滑曲线
         set.setHighlightEnabled(true);
         set.setDrawHighlightIndicators(true);
         set.setHighLightColor(Color.BLACK);
@@ -212,9 +294,9 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
         set.setDrawCircleHole(false);
         set.setDrawValues(false);
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set.setDrawFilled(true);
-        Drawable drawable = ContextCompat.getDrawable(this.getActivity(), R.drawable.fade_red);
-        set.setFillDrawable(drawable);
+        set.setDrawFilled(false);
+        //Drawable drawable = ContextCompat.getDrawable(this.getActivity(), R.drawable.fade_red);
+        //set.setFillDrawable(drawable);
 
         return set;
     }
@@ -254,6 +336,208 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
         candleData.addDataSet(set);
 
         return candleData;
+    }
+
+    private void initChart_Rsi(){
+        rsiChart.setScaleEnabled(false);
+        rsiChart.setDrawBorders(false);
+        rsiChart.setBorderWidth(1);
+        rsiChart.setBorderColor(getResources().getColor(R.color.edit_text_underline));
+        rsiChart.setDescription("");
+        Legend lineChartLegend = rsiChart.getLegend();
+        lineChartLegend.setEnabled(false);
+        rsiChart.setDrawMarkerViews(true);
+        rsiChart.setTouchEnabled(true); // 设置是否可以触摸
+        rsiChart.setDragEnabled(true);// 是否可以拖拽
+        CustomMarkerView mv = new CustomMarkerView(this.getActivity(), R.layout.mymarkerview);
+        rsiChart.setMarkerView(mv);
+
+        rsiChart.setScaleXEnabled(true); //是否可以缩放 仅x轴
+        rsiChart.setScaleYEnabled(true); //是否可以缩放 仅y轴
+        rsiChart.setPinchZoom(true);  //设置x轴和y轴能否同时缩放。默认是否
+        rsiChart.setDoubleTapToZoomEnabled(true);//设置是否可以通过双击屏幕放大图表。默认是true
+        rsiChart.setHighlightPerDragEnabled(true);//能否拖拽高亮线(数据点与坐标的提示线)，默认是true
+        rsiChart.setDragDecelerationEnabled(true);//拖拽滚动时，手放开是否会持续滚动，默认是true（false是拖到哪是哪，true拖拽之后还会有缓冲）
+        rsiChart.setDragDecelerationFrictionCoef(0.99f);//与上面那个属性配合，持续滚动时的速度快慢，[0,1) 0代表立即停止。
+
+        //x轴
+        XAxis xAxis = rsiChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelsToSkip(59);
+
+
+
+        //左边y
+        YAxis axisLeft = rsiChart.getAxisLeft();
+        axisLeft.setLabelCount(5, true);
+        axisLeft.setDrawLabels(true);
+
+        //右边y
+        YAxis axisRight = rsiChart.getAxisRight();
+        axisRight.setEnabled(false);
+
+        //y轴样式
+        axisLeft.setValueFormatter(new YAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, YAxis yAxis) {
+                DecimalFormat mFormat = new DecimalFormat("#0.00");
+                return mFormat.format(value);
+            }
+        });
+
+        //背景线
+        xAxis.setGridColor(getResources().getColor(R.color.edit_text_underline));
+        xAxis.setAxisLineColor(getResources().getColor(R.color.edit_text_underline));
+        axisLeft.setGridColor(getResources().getColor(R.color.edit_text_underline));
+
+        rsiChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+//                barChart.setHighlightValue(new Highlight(h.getXIndex(), 0));
+
+                mChart.highlightValue(new Highlight(h.getXIndex(), 0));
+
+                // lineChart.setHighlightValue(h);
+            }
+
+            @Override
+            public void onNothingSelected() {
+                mChart.highlightValue(null);
+            }
+        });
+        mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+                rsiChart.highlightValue(new Highlight(h.getXIndex(), 0));
+                // lineChart.setHighlightValue(new Highlight(h.getXIndex(), 0));//此函数已经返回highlightBValues的变量，并且刷新，故上面方法可以注释
+                //barChart.setHighlightValue(h);
+            }
+
+            @Override
+            public void onNothingSelected() {
+                rsiChart.highlightValue(null);
+            }
+        });
+
+
+    }
+
+    private void loadChartData_Rsi10(){
+        rsiChart.resetTracking();
+        List<Entry> lineEntries = Model.getRsi10Entries_3month();
+
+        itemcount = lineEntries.size();
+        System.out.println("----itemcount : "+itemcount);
+//        List<String> DateInfo = Model.getDate();
+        xVals = new ArrayList<>();
+        for (int i = 0; i < itemcount; i++) {
+            xVals.add(" ");
+        }
+
+        /*k line*/
+        LineDataSet set = generateLineDataSet(lineEntries, colorMa5, "rsi10");
+        LineData data = new LineData(xVals,set);
+        rsiChart.setData(data);
+        //setOffset();
+        rsiChart.invalidate();
+    }
+
+    private void loadChartData_Rsi14(){
+        rsiChart.resetTracking();
+        List<Entry> lineEntries = Model.getRsi14Entries_3month();
+
+        itemcount = lineEntries.size();
+        System.out.println("----itemcount : "+itemcount);
+//        List<String> DateInfo = Model.getDate();
+        xVals = new ArrayList<>();
+        for (int i = 0; i < itemcount; i++) {
+            xVals.add(" ");
+        }
+
+        /*k line*/
+        LineDataSet set = generateLineDataSet(lineEntries, colorMa5, "rsi14");
+        LineData data = new LineData(xVals,set);
+        rsiChart.setData(data);
+        //setOffset();
+        rsiChart.invalidate();
+    }
+
+    private void loadChartData_Rsi20(){
+        rsiChart.resetTracking();
+        List<Entry> lineEntries = Model.getRsi20Entries_3month();
+
+        itemcount = lineEntries.size();
+        System.out.println("----itemcount : "+itemcount);
+//        List<String> DateInfo = Model.getDate();
+        xVals = new ArrayList<>();
+        for (int i = 0; i < itemcount; i++) {
+            xVals.add(" ");
+        }
+
+        /*k line*/
+        LineDataSet set = generateLineDataSet(lineEntries, colorMa5, "rsi20");
+        LineData data = new LineData(xVals,set);
+        rsiChart.setData(data);
+        //setOffset();
+        rsiChart.invalidate();
+    }
+
+    /*设置量表对齐*/
+    private void setOffset() {
+        float lineLeft = rsiChart.getViewPortHandler().offsetLeft();
+        float combinedLeft = mChart.getViewPortHandler().offsetLeft();
+        float lineRight = rsiChart.getViewPortHandler().offsetRight();
+        float combinedRight = mChart.getViewPortHandler().offsetRight();
+        float offsetLeft, offsetRight;
+ /*注：setExtraLeft...函数是针对图表相对位置计算，比如A表offLeftA=20dp,B表offLeftB=30dp,则A.setExtraLeftOffset(10),并不是30，还有注意单位转换*/
+        if (combinedLeft < lineLeft) {
+            offsetLeft = Utils.convertPixelsToDp(lineLeft-combinedLeft);
+            mChart.setExtraLeftOffset(offsetLeft);
+        } else {
+            offsetLeft = Utils.convertPixelsToDp(combinedLeft-lineLeft);
+            rsiChart.setExtraLeftOffset(offsetLeft);
+        }
+  /*注：setExtra...函数是针对图表绝对位置计算，比如A表offRightA=20dp,B表offRightB=30dp,则A.setExtraLeftOffset(30),并不是10，还有注意单位转换*/
+        if (combinedRight < lineRight) {
+            offsetRight = Utils.convertPixelsToDp(lineRight);
+            mChart.setExtraRightOffset(offsetRight);
+        } else {
+            offsetRight = Utils.convertPixelsToDp(combinedRight);
+            rsiChart.setExtraRightOffset(offsetRight);
+        }
+
+    }
+
+
+    public class CustomMarkerView extends MarkerView {
+
+        private TextView tvContent;
+
+        public CustomMarkerView (Context context, int layoutResource) {
+            super(context, layoutResource);
+            // this markerview only displays a textview
+            tvContent = (TextView) findViewById(R.id.tvContent);
+        }
+
+        // callbacks everytime the MarkerView is redrawn, can be used to update the
+        // content (user-interface)
+        @Override
+        public void refreshContent(Entry e, Highlight highlight) {
+            tvContent.setText("" + e.getVal()); // set the entry-value as the display text
+        }
+
+        @Override
+        public int getXOffset(float xpos) {
+            // this will center the marker-view horizontally
+            return -(getWidth() / 2);
+        }
+
+        @Override
+        public int getYOffset(float ypos) {
+            // this will cause the marker-view to be above the selected value
+            return -getHeight();
+        }
+
     }
 
 }
