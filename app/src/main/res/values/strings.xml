@@ -78,4 +78,8 @@
     <string name="three_month">3 Month</string>
     <string name="one_year">1 Year</string>
     <string name="three_year">3 Year</string>
+
+    <string name="rsi_10">10 days</string>
+    <string name="rsi_14">14 days</string>
+    <string name="rsi_20">20 days</string>
 </resources>
