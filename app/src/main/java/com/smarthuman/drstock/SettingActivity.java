@@ -36,7 +36,7 @@ public class SettingActivity extends TitleActivity{
 //        setTitleBackground(MainActivity.UpColor_);
 
         setTitle(R.string.setting);
-        showBackwardView(R.string.text_back, true);
+        showBackward(getDrawable(R.drawable.ic_return), true);
 
         settingTable = findViewById(R.id.Table_setting);
         risingColour = findViewById(R.id.switch_risingColour);

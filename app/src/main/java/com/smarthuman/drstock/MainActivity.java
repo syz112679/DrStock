@@ -146,7 +146,7 @@ public class MainActivity extends TitleActivity
         setContentView(R.layout.activity_main);
 
         setTitle(R.string.mainActivity);
-        showBackwardView(R.string.setting, true);
+        showBackward(getDrawable(R.drawable.ic_setup), true);
 //        setBackward(getResources().getDrawable(R.drawable.ic_settings_black_24dp), "");
 
         Log.d("mainActivity", "LIne 126");
@@ -553,6 +553,7 @@ public class MainActivity extends TitleActivity
         Log.d("MainActivity", "onResume: called");
 
         super.onResume();
+        refreshStocks();
 //        if(FirebaseAuth.getInstance().getCurrentUser() != null)
 //            updateUserInfo();
         //updateDatabase();
