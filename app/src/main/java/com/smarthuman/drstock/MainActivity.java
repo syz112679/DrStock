@@ -103,8 +103,8 @@ public class MainActivity extends TitleActivity
     private final static String StockIdsKey_ = "StockIds";
     public static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
 
-    public static int UpColor_ = R.color.green;
-    public static int DownColor_ = R.color.red;
+    public static int UpColor_ = Color.rgb(0, 153, 102);
+    public static int DownColor_ = Color.rgb(255, 102, 102);
 
     public static boolean enableMobileRefresh = true;
     public static int mobileRefreshTime = 15;

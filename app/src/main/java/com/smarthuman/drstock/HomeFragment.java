@@ -103,19 +103,19 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        listNews = (ListView) v.findViewById(R.id.listNews);
-        loader = (ProgressBar) v.findViewById(R.id.loader);
-        listNews.setEmptyView(loader);
-
-
-
-        if(Function.isNetworkAvailable(getActivity().getApplicationContext()))
-        {
-            DownloadNews newsTask = new DownloadNews();
-            newsTask.execute();
-        }else{
-            Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
-        }
+//        listNews = (ListView) v.findViewById(R.id.listNews);
+//        loader = (ProgressBar) v.findViewById(R.id.loader);
+//        listNews.setEmptyView(loader);
+//
+//
+//
+//        if(Function.isNetworkAvailable(getActivity().getApplicationContext()))
+//        {
+//            DownloadNews newsTask = new DownloadNews();
+//            newsTask.execute();
+//        }else{
+//            Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+//        }
 
 
         return v;
@@ -208,7 +208,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             String xml = "";
 
             String urlParameters = "";
-            xml = Function.excuteGet("https://newsapi.org/v1/articles?source="+NEWS_SOURCE+"&sortBy=top&apiKey="+API_KEY, urlParameters);
+            xml = Function.excuteGet("https://newsapi.org/v2/articles?source="+NEWS_SOURCE+"&sortBy=top&apiKey="+API_KEY, urlParameters);
             return  xml;
         }
         @Override
