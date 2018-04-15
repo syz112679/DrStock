@@ -22,6 +22,8 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -59,6 +61,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -109,11 +113,15 @@ public class MainActivity extends TitleActivity
 
     //--------------------------------------------------------------------------------------------------
 
-    boolean isLogin = false;
-    public FirebaseUser mfirebaseUser;
-    public FirebaseAuth mAuth;
-    public DatabaseReference mDatabaseReference;
-    public String mUid;
+    public static FirebaseUser mfirebaseUser;
+    public static FirebaseAuth mAuth;
+    public static DatabaseReference mDatabaseReference;
+    public static String mUid;
+    public static String mUserName = "";
+    public static double mMoney=0.0, mEarning=0.0, mBalance=0.0;
+    public static ArrayList<StockSnippet> mStockRecords = new ArrayList<StockSnippet>();
+    public static ArrayList<String> mFavorites = new ArrayList<String>();
+
 
     public SectionStatePagerAdapter mSectionStatePagerAdapter;
     static public ViewPager mViewPager;
@@ -175,8 +183,7 @@ public class MainActivity extends TitleActivity
 
         if (mfirebaseUser != null) {
 
-            mUid = mfirebaseUser.getUid();
-
+            updateUserInfo();
         }
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -302,6 +309,8 @@ public class MainActivity extends TitleActivity
     public void onResume() {
         super.onResume();
         Log.d("MainActivity", "onResume: called");
+        if(FirebaseAuth.getInstance().getCurrentUser() != null)
+            updateUserInfo();
         //updateDatabase();
     }
 
@@ -341,7 +350,14 @@ public class MainActivity extends TitleActivity
 
     public void clearSharedPref() {
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        sharedPref.edit().clear().commit();
+        sharedPref.edit().remove("userName");
+        sharedPref.edit().remove("money");
+        sharedPref.edit().remove("earning");
+        sharedPref.edit().remove("balance");
+        sharedPref.edit().remove("isSuperUser");
+        Log.d("MainActivity", "clear shared pref called");
+
+        sharedPref.edit().commit();
     }
 
     public void updateDatabase() {
@@ -370,5 +386,41 @@ public class MainActivity extends TitleActivity
         }
     }
 
+    static void updateUserInfo() {
+        final GenericTypeIndicator<ArrayList<String>> favorite_t = new GenericTypeIndicator<ArrayList<String>>() {};
+        final GenericTypeIndicator<ArrayList<StockSnippet>> stockRecord_t = new GenericTypeIndicator<ArrayList<StockSnippet>>() {};
+
+        mUid = mfirebaseUser.getUid();
+        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mUserName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
+                mMoney = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
+                mEarning  = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
+                mBalance = dataSnapshot.child("users").child(mUid).child("balance").getValue(double.class);
+
+                mFavorites = dataSnapshot.child("users").child(mUid).child("favorites").getValue(favorite_t);
+                mStockRecords = dataSnapshot.child("users").child(mUid).child("myStocks").getValue(stockRecord_t);
+                Log.d("MainActivity", "single event listener called, mUserName=" + mUserName);
+                System.out.println(mFavorites);
+                System.out.println(mStockRecords);
+                System.out.println("***********************************");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    void clearLocalData() {
+        mMoney = 0.0;
+        mEarning = 0.0;
+        mBalance = 0.0;
+        mFavorites = new ArrayList<String>();
+        mStockRecords = new ArrayList<StockSnippet>();
+        mUserName = null;
+    }
 
 }

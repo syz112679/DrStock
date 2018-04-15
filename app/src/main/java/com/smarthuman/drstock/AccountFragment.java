@@ -36,7 +36,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
     private Button mSignOutbtn;
     private Button mMyStockbtn;
     private Button mAdd1000;
-
+    private double money=0.0, earning=0.0, balance=0.0;
 
 
     @Nullable
@@ -63,28 +63,33 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         mAdd1000 = view.findViewById(R.id.add_money_btn);
         mAdd1000.setOnClickListener(this);
 
-        final GenericTypeIndicator<ArrayList<StockSnippet>> t = new GenericTypeIndicator<ArrayList<StockSnippet>>() {};
+        mUserName.setText(MainActivity.mUserName);
+        mMoney.setText(String.valueOf(MainActivity.mMoney));
+        mEarning.setText(String.valueOf(MainActivity.mEarning));
 
-        if( ((MainActivity)getActivity()).mfirebaseUser != null) {
-            ((MainActivity) getActivity()).mDatabaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String userName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
-                    double money = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
-                    double earning = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
+//       final GenericTypeIndicator<ArrayList<StockSnippet>> t = new GenericTypeIndicator<ArrayList<StockSnippet>>() {};
 
-                    mUserName.setText(userName);
-                    mMoney.setText(String.valueOf(money));
-                    mEarning.setText(String.valueOf(earning));
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
+//        if( ((MainActivity)getActivity()).mfirebaseUser != null) {
+//            ((MainActivity) getActivity()).mDatabaseReference.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    String userName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
+//                    money = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
+//                    earning  = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
+//                    balance = dataSnapshot.child("users").child(mUid).child("balance").getValue(double.class);
+//
+//                    mUserName.setText();
+//                    mMoney.setText(String.valueOf(money));
+//                    mEarning.setText(String.valueOf(earning));
+//
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
+//        }
         return view;
     }
 
@@ -97,8 +102,8 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                 Toast.makeText(getActivity(), "Signed Out...", Toast.LENGTH_SHORT).show();
 
                 ((MainActivity)getActivity()).setViewPager(2);
-                ((MainActivity)getActivity()).updateDatabase();
-                ((MainActivity)getActivity()).clearSharedPref();
+ //               ((MainActivity)getActivity()).updateDatabase();
+//                ((MainActivity)getActivity()).clearSharedPref();
                 break;
 
 
@@ -128,10 +133,12 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             postValues.put(snapshot.getKey(),snapshot.getValue());
                         }
-                        double money = Double.parseDouble(mMoney.getText().toString());
+
                         postValues.put("money", money+1000);
                         ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).updateChildren(postValues);
+                        ((MainActivity)getActivity()).mMoney += 1000;
                     }
+
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {

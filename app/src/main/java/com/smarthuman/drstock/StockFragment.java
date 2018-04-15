@@ -266,7 +266,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
 //        System.out.println("--------list: \n" + list + "\n------");
 
         // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this.getActivity());
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = "http://hq.sinajs.cn/list=" + list;
         //http://hq.sinajs.cn/list=sh600000,sh600536
 
