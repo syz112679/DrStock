@@ -48,8 +48,7 @@ public class EachStockActivity extends TitleActivity {
 //        setTitleBackground(R.color.titleBarDemo);
 //        setTitleBackground(MainActivity.UpColor_);
 
-        showBackwardView(R.string.text_back, true);
-        showForwardView(R.string.text_forward, true);
+        showBackward(getDrawable(R.drawable.ic_return), true);
 
 //        setGridLayout();
 
