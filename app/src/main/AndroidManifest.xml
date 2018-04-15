@@ -40,8 +40,6 @@
                 android:resource="@xml/searchable" />
         </activity>
 
-
-
         <activity
             android:name="com.smarthuman.drstock.RegisterActivity"
             android:screenOrientation="portrait">
@@ -70,7 +68,9 @@
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".DetailsActivity"/>
+        <activity
+            android:name=".DetailsActivity">
+        </activity>
 
         <activity
             android:name="com.smarthuman.drstock.SettingActivity"

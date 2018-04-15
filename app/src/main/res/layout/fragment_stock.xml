@@ -89,21 +89,27 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:maxLength="6"
             android:id="@+id/editText_stockId"
             android:layout_weight="1" />
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
+            android:background="#E0EAFC"
+            android:textSize="15dp"
             android:text="@string/button_add_label"
+            android:textColor="@color/myWhite"
             android:id="@+id/stockFrag_searchStock" />
+
     </LinearLayout>
 
     <!--ListView
@@ -118,6 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:id="@+id/stock_table">
 
         </TableLayout>
