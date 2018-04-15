@@ -59,8 +59,8 @@
 
     //eachstock:
     <string name="cancel">Cancel</string>
-    <string name="buy">Buy</string>
-    <string name="sell">Sell</string>
+    <string name="buy">BUY</string>
+    <string name="sell">SELL</string>
     <string name="high">High</string>
     <string name="low">Low</string>
     <string name="open">Open</string>

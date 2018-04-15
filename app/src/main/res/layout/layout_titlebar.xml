@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="52dp"
     android:id="@+id/layout_titlebar"
-    android:background="@color/titleBarDemo"
+    android:background="@color/myWhite"
     android:gravity="center_vertical">
 
     <TextView
@@ -15,12 +15,13 @@
         android:gravity="center_horizontal|center"
         android:singleLine="true"
         android:text="Title Bar"
-        android:textColor="#ffffffff"
+        android:textColor="#9F44D3"
         android:textSize="20dp" />
 
 
     <Button
         android:id="@+id/button_backward"
+        android:layout_marginLeft="10dp"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentStart="true"
@@ -48,6 +49,12 @@
         android:textColor="#ffffffff"
         android:textSize="18dp"
         android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/timber"
+        android:layout_alignBottom="@id/text_title"/>
 
 
 </RelativeLayout>

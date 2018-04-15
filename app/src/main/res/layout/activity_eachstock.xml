@@ -8,6 +8,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_above="@+id/bottom_button">
 
         <LinearLayout
@@ -18,7 +20,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@drawable/line_h"
+                android:divider="@drawable/line_timber"
                 android:orientation="vertical"
                 android:showDividers="end">
 
@@ -39,7 +41,8 @@
                         android:layout_rowWeight="1"
                         android:text="Date"
                         android:textAlignment="center"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/eachstock_time"
@@ -50,7 +53,8 @@
                         android:layout_gravity="fill"
                         android:layout_rowWeight="1"
                         android:text="Time"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/eachstock_price"
@@ -62,7 +66,8 @@
                         android:text="Price"
                         android:textAlignment="center"
                         android:textSize="30sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/eachstock_pricechange"
@@ -73,7 +78,8 @@
                         android:layout_gravity="fill"
                         android:layout_rowWeight="1"
                         android:text="change"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/eachstock_percent"
@@ -84,7 +90,8 @@
                         android:layout_gravity="fill"
                         android:layout_rowWeight="1"
                         android:text="__%"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="@color/transparent_black2"/>
 
 
                 </GridLayout>
@@ -104,7 +111,8 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="@string/high" />
+                        android:text="@string/high"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/high_data"
@@ -112,7 +120,8 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="0" />
+                        android:text="0"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/open_label"
@@ -120,7 +129,8 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="@string/open" />
+                        android:text="@string/open"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/open_data"
@@ -128,7 +138,8 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="0" />
+                        android:text="0"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/volume_label"
@@ -136,7 +147,8 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="@string/volume" />
+                        android:text="@string/volume"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/volume_data"
@@ -144,7 +156,8 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="0" />
+                        android:text="0"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/low_label"
@@ -152,7 +165,8 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="@string/low" />
+                        android:text="@string/low"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/low_data"
@@ -160,7 +174,8 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="0" />
+                        android:text="0"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/close_label"
@@ -168,7 +183,8 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="@string/close" />
+                        android:text="@string/close"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/close_data"
@@ -176,7 +192,8 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="0" />
+                        android:text="0"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/turnover_label"
@@ -184,7 +201,8 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="@string/turnover" />
+                        android:text="@string/turnover"
+                        android:textColor="@color/transparent_black2"/>
 
                     <TextView
                         android:id="@+id/turnover_data"
@@ -192,7 +210,8 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="0" />
+                        android:text="0"
+                        android:textColor="@color/transparent_black2"/>
 
                 </GridLayout>
 
@@ -213,7 +232,8 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:text="@string/bidPanel"
-                    android:textAlignment="textStart" />
+                    android:textAlignment="textStart"
+                    android:textColor="@color/transparent_black2"/>
 
                 <TextView
                     android:id="@+id/sell_panel"
@@ -223,7 +243,8 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:text="@string/sellPanel"
-                    android:textAlignment="textStart" />
+                    android:textAlignment="textStart"
+                    android:textColor="@color/transparent_black2"/>
 
                 <TextView
                     android:id="@+id/buy1_label"
@@ -233,7 +254,8 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:text="@string/bid1"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@color/transparent_black2"/>
 
                 <TextView
                     android:id="@+id/buy1_data"
@@ -243,7 +265,8 @@
                     android:layout_columnWeight="2"
                     android:layout_rowWeight="1"
                     android:text="0"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@color/transparent_black2"/>
 
                 <TextView
                     android:id="@+id/sell1_label"
@@ -253,7 +276,8 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:text="@string/sell1"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@color/transparent_black2"/>
 
                 <TextView
                     android:id="@+id/sell1_data"
@@ -263,7 +287,8 @@
                     android:layout_columnWeight="2"
                     android:layout_rowWeight="1"
                     android:text="0"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@color/transparent_black2"/>
 
             </GridLayout>
 
@@ -271,12 +296,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:divider="@drawable/line_h"
+                android:divider="@drawable/line_timber"
                 android:showDividers="beginning">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp">
+                    android:layout_height="50dp">
 
                     <Button
                         android:id="@+id/min_graph_btn"
@@ -285,7 +310,13 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:text="@string/minute"
-                        android:textSize="9dp" />
+                        android:textSize="12dp" />
+
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/timber"
+                        android:layout_gravity="center"/>
 
                     <Button
                         android:id="@+id/one_month_btn"
@@ -294,7 +325,13 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:text="@string/one_month"
-                        android:textSize="9dp" />
+                        android:textSize="12dp" />
+
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/timber"
+                        android:layout_gravity="center"/>
 
                     <Button
                         android:id="@+id/three_month_btn"
@@ -303,7 +340,13 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:text="@string/three_month"
-                        android:textSize="9dp" />
+                        android:textSize="12dp" />
+
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/timber"
+                        android:layout_gravity="center"/>
 
                     <Button
                         android:id="@+id/one_year_btn"
@@ -312,7 +355,13 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:text="@string/one_year"
-                        android:textSize="9dp" />
+                        android:textSize="12dp" />
+
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/timber"
+                        android:layout_gravity="center"/>
 
                     <Button
                         android:id="@+id/three_year_btn"
@@ -321,7 +370,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:text="@string/three_year"
-                        android:textSize="9dp" />
+                        android:textSize="12dp" />
 
                 </LinearLayout>
 
@@ -340,44 +389,58 @@
 
     <RelativeLayout
         android:id="@+id/bottom_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:gravity="bottom"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/eachstock_buy_btn"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="start"
-            android:layout_marginStart="18dp"
-            android:text="@string/buy" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/eachstock_buy_btn"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/color_sky"
+                android:text="@string/buy"
+                android:textSize="15dp"
+                android:textColor="@color/black" />
 
-        <Button
-            android:id="@+id/add_to_favorite"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_horizontal"
-            android:text="+" />
+            <ImageView
+                android:id="@+id/add_to_favorite"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/color_sky"
+                android:src="@drawable/ic_favourite" />
 
-        <Button
-            android:id="@+id/eachstock_sell_btn"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="end"
-            android:layout_marginEnd="18dp"
-            android:text="@string/sell" />
+            <Button
+                android:id="@+id/eachstock_sell_btn"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/color_sky"
+                android:text="@string/sell"
+                android:textSize="15dp"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+
     </RelativeLayout>
 
 </RelativeLayout>

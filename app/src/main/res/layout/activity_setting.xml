@@ -11,7 +11,10 @@
         android:layout_height="wrap_content"
         android:divider="@drawable/line_h"
         android:showDividers="middle|end"
-        android:stretchColumns="1">
+        android:stretchColumns="1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
 
         <TableRow
             android:id="@+id/tableRow_colour"

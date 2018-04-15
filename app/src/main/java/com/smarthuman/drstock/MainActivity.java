@@ -214,6 +214,21 @@ public class MainActivity extends TitleActivity
         System.out.println("addStockIds_:" + StockIds_ + ";");
     }
 
+//    @Override
+//    public void setTitle(int titleId) {
+//        TextView temp = (TextView) findViewById(R.id.text_title);
+//        temp.setText(titleId);
+//    }
+//
+//    //设置标题内容
+//    @Override
+//    public void setTitle(CharSequence title) {
+//        TextView temp = (TextView) findViewById(R.id.text_title);
+//        temp.setText(title);
+//    }
+
+
+
     @Override
     protected void onBackward(View backwardView) {
 //        Log.d("each", "onBackward");
@@ -482,20 +497,24 @@ public class MainActivity extends TitleActivity
 
             case R.id.navigation_home:
                 //fragment = new com.smarthuman.drstock.HomeFragment();
+                setTitle("Home");
                 setViewPager(0);
                 break;
 
             case R.id.navigation_stock:
                 //fragment = new com.smarthuman.drstock.StockFragment();
+                setTitle("Stock");
                 setViewPager(1);
                 break;
 
             case R.id.navigation_account:
                 if (mAuth.getCurrentUser() != null) {
                     //fragment = new com.smarthuman.drstock.AccountFragment();
+                    setTitle("Account");
                     setViewPager(3);
                 } else {
                     //fragment = new com.smarthuman.drstock.LoginFragment();
+                    setTitle("Log In");
                     setViewPager(2);
                 }
                 break;

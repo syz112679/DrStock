@@ -6,11 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +30,8 @@ public class EachStockActivity extends TitleActivity {
     public static String stockId_Market;
     public static Stock myStock;
 
-    private Button addButton, buyButton, sellButton;
+    private Button buyButton, sellButton;
+    private ImageView addImg;
     private Button backButton, forwardButton;
     private Button minBtn, oneMonthBtn, threeMonthBtn, oneYearBtn, threeYearBtn;
 
@@ -59,8 +60,8 @@ public class EachStockActivity extends TitleActivity {
 
         System.out.println("stockId_Market: " + stockId_Market);
 
-        addButton = findViewById(R.id.add_to_favorite);
-        addButton.setOnClickListener(this);
+        addImg = findViewById(R.id.add_to_favorite);
+        addImg.setOnClickListener(this);
         buyButton = findViewById(R.id.eachstock_buy_btn);
         buyButton.setOnClickListener(this);
         sellButton = findViewById(R.id.eachstock_sell_btn);
