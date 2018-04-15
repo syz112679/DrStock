@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                     //login successfully
 
                     finish();
+                    MainActivity.updateUserInfo();
                     MainActivity.setViewPager(0);
                 }
 

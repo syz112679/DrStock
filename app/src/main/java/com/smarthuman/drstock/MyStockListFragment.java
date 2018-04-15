@@ -38,36 +38,34 @@ public class MyStockListFragment extends android.support.v4.app.Fragment impleme
             mMyStockListView = view.findViewById(R.id.my_stocks_listview);
 
 
-            mStockAdapter = new StockItemAdapter(getActivity(), mMyStock);
-
-
+            mStockAdapter = new StockItemAdapter(getActivity(), MainActivity.mStockRecords);
             mMyStockListView.setAdapter(mStockAdapter);
-
-            ((MainActivity) getActivity()).mDatabaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(getActivity()!=null) {
-                        String userName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
-                        double money = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
-                        double earning = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
-                        mMyStock.clear();
-
-
-                        for (DataSnapshot child: dataSnapshot.child("users").child(mUid).child("myStocks").getChildren()) {
-                            mMyStock.add(child.getValue(StockSnippet.class));
-                        }
-
-                        mStockAdapter = mStockAdapter = new StockItemAdapter(getActivity(), mMyStock);
-                        mStockAdapter.notifyDataSetChanged();
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            mStockAdapter.notifyDataSetChanged();
+//            ((MainActivity) getActivity()).mDatabaseReference.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    if(getActivity()!=null) {
+//                        String userName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
+//                        double money = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
+//                        double earning = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
+//                        mMyStock.clear();
+//
+//
+//                        for (DataSnapshot child: dataSnapshot.child("users").child(mUid).child("myStocks").getChildren()) {
+//                            mMyStock.add(child.getValue(StockSnippet.class));
+//                        }
+//
+//                        mStockAdapter = new StockItemAdapter(getActivity(), mMyStock);
+//                        mStockAdapter.notifyDataSetChanged();
+//
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
         }
         return view;
     }
