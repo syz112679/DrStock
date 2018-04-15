@@ -178,7 +178,7 @@ public class EachStockActivity extends TitleActivity {
 
                 alert2.setView(edittext2);
 
-                alert2.setPositiveButton(R.string.buy, new DialogInterface.OnClickListener() {
+                alert2.setPositiveButton(R.string.sell, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String input = edittext2.getText().toString();
                         Log.d("Alert","input is " + input);
@@ -199,7 +199,19 @@ public class EachStockActivity extends TitleActivity {
                             if(amount > MainActivity.mStockRecords.get(i).getAmount()) {
                                 Toast.makeText(getApplicationContext(), R.string.toast_you_cant_sell_more_than_you_have, Toast.LENGTH_SHORT).show();
                             } else {
-
+                                double oldamount = MainActivity.mStockRecords.get(i).getAmount();
+                                double oldprice = MainActivity.mStockRecords.get(i).getBoughtPrice();
+                                double earning = amount*price - amount*oldprice;
+                                MainActivity.mStockRecords.get(i).setAmount(oldamount - amount);
+                                MainActivity.mBalance += amount*price;
+                                MainActivity.mMoney += earning;
+                                MainActivity.mEarning += earning;
+                                if(earning >=0 ) {
+                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " + String.valueOf(earning), Toast.LENGTH_SHORT).show();
+                                    System.out.println(R.string.toast_you_have_earned + " " + String.valueOf(earning));
+                                } else {
+                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.valueOf(earning), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
 

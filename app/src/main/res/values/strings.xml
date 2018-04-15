@@ -108,4 +108,6 @@
 
     <string name="toast_you_dont_have_this_stock">You did not buy this stock</string>
     <string name="toast_you_cant_sell_more_than_you_have">You cannot sell more than what you have</string>
+    <string name="toast_you_have_earned">You have earned </string>
+    <string name="toast_you_have_lost">You have lost </string>
 </resources>
