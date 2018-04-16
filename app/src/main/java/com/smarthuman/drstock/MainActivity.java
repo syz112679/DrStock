@@ -501,24 +501,24 @@ public class MainActivity extends TitleActivity
 
             case R.id.navigation_home:
                 //fragment = new com.smarthuman.drstock.HomeFragment();
-                setTitle("Home");
+                setTitle(R.string.title_home);
                 setViewPager(0);
                 break;
 
             case R.id.navigation_stock:
                 //fragment = new com.smarthuman.drstock.StockFragment();
-                setTitle("Stock");
+                setTitle(R.string.title_stock);
                 setViewPager(1);
                 break;
 
             case R.id.navigation_account:
                 if (mAuth.getCurrentUser() != null) {
                     //fragment = new com.smarthuman.drstock.AccountFragment();
-                    setTitle("Account");
+                    setTitle(R.string.title_account);
                     setViewPager(3);
                 } else {
                     //fragment = new com.smarthuman.drstock.LoginFragment();
-                    setTitle("Log In");
+                    setTitle(R.string.title_login);
                     setViewPager(2);
                 }
                 break;
@@ -578,14 +578,16 @@ public class MainActivity extends TitleActivity
     public void onResume() {
         super.onResume();
         Log.d("MainActivity", "onResume: called");
-        updateUserInfo();
+
         refreshStocks();
 //        if(FirebaseAuth.getInstance().getCurrentUser() != null)
 //            updateUserInfo();
 //        if(FirebaseAuth.getInstance().getCurrentUser() != null)
 //            getInfoFromDatabase();
-        if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0)
+        if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0) {
+            updateUserInfo();
             updateDatabase();
+        }
     }
 
     // from GU's stock

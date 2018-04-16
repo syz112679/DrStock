@@ -3,6 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_stock">Stock</string>
     <string name="title_account">Account</string>
+    <string name="title_login">Log In</string>
 
     <string name="search_hint">Search stocks</string>
 
@@ -74,7 +75,6 @@
     <string name="sell1">Sell 1</string>
 
     <string name="text_back">Back</string>
-    <string name="text_forward">Forward</string>
     <string name="colour_setting">Color Setting</string>
     <string name="rise_green">Green means Rising</string>
     <string name="refresh_rate_label">Refresh Rate</string>
@@ -116,13 +116,26 @@
     <string name="toast_buy_successfully">Buy successfully!</string>
     <string name="toast_sorry_only_hk_graph">Sorry, you can only see HK stocks graph.</string>
     <string name="toast_added_to_watchlist">Added to watch list</string>
-    <string name="toast_error">Error!</string>
-
+    <string name="toast_error">ERROR</string>
 
     <string name="enter_the_amount_sell">Enter the amount you want to sell</string>
     <string name="enter_the_amount_buy">Enter the amount you want to buy</string>
 
-     <!--newly add-->
+    <string name="programmer">Programmer</string>
+    <string name="syz_E">SHI Yuzhou</string>
+    <string name="syz_C">施宇舟</string>
+    <string name="ljq_E">LIU Junqi</string>
+    <string name="ljq_C">刘俊琪</string>
+    <string name="lsh_E">LI Shuhan</string>
+    <string name="lsh_C">李纾涵</string>
+    <string name="wj_E">WANG Jing</string>
+    <string name="wj_C">王晶</string>
+    <string name="tjy_E">TANG Junyi</string>
+    <string name="tjy_C">唐峻逸</string>
+    <string name="gyx_E">GU Yuxuan</string>
+    <string name="gyx_C">谷宇轩</string>
+
+    <!--newly add-->
     <string name="text_stock_id">Stock ID</string>
     <string name="text_stock_name">Stock Name</string>
     <string name="text_current_Price">Current Price</string>
