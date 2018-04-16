@@ -100,9 +100,9 @@ public class MainActivity extends TitleActivity
     private final static String searchHistoryKey_ = "SearchHistory";
     public static HashSet<String> searchHistory  = new HashSet<>();
 
-    private final static String StockIdsKey_ = "StockIds";
+    public final static String StockIdsKey_ = "StockIds";
 
-    private static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
+    public static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
 
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
@@ -216,6 +216,29 @@ public class MainActivity extends TitleActivity
         StockIds_.add(stockIds_);
         mFavorites=new ArrayList<>(StockIds_);
         System.out.println("addStockIds_:" + StockIds_ + ";");
+    }
+
+    public static void removeStockIds_(String stockIds_) {
+        StockIds_.remove(stockIds_);
+        mFavorites=new ArrayList<>(StockIds_);
+        System.out.println("removeStockIds_:" + StockIds_ + ";");
+    }
+
+    public static int checkStatus(String stockIds_){
+        int idtemp = 0;
+        boolean flag = false;
+        for (String id : StockIds_) {
+            if(id.compareTo(stockIds_) == 0){
+                flag = true;
+                break;
+            }
+            else
+                idtemp++;
+        }
+        if(flag)
+            return idtemp;
+        else
+            return -1;
     }
 
 //    @Override
@@ -687,5 +710,7 @@ public class MainActivity extends TitleActivity
         StockIds_.clear();
         mUserName = null;
     }
+
+
 
 }

@@ -423,7 +423,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/color_sky"
-                android:src="@drawable/ic_favourite" />
+                android:src="@drawable/button_select_change_state" />
 
             <Button
                 android:id="@+id/eachstock_sell_btn"
