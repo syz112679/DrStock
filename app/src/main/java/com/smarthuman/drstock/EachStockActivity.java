@@ -84,16 +84,6 @@ public class EachStockActivity extends TitleActivity {
         threeYearBtn = (Button) findViewById(R.id.three_year_btn);
         threeYearBtn.setOnClickListener(this);
 
-        // if it is favorited
-        int i=0;
-        for (String id: MainActivity.StockIds_) {
-            i++;
-            if(StockFragment.input2enqury(myStock.id_).equals( id) ) {
-                //TODO: it is favorited
-                System.out.println(" ****************it is favorited, i=" + i);
-            }
-        }
-
     }
 
 
@@ -108,8 +98,16 @@ public class EachStockActivity extends TitleActivity {
             case R.id.add_to_favorite:
                 Log.d("addstock", "here");
                 if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
-                    addStock(v);
-                    Toast.makeText(getApplicationContext(), R.string.toast_added_to_watchlist, Toast.LENGTH_SHORT).show();
+                    if(MainActivity.checkStatus(myStock.getEnqueryId())){
+                        removeStock(v);
+                        addImg.setImageResource(R.drawable.ic_favourite);
+                        Toast.makeText(getApplicationContext(), R.string.toast_delete_from_watchlist, Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        addStock(v);
+                        addImg.setImageResource(R.drawable.ic_favourite_solid);
+                        Toast.makeText(getApplicationContext(), R.string.toast_added_to_watchlist, Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
                 }
@@ -270,6 +268,14 @@ public class EachStockActivity extends TitleActivity {
         System.out.println("StockIds_: " + MainActivity.getStockIds_() + ";");
     }
 
+    public void removeStock(View v) {
+        MainActivity.removeStockIds_(myStock.getEnqueryId());
+
+
+        System.out.println("remove favourite: " + myStock.getEnqueryId() + ";");
+        System.out.println("StockIds_: " + MainActivity.getStockIds_() + ";");
+    }
+
     public String getEnqueryId(String stockI_M) {
         System.out.println("stockI_M: " + stockI_M);
 
@@ -315,6 +321,16 @@ public class EachStockActivity extends TitleActivity {
         Stock stockNow = new Stock(response);
 
         myStock = stockNow;
+
+        // if it is favorited
+        int i=0;
+        for (String id: MainActivity.StockIds_) {
+            i++;
+            if(StockFragment.input2enqury(myStock.id_).equals( id) ) {
+                addImg.setImageResource(R.drawable.ic_favourite_solid);
+                System.out.println(" ****************it is favorited, i=" + i);
+            }
+        }
 
         setupViewPager(mViewPager);
         setViewPager(0);

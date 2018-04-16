@@ -223,6 +223,23 @@ public class MainActivity extends TitleActivity
         System.out.println("addStockIds_:" + StockIds_ + ";");
     }
 
+    public static void removeStockIds_(String stockIds_) {
+        if (stockIds_ == null)
+            return;
+        StockIds_.remove(stockIds_);
+        mFavorites=new ArrayList<>(StockIds_);
+        System.out.println("removeStockIds_:" + StockIds_ + ";");
+    }
+
+    public static boolean checkStatus(String stockIds_){
+        for (String id : StockIds_) {
+            if(stockIds_.compareTo(id) == 0)
+                return true;
+        }
+        return false;
+    }
+
+
 //    @Override
 //    public void setTitle(int titleId) {
 //        TextView temp = (TextView) findViewById(R.id.text_title);
