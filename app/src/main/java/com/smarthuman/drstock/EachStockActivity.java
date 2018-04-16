@@ -97,6 +97,8 @@ public class EachStockActivity extends TitleActivity {
             case R.id.add_to_favorite:
                 Log.d("addstock", "here");
                 addStock(v);
+                Toast.makeText(getApplicationContext(), R.string.toast_added_to_watchlist, Toast.LENGTH_SHORT).show();
+
 //                searchStock(v);
                 break;
             case R.id.min_graph_btn:
@@ -207,10 +209,14 @@ public class EachStockActivity extends TitleActivity {
                                 MainActivity.mMoney += earning;
                                 MainActivity.mEarning += earning;
                                 if(earning >=0 ) {
-                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " +  String.format ("%.2f",String.valueOf(earning)), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " +  String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
                                     System.out.println(R.string.toast_you_have_earned + " " + String.valueOf(earning));
                                 } else {
-                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.format ("%.2f",String.valueOf(earning)), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
+                                }
+
+                                if(oldamount == amount) {
+                                    MainActivity.mStockRecords.remove(i);
                                 }
                             }
                         }
