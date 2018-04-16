@@ -71,6 +71,7 @@ public class Chart_1monthActivity extends AppCompatActivity implements  View.OnC
     private int colorMa20;
     private Button rsi10_Btn, rsi14_Btn, rsi20_Btn;
     public String storedData;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

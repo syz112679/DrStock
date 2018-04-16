@@ -76,6 +76,8 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
     private Button rsi10_Btn, rsi14_Btn, rsi20_Btn;
     public String storedData;
     Stock stock = ((EachStockActivity) getActivity()).myStock;
+    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -543,6 +545,9 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
 
         @Override
         public void onChartLongPressed(MotionEvent me) {
+            Intent intent = new Intent (getActivity(), Chart_3yearActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, stock.id_);
+            startActivity(intent);
 
         }
 
