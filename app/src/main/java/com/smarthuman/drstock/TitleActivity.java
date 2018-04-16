@@ -83,11 +83,16 @@ public class TitleActivity extends AppCompatActivity implements OnClickListener{
         } // else ignored
     }
 
-//    protected void setBackward(Drawable drawable, String text) {
-//        mBackwardbButton
-//        mBackwardbButton.setBackground(drawable);
-//        mBackwardbButton.setText(text);
-//    }
+    protected void showBackward(Drawable drawable, boolean show) {
+        if (mBackwardbButton != null) {
+            if (show) {
+                mBackwardbButton.setBackground(drawable);
+                mBackwardbButton.setVisibility(View.VISIBLE);
+            } else {
+                mBackwardbButton.setVisibility(View.INVISIBLE);
+            }
+        } // else ignored
+    }
 
     /**
      * 提供是否显示提交按钮

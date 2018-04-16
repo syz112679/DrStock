@@ -1,5 +1,7 @@
 package com.smarthuman.drstock;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -7,7 +9,10 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,7 +30,8 @@ public class EachStockActivity extends TitleActivity {
     public static String stockId_Market;
     public static Stock myStock;
 
-    private Button addButton;
+    private Button buyButton, sellButton;
+    private ImageView addImg;
     private Button backButton, forwardButton;
     private Button minBtn, oneMonthBtn, threeMonthBtn, oneYearBtn, threeYearBtn;
 
@@ -43,8 +49,7 @@ public class EachStockActivity extends TitleActivity {
 //        setTitleBackground(R.color.titleBarDemo);
 //        setTitleBackground(MainActivity.UpColor_);
 
-        showBackwardView(R.string.text_back, true);
-        showForwardView(R.string.text_forward, true);
+        showBackward(getDrawable(R.drawable.ic_return), true);
 
 //        setGridLayout();
 
@@ -55,8 +60,12 @@ public class EachStockActivity extends TitleActivity {
 
         System.out.println("stockId_Market: " + stockId_Market);
 
-        addButton = findViewById(R.id.add_to_favorite);
-        addButton.setOnClickListener(this);
+        addImg = findViewById(R.id.add_to_favorite);
+        addImg.setOnClickListener(this);
+        buyButton = findViewById(R.id.eachstock_buy_btn);
+        buyButton.setOnClickListener(this);
+        sellButton = findViewById(R.id.eachstock_sell_btn);
+        sellButton.setOnClickListener(this);
 
 
         mAdapter = new ChartPagerAdapter(getSupportFragmentManager());
@@ -105,6 +114,120 @@ public class EachStockActivity extends TitleActivity {
             case R.id.three_year_btn:
                 setViewPager(4);
                 break;
+            case R.id.eachstock_buy_btn:
+                Log.d("buy btn", "buy btn pressed");
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                final EditText edittext = new EditText(this);
+                alert.setMessage(R.string.enter_the_amount_buy);
+                alert.setTitle(R.string.buy);
+
+                alert.setView(edittext);
+
+                alert.setPositiveButton(R.string.buy, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String input = edittext.getText().toString();
+                        Log.d("Alert","input is " + input);
+
+                        double amount = Double.parseDouble(input);
+                        double price = Double.parseDouble(myStock.getCurrentPrice_());
+                        if(amount<=0) {
+                            Toast.makeText(getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
+                        } else if(amount*price > MainActivity.mBalance){
+                            Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_enough_money, Toast.LENGTH_SHORT).show();
+                            Log.d("EachStockActivity", "your money:" + MainActivity.mMoney + ", needed:" + amount*price);
+                        } else {
+
+                            StockSnippet newStock = new StockSnippet(myStock.id_, price, amount);
+                            MainActivity.mBalance -= amount*price;
+                            boolean found = false;
+                            for(int i=0; i<MainActivity.mStockRecords.size(); i++) {
+                                if(MainActivity.mStockRecords.get(i).getId().equals(myStock.id_)) {
+                                    found = true;
+                                    double oldAmount = MainActivity.mStockRecords.get(i).getAmount();
+                                    double oldPrice = MainActivity.mStockRecords.get(i).getBoughtPrice();
+
+                                    MainActivity.mStockRecords.get(i).setBoughtPrice((oldAmount*oldPrice + amount*price) / (oldAmount + amount));
+                                    MainActivity.mStockRecords.get(i).setAmount(oldAmount+amount);
+                                    break;
+                                }
+                            }
+                            if(!found) {
+                                MainActivity.mStockRecords.add(newStock);
+                            }
+                            Toast.makeText(getApplicationContext(), R.string.toast_buy_successfully, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // what ever you want to do with No option.
+
+                    }
+                });
+
+                alert.show();
+                break;
+            case R.id.eachstock_sell_btn:
+                Log.d("buy btn", "buy btn pressed");
+                boolean sellFailure = false;
+                AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
+                final EditText edittext2 = new EditText(this);
+                alert2.setMessage(R.string.enter_the_amount_sell);
+                alert2.setTitle(R.string.sell);
+
+                alert2.setView(edittext2);
+
+                alert2.setPositiveButton(R.string.sell, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String input = edittext2.getText().toString();
+                        Log.d("Alert","input is " + input);
+                        double amount = Double.parseDouble(input);
+                        double price = Double.parseDouble(myStock.getCurrentPrice_());
+
+                        boolean found =false;
+                        int i=0;
+                        for(; i<MainActivity.mStockRecords.size(); i++) {
+                            if(MainActivity.mStockRecords.get(i).getId().equals(myStock.id_)) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if(!found) {
+                            Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_this_stock, Toast.LENGTH_SHORT).show();
+                        } else {
+                            if(amount > MainActivity.mStockRecords.get(i).getAmount()) {
+                                Toast.makeText(getApplicationContext(), R.string.toast_you_cant_sell_more_than_you_have, Toast.LENGTH_SHORT).show();
+                            } else {
+                                double oldamount = MainActivity.mStockRecords.get(i).getAmount();
+                                double oldprice = MainActivity.mStockRecords.get(i).getBoughtPrice();
+                                double earning = amount*price - amount*oldprice;
+                                MainActivity.mStockRecords.get(i).setAmount(oldamount - amount);
+                                MainActivity.mBalance += amount*price;
+                                MainActivity.mMoney += earning;
+                                MainActivity.mEarning += earning;
+                                if(earning >=0 ) {
+                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " +  String.format ("%.2f",String.valueOf(earning)), Toast.LENGTH_SHORT).show();
+                                    System.out.println(R.string.toast_you_have_earned + " " + String.valueOf(earning));
+                                } else {
+                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.format ("%.2f",String.valueOf(earning)), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                    }
+                });
+
+                alert2.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // what ever you want to do with No option.
+
+                    }
+                });
+
+                alert2.show();
+                break;
+
         }
     }
 
@@ -237,6 +360,7 @@ public class EachStockActivity extends TitleActivity {
         mViewPager.setCurrentItem(index);
 
     }
+
 
     // END: update the data of TextViews [Samuel_GU]
 

@@ -35,6 +35,7 @@
     </string>
     <string name="sample_message">Hello!</string>
     <string name="text_you_have_earn">You have earned: </string>
+    <string name="text_your_total_money">Your total assets: </string>
 
 
 
@@ -55,9 +56,11 @@
     <string name="stock_buy">Buy</string>
     <string name="stock_sell">Sell</string>
 
+
     //eachstock:
-    <string name="buy">Buy</string>
-    <string name="sell">Sell</string>
+    <string name="cancel">Cancel</string>
+    <string name="buy">BUY</string>
+    <string name="sell">SELL</string>
     <string name="high">High</string>
     <string name="low">Low</string>
     <string name="open">Open</string>
@@ -102,4 +105,16 @@
     <string name="rsi_10">10 days</string>
     <string name="rsi_14">14 days</string>
     <string name="rsi_20">20 days</string>
+    <string name="loading">Loading...</string>
+
+    <string name="toast_you_dont_have_this_stock">You did not buy this stock</string>
+    <string name="toast_you_cant_sell_more_than_you_have">You cannot sell more than what you have</string>
+    <string name="toast_you_have_earned">You have earned </string>
+    <string name="toast_you_have_lost">You have lost </string>
+    <string name="toast_you_dont_have_enough_money">You do not have enough money</string>
+    <string name="toast_invalid_input">Invalid input</string>
+    <string name="toast_buy_successfully">Buy successfully!</string>
+    <string name="toast_sorry_only_hk_graph">Sorry, you can only see HK stocks graph.</string>
+    <string name="enter_the_amount_sell">Enter the amount you want to sell</string>
+    <string name="enter_the_amount_buy">Enter the amount you want to buy</string>
 </resources>

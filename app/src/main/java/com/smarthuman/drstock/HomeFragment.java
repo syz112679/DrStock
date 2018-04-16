@@ -5,19 +5,14 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -28,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -48,7 +42,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     private final static int StockLargeTrade_ = 1000000;
 
     ViewFlipper viewFlipper;
-    Button chatRoom_btn;
+    ImageView chatRoom_img;
     private View v;
 
     String API_KEY = "8190df9eb51445228e397e4185311a66"; // ### YOUE NEWS API HERE ###
@@ -90,8 +84,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
         viewFlipper = (ViewFlipper) v.findViewById(R.id.flipper);
         viewFlipper.startFlipping();
 
-        chatRoom_btn = (Button) v.findViewById(R.id.to_chat_room);
-        chatRoom_btn.setOnClickListener(new View.OnClickListener() {
+        chatRoom_img = (ImageView) v.findViewById(R.id.to_chat_room);
+        chatRoom_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(FirebaseAuth.getInstance().getCurrentUser()!=null) {

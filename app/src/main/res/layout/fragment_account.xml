@@ -1,121 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sign_out"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/line_timber"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:showDividers="middle" >
+
+        <TableRow>
+            <TextView
+                android:id="@+id/display_username"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="User Name"
+                android:textSize="30sp"
+                android:textColor="#9F44D3"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/display_money"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="0"
+                android:textSize="20sp" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/earning_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="@string/text_you_have_earn"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/display_earning"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:text="0.0"
+                android:textSize="20sp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/total_assets_label"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="@string/text_your_total_money"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/total_assets"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:text="0.0"
+                android:textSize="20sp"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <TableRow>
+            <Button
+                android:id="@+id/add_money_btn"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:alpha="0.75"
+                android:background="@drawable/button3"
+                android:onClick="addMoney"
+                android:text="@string/add_money"
+                android:textColor="@color/myWhite"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/display_my_stock"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/button2"
+                android:onClick="myStock"
+                android:text="@string/my_stocks"
+                android:textSize="18sp"
+                android:textColor="@color/myWhite"
+                android:alpha="0.75"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <TableRow>
+            <Button
+                android:id="@+id/user_sign_out"
+                android:layout_width="370dp"
+                android:layout_height="160dp"
+                android:alpha="0.75"
+                android:background="@drawable/button1"
+                android:onClick="signOut"
+                android:text="@string/action_sign_out"
+                android:textColor="@color/myWhite"
+                android:textSize="18sp" />
+        </TableRow>
+    </TableLayout>
 
 
-        <TextView
-            android:id="@+id/display_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="55dp"
-            android:layout_marginTop="24dp"
-            android:text="User Name"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/display_money"
-            android:layout_width="74dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/display_username"
-            android:layout_marginStart="55dp"
-            android:layout_marginTop="8dp"
-            android:text="0"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/display_username" />
-
-
-        <TextView
-            android:id="@+id/earning_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="55dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/text_you_have_earn"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/display_money" />
-
-
-        <TextView
-            android:id="@+id/display_earning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:text="0.0"
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/earning_text"
-            app:layout_constraintTop_toBottomOf="@+id/display_money" />
-
-        <Button
-            android:id="@+id/add_money_btn"
-            android:layout_width="300dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/button_color"
-            android:onClick="addMoney"
-            android:text="@string/add_money"
-            android:textSize="18sp"
-            android:textColor="@color/myWhite"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/earning_text"
-            android:alpha="0.75"/>
-
-        <Button
-            android:id="@+id/display_my_stock"
-            android:layout_width="300dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/button_color"
-            android:onClick="myStock"
-            android:text="@string/my_stocks"
-            android:textSize="18sp"
-            android:textColor="@color/myWhite"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_money_btn"
-            android:alpha="0.75"/>
-
-        <Button
-            android:id="@+id/user_sign_out"
-            android:layout_width="300dp"
-            android:layout_height="48dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
-            android:alpha="0.75"
-            android:background="@drawable/button_color"
-            android:onClick="signOut"
-            android:text="@string/action_sign_out"
-            android:textColor="@color/myWhite"
-            android:textSize="18sp"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/display_my_stock"
-            tools:ignore="MissingConstraints" />
-
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

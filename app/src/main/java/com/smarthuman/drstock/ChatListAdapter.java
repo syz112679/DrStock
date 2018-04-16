@@ -142,7 +142,7 @@ public class ChatListAdapter extends BaseAdapter {
             holder.body.setBackgroundResource(R.drawable.bubble2);
         } else {
             holder.params.gravity = Gravity.START;
-            holder.authorName.setTextColor(Color.rgb(29,176,184));
+            holder.authorName.setTextColor(Color.rgb(255,255,255));
             holder.body.setBackgroundResource(R.drawable.bubble1);
         }
 

@@ -119,6 +119,8 @@ public class MainActivity extends TitleActivity
     public static FirebaseUser mfirebaseUser;
     public static FirebaseAuth mAuth;
     public static DatabaseReference mDatabaseReference;
+
+    // --------- user info -------
     public static String mUid;
     public static String mUserName = "", mEmail = "";
     public static double mMoney=0.0, mEarning=0.0, mBalance=0.0;
@@ -128,6 +130,7 @@ public class MainActivity extends TitleActivity
 
     public SectionStatePagerAdapter mSectionStatePagerAdapter;
     static public ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +149,7 @@ public class MainActivity extends TitleActivity
         setContentView(R.layout.activity_main);
 
         setTitle(R.string.mainActivity);
-        showBackwardView(R.string.setting, true);
+        showBackward(getDrawable(R.drawable.ic_setup), true);
 //        setBackward(getResources().getDrawable(R.drawable.ic_settings_black_24dp), "");
 
         Log.d("mainActivity", "LIne 126");
@@ -212,6 +215,21 @@ public class MainActivity extends TitleActivity
         StockIds_.add(stockIds_);
         System.out.println("addStockIds_:" + StockIds_ + ";");
     }
+
+//    @Override
+//    public void setTitle(int titleId) {
+//        TextView temp = (TextView) findViewById(R.id.text_title);
+//        temp.setText(titleId);
+//    }
+//
+//    //设置标题内容
+//    @Override
+//    public void setTitle(CharSequence title) {
+//        TextView temp = (TextView) findViewById(R.id.text_title);
+//        temp.setText(title);
+//    }
+
+
 
     @Override
     protected void onBackward(View backwardView) {
@@ -321,6 +339,8 @@ public class MainActivity extends TitleActivity
 
         // Table
         TableLayout table = findViewById(R.id.stock_table);
+        if(table==null)
+            return;
         table.setStretchAllColumns(true);
         table.setShrinkAllColumns(true);
         table.removeAllViews();
@@ -479,20 +499,24 @@ public class MainActivity extends TitleActivity
 
             case R.id.navigation_home:
                 //fragment = new com.smarthuman.drstock.HomeFragment();
+                setTitle("Home");
                 setViewPager(0);
                 break;
 
             case R.id.navigation_stock:
                 //fragment = new com.smarthuman.drstock.StockFragment();
+                setTitle("Stock");
                 setViewPager(1);
                 break;
 
             case R.id.navigation_account:
                 if (mAuth.getCurrentUser() != null) {
                     //fragment = new com.smarthuman.drstock.AccountFragment();
+                    setTitle("Account");
                     setViewPager(3);
                 } else {
                     //fragment = new com.smarthuman.drstock.LoginFragment();
+                    setTitle("Log In");
                     setViewPager(2);
                 }
                 break;
@@ -550,12 +574,17 @@ public class MainActivity extends TitleActivity
 
     @Override
     public void onResume() {
+        super.onResume();
         Log.d("MainActivity", "onResume: called");
 
         super.onResume();
+        refreshStocks();
 //        if(FirebaseAuth.getInstance().getCurrentUser() != null)
 //            updateUserInfo();
-        //updateDatabase();
+//        if(FirebaseAuth.getInstance().getCurrentUser() != null)
+//            getInfoFromDatabase();
+        if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0)
+            updateDatabase();
     }
 
     // from GU's stock
@@ -563,8 +592,6 @@ public class MainActivity extends TitleActivity
     public void onDestroy() {
         super.onDestroy();  // Always call the superclass
         saveStocksToPreferences();
-
-        System.out.println("onDestroy();");
         //updateDatabase();
     }
 
@@ -598,11 +625,11 @@ public class MainActivity extends TitleActivity
 
     public void updateDatabase() {
         if(mfirebaseUser != null) {
-            Log.d("MainActivity", "UpdateDatabase called");
+            Log.d("MainActivity", "UpdateDatabase called" + mUserName + " " + mEmail);
             mFavorites = new ArrayList<String>(StockIds_);
 
 
-            UserInformation userInfo = new UserInformation(mUserName,mEmail);
+            UserInformation userInfo = new UserInformation(mUserName, mEmail);
             userInfo.setFavorites(mFavorites);
             userInfo.setMyStocks(mStockRecords);
             userInfo.setBalance(mBalance);
@@ -625,7 +652,7 @@ public class MainActivity extends TitleActivity
 
 
         mUid = mfirebaseUser.getUid();
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mUserName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
@@ -645,7 +672,9 @@ public class MainActivity extends TitleActivity
             }
         });
 
-        StockIds_ = new HashSet<String>(mFavorites);
+        if(mFavorites!=null)
+            StockIds_= new HashSet<>(mFavorites);
+
     }
 
     void clearLocalData() {
