@@ -120,9 +120,10 @@
     <string name="toast_buy_successfully">成功購買!</string>
     <string name="toast_sorry_only_hk_graph">抱歉，當前帳戶僅限查閱港股行情圖.</string>
     <string name="toast_added_to_watchlist">成功添加</string>
+    <string name="toast_delete_from_watchlist">成功移除</string>
     <string name="toast_error">錯誤</string>
 
-
+    <string name="toast_signin_first">請先登錄.</string>
 
     <string name="enter_the_amount_sell">請輸入您想賣出的股票數額</string>
     <string name="enter_the_amount_buy">請輸入您想買入的股票數額</string>
