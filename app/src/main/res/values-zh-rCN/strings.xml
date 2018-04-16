@@ -55,6 +55,9 @@
     <string name="stock_sh_name">上证指数</string>
     <string name="stock_sz_name">深证成指</string>
     <string name="stock_chuang_name">创业板指</string>
+    <string name="stock_hsi_name">恒生指数</string>
+    <string name="stock_djia_name">道琼斯</string>
+    <string name="stock_nsdk_name">纳斯达克</string>
     <string name="stock_buy">买入</string>
     <string name="stock_sell">卖出</string>
 
@@ -140,7 +143,7 @@
 
     <!--newly add-->
     <string name="text_stock_id">股票代码</string>
-    <string name="text_stock_name">股票名称e</string>
+    <string name="text_stock_name">股票名称</string>
     <string name="text_current_Price">现价</string>
     <string name="text_amount">数量</string>
     <string name="text_bought_price">买入价格</string>
