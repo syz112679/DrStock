@@ -14,7 +14,8 @@ public class CreditsActivity extends TitleActivity {
         setContentView(R.layout.activity_credits);
 
         setTitle(R.string.creditsActivity);
-        showBackwardView(R.string.text_back, true);
+        showBackward(getDrawable(R.drawable.ic_return), true);
+
     }
 
 }

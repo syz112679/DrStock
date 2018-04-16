@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by shiyuzhou on 10/4/2018.
  */
 
-public class StockItemAdapter  extends ArrayAdapter<StockSnippet> {
+public class StockItemAdapter extends ArrayAdapter<StockSnippet> {
     public StockItemAdapter(@NonNull Context context, int resource) {
         super(context, resource);
     }

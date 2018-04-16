@@ -155,6 +155,8 @@ public class EachStockActivity extends TitleActivity {
                             }
                             if(!found) {
                                 MainActivity.mStockRecords.add(newStock);
+                                MainActivity.stockMap_.put(myStock.id_, myStock);
+//                                MainActivity.requireRefresh = true;
                             }
                             Toast.makeText(getApplicationContext(), R.string.toast_buy_successfully, Toast.LENGTH_SHORT).show();
                         }
@@ -262,7 +264,6 @@ public class EachStockActivity extends TitleActivity {
         }
     }
 
-
     public void querySinaStocks(String queryId) {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://hq.sinajs.cn/list=" + queryId;
@@ -365,7 +366,6 @@ public class EachStockActivity extends TitleActivity {
     public void setViewPager(int index) {
         Log.d("EachStockActivity", "setViewPager called:" + index);
         mViewPager.setCurrentItem(index);
-
     }
 
 

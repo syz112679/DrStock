@@ -27,7 +27,7 @@ public class RefreshActivity extends TitleActivity {
         setContentView(R.layout.activity_refreshsetting);
 
         setTitle(R.string.refreshActivity);
-        showBackwardView(R.string.text_back, true);
+        showBackward(getDrawable(R.drawable.ic_return), true);
 
         initialize();
     }

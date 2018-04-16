@@ -99,10 +99,9 @@ public class MainActivity extends TitleActivity
 
     private final static String searchHistoryKey_ = "SearchHistory";
     public static HashSet<String> searchHistory  = new HashSet<>();
-
     private final static String StockIdsKey_ = "StockIds";
-
     private static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
+    public static TreeMap<String, Stock> stockMap_ = new TreeMap<>();
 
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
@@ -113,6 +112,11 @@ public class MainActivity extends TitleActivity
     public static int mobileRefreshTime = 15;
     public static boolean enableWifiRefresh = true;
     public static int wifiRefreshTime = 5;
+    private Context context;
+
+    private static int count = 0;
+    private static final int minPeriod = 2;
+    public static boolean requireRefresh = false;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -151,17 +155,18 @@ public class MainActivity extends TitleActivity
         setTitle(R.string.mainActivity);
         showBackward(getDrawable(R.drawable.ic_setup), true);
 //        setBackward(getResources().getDrawable(R.drawable.ic_settings_black_24dp), "");
+        context = getApplicationContext();
 
         Log.d("mainActivity", "LIne 126");
         Timer timer = new Timer("RefreshStocks");
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                refreshStocks();
+                count += minPeriod;
+                controlledRefreshStocks();
             }
-        }, 0, 10000); // 10 seconds
+        }, 0, minPeriod * 1000); // 10 seconds
         Log.d("mainActivity", "LIne 134");
-
         //--------------------------------------------------------------------------------------------------
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -193,7 +198,6 @@ public class MainActivity extends TitleActivity
 
 
         mAuth = FirebaseAuth.getInstance();
-        //mAuth.signOut();
         mfirebaseUser = mAuth.getCurrentUser();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -214,7 +218,6 @@ public class MainActivity extends TitleActivity
         if (stockIds_ == null)
             return;
         StockIds_.add(stockIds_);
-        mFavorites=new ArrayList<>(StockIds_);
         System.out.println("addStockIds_:" + StockIds_ + ";");
     }
 
@@ -285,6 +288,8 @@ public class MainActivity extends TitleActivity
             stockMap.put(stockNow.id_, stockNow);           // lx -> Stock
         }
 
+        stockMap_ = stockMap;
+
         System.out.println("-------------stockMap:\n" + stockMap + "----------");
 
         return stockMap;
@@ -321,7 +326,16 @@ public class MainActivity extends TitleActivity
         queue.add(stringRequest);
     }
 
+    public void setStockRecords(String ids) {
+        for (StockSnippet ss : mStockRecords) {
+            System.out.println("ss.getId():" + ss.getId());
+            ids += ss.getId() + ",";
+        }
+    }
+
     public void refreshStocks() {
+        count = 0;
+        requireRefresh = false;
 
         System.out.println("--------refreshStocks: \n" + StockIds_ + "\n------");
 
@@ -334,7 +348,34 @@ public class MainActivity extends TitleActivity
             ids += ",";
         }
 
+        setStockRecords(ids);
+        System.out.println("ids: " + ids);
+
         querySinaStocks(ids);
+    }
+
+    public void controlledRefreshStocks() {
+        if (requireRefresh) {
+            refreshStocks();
+            return;
+        }
+
+        switch (NetWorkUtils.getAPNType(context)) {
+            case NetWorkUtils.networkNo:
+                break;
+            case NetWorkUtils.networkWifi:
+                if (enableWifiRefresh && count >= wifiRefreshTime) {
+                    refreshStocks();
+                }
+                break;
+            case NetWorkUtils.network2G:
+            case NetWorkUtils.network3G:
+            case NetWorkUtils.network4G:
+                if (enableMobileRefresh && count >= mobileRefreshTime) {
+                    refreshStocks();
+                }
+                break;
+        }
     }
 
     protected void updateStockListView(TreeMap<String, Stock> stockMap) {
@@ -578,21 +619,20 @@ public class MainActivity extends TitleActivity
     public void onResume() {
         super.onResume();
         Log.d("MainActivity", "onResume: called");
-        updateUserInfo();
+
         refreshStocks();
-//        if(FirebaseAuth.getInstance().getCurrentUser() != null)
-//            updateUserInfo();
-//        if(FirebaseAuth.getInstance().getCurrentUser() != null)
-//            getInfoFromDatabase();
-        if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0)
+
+        if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0) {
+            updateUserInfo();
             updateDatabase();
+        }
     }
 
     // from GU's stock
     @Override
     public void onDestroy() {
         super.onDestroy();  // Always call the superclass
-        //saveStocksToPreferences();
+        saveStocksToPreferences();
         //updateDatabase();
     }
 
@@ -629,13 +669,6 @@ public class MainActivity extends TitleActivity
             Log.d("MainActivity", "UpdateDatabase called" + mUserName + " " + mEmail);
             mFavorites = new ArrayList<String>(StockIds_);
 
-            if (mFavorites.isEmpty()) {
-                mFavorites.add("placeholder");
-            }
-
-            if(mStockRecords.isEmpty()) {
-                mStockRecords.add(new StockSnippet());
-            }
 
             UserInformation userInfo = new UserInformation(mUserName, mEmail);
             userInfo.setFavorites(mFavorites);
@@ -687,6 +720,8 @@ public class MainActivity extends TitleActivity
             mStockRecords.remove(0);
         }
 
+        System.out.println("mStockRecords: " + mStockRecords);
+
         if(mFavorites!=null)
             StockIds_= new HashSet<>(mFavorites);
 
@@ -696,9 +731,8 @@ public class MainActivity extends TitleActivity
         mMoney = 0.0;
         mEarning = 0.0;
         mBalance = 0.0;
-        mFavorites.clear();
-        mStockRecords.clear();
-        StockIds_.clear();
+        mFavorites = new ArrayList<String>();
+        mStockRecords = new ArrayList<StockSnippet>();
         mUserName = null;
     }
 
