@@ -247,7 +247,7 @@
                     android:textColor="@color/transparent_black2"/>
 
                 <TextView
-                    android:id="@+id/buy1_label"
+                    android:id="@+id/bid1_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_columnSpan="1"
@@ -255,10 +255,10 @@
                     android:layout_rowWeight="1"
                     android:text="@string/bid1"
                     android:textAlignment="center"
-                    android:textColor="@color/transparent_black2"/>
+                    android:textColor="@color/transparent_black2" />
 
                 <TextView
-                    android:id="@+id/buy1_data"
+                    android:id="@+id/bid1_data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_columnSpan="2"
@@ -266,7 +266,7 @@
                     android:layout_rowWeight="1"
                     android:text="0"
                     android:textAlignment="center"
-                    android:textColor="@color/transparent_black2"/>
+                    android:textColor="@color/transparent_black2" />
 
                 <TextView
                     android:id="@+id/sell1_label"

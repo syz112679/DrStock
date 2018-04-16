@@ -214,4 +214,25 @@ public class Stock {
         }
     }
 
+    public String getBid1() {
+        switch (marketId_) {
+            case "US":
+                return "--";
+            case "HK":
+                return values[9];
+            default:
+                return values[11];
+        }
+    }
+    public String getSell1() {
+        switch (marketId_) {
+            case "US":
+                return "--";
+            case "HK":
+                return values[10];
+            default:
+                return values[21];
+        }
+    }
+
 }

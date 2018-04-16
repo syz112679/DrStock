@@ -337,6 +337,11 @@ public class EachStockActivity extends TitleActivity {
         TextView turnover = findViewById(R.id.turnover_data);
         turnover.setText(myStock.getTurnover());
 
+        TextView bid1 = findViewById(R.id.bid1_data);
+        bid1.setText(myStock.getBid1());
+        TextView sell1 = findViewById(R.id.sell1_data);
+        sell1.setText(myStock.getSell1());
+
         if (myStock.isRising()) {
             currentPrice.setTextColor(MainActivity.UpColor_);
             priceChange.setTextColor(MainActivity.UpColor_);
