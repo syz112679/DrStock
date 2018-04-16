@@ -76,8 +76,8 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                // TODO Auto-generated method stub
-                Toast.makeText(getContext(),"clicked "+MainActivity.mStockRecords.get(position).getId(), Toast.LENGTH_SHORT).show();
+                
+//                Toast.makeText(getContext(),"clicked "+MainActivity.mStockRecords.get(position).getId(), Toast.LENGTH_SHORT).show();
                 String enqueryId = input2enqury(MainActivity.mStockRecords.get(position).getId());
                 Intent intent = new Intent(getActivity(), EachStockActivity.class);
                 intent.putExtra(MainActivity.EXTRA_MESSAGE, enqueryId);

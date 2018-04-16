@@ -107,6 +107,7 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getContext(),R.string.toast_error,Toast.LENGTH_LONG).show();
                     Log.e("TAG", error.getMessage(), error);
                 }
             });
@@ -127,11 +128,12 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
 
                             loadChartData_Rsi10();
 
-
+                            Log.d("render rsi 10 chart", "here");
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getContext(),R.string.toast_error,Toast.LENGTH_LONG).show();
                     Log.e("TAG", error.getMessage(), error);
                 }
             });
@@ -143,6 +145,7 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
             rsi14_Btn.setOnClickListener(this);
             rsi20_Btn = (Button) view.findViewById(R.id.rsi_20_btn);
             rsi20_Btn.setOnClickListener(this);
+
         } else{
             Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
         }

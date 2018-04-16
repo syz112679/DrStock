@@ -578,8 +578,7 @@ public class MainActivity extends TitleActivity
     public void onResume() {
         super.onResume();
         Log.d("MainActivity", "onResume: called");
-
-        super.onResume();
+        updateUserInfo();
         refreshStocks();
 //        if(FirebaseAuth.getInstance().getCurrentUser() != null)
 //            updateUserInfo();

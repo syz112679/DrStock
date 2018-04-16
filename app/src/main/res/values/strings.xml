@@ -116,6 +116,7 @@
     <string name="toast_buy_successfully">Buy successfully!</string>
     <string name="toast_sorry_only_hk_graph">Sorry, you can only see HK stocks graph.</string>
     <string name="toast_added_to_watchlist">Added to watch list</string>
+    <string name="toast_error">Error!</string>
 
 
     <string name="enter_the_amount_sell">Enter the amount you want to sell</string>
