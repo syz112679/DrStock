@@ -65,9 +65,9 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         mAdd1000.setOnClickListener(this);
 
         mUserName.setText(MainActivity.mUserName);
-        mMoney.setText(String.valueOf(MainActivity.mBalance));
-        mTotalAsset.setText(String.valueOf(MainActivity.mMoney));
-        mEarning.setText(String.valueOf(MainActivity.mEarning));
+        mMoney.setText(String.format ("%.2f",String.valueOf(MainActivity.mBalance)));
+        mTotalAsset.setText(String.format ("%.2f",String.valueOf(MainActivity.mMoney)));
+        mEarning.setText(String.format ("%.2f",String.valueOf(MainActivity.mEarning)));
 
 
 //       final GenericTypeIndicator<ArrayList<StockSnippet>> t = new GenericTypeIndicator<ArrayList<StockSnippet>>() {};
@@ -158,11 +158,13 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         }
     }
 
-    void buyStockToAccount(String stockname, double amount, double price) {
-        StockSnippet stock = new StockSnippet(stockname, amount, price);
-        ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).child("myStocks").push().setValue(stock);
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        mUserName.setText(MainActivity.mUserName);
+        mMoney.setText(String.format ("%.2f",String.valueOf(MainActivity.mBalance)));
+        mTotalAsset.setText(String.format ("%.2f",String.valueOf(MainActivity.mMoney)));
+        mEarning.setText(String.format ("%.2f",String.valueOf(MainActivity.mEarning)));
     }
-
-
-
 }

@@ -108,7 +108,7 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
             RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
             mQueue.add(stringRequest);
         } else{
-            Toast.makeText(getContext(),"Sorry, you can only see HK stock's graph.",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
         }
         return view;
     }

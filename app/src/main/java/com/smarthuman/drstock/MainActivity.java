@@ -119,6 +119,8 @@ public class MainActivity extends TitleActivity
     public static FirebaseUser mfirebaseUser;
     public static FirebaseAuth mAuth;
     public static DatabaseReference mDatabaseReference;
+
+    // --------- user info -------
     public static String mUid;
     public static String mUserName = "", mEmail = "";
     public static double mMoney=0.0, mEarning=0.0, mBalance=0.0;

@@ -207,10 +207,10 @@ public class EachStockActivity extends TitleActivity {
                                 MainActivity.mMoney += earning;
                                 MainActivity.mEarning += earning;
                                 if(earning >=0 ) {
-                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " + String.valueOf(earning), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " +  String.format ("%.2f",String.valueOf(earning)), Toast.LENGTH_SHORT).show();
                                     System.out.println(R.string.toast_you_have_earned + " " + String.valueOf(earning));
                                 } else {
-                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.valueOf(earning), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.format ("%.2f",String.valueOf(earning)), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -360,6 +360,7 @@ public class EachStockActivity extends TitleActivity {
         mViewPager.setCurrentItem(index);
 
     }
+
 
     // END: update the data of TextViews [Samuel_GU]
 

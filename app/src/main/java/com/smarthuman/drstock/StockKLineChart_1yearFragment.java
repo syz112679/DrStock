@@ -109,7 +109,7 @@ public class StockKLineChart_1yearFragment extends android.support.v4.app.Fragme
             RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
             mQueue.add(stringRequest);
         }else{
-            Toast.makeText(getContext(),"Sorry, you can only see HK stock's graph.",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
         }
 
         if (stock.marketId_.equals("HK")) {
@@ -140,7 +140,7 @@ public class StockKLineChart_1yearFragment extends android.support.v4.app.Fragme
             RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
             mQueue.add(stringRequest);
         } else{
-            Toast.makeText(getContext(),"Sorry, you can only see HK stock's graph.",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
         }
 
         rsi10_Btn = (Button) view.findViewById(R.id.rsi_10_btn);
@@ -197,7 +197,7 @@ public class StockKLineChart_1yearFragment extends android.support.v4.app.Fragme
         mChart.setScaleYEnabled(false);
         mChart.setPinchZoom(true);
         mChart.setDrawValueAboveBar(false);
-        mChart.setNoDataText("加载中...");
+        mChart.setNoDataText(getString(R.string.loading));
         mChart.setAutoScaleMinMaxEnabled(true);
         mChart.setDragEnabled(true);
         mChart.setDrawOrder(new CombinedChart.DrawOrder[]{CombinedChart.DrawOrder.CANDLE, CombinedChart.DrawOrder.LINE});

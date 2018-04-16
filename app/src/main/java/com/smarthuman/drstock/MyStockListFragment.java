@@ -1,12 +1,15 @@
 package com.smarthuman.drstock;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,10 +22,8 @@ import java.util.List;
  * Created by shiyuzhou on 27/3/2018.
  */
 
-public class MyStockListFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
+public class MyStockListFragment extends android.support.v4.app.Fragment  {
 
-    String mUid = "";
-    private ArrayList<StockSnippet> mMyStock = new ArrayList<StockSnippet>();
     private ListView mMyStockListView;
     StockItemAdapter mStockAdapter;
 
@@ -34,7 +35,7 @@ public class MyStockListFragment extends android.support.v4.app.Fragment impleme
         View view = inflater.inflate(R.layout.fragment_mystocklist, container, false);
 
         if(((MainActivity)getActivity()).mfirebaseUser != null) {
-            mUid = ((MainActivity) getActivity()).mUid;
+
             mMyStockListView = view.findViewById(R.id.my_stocks_listview);
 
 
@@ -67,10 +68,56 @@ public class MyStockListFragment extends android.support.v4.app.Fragment impleme
 //                }
 //            });
         }
+
+        // ListView setOnItemClickListener function apply here.
+
+        mMyStockListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // TODO Auto-generated method stub
+                Toast.makeText(getContext(),"clicked "+MainActivity.mStockRecords.get(position).getId(), Toast.LENGTH_SHORT).show();
+                String enqueryId = input2enqury(MainActivity.mStockRecords.get(position).getId());
+                Intent intent = new Intent(getActivity(), EachStockActivity.class);
+                intent.putExtra(MainActivity.EXTRA_MESSAGE, enqueryId);
+                startActivity(intent);
+
+            }
+        });
+
+
+
         return view;
     }
+
+    public static String input2enqury(String inputID) {
+
+        if (Character.isDigit(inputID.charAt(0))) {
+
+            if (inputID.length() < 5 || inputID.length() > 6) {
+                return null;
+            }
+
+            if (inputID.length() == 5) {
+                inputID = "hk" + inputID;
+            } else if (inputID.startsWith("6")) {
+                inputID = "sh" + inputID;
+            } else if (inputID.startsWith("0") || inputID.startsWith("3")) {
+                inputID = "sz" + inputID;
+            } else
+                return null;
+        } else {    // US
+            inputID = "gb_" + inputID;
+        }
+
+        return inputID;
+    }
+
     @Override
-    public void onClick(View v) {
+    public void onResume() {
+        super.onResume();
+        mStockAdapter.notifyDataSetChanged();
 
     }
 }

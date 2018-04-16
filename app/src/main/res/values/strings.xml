@@ -105,6 +105,7 @@
     <string name="rsi_10">10 days</string>
     <string name="rsi_14">14 days</string>
     <string name="rsi_20">20 days</string>
+    <string name="loading">Loading...</string>
 
     <string name="toast_you_dont_have_this_stock">You did not buy this stock</string>
     <string name="toast_you_cant_sell_more_than_you_have">You cannot sell more than what you have</string>
@@ -113,6 +114,7 @@
     <string name="toast_you_dont_have_enough_money">You do not have enough money</string>
     <string name="toast_invalid_input">Invalid input</string>
     <string name="toast_buy_successfully">Buy successfully!</string>
+    <string name="toast_sorry_only_hk_graph">Sorry, you can only see HK stocks graph.</string>
     <string name="enter_the_amount_sell">Enter the amount you want to sell</string>
     <string name="enter_the_amount_buy">Enter the amount you want to buy</string>
 </resources>
