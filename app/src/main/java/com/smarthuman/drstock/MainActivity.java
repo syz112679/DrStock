@@ -408,28 +408,28 @@ public class MainActivity extends TitleActivity
         table.removeAllViews();
 
         // Title
-//        TableRow rowTitle = new TableRow(this);
-//
-//        TextView nameTitle = new TextView(this);
-//        nameTitle.setText(getResources().getString(R.string.stock_name_title));
-//        rowTitle.addView(nameTitle);
-//
-//        TextView nowTitle = new TextView(this);
-//        nowTitle.setGravity(Gravity.CENTER);
-//        nowTitle.setText(getResources().getString(R.string.stock_now_title));
-//        rowTitle.addView(nowTitle);
-//
-//        TextView percentTitle = new TextView(this);
-//        percentTitle.setGravity(Gravity.CENTER);
-//        percentTitle.setText(getResources().getString(R.string.stock_increase_percent_title));
-//        rowTitle.addView(percentTitle);
-//
-//        TextView increaseTitle = new TextView(this);
-//        increaseTitle.setGravity(Gravity.CENTER);
-//        increaseTitle.setText(getResources().getString(R.string.stock_increase_title));
-//        rowTitle.addView(increaseTitle);
-//
-//        table.addView(rowTitle);
+        TableRow rowTitle = new TableRow(this);
+
+        TextView nameTitle = new TextView(this);
+        nameTitle.setText(getResources().getString(R.string.stock_name_title));
+        rowTitle.addView(nameTitle);
+
+        TextView nowTitle = new TextView(this);
+        nowTitle.setGravity(Gravity.RIGHT);
+        nowTitle.setText(getResources().getString(R.string.stock_now_title));
+        rowTitle.addView(nowTitle);
+
+        TextView percentTitle = new TextView(this);
+        percentTitle.setGravity(Gravity.RIGHT);
+        percentTitle.setText(getResources().getString(R.string.stock_increase_percent_title));
+        rowTitle.addView(percentTitle);
+
+        TextView increaseTitle = new TextView(this);
+        increaseTitle.setGravity(Gravity.RIGHT);
+        increaseTitle.setText(getResources().getString(R.string.stock_increase_title));
+        rowTitle.addView(increaseTitle);
+
+        table.addView(rowTitle);
 
         //
 
