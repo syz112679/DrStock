@@ -600,33 +600,6 @@ public class MainActivity extends TitleActivity
         return true;
     }
 
-//    public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
-//
-//        // Instantiate the RequestQueue.
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url = "http://hq.sinajs.cn/list=" + list;
-//        //http://hq.sinajs.cn/list=sh600000,sh600536
-//
-//        // Request a string response from the provided URL.
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-////                        System.out.println("***************************Response**************************");
-////                        System.out.println(response);
-////                        System.out.println("*****************************************************************");
-//                        searchHistory = StockFragment.sinaResponseToStocks(response);
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                    }
-//                });
-//
-//        queue.add(stringRequest);
-//    }
-
     public void setupViewPager(ViewPager viewPager) {
         SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());
 
@@ -720,7 +693,6 @@ public class MainActivity extends TitleActivity
             userInfo.setMoney(mMoney);
             userInfo.setEarning(mEarning);
             userInfo.setSuperUser(false);
-
 
             mDatabaseReference.child("users").child(mUid).setValue(userInfo);
 

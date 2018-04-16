@@ -286,7 +286,6 @@ public class EachStockActivity extends TitleActivity {
             return stockI_M;
         }
 
-
         if (stockI_Ms[1].equals("US")) {
             return "gb_" + stockI_Ms[0];
         } else {
@@ -297,6 +296,7 @@ public class EachStockActivity extends TitleActivity {
     public void querySinaStocks(String queryId) {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://hq.sinajs.cn/list=" + queryId;
+        System.out.println("---------url: " + url);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

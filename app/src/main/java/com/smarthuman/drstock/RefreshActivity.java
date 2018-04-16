@@ -101,7 +101,7 @@ public class RefreshActivity extends TitleActivity {
                 MainActivity.enableMobileRefresh = true;
                 MainActivity.mobileRefreshTime = 5;
                 newMobileRow = (TableRow) tableLayout_mobile.getChildAt(2);
-                Toast.makeText(this, "mobileRefreshTime = 5", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "mobileRefreshTime = 5", Toast.LENGTH_LONG).show();
                 break;
             case R.id.mobile_15s:
                 MainActivity.enableMobileRefresh = true;
