@@ -71,6 +71,15 @@ public class RefreshActivity extends TitleActivity {
                 case 5:
                     selectedWifiRow = (TableRow) tableLayout_wifi.getChildAt(2);
                     break;
+                case 15:
+                    selectedWifiRow = (TableRow) tableLayout_wifi.getChildAt(3);
+                    break;
+                case 30:
+                    selectedWifiRow = (TableRow) tableLayout_wifi.getChildAt(4);
+                    break;
+                case 60:
+                    selectedWifiRow = (TableRow) tableLayout_wifi.getChildAt(5);
+                    break;
             }
         } else {
             selectedWifiRow = (TableRow) tableLayout_wifi.getChildAt(1);

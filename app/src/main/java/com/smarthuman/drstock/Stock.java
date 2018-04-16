@@ -20,6 +20,7 @@ public class Stock {
     public Stock(String inputStock) {
         inputStock = inputStock.replaceAll(";", "");
         String[] leftRight = inputStock.split("=");
+        System.out.println(leftRight[0] + "[=]" + leftRight[1]);
         if (leftRight.length < 2)
             return;
 
@@ -44,7 +45,6 @@ public class Stock {
         String right = leftRight[1].replaceAll("\"", "");
         if (right.isEmpty())
             return;
-
 
         String[] values = right.split(",");
         for (int i = 0; i < values.length; i++) {

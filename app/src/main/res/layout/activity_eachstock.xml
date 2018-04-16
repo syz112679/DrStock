@@ -412,50 +412,8 @@
                         android:layout_weight="0.2"
                         android:text="@string/three_year"
                         android:textSize="12dp" />
-                    <!--<Button-->
-                        <!--android:id="@+id/min_graph_btn"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="0.2"-->
-                        <!--android:text="@string/minute"-->
-                        <!--android:textSize="9dp"/>-->
-
-                    <!--<Button-->
-                        <!--android:id="@+id/one_month_btn"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="0.2"-->
-                        <!--android:text="@string/one_month"-->
-                        <!--android:textSize="9dp"/>-->
-
-                    <!--<Button-->
-                        <!--android:id="@+id/three_month_btn"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="0.2"-->
-                        <!--android:text="@string/three_month"-->
-                        <!--android:textSize="9dp"/>-->
-
-                    <!--<Button-->
-                        <!--android:id="@+id/one_year_btn"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="0.2"-->
-                        <!--android:text="@string/one_year"-->
-                        <!--android:textSize="9dp"/>-->
-
-                    <!--<Button-->
-                        <!--android:id="@+id/three_year_btn"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="0.2"-->
-                        <!--android:text="@string/three_year"-->
-                        <!--android:textSize="9dp"/>-->
-
 
                 </LinearLayout>
-
-
 
                 <android.support.v4.view.ViewPager
                     android:layout_width="match_parent"
@@ -464,25 +422,6 @@
 
                 </android.support.v4.view.ViewPager>
             </LinearLayout>
-
-
-
-
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="vertical"-->
-                <!--android:divider="@drawable/line_timber"-->
-                <!--android:showDividers="beginning">-->
-
-                <!--<android.support.v4.view.ViewPager-->
-                    <!--android:id="@+id/chartviewpager"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="430dp">-->
-
-                <!--</android.support.v4.view.ViewPager>-->
-            <!--</LinearLayout>-->
 
 
         </LinearLayout>

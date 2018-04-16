@@ -20,7 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
+import android.widget.Toast;
 /**
  * Created by shiyuzhou on 5/4/2018.
  */
@@ -29,6 +29,7 @@ public class EachStockActivity extends TitleActivity {
 
     public static String stockId_Market;
     public static Stock myStock;
+    public boolean invalidInput = false;
 
     private Button buyButton, sellButton;
     private ImageView addImg;
@@ -48,7 +49,7 @@ public class EachStockActivity extends TitleActivity {
 //        setTitle("Each Stock");
 //        setTitleBackground(R.color.titleBarDemo);
 //        setTitleBackground(MainActivity.UpColor_);
-
+        invalidInput = false;
         showBackward(getDrawable(R.drawable.ic_return), true);
 
 //        setGridLayout();
@@ -100,8 +101,16 @@ public class EachStockActivity extends TitleActivity {
             case R.id.add_to_favorite:
                 Log.d("addstock", "here");
                 if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
-                    addStock(v);
-                    Toast.makeText(getApplicationContext(), R.string.toast_added_to_watchlist, Toast.LENGTH_SHORT).show();
+                    if(MainActivity.checkStatus(myStock.getEnqueryId())){
+                        removeStock(v);
+                        addImg.setImageResource(R.drawable.ic_favourite);
+                        Toast.makeText(getApplicationContext(), R.string.toast_delete_from_watchlist, Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        addStock(v);
+                        addImg.setImageResource(R.drawable.ic_favourite_solid);
+                        Toast.makeText(getApplicationContext(), R.string.toast_added_to_watchlist, Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
                 }
@@ -262,6 +271,14 @@ public class EachStockActivity extends TitleActivity {
         System.out.println("StockIds_: " + MainActivity.getStockIds_() + ";");
     }
 
+    public void removeStock(View v) {
+        MainActivity.removeStockIds_(myStock.getEnqueryId());
+
+
+        System.out.println("remove favourite: " + myStock.getEnqueryId() + ";");
+        System.out.println("StockIds_: " + MainActivity.getStockIds_() + ";");
+    }
+
     public String getEnqueryId(String stockI_M) {
         System.out.println("stockI_M: " + stockI_M);
 
@@ -270,7 +287,6 @@ public class EachStockActivity extends TitleActivity {
         if (stockI_Ms.length == 1) {            // if stockI_M is already the enquryId
             return stockI_M;
         }
-
 
         if (stockI_Ms[1].equals("US")) {
             return "gb_" + stockI_Ms[0];
@@ -282,14 +298,25 @@ public class EachStockActivity extends TitleActivity {
     public void querySinaStocks(String queryId) {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://hq.sinajs.cn/list=" + queryId;
+        System.out.println("---------url: " + url);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("", "---------response:\n" + response + "------------\n");
-                        sinaResponseToStocks(response);
+                        System.out.println("---------response:\n" + response + "------------\n");
+//                        Log.d("", "---------response:\n" + response + "------------\n");
+                        String right = response.split("=")[1];
+                        System.out.println("right: " + right);
+                        if (right.equals("\"\";\n") || right.equals("\"FAILED\";\n")) {
+                            invalidInput = true;
+                            Toast.makeText(getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            invalidInput = false;
+                            sinaResponseToStocks(response);
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -307,6 +334,16 @@ public class EachStockActivity extends TitleActivity {
         Stock stockNow = new Stock(response);
 
         myStock = stockNow;
+
+        // if it is favorited
+        int i=0;
+        for (String id: MainActivity.getStockIds_()) {
+            i++;
+            if(StockFragment.input2enqury(myStock.id_).equals( id) ) {
+                addImg.setImageResource(R.drawable.ic_favourite_solid);
+                System.out.println(" ****************it is favorited, i=" + i);
+            }
+        }
 
         setupViewPager(mViewPager);
         setViewPager(0);

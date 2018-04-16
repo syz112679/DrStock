@@ -67,6 +67,7 @@ import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -242,6 +243,10 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         EditText editText = (EditText) v.findViewById(R.id.editText_stockId);
         String inputID = editText.getText().toString();
         String enquryId = input2enqury(inputID);
+        if (enquryId == null) {
+            Toast.makeText(getActivity().getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         MainActivity.searchHistory.add(enquryId);
         System.out.println("--------searchHistory:");

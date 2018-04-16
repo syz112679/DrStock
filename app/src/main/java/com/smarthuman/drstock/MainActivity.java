@@ -73,6 +73,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
@@ -99,9 +100,9 @@ public class MainActivity extends TitleActivity
 
     public final static String searchHistoryKey_ = "SearchHistory";
     public static HashSet<String> searchHistory  = new HashSet<>();
-    public final static String StockIdsKey_ = "StockIds";
-    public static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
-    public static TreeMap<String, Stock> stockMap_ = new TreeMap<>();
+    private final static String StockIdsKey_ = "StockIds";
+    private static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
+    public static TreeMap<String, Stock> stockMap_ = new TreeMap<>();   // inputId -> Stock
 
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
@@ -111,13 +112,14 @@ public class MainActivity extends TitleActivity
     public static boolean enableMobileRefresh = true;
     public static int mobileRefreshTime = 15;
     public static boolean enableWifiRefresh = true;
-    public static int wifiRefreshTime = 5;
+    public static int wifiRefreshTime = 15;
     private Context context;
 
     private static int count = 0;
     private static final int minPeriod = 2;
     public static boolean requireRefresh = false;
 
+    StockIndex stockIndex = new StockIndex();
     //--------------------------------------------------------------------------------------------------
 
     public static FirebaseUser mfirebaseUser;
@@ -223,6 +225,23 @@ public class MainActivity extends TitleActivity
         System.out.println("addStockIds_:" + StockIds_ + ";");
     }
 
+    public static void removeStockIds_(String stockIds_) {
+        if (stockIds_ == null)
+            return;
+        StockIds_.remove(stockIds_);
+        mFavorites=new ArrayList<>(StockIds_);
+        System.out.println("removeStockIds_:" + StockIds_ + ";");
+    }
+
+    public static boolean checkStatus(String stockIds_){
+        for (String id : StockIds_) {
+            if(stockIds_.compareTo(id) == 0)
+                return true;
+        }
+        return false;
+    }
+
+
 //    @Override
 //    public void setTitle(int titleId) {
 //        TextView temp = (TextView) findViewById(R.id.text_title);
@@ -285,9 +304,19 @@ public class MainActivity extends TitleActivity
 //        System.out.println("---------");
 
         TreeMap<String, Stock> stockMap = new TreeMap<>();
-        for (String stock : stocks) {
-            Stock stockNow = new Stock(stock);
-            stockMap.put(stockNow.id_, stockNow);           // lx -> Stock
+        String indexResponse = "";
+        for (int i = 0; i < stocks.length; i++) {
+            if (i < StockIndex.totalNum) {
+                indexResponse += stocks[i] + ";";
+            } else if (i == StockIndex.totalNum) {
+                stockIndex.updateIdex(indexResponse);
+            } else {
+                //判断是否为：
+                //var hq_str_sz0=""
+                System.out.println("each Stock: " + stocks[i]);
+                Stock stockNow = new Stock(stocks[i]);
+                stockMap.put(stockNow.id_, stockNow);           // lx -> Stock
+            }
         }
 
         stockMap_ = stockMap;
@@ -344,7 +373,7 @@ public class MainActivity extends TitleActivity
 //        if (StockIds_.size() == 0)
 //            return;
 
-        String ids = "";
+        String ids = stockIndex.enquiryId;
         for (String id : StockIds_) {
             ids += id;
             ids += ",";
@@ -391,28 +420,28 @@ public class MainActivity extends TitleActivity
         table.removeAllViews();
 
         // Title
-//        TableRow rowTitle = new TableRow(this);
-//
-//        TextView nameTitle = new TextView(this);
-//        nameTitle.setText(getResources().getString(R.string.stock_name_title));
-//        rowTitle.addView(nameTitle);
-//
-//        TextView nowTitle = new TextView(this);
-//        nowTitle.setGravity(Gravity.CENTER);
-//        nowTitle.setText(getResources().getString(R.string.stock_now_title));
-//        rowTitle.addView(nowTitle);
-//
-//        TextView percentTitle = new TextView(this);
-//        percentTitle.setGravity(Gravity.CENTER);
-//        percentTitle.setText(getResources().getString(R.string.stock_increase_percent_title));
-//        rowTitle.addView(percentTitle);
-//
-//        TextView increaseTitle = new TextView(this);
-//        increaseTitle.setGravity(Gravity.CENTER);
-//        increaseTitle.setText(getResources().getString(R.string.stock_increase_title));
-//        rowTitle.addView(increaseTitle);
-//
-//        table.addView(rowTitle);
+        TableRow rowTitle = new TableRow(this);
+
+        TextView nameTitle = new TextView(this);
+        nameTitle.setText(getResources().getString(R.string.stock_name_title));
+        rowTitle.addView(nameTitle);
+
+        TextView nowTitle = new TextView(this);
+        nowTitle.setGravity(Gravity.RIGHT);
+        nowTitle.setText(getResources().getString(R.string.stock_now_title));
+        rowTitle.addView(nowTitle);
+
+        TextView percentTitle = new TextView(this);
+        percentTitle.setGravity(Gravity.RIGHT);
+        percentTitle.setText(getResources().getString(R.string.stock_increase_percent_title));
+        rowTitle.addView(percentTitle);
+
+        TextView increaseTitle = new TextView(this);
+        increaseTitle.setGravity(Gravity.RIGHT);
+        increaseTitle.setText(getResources().getString(R.string.stock_increase_title));
+        rowTitle.addView(increaseTitle);
+
+        table.addView(rowTitle);
 
         //
 
@@ -571,33 +600,6 @@ public class MainActivity extends TitleActivity
         return true;
     }
 
-//    public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
-//
-//        // Instantiate the RequestQueue.
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url = "http://hq.sinajs.cn/list=" + list;
-//        //http://hq.sinajs.cn/list=sh600000,sh600536
-//
-//        // Request a string response from the provided URL.
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-////                        System.out.println("***************************Response**************************");
-////                        System.out.println(response);
-////                        System.out.println("*****************************************************************");
-//                        searchHistory = StockFragment.sinaResponseToStocks(response);
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                    }
-//                });
-//
-//        queue.add(stringRequest);
-//    }
-
     public void setupViewPager(ViewPager viewPager) {
         SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());
 
@@ -691,7 +693,6 @@ public class MainActivity extends TitleActivity
             userInfo.setMoney(mMoney);
             userInfo.setEarning(mEarning);
             userInfo.setSuperUser(false);
-
 
             mDatabaseReference.child("users").child(mUid).setValue(userInfo);
 
