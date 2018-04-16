@@ -96,7 +96,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
                 }
             }
         });
-
+//
 //        listNews = (ListView) v.findViewById(R.id.listNews);
 //        loader = (ProgressBar) v.findViewById(R.id.loader);
 //        listNews.setEmptyView(loader);
@@ -110,7 +110,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 //        }else{
 //            Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
 //        }
-
+//
 
         return v;
     }
