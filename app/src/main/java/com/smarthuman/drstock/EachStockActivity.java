@@ -240,6 +240,7 @@ public class EachStockActivity extends TitleActivity {
     public void addStock(View v) {
        MainActivity.addStockIds_(myStock.getEnqueryId());
 
+
         System.out.println("add favourite: " + myStock.getEnqueryId() + ";");
         System.out.println("StockIds_: " + MainActivity.getStockIds_() + ";");
     }

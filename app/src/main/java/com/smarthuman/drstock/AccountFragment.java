@@ -106,7 +106,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
 
                 ((MainActivity)getActivity()).setViewPager(2);
                 //((MainActivity)getActivity()).updateDatabase();
-                //((MainActivity)getActivity()).clearSharedPref();
+                ((MainActivity)getActivity()).clearLocalData();
                 break;
 
 
