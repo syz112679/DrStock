@@ -42,6 +42,7 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
             mStockAdapter = new StockItemAdapter(getActivity(), MainActivity.mStockRecords);
             mMyStockListView.setAdapter(mStockAdapter);
             mStockAdapter.notifyDataSetChanged();
+            System.out.println("--=========="+MainActivity.mStockRecords.size());
 //            ((MainActivity) getActivity()).mDatabaseReference.addValueEventListener(new ValueEventListener() {
 //                @Override
 //                public void onDataChange(DataSnapshot dataSnapshot) {

@@ -112,7 +112,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
 
 
             case R.id.display_my_stock:
-                Toast.makeText(getActivity(), "To My Stocks...", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "To My Stocks...", Toast.LENGTH_SHORT).show();
                 ((MainActivity)getActivity()).setViewPager(4);
                 break;
 

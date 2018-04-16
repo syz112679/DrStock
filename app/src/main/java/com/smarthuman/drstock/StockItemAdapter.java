@@ -54,6 +54,7 @@ public class StockItemAdapter  extends ArrayAdapter<StockSnippet> {
         tvCurPrice.setText(String.format ("%.2f", stock.getCurrentPrice()));
 
         // Return the completed view to render on screen
+        //System.out.println("called here, Stock list adapter");
         return convertView;
     }
 
