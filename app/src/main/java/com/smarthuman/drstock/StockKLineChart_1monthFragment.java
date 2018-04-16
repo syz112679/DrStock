@@ -137,7 +137,12 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
             });
             mQueue = Volley.newRequestQueue(this.getActivity());
             mQueue.add(stringRequestrsi);
-
+            rsi10_Btn = (Button) view.findViewById(R.id.rsi_10_btn);
+            rsi10_Btn.setOnClickListener(this);
+            rsi14_Btn = (Button) view.findViewById(R.id.rsi_14_btn);
+            rsi14_Btn.setOnClickListener(this);
+            rsi20_Btn = (Button) view.findViewById(R.id.rsi_20_btn);
+            rsi20_Btn.setOnClickListener(this);
         } else{
             Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
         }
@@ -174,12 +179,7 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
 //        }
 
 
-        rsi10_Btn = (Button) view.findViewById(R.id.rsi_10_btn);
-        rsi10_Btn.setOnClickListener(this);
-        rsi14_Btn = (Button) view.findViewById(R.id.rsi_14_btn);
-        rsi14_Btn.setOnClickListener(this);
-        rsi20_Btn = (Button) view.findViewById(R.id.rsi_20_btn);
-        rsi20_Btn.setOnClickListener(this);
+
 
         return view;
     }

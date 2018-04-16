@@ -593,7 +593,7 @@ public class MainActivity extends TitleActivity
     @Override
     public void onDestroy() {
         super.onDestroy();  // Always call the superclass
-        saveStocksToPreferences();
+        //saveStocksToPreferences();
         //updateDatabase();
     }
 
