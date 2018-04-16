@@ -406,7 +406,7 @@ public class EachStockActivity extends TitleActivity {
 
         // if it is favorited
         int i=0;
-        for (String id: MainActivity.StockIds_) {
+        for (String id: MainActivity.getStockIds_()) {
             i++;
             if(StockFragment.input2enqury(myStock.id_).equals( id) ) {
                 //TODO: it is favorited
