@@ -110,15 +110,11 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
             });
             RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
             mQueue.add(stringRequest);
-        } else{
-            Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
-        }
 
-        if (stock.marketId_.equals("HK")) {
             String money18_rsi_url = "http://money18.on.cc/chartdata/full/rsi/" + stock.id_ + "_rsi_full.txt";
 
             rsiChart = (LineChart) view.findViewById(R.id.RSI_chart);
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, money18_rsi_url,
+            StringRequest stringRequest_rsi = new StringRequest(Request.Method.GET, money18_rsi_url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -139,18 +135,20 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
                     Log.e("TAG", error.getMessage(), error);
                 }
             });
-            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
-            mQueue.add(stringRequest);
+            mQueue = Volley.newRequestQueue(this.getActivity());
+            mQueue.add(stringRequest_rsi);
+
+            rsi10_Btn = (Button) view.findViewById(R.id.rsi_10_btn);
+            rsi10_Btn.setOnClickListener(this);
+            rsi14_Btn = (Button) view.findViewById(R.id.rsi_14_btn);
+            rsi14_Btn.setOnClickListener(this);
+            rsi20_Btn = (Button) view.findViewById(R.id.rsi_20_btn);
+            rsi20_Btn.setOnClickListener(this);
         } else{
             Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
         }
 
-        rsi10_Btn = (Button) view.findViewById(R.id.rsi_10_btn);
-        rsi10_Btn.setOnClickListener(this);
-        rsi14_Btn = (Button) view.findViewById(R.id.rsi_14_btn);
-        rsi14_Btn.setOnClickListener(this);
-        rsi20_Btn = (Button) view.findViewById(R.id.rsi_20_btn);
-        rsi20_Btn.setOnClickListener(this);
+
         return view;
     }
 
@@ -574,14 +572,14 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
 
         @Override
         public void onChartLongPressed(MotionEvent me) {
-
+            Intent intent = new Intent (getActivity(), Chart_3monthActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, stock.id_);
+            startActivity(intent);
         }
 
         @Override
         public void onChartDoubleTapped(MotionEvent me) {
-            Intent intent = new Intent (getActivity(), Chart_3monthActivity.class);
-            intent.putExtra(EXTRA_MESSAGE, stock.id_);
-            startActivity(intent);
+
         }
 
         @Override

@@ -400,14 +400,14 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
 
         @Override
         public void onChartLongPressed(MotionEvent me) {
-
+            Intent intent = new Intent (getActivity(), Chart_MinActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, stock.id_);
+            startActivity(intent);
         }
 
         @Override
         public void onChartDoubleTapped(MotionEvent me) {
-            Intent intent = new Intent (getActivity(), Chart_MinActivity.class);
-            intent.putExtra(EXTRA_MESSAGE, stock.id_);
-            startActivity(intent);
+
         }
 
         @Override
