@@ -348,6 +348,7 @@ public class MainActivity extends TitleActivity
                         System.out.println(response);
                         System.out.println("*****************************************************************");
                         updateStockListView(sinaResponseToStocks(response));
+                        //updateIndexView();
                     }
                 },
                 new Response.ErrorListener() {
@@ -417,7 +418,17 @@ public class MainActivity extends TitleActivity
 
     public void updateIndexView() {
         TextView sse = findViewById(R.id.stock_sh_index);
-        sse.setText(stockIndex.indexTreeMap.get("s_sh000001").value);
+        sse.setText(StockIndex.indexTreeMap.get("s_sh000001").value);
+        TextView szse = findViewById(R.id.stock_sz_index);
+        szse.setText(StockIndex.indexTreeMap.get("s_sz399001").value);
+        TextView gei = findViewById(R.id.stock_chuang_index);
+        gei.setText(StockIndex.indexTreeMap.get("s_sz399006").value);
+        TextView hsi = findViewById(R.id.stock_hsi_index);
+        hsi.setText(StockIndex.indexTreeMap.get("int_hangseng").value);
+        TextView dji = findViewById(R.id.stock_djia_index);
+        dji.setText(StockIndex.indexTreeMap.get("int_dji").value);
+        TextView nasdaq = findViewById(R.id.stock_nsdk_index);
+        nasdaq.setText(StockIndex.indexTreeMap.get("int_nasdaq").value);
     }
 
     protected void updateStockListView(TreeMap<String, Stock> stockMap) {
