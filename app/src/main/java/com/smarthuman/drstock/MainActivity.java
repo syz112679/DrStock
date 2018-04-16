@@ -650,7 +650,7 @@ public class MainActivity extends TitleActivity
 
 
         mUid = mfirebaseUser.getUid();
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mUserName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);

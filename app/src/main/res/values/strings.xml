@@ -110,4 +110,9 @@
     <string name="toast_you_cant_sell_more_than_you_have">You cannot sell more than what you have</string>
     <string name="toast_you_have_earned">You have earned </string>
     <string name="toast_you_have_lost">You have lost </string>
+    <string name="toast_you_dont_have_enough_money">You do not have enough money</string>
+    <string name="toast_invalid_input">Invalid input</string>
+    <string name="toast_buy_successfully">Buy successfully!</string>
+    <string name="enter_the_amount_sell">Enter the amount you want to sell</string>
+    <string name="enter_the_amount_buy">Enter the amount you want to buy</string>
 </resources>

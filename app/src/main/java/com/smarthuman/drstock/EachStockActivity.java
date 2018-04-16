@@ -118,8 +118,8 @@ public class EachStockActivity extends TitleActivity {
                 Log.d("buy btn", "buy btn pressed");
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 final EditText edittext = new EditText(this);
-                alert.setMessage("Enter the amount you want to buy");
-                alert.setTitle("Buy");
+                alert.setMessage(R.string.enter_the_amount_buy);
+                alert.setTitle(R.string.buy);
 
                 alert.setView(edittext);
 
@@ -131,9 +131,9 @@ public class EachStockActivity extends TitleActivity {
                         double amount = Double.parseDouble(input);
                         double price = Double.parseDouble(myStock.getCurrentPrice_());
                         if(amount<=0) {
-                            Toast.makeText(getApplicationContext(), "Invalid input", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
                         } else if(amount*price > MainActivity.mBalance){
-                            Toast.makeText(getApplicationContext(), "You don't have enough money", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_enough_money, Toast.LENGTH_SHORT).show();
                             Log.d("EachStockActivity", "your money:" + MainActivity.mMoney + ", needed:" + amount*price);
                         } else {
 
@@ -154,7 +154,7 @@ public class EachStockActivity extends TitleActivity {
                             if(!found) {
                                 MainActivity.mStockRecords.add(newStock);
                             }
-                            Toast.makeText(getApplicationContext(), "Buy Successfully!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.toast_buy_successfully, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -173,7 +173,7 @@ public class EachStockActivity extends TitleActivity {
                 boolean sellFailure = false;
                 AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
                 final EditText edittext2 = new EditText(this);
-                alert2.setMessage("Enter the amount you want to sell");
+                alert2.setMessage(R.string.enter_the_amount_sell);
                 alert2.setTitle(R.string.sell);
 
                 alert2.setView(edittext2);
@@ -184,7 +184,7 @@ public class EachStockActivity extends TitleActivity {
                         Log.d("Alert","input is " + input);
                         double amount = Double.parseDouble(input);
                         double price = Double.parseDouble(myStock.getCurrentPrice_());
-                        //TODO: sell stock
+
                         boolean found =false;
                         int i=0;
                         for(; i<MainActivity.mStockRecords.size(); i++) {
