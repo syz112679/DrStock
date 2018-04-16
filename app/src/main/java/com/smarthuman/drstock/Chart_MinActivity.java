@@ -6,15 +6,12 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,7 +21,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.MarkerView;
@@ -41,7 +37,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
@@ -52,10 +47,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Li Shuhan on 2018/4/12.
+ * Created by Li Shuhan on 2018/4/16.
  */
 
-public class StockMinChartFragment extends android.support.v4.app.Fragment {
+public class Chart_MinActivity extends AppCompatActivity{
 
     private String TAG = "qqq";
     private LineChart lineChart;
@@ -73,47 +68,41 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
     private int colorMa5;
     private int colorMa10;
     private int colorMa20;
-    Stock stock = ((EachStockActivity) getActivity()).myStock;
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    public static String stockId;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_combine, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_combine);
 
-        //setContentView(R.layout.activity_kline);
-        Stock stock = ((EachStockActivity) getActivity()).myStock;
-        if (stock.marketId_.equals("HK")) {
-            String money18url = "http://money18.on.cc/chartdata/d1/price/" + stock.id_ + "_price_d1.txt";
-            Log.d("url", "url is "+money18url);
-                 //http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt
-            lineChart = (LineChart) view.findViewById(R.id.lchart);       //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
-            barChart = (BarChart) view.findViewById(R.id.bchart);
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, money18url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            //System.out.println("-----Main setdata-----:"+response);
-                            Model.setDataF(response);
+        Intent intent = getIntent();
+        stockId = intent.getStringExtra(StockMinChartFragment.EXTRA_MESSAGE);
 
-                            initChartF();
+        String money18url = "http://money18.on.cc/chartdata/d1/price/" + stockId + "_price_d1.txt";
+        Log.d("url", "url is "+money18url);
+        //http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt
+        lineChart = (LineChart) findViewById(R.id.lchart);       //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
+        barChart = (BarChart) findViewById(R.id.bchart);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, money18url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //System.out.println("-----Main setdata-----:"+response);
+                        Model.setDataF(response);
 
-                            loadChartDataF();
+                        initChartF();
+
+                        loadChartDataF();
 
 
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("TAG", error.getMessage(), error);
-                }
-            });
-            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
-            mQueue.add(stringRequest);
-        } else{
-            Toast.makeText(getContext(),"Sorry, you can only see HK stock's graph.",Toast.LENGTH_LONG).show();
-        }
-        return view;
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", error.getMessage(), error);
+            }
+        });
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        mQueue.add(stringRequest);
     }
 
     // 分时图
@@ -128,7 +117,7 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         lineChart.setDrawMarkerViews(true);
         lineChart.setTouchEnabled(true); // 设置是否可以触摸
         lineChart.setDragEnabled(true);// 是否可以拖拽
-        CustomMarkerView mv = new CustomMarkerView(this.getActivity(), R.layout.mymarkerview);
+        CustomMarkerView mv = new CustomMarkerView(this, R.layout.mymarkerview);
         lineChart.setMarkerView(mv);
 
         lineChart.setScaleXEnabled(true); //是否可以缩放 仅x轴
@@ -340,7 +329,7 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         set.setDrawValues(false);
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         set.setDrawFilled(true);
-        Drawable drawable = ContextCompat.getDrawable(this.getActivity(), R.drawable.fade_red);
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_red);
         set.setFillDrawable(drawable);
 
         return set;
@@ -405,9 +394,9 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
 
         @Override
         public void onChartDoubleTapped(MotionEvent me) {
-            Intent intent = new Intent (getActivity(), Chart_MinActivity.class);
-            intent.putExtra(EXTRA_MESSAGE, stock.id_);
-            startActivity(intent);
+//            Intent intent = new Intent (this, Chart_MinActivity.class);
+//            intent.putExtra(EXTRA_MESSAGE, stock.id_);
+//            startActivity(intent);
         }
 
         @Override
@@ -456,5 +445,4 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         }
 
     }
-
 }

@@ -92,6 +92,31 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name="com.smarthuman.drstock.Chart_1monthActivity"
+            android:screenOrientation="landscape">
+        </activity>
+
+        <activity
+            android:name="com.smarthuman.drstock.Chart_3monthActivity"
+            android:screenOrientation="landscape">
+        </activity>
+
+        <activity
+            android:name="com.smarthuman.drstock.Chart_1yearActivity"
+            android:screenOrientation="landscape">
+        </activity>
+
+        <activity
+            android:name="com.smarthuman.drstock.Chart_3yearActivity"
+            android:screenOrientation="landscape">
+        </activity>
+
+        <activity
+            android:name="com.smarthuman.drstock.Chart_MinActivity"
+            android:screenOrientation="landscape">
+        </activity>
+
     </application>
 
 </manifest>

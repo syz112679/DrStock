@@ -1,6 +1,7 @@
 package com.smarthuman.drstock;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -72,6 +73,7 @@ public class StockKLineChart_1yearFragment extends android.support.v4.app.Fragme
     private Button rsi10_Btn, rsi14_Btn, rsi20_Btn;
     public String storedData;
     Stock stock = ((EachStockActivity) getActivity()).myStock;
+    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
     @Nullable
     @Override
@@ -576,7 +578,9 @@ public class StockKLineChart_1yearFragment extends android.support.v4.app.Fragme
 
         @Override
         public void onChartDoubleTapped(MotionEvent me) {
-
+            Intent intent = new Intent (getActivity(), Chart_1yearActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, stock.id_);
+            startActivity(intent);
         }
 
         @Override

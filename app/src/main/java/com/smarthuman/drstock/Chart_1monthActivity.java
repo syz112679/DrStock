@@ -1,22 +1,18 @@
 package com.smarthuman.drstock;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -46,16 +42,18 @@ import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.Utils;
 
-import java.io.DataInput;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Li Shuhan on 2018/4/12.
+ * Created by Li Shuhan on 2018/4/15.
  */
 
-public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragment implements  View.OnClickListener {
+public class Chart_1monthActivity extends AppCompatActivity implements  View.OnClickListener{
+
+    public static String stockId;
+
     private String TAG = "qqq";
     private CombinedChart mChart;
     private int itemcount;
@@ -73,85 +71,72 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
     private int colorMa20;
     private Button rsi10_Btn, rsi14_Btn, rsi20_Btn;
     public String storedData;
-    Stock stock = ((EachStockActivity) getActivity()).myStock;
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_kline, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_kline);
 
-        //setContentView(R.layout.activity_kline);
-        Stock stock = ((EachStockActivity) getActivity()).myStock;
-        if (stock.marketId_.equals("HK")) {
-            String money18url = "http://money18.on.cc/chartdata/full/price/" + stock.id_ + "_price_full.txt";
-            mChart = (CombinedChart) view.findViewById(R.id.kline_chart);
-            //http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt
-            //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
+        Intent intent = getIntent();
+        stockId = intent.getStringExtra(StockKLineChart_1monthFragment.EXTRA_MESSAGE);
 
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, money18url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            //System.out.println("-----Main setdata-----:"+response);
-                            Model.setData(response);
-
-                            initChart();
-
-                            loadChartData();
+        String money18url = "http://money18.on.cc/chartdata/full/price/" + stockId + "_price_full.txt";
+        String money18_rsi_url = "http://money18.on.cc/chartdata/full/rsi/" + stockId + "_rsi_full.txt";
+        mChart = (CombinedChart) findViewById(R.id.kline_chart);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, money18url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //System.out.println("-----Main setdata-----:"+response);
 
 
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("TAG", error.getMessage(), error);
-                }
-            });
-            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
-            mQueue.add(stringRequest);
-        } else{
-            Toast.makeText(getContext(),"Sorry, you can only see HK stock's graph.",Toast.LENGTH_LONG).show();
-        }
+                        Model.setData(response);
 
-        if (stock.marketId_.equals("HK")) {
-            String money18_rsi_url = "http://money18.on.cc/chartdata/full/rsi/" + stock.id_ + "_rsi_full.txt";
+                        initChart();
 
-            rsiChart = (LineChart) view.findViewById(R.id.RSI_chart);
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, money18_rsi_url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            //System.out.println("-----Main setdata-----:"+response);
-                            storedData = response;
-
-                            Model.setData_Rsi(response);
-
-                            initChart_Rsi();
-
-                            loadChartData_Rsi10();
+                        loadChartData();
 
 
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("TAG", error.getMessage(), error);
-                }
-            });
-            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
-            mQueue.add(stringRequest);
-        } else{
-            Toast.makeText(getContext(),"Sorry, you can only see HK stock's graph.",Toast.LENGTH_LONG).show();
-        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", error.getMessage(), error);
+            }
+        });
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        mQueue.add(stringRequest);
 
-        rsi10_Btn = (Button) view.findViewById(R.id.rsi_10_btn);
+        rsiChart = (LineChart) findViewById(R.id.RSI_chart);
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, money18_rsi_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //System.out.println("-----Main setdata-----:"+response);
+                        storedData = response;
+
+                        Model.setData_Rsi(response);
+
+                        initChart_Rsi();
+
+                        loadChartData_Rsi10();
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", error.getMessage(), error);
+            }
+        });
+        RequestQueue mQueue1 = Volley.newRequestQueue(this);
+        mQueue1.add(stringRequest1);
+
+        rsi10_Btn = (Button) findViewById(R.id.rsi_10_btn);
         rsi10_Btn.setOnClickListener(this);
-        rsi14_Btn = (Button) view.findViewById(R.id.rsi_14_btn);
+        rsi14_Btn = (Button) findViewById(R.id.rsi_14_btn);
         rsi14_Btn.setOnClickListener(this);
-        rsi20_Btn = (Button) view.findViewById(R.id.rsi_20_btn);
+        rsi20_Btn = (Button) findViewById(R.id.rsi_20_btn);
         rsi20_Btn.setOnClickListener(this);
-        return view;
     }
 
     @Override
@@ -185,6 +170,7 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
     }
 
 
+    //k line
     private void initChart() {
         colorHomeBg = getResources().getColor(R.color.home_page_bg);
         colorLine = getResources().getColor(R.color.common_divider);
@@ -250,17 +236,19 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
 
     }
 
+
+
     private void loadChartData() {
         mChart.resetTracking();
 
-        candleEntries = Model.getCandleEntries_3month();
+        candleEntries = Model.getCandleEntries_1month();
 
         itemcount = candleEntries.size();
         System.out.println("----itemcount : "+itemcount);
         //List<StockListBean.eachTime> stockBeans = Model.getData();
         List<String> DateInfo = Model.getDate();
         xVals = new ArrayList<>();
-        for (int i = DateInfo.size()-60; i < DateInfo.size(); i++) {
+        for (int i = DateInfo.size()-21; i < DateInfo.size(); i++) {
             xVals.add(DateInfo.get(i));
         }
 
@@ -271,11 +259,11 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
         combinedData.setData(candleData);
 
         /*ma10*/
-        List<Entry> ma10Entries = Model.getMa10Entries_3month();
+        List<Entry> ma10Entries = Model.getMa10Entries_1month();
         /*ma20*/
-        List<Entry> ma20Entries = Model.getMa20Entries_3month();
+        List<Entry> ma20Entries = Model.getMa20Entries_1month();
         /*ma50*/
-        List<Entry> ma50Entries = Model.getMa50Entries_3month();
+        List<Entry> ma50Entries = Model.getMa50Entries_1month();
 
         lineData = generateMultiLineData(
                 generateLineDataSet(ma10Entries, colorMa5, "ma10"),
@@ -360,7 +348,7 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
         rsiChart.setDrawMarkerViews(true);
         rsiChart.setTouchEnabled(true); // 设置是否可以触摸
         rsiChart.setDragEnabled(true);// 是否可以拖拽
-        CustomMarkerView mv = new CustomMarkerView(this.getActivity(), R.layout.mymarkerview);
+        CustomMarkerView mv = new CustomMarkerView(this, R.layout.mymarkerview);
         rsiChart.setMarkerView(mv);
 
         rsiChart.setScaleXEnabled(true); //是否可以缩放 仅x轴
@@ -435,7 +423,7 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
 
     private void loadChartData_Rsi10(){
         rsiChart.resetTracking();
-        List<Entry> lineEntries = Model.getRsi10Entries_3month();
+        List<Entry> lineEntries = Model.getRsi10Entries_1month();
 
         itemcount = lineEntries.size();
         System.out.println("----itemcount : "+itemcount);
@@ -455,7 +443,7 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
 
     private void loadChartData_Rsi14(){
         rsiChart.resetTracking();
-        List<Entry> lineEntries = Model.getRsi14Entries_3month();
+        List<Entry> lineEntries = Model.getRsi14Entries_1month();
 
         itemcount = lineEntries.size();
         System.out.println("----itemcount : "+itemcount);
@@ -475,7 +463,7 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
 
     private void loadChartData_Rsi20(){
         rsiChart.resetTracking();
-        List<Entry> lineEntries = Model.getRsi20Entries_3month();
+        List<Entry> lineEntries = Model.getRsi20Entries_1month();
 
         itemcount = lineEntries.size();
         System.out.println("----itemcount : "+itemcount);
@@ -519,38 +507,6 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
 
     }
 
-
-    public class CustomMarkerView extends MarkerView {
-
-        private TextView tvContent;
-
-        public CustomMarkerView (Context context, int layoutResource) {
-            super(context, layoutResource);
-            // this markerview only displays a textview
-            tvContent = (TextView) findViewById(R.id.tvContent);
-        }
-
-        // callbacks everytime the MarkerView is redrawn, can be used to update the
-        // content (user-interface)
-        @Override
-        public void refreshContent(Entry e, Highlight highlight) {
-            tvContent.setText("" + e.getVal()); // set the entry-value as the display text
-        }
-
-        @Override
-        public int getXOffset(float xpos) {
-            // this will center the marker-view horizontally
-            return -(getWidth() / 2);
-        }
-
-        @Override
-        public int getYOffset(float ypos) {
-            // this will cause the marker-view to be above the selected value
-            return -getHeight();
-        }
-
-    }
-
     public class CoupleChartGestureListener implements OnChartGestureListener {
 
         private Chart srcChart;
@@ -579,9 +535,9 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
 
         @Override
         public void onChartDoubleTapped(MotionEvent me) {
-            Intent intent = new Intent (getActivity(), Chart_3monthActivity.class);
-            intent.putExtra(EXTRA_MESSAGE, stock.id_);
-            startActivity(intent);
+//            Intent intent = new Intent (getActivity(), Chart_1monthActivity.class);
+//            intent.putExtra(EXTRA_MESSAGE, stock.id_);
+//            startActivity(intent);
         }
 
         @Override
@@ -630,5 +586,37 @@ public class StockKLineChart_3monthFragment extends android.support.v4.app.Fragm
         }
 
     }
+
+    public class CustomMarkerView extends MarkerView {
+
+        private TextView tvContent;
+
+        public CustomMarkerView (Context context, int layoutResource) {
+            super(context, layoutResource);
+            // this markerview only displays a textview
+            tvContent = (TextView) findViewById(R.id.tvContent);
+        }
+
+        // callbacks everytime the MarkerView is redrawn, can be used to update the
+        // content (user-interface)
+        @Override
+        public void refreshContent(Entry e, Highlight highlight) {
+            tvContent.setText("" + e.getVal()); // set the entry-value as the display text
+        }
+
+        @Override
+        public int getXOffset(float xpos) {
+            // this will center the marker-view horizontally
+            return -(getWidth() / 2);
+        }
+
+        @Override
+        public int getYOffset(float ypos) {
+            // this will cause the marker-view to be above the selected value
+            return -getHeight();
+        }
+
+    }
+
 
 }
