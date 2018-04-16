@@ -50,7 +50,7 @@
     <string name="stock_now_title">指数</string>
     <string name="stock_increase_percent_title">升跌百分比</string>
     <string name="stock_increase_title">升跌</string>
-    <string name="stock_sh_name">上证</string>
+    <string name="stock_sh_name">上证指数</string>
     <string name="stock_sz_name">深证成指</string>
     <string name="stock_chuang_name">创业板指</string>
     <string name="stock_buy">买入</string>
