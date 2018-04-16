@@ -20,6 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
 import android.widget.Toast;
 /**
  * Created by shiyuzhou on 5/4/2018.
@@ -33,7 +36,7 @@ public class EachStockActivity extends TitleActivity {
 
     private Button buyButton, sellButton;
     private ImageView addImg;
-    private Button backButton, forwardButton;
+    private RefreshLayout refreshLayout;
     private Button minBtn, oneMonthBtn, threeMonthBtn, oneYearBtn, threeYearBtn;
 
 
@@ -61,13 +64,21 @@ public class EachStockActivity extends TitleActivity {
 
         System.out.println("stockId_Market: " + stockId_Market);
 
+        refreshLayout = findViewById(R.id.refreshLayout_eachStock);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                querySinaStocks(getEnqueryId(stockId_Market));
+                refreshlayout.finishRefresh(2000);
+            }
+        });
+
         addImg = findViewById(R.id.add_to_favorite);
         addImg.setOnClickListener(this);
         buyButton = findViewById(R.id.eachstock_buy_btn);
         buyButton.setOnClickListener(this);
         sellButton = findViewById(R.id.eachstock_sell_btn);
         sellButton.setOnClickListener(this);
-
 
         mAdapter = new ChartPagerAdapter(getSupportFragmentManager());
 
@@ -84,8 +95,6 @@ public class EachStockActivity extends TitleActivity {
         oneYearBtn.setOnClickListener(this);
         threeYearBtn = (Button) findViewById(R.id.three_year_btn);
         threeYearBtn.setOnClickListener(this);
-
-
 
     }
 

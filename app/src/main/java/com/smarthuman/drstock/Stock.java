@@ -196,11 +196,11 @@ public class Stock {
     public String getVolume() {
         switch (marketId_) {
             case "US":
-                return String.format("%.0f", Long.parseLong(values[10]) / (float)1000) + "k";
+                return String.format("%.0f", Float.parseFloat(values[10]) / (float)1000) + "k";
             case "HK":
-                return String.format("%.0f", Long.parseLong(values[12]) / (float)1000) + "k";
+                return String.format("%.0f", Float.parseFloat(values[12]) / (float)1000) + "k";
             default:
-                return String.format("%.0f", Long.parseLong(values[8]) / (float)1000) + "k";
+                return String.format("%.0f", Float.parseFloat(values[8]) / (float)1000) + "k";
         }
     }
     public String getTurnover() {
@@ -208,9 +208,9 @@ public class Stock {
             case "US":
                 return "--";
             case "HK":
-                return String.format("%.0f", Long.parseLong(values[11]) / (float)1000) + "k";
+                return String.format("%.0f", Float.parseFloat(values[11]) / (float)1000) + "k";
             default:
-                return String.format("%.0f", Long.parseLong(values[9]) / (float)1000) + "k";
+                return String.format("%.0f", Float.parseFloat(values[9]) / (float)1000) + "k";
         }
     }
 

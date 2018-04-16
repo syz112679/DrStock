@@ -1,487 +1,494 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.csom/apk/res-auto"
+    android:id="@+id/refreshLayout_eachStock"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:theme="@android:style/Theme.NoTitleBar">
+    android:layout_height="match_parent">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_above="@+id/bottom_button">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@drawable/line_timber"
-                android:orientation="vertical"
-                android:showDividers="end">
-
-                <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="6"
-                    android:orientation="horizontal"
-                    android:rowCount="4">
-
-                    <TextView
-                        android:id="@+id/eachstock_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnSpan="3"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:layout_rowWeight="1"
-                        android:text="Date"
-                        android:textAlignment="center"
-                        android:textSize="14sp"
-                        android:textColor="@color/transparent_black2"/>
-
-                    <TextView
-                        android:id="@+id/eachstock_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnSpan="3"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:layout_rowWeight="1"
-                        android:text="Time"
-                        android:textAlignment="center"
-                        android:textColor="@color/transparent_black2"/>
-
-                    <TextView
-                        android:id="@+id/eachstock_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnSpan="6"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="Price"
-                        android:textAlignment="center"
-                        android:textSize="30sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/transparent_black2"/>
-
-                    <TextView
-                        android:id="@+id/eachstock_pricechange"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnSpan="3"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:layout_rowWeight="1"
-                        android:text="change"
-                        android:textAlignment="center"
-                        android:textColor="@color/transparent_black2"/>
-
-                    <TextView
-                        android:id="@+id/eachstock_percent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnSpan="3"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="fill"
-                        android:layout_rowWeight="1"
-                        android:text="__%"
-                        android:textAlignment="center"
-                        android:textColor="@color/transparent_black2"/>
-
-
-                </GridLayout>
-
-                <GridLayout
-                    android:id="@+id/eachStock_gridLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alignmentMode="alignBounds"
-                    android:columnCount="5"
-                    android:orientation="horizontal"
-                    android:rowCount="3">
-
-                    <TextView
-                        android:id="@+id/high_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="@string/high"
-                        android:textColor="@color/transparent_black2"/>
-
-                    <TextView
-                        android:id="@+id/high_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:textAlignment="textEnd"
-                        android:text="0"
-                        android:textColor="@color/home_tab_bg"/>
-
-                    <ImageView
-                        android:layout_width="1dp"
-                        android:layout_height="20dp"
-                        android:background="@drawable/line_w"
-                        android:layout_gravity="left"/>
-
-                    <TextView
-                        android:id="@+id/low_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="@string/low"
-                        android:textColor="@color/transparent_black2"/>
-
-                    <TextView
-                        android:id="@+id/low_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:textAlignment="textEnd"
-                        android:text="0"
-                        android:textColor="@color/home_tab_bg"/>
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="1dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:background="@drawable/line_h"-->
-                    <!--android:layout_gravity="left"/>-->
-
-                    <TextView
-                        android:id="@+id/close_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="@string/close"
-                        android:textColor="@color/transparent_black2" />
-
-                    <TextView
-                        android:id="@+id/close_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:textAlignment="textEnd"
-                        android:text="0"
-                        android:textColor="@color/home_tab_bg" />
-
-                    <ImageView
-                        android:layout_width="1dp"
-                        android:layout_height="20dp"
-                        android:background="@drawable/line_w"
-                        android:layout_gravity="left"/>
-
-                    <TextView
-                        android:id="@+id/open_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="@string/open"
-                        android:textColor="@color/transparent_black2" />
-
-                    <TextView
-                        android:id="@+id/open_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:textAlignment="textEnd"
-                        android:text="0"
-                        android:textColor="@color/home_tab_bg" />
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="1dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:background="@drawable/line_h"-->
-                    <!--android:layout_gravity="left"/>-->
-
-                    <TextView
-                        android:id="@+id/volume_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="@string/volume"
-                        android:textColor="@color/transparent_black2"/>
-
-                    <TextView
-                        android:id="@+id/volume_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:textAlignment="textEnd"
-                        android:text="0"
-                        android:textColor="@color/home_tab_bg"/>
-
-                    <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="20dp"
-                        android:background="@drawable/line_w"
-                        android:layout_gravity="left"/>
-
-
-                    <TextView
-                        android:id="@+id/turnover_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="@string/turnover"
-                        android:textColor="@color/transparent_black2"/>
-
-                    <TextView
-                        android:id="@+id/turnover_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:textAlignment="textEnd"
-                        android:text="0"
-                        android:textColor="@color/home_tab_bg"/>
-
-                    <!--<ImageView-->
-                        <!--android:layout_width="1dp"-->
-                        <!--android:layout_height="20dp"-->
-                        <!--android:background="@drawable/line_h"-->
-                        <!--android:layout_gravity="left"/>-->
-
-                </GridLayout>
-
-            </LinearLayout>
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/bottom_button"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:columnCount="6"
-                    android:orientation="horizontal"
-                    android:rowCount="2">
-
-                    <TextView
-                        android:id="@+id/buy_panel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnSpan="3"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="@string/bidPanel"
-                        android:textAlignment="textStart"
-                        android:textColor="@color/transparent_black2"/>
-
-                    <TextView
-                        android:id="@+id/sell_panel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnSpan="3"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="@string/sellPanel"
-                        android:textAlignment="textStart"
-                        android:textColor="@color/transparent_black2"/>
-
-                    <TextView
-                        android:id="@+id/bid1_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnSpan="1"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="@string/bid1"
-                        android:textAlignment="center"
-                        android:textColor="@color/transparent_black2" />
-
-                    <TextView
-                        android:id="@+id/bid1_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnSpan="2"
-                        android:layout_columnWeight="2"
-                        android:layout_rowWeight="1"
-                        android:text="0"
-                        android:textAlignment="center"
-                        android:textColor="@color/transparent_black2" />
-
-                    <TextView
-                        android:id="@+id/sell1_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnSpan="1"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="@string/sell1"
-                        android:textAlignment="center"
-                        android:textColor="@color/transparent_black2"/>
-
-                    <TextView
-                        android:id="@+id/sell1_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnSpan="2"
-                        android:layout_columnWeight="2"
-                        android:layout_rowWeight="1"
-                        android:text="0"
-                        android:textAlignment="center"
-                        android:textColor="@color/transparent_black2"/>
-
-                </GridLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp">
+                    android:layout_height="match_parent"
+                    android:divider="@drawable/line_timber"
+                    android:orientation="vertical"
+                    android:showDividers="end">
 
-                    <Button
-                        android:id="@+id/min_graph_btn"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="wrap_content"
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="6"
+                        android:orientation="horizontal"
+                        android:rowCount="4">
+
+                        <TextView
+                            android:id="@+id/eachstock_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="3"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_rowWeight="1"
+                            android:text="Date"
+                            android:textAlignment="center"
+                            android:textColor="@color/transparent_black2"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/eachstock_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="3"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_rowWeight="1"
+                            android:text="Time"
+                            android:textAlignment="center"
+                            android:textColor="@color/transparent_black2" />
+
+                        <TextView
+                            android:id="@+id/eachstock_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="6"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="Price"
+                            android:textAlignment="center"
+                            android:textColor="@color/transparent_black2"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/eachstock_pricechange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="3"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_rowWeight="1"
+                            android:text="change"
+                            android:textAlignment="center"
+                            android:textColor="@color/transparent_black2" />
+
+                        <TextView
+                            android:id="@+id/eachstock_percent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="3"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="fill"
+                            android:layout_rowWeight="1"
+                            android:text="__%"
+                            android:textAlignment="center"
+                            android:textColor="@color/transparent_black2" />
+
+
+                    </GridLayout>
+
+                    <GridLayout
+                        android:id="@+id/eachStock_gridLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:text="@string/minute"
-                        android:textSize="12dp" />
+                        android:alignmentMode="alignBounds"
+                        android:columnCount="5"
+                        android:orientation="horizontal"
+                        android:rowCount="3">
 
-                    <ImageView
-                        android:layout_width="1dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/timber"
-                        android:layout_gravity="center"/>
+                        <TextView
+                            android:id="@+id/high_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/high"
+                            android:textColor="@color/transparent_black2" />
 
-                    <Button
-                        android:id="@+id/one_month_btn"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:text="@string/one_month"
-                        android:textSize="12dp" />
+                        <TextView
+                            android:id="@+id/high_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="0"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/home_tab_bg" />
 
-                    <ImageView
-                        android:layout_width="1dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/timber"
-                        android:layout_gravity="center"/>
+                        <ImageView
+                            android:layout_width="1dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="left"
+                            android:background="@drawable/line_w" />
 
-                    <Button
-                        android:id="@+id/three_month_btn"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:text="@string/three_month"
-                        android:textSize="12dp" />
+                        <TextView
+                            android:id="@+id/low_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/low"
+                            android:textColor="@color/transparent_black2" />
 
-                    <ImageView
-                        android:layout_width="1dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/timber"
-                        android:layout_gravity="center"/>
+                        <TextView
+                            android:id="@+id/low_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="0"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/home_tab_bg" />
 
-                    <Button
-                        android:id="@+id/one_year_btn"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:text="@string/one_year"
-                        android:textSize="12dp" />
+                        <!--<ImageView-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="20dp"-->
+                        <!--android:background="@drawable/line_h"-->
+                        <!--android:layout_gravity="left"/>-->
 
-                    <ImageView
-                        android:layout_width="1dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/timber"
-                        android:layout_gravity="center"/>
+                        <TextView
+                            android:id="@+id/close_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/close"
+                            android:textColor="@color/transparent_black2" />
 
-                    <Button
-                        android:id="@+id/three_year_btn"
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:text="@string/three_year"
-                        android:textSize="12dp" />
+                        <TextView
+                            android:id="@+id/close_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="0"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/home_tab_bg" />
+
+                        <ImageView
+                            android:layout_width="1dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="left"
+                            android:background="@drawable/line_w" />
+
+                        <TextView
+                            android:id="@+id/open_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/open"
+                            android:textColor="@color/transparent_black2" />
+
+                        <TextView
+                            android:id="@+id/open_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="0"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/home_tab_bg" />
+
+                        <!--<ImageView-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="20dp"-->
+                        <!--android:background="@drawable/line_h"-->
+                        <!--android:layout_gravity="left"/>-->
+
+                        <TextView
+                            android:id="@+id/volume_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/volume"
+                            android:textColor="@color/transparent_black2" />
+
+                        <TextView
+                            android:id="@+id/volume_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="0"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/home_tab_bg" />
+
+                        <ImageView
+                            android:layout_width="10dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="left"
+                            android:background="@drawable/line_w" />
+
+
+                        <TextView
+                            android:id="@+id/turnover_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/turnover"
+                            android:textColor="@color/transparent_black2" />
+
+                        <TextView
+                            android:id="@+id/turnover_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="0"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/home_tab_bg" />
+
+                        <!--<ImageView-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="20dp"-->
+                        <!--android:background="@drawable/line_h"-->
+                        <!--android:layout_gravity="left"/>-->
+
+                    </GridLayout>
 
                 </LinearLayout>
 
-                <android.support.v4.view.ViewPager
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="395dp"
-                    android:id="@+id/chartviewpager">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                </android.support.v4.view.ViewPager>
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:columnCount="6"
+                        android:orientation="horizontal"
+                        android:rowCount="2">
+
+                        <TextView
+                            android:id="@+id/buy_panel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="3"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/bidPanel"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/transparent_black2" />
+
+                        <TextView
+                            android:id="@+id/sell_panel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="3"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/sellPanel"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/transparent_black2" />
+
+                        <TextView
+                            android:id="@+id/bid1_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="1"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/bid1"
+                            android:textAlignment="center"
+                            android:textColor="@color/transparent_black2" />
+
+                        <TextView
+                            android:id="@+id/bid1_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="2"
+                            android:layout_columnWeight="2"
+                            android:layout_rowWeight="1"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/transparent_black2" />
+
+                        <TextView
+                            android:id="@+id/sell1_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="1"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:text="@string/sell1"
+                            android:textAlignment="center"
+                            android:textColor="@color/transparent_black2" />
+
+                        <TextView
+                            android:id="@+id/sell1_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_columnSpan="2"
+                            android:layout_columnWeight="2"
+                            android:layout_rowWeight="1"
+                            android:text="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/transparent_black2" />
+
+                    </GridLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <Button
+                            android:id="@+id/min_graph_btn"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:text="@string/minute"
+                            android:textSize="12dp" />
+
+                        <ImageView
+                            android:layout_width="1dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/timber" />
+
+                        <Button
+                            android:id="@+id/one_month_btn"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:text="@string/one_month"
+                            android:textSize="12dp" />
+
+                        <ImageView
+                            android:layout_width="1dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/timber" />
+
+                        <Button
+                            android:id="@+id/three_month_btn"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:text="@string/three_month"
+                            android:textSize="12dp" />
+
+                        <ImageView
+                            android:layout_width="1dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/timber" />
+
+                        <Button
+                            android:id="@+id/one_year_btn"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:text="@string/one_year"
+                            android:textSize="12dp" />
+
+                        <ImageView
+                            android:layout_width="1dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/timber" />
+
+                        <Button
+                            android:id="@+id/three_year_btn"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:text="@string/three_year"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/chartviewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="395dp">
+
+                    </android.support.v4.view.ViewPager>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+
+
+        <RelativeLayout
+            android:id="@+id/bottom_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/eachstock_buy_btn"
+                    style="@style/Widget.AppCompat.Button.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:background="@drawable/color_sky"
+                    android:text="@string/buy"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <ImageView
+                    android:id="@+id/add_to_favorite"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:background="@drawable/color_sky"
+                    android:src="@drawable/ic_favourite" />
+
+                <Button
+                    android:id="@+id/eachstock_sell_btn"
+                    style="@style/Widget.AppCompat.Button.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:background="@drawable/color_sky"
+                    android:text="@string/sell"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
             </LinearLayout>
 
 
-        </LinearLayout>
-    </ScrollView>
-
-
-    <RelativeLayout
-        android:id="@+id/bottom_button"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="bottom"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/eachstock_buy_btn"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/color_sky"
-                android:text="@string/buy"
-                android:textSize="15dp"
-                android:textColor="@color/black" />
-
-            <ImageView
-                android:id="@+id/add_to_favorite"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/color_sky"
-                android:src="@drawable/ic_favourite" />
-
-            <Button
-                android:id="@+id/eachstock_sell_btn"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/color_sky"
-                android:text="@string/sell"
-                android:textSize="15dp"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
+        </RelativeLayout>
 
     </RelativeLayout>
-
-</RelativeLayout>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

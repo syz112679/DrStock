@@ -22,6 +22,7 @@ public class SettingActivity extends TitleActivity{
 
     private int itemNum = 4;
     private Switch risingColour;
+    private TextView risingDisplay;
     private boolean isEnable = true;
     private TableLayout settingTable;
     private TableRow[] settings = new TableRow[itemNum];
@@ -39,17 +40,29 @@ public class SettingActivity extends TitleActivity{
         showBackward(getDrawable(R.drawable.ic_return), true);
 
         settingTable = findViewById(R.id.Table_setting);
+
+        risingDisplay = findViewById(R.id.textView_risingColour);
         risingColour = findViewById(R.id.switch_risingColour);
+
+        if (MainActivity.UpColor_ == MainActivity.Green) {
+            risingDisplay.setText(getString(R.string.rise_green));
+            risingColour.setChecked(true);
+        } else {
+            risingDisplay.setText(getString(R.string.rise_red));
+            risingColour.setChecked(false);
+        }
+
         risingColour.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.isChecked()) {
-
-                    MainActivity.UpColor_ = R.color.green;
-                    MainActivity.DownColor_ = R.color.red;
+                if (isChecked) {
+                    risingDisplay.setText(getString(R.string.rise_green));
+                    MainActivity.UpColor_ = MainActivity.Green;
+                    MainActivity.DownColor_ = MainActivity.Red;
                 } else {
-                    MainActivity.UpColor_ = R.color.red;
-                    MainActivity.DownColor_ = R.color.green;
+                    risingDisplay.setText(getString(R.string.rise_red));
+                    MainActivity.UpColor_ = MainActivity.Red;
+                    MainActivity.DownColor_ = MainActivity.Green;
                 }
             }
         });

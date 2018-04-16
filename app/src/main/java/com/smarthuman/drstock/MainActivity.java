@@ -106,8 +106,10 @@ public class MainActivity extends TitleActivity
 
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
-    public static int UpColor_ = Color.rgb(0, 153, 102);
-    public static int DownColor_ = Color.rgb(255, 102, 102);
+    public static final int Green = Color.rgb(0, 153, 102);
+    public static final int Red = Color.rgb(255, 102, 102);
+    public static int UpColor_ = Green;
+    public static int DownColor_ = Red;
 
     public static boolean enableMobileRefresh = true;
     public static int mobileRefreshTime = 15;
@@ -198,13 +200,13 @@ public class MainActivity extends TitleActivity
 
         setupViewPager(mViewPager);
 
-
         mAuth = FirebaseAuth.getInstance();
         //mAuth.signOut();
         mfirebaseUser = mAuth.getCurrentUser();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         if (mfirebaseUser != null) {
+            System.out.println("mfirebaseUser: " + mfirebaseUser);
             updateUserInfo();
         }
 
@@ -260,7 +262,7 @@ public class MainActivity extends TitleActivity
     @Override
     protected void onBackward(View backwardView) {
 //        Log.d("each", "onBackward");
-        Toast.makeText(this, "点击返回，可在此处调用finish()", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "点击返回", Toast.LENGTH_LONG).show();
         startActivity(new Intent(this, SettingActivity.class));
     }
 
@@ -297,27 +299,27 @@ public class MainActivity extends TitleActivity
     public TreeMap<String, Stock> sinaResponseToStocks(String response) {
         response = response.replaceAll("\n", "");
         String[] stocks = response.split(";");
-//        System.out.println("---------stocks:");
-//        for(String s:stocks) {
-//            System.out.println(s);
-//        }
-//        System.out.println("---------");
+        String test = stocks[0].split("=")[1];
+        if (test.equals("\"\";\n") || test.equals("\"FAILED\";\n")) {
+            return null;
+        }
 
         TreeMap<String, Stock> stockMap = new TreeMap<>();
         String indexResponse = "";
         for (int i = 0; i < stocks.length; i++) {
             if (i < StockIndex.totalNum) {
                 indexResponse += stocks[i] + ";";
-            } else if (i == StockIndex.totalNum) {
-                stockIndex.updateIdex(indexResponse);
-            } else {
-                //判断是否为：
-                //var hq_str_sz0=""
-                System.out.println("each Stock: " + stocks[i]);
-                Stock stockNow = new Stock(stocks[i]);
-                stockMap.put(stockNow.id_, stockNow);           // lx -> Stock
+                continue;
             }
+
+            //判断是否为：
+            //var hq_str_sz0=""
+            System.out.println("each Stock: " + stocks[i]);
+            Stock stockNow = new Stock(stocks[i]);
+            stockMap.put(stockNow.id_, stockNow);           // lx -> Stock
+
         }
+        stockIndex.updateIdex(indexResponse);
 
         stockMap_ = stockMap;
 
@@ -357,11 +359,14 @@ public class MainActivity extends TitleActivity
         queue.add(stringRequest);
     }
 
-    public void setStockRecords(String ids) {
+    public String getStockRecords() {
+        String bought = "", enquiry = "";
         for (StockSnippet ss : mStockRecords) {
-            System.out.println("ss.getId():" + ss.getId());
-            ids += ss.getId() + ",";
+            enquiry = StockFragment.input2enqury(ss.getId());
+            System.out.println("ss.getId():" + enquiry);
+            bought += enquiry + ",";
         }
+        return bought;
     }
 
     public void refreshStocks() {
@@ -374,12 +379,13 @@ public class MainActivity extends TitleActivity
 //            return;
 
         String ids = stockIndex.enquiryId;
+        StockIds_ = new HashSet<>(mFavorites);
         for (String id : StockIds_) {
             ids += id;
             ids += ",";
         }
 
-        setStockRecords(ids);
+        ids += getStockRecords();
         System.out.println("ids: " + ids);
 
         querySinaStocks(ids);
@@ -407,6 +413,11 @@ public class MainActivity extends TitleActivity
                 }
                 break;
         }
+    }
+
+    public void updateIndexView() {
+        TextView sse = findViewById(R.id.stock_sh_index);
+        sse.setText(stockIndex.indexTreeMap.get("s_sh000001").value);
     }
 
     protected void updateStockListView(TreeMap<String, Stock> stockMap) {
@@ -445,9 +456,25 @@ public class MainActivity extends TitleActivity
 
         //
 
+        if (stockMap == null) {
+            stockMap = stockMap_;
+        }
         Collection<Stock> stocks = stockMap.values();
 
         for (Stock stock : stocks) {
+            boolean isIn = false;
+            for (String s : StockIds_) {
+                System.out.println("s: " + s + "; id_:" + stock.id_);
+                if (s.equals(StockFragment.input2enqury(stock.id_))) {
+                    isIn = true;
+                    break;
+                }
+            }
+            System.out.println("isIn: " + isIn);
+            if (!isIn) {
+                continue;
+            }
+
 //            System.out.println("Stock stock");
 //            if (stock.id_.equals(ShIndex) || stock.id_.equals(SzIndex) || stock.id_.equals(ChuangIndex)) {
 //                Float dNow = Float.parseFloat(stock.now_);
@@ -518,7 +545,7 @@ public class MainActivity extends TitleActivity
             increaseValue.setGravity(Gravity.RIGHT);
 
             percent.setText(stock.getChangePercent() + "%");
-            increaseValue.setText("--");
+            increaseValue.setText(stock.getPriceChange());
             int color = Color.BLACK;
             if (stock.isRising()) {
                 color = UpColor_;
@@ -735,6 +762,7 @@ public class MainActivity extends TitleActivity
             mStockRecords.remove(0);
         }
 
+        System.out.println("mFavorites: " + mFavorites);
         System.out.println("mStockRecords: " + mStockRecords);
 
         if(mFavorites!=null)
