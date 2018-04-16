@@ -123,6 +123,7 @@
     <string name="toast_error">Error!</string>
 
     <string name="toast_error">ERROR</string>
+    <string name="toast_signin_first">Please sign in first.</string>
 
     <string name="enter_the_amount_sell">Enter the amount you want to sell</string>
     <string name="enter_the_amount_buy">Enter the amount you want to buy</string>

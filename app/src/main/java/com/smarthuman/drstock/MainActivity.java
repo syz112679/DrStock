@@ -97,14 +97,11 @@ public class MainActivity extends TitleActivity
 
     //--------------------------------------------------------------------------------------------------
 
-    private final static String searchHistoryKey_ = "SearchHistory";
+    public final static String searchHistoryKey_ = "SearchHistory";
     public static HashSet<String> searchHistory  = new HashSet<>();
-    // [sz000001] [hk02318] [gb_lx]
-    public static TreeMap<String, Stock> stockMap_ = new TreeMap<>();
-
     public final static String StockIdsKey_ = "StockIds";
-
     public static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
+    public static TreeMap<String, Stock> stockMap_ = new TreeMap<>();
 
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
@@ -224,29 +221,6 @@ public class MainActivity extends TitleActivity
         StockIds_.add(stockIds_);
         mFavorites=new ArrayList<>(StockIds_);
         System.out.println("addStockIds_:" + StockIds_ + ";");
-    }
-
-    public static void removeStockIds_(String stockIds_) {
-        StockIds_.remove(stockIds_);
-        mFavorites=new ArrayList<>(StockIds_);
-        System.out.println("removeStockIds_:" + StockIds_ + ";");
-    }
-
-    public static int checkStatus(String stockIds_){
-        int idtemp = 0;
-        boolean flag = false;
-        for (String id : StockIds_) {
-            if(id.compareTo(stockIds_) == 0){
-                flag = true;
-                break;
-            }
-            else
-                idtemp++;
-        }
-        if(flag)
-            return idtemp;
-        else
-            return -1;
     }
 
 //    @Override
@@ -664,13 +638,15 @@ public class MainActivity extends TitleActivity
     public void onDestroy() {
         super.onDestroy();  // Always call the superclass
         //saveStocksToPreferences();
-        //updateDatabase();
+        if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0 ) {
+            updateDatabase();
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         System.out.println("onSaveInstanceState;");
-        saveStocksToPreferences();
+        //saveStocksToPreferences();
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -695,7 +671,7 @@ public class MainActivity extends TitleActivity
     }
 
 
-    public void updateDatabase() {
+    public void updateDatabase() { // upload data to database
         if(mfirebaseUser != null) {
             Log.d("MainActivity", "UpdateDatabase called" + mUserName + " " + mEmail);
             mFavorites = new ArrayList<String>(StockIds_);
@@ -722,7 +698,7 @@ public class MainActivity extends TitleActivity
         }
     }
 
-    static void updateUserInfo() {
+    static void updateUserInfo() {  // download data from Database
         mAuth = FirebaseAuth.getInstance();
         mfirebaseUser = mAuth.getCurrentUser();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
@@ -774,7 +750,5 @@ public class MainActivity extends TitleActivity
         StockIds_.clear();
         mUserName = null;
     }
-
-
 
 }

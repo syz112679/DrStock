@@ -415,4 +415,10 @@ public class StockFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).refreshStocks();
+    }
 }
