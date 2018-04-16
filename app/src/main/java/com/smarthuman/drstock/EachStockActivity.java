@@ -85,6 +85,8 @@ public class EachStockActivity extends TitleActivity {
         threeYearBtn = (Button) findViewById(R.id.three_year_btn);
         threeYearBtn.setOnClickListener(this);
 
+
+
     }
 
 
@@ -400,6 +402,16 @@ public class EachStockActivity extends TitleActivity {
             currentPrice.setTextColor(MainActivity.DownColor_);
             priceChange.setTextColor(MainActivity.DownColor_);
             changePercent.setTextColor(MainActivity.DownColor_);
+        }
+
+        // if it is favorited
+        int i=0;
+        for (String id: MainActivity.getStockIds_()) {
+            i++;
+            if(StockFragment.input2enqury(myStock.id_).equals( id) ) {
+                //TODO: it is favorited
+                System.out.println(" ****************it is favorited, i=" + i);
+            }
         }
     }
 

@@ -101,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:alignmentMode="alignBounds"
-                    android:columnCount="6"
+                    android:columnCount="5"
                     android:orientation="horizontal"
                     android:rowCount="3">
 
@@ -120,44 +120,15 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
+                        android:textAlignment="textEnd"
                         android:text="0"
-                        android:textColor="@color/transparent_black2" />
+                        android:textColor="@color/home_tab_bg"/>
 
-                    <TextView
-                        android:id="@+id/close_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="@string/close"
-                        android:textColor="@color/transparent_black2" />
-
-                    <TextView
-                        android:id="@+id/close_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="0"
-                        android:textColor="@color/transparent_black2" />
-
-                    <TextView
-                        android:id="@+id/volume_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="@string/volume"
-                        android:textColor="@color/transparent_black2"/>
-
-                    <TextView
-                        android:id="@+id/volume_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:text="0"
-                        android:textColor="@color/transparent_black2"/>
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/line_w"
+                        android:layout_gravity="left"/>
 
                     <TextView
                         android:id="@+id/low_label"
@@ -174,8 +145,40 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
+                        android:textAlignment="textEnd"
                         android:text="0"
-                        android:textColor="@color/transparent_black2"/>
+                        android:textColor="@color/home_tab_bg"/>
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="1dp"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:background="@drawable/line_h"-->
+                    <!--android:layout_gravity="left"/>-->
+
+                    <TextView
+                        android:id="@+id/close_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="@string/close"
+                        android:textColor="@color/transparent_black2" />
+
+                    <TextView
+                        android:id="@+id/close_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:textAlignment="textEnd"
+                        android:text="0"
+                        android:textColor="@color/home_tab_bg" />
+
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/line_w"
+                        android:layout_gravity="left"/>
 
                     <TextView
                         android:id="@+id/open_label"
@@ -192,8 +195,41 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
+                        android:textAlignment="textEnd"
                         android:text="0"
-                        android:textColor="@color/transparent_black2" />
+                        android:textColor="@color/home_tab_bg" />
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="1dp"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:background="@drawable/line_h"-->
+                    <!--android:layout_gravity="left"/>-->
+
+                    <TextView
+                        android:id="@+id/volume_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="@string/volume"
+                        android:textColor="@color/transparent_black2"/>
+
+                    <TextView
+                        android:id="@+id/volume_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:textAlignment="textEnd"
+                        android:text="0"
+                        android:textColor="@color/home_tab_bg"/>
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/line_w"
+                        android:layout_gravity="left"/>
+
 
                     <TextView
                         android:id="@+id/turnover_label"
@@ -210,94 +246,99 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
+                        android:textAlignment="textEnd"
                         android:text="0"
-                        android:textColor="@color/transparent_black2"/>
+                        android:textColor="@color/home_tab_bg"/>
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="20dp"-->
+                        <!--android:background="@drawable/line_h"-->
+                        <!--android:layout_gravity="left"/>-->
 
                 </GridLayout>
 
             </LinearLayout>
 
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:columnCount="6"
-                android:orientation="horizontal"
-                android:rowCount="2">
-
-                <TextView
-                    android:id="@+id/buy_panel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnSpan="3"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="@string/bidPanel"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/transparent_black2"/>
-
-                <TextView
-                    android:id="@+id/sell_panel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnSpan="3"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="@string/sellPanel"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/transparent_black2"/>
-
-                <TextView
-                    android:id="@+id/bid1_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnSpan="1"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="@string/bid1"
-                    android:textAlignment="center"
-                    android:textColor="@color/transparent_black2" />
-
-                <TextView
-                    android:id="@+id/bid1_data"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnSpan="2"
-                    android:layout_columnWeight="2"
-                    android:layout_rowWeight="1"
-                    android:text="0"
-                    android:textAlignment="center"
-                    android:textColor="@color/transparent_black2" />
-
-                <TextView
-                    android:id="@+id/sell1_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnSpan="1"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="@string/sell1"
-                    android:textAlignment="center"
-                    android:textColor="@color/transparent_black2"/>
-
-                <TextView
-                    android:id="@+id/sell1_data"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnSpan="2"
-                    android:layout_columnWeight="2"
-                    android:layout_rowWeight="1"
-                    android:text="0"
-                    android:textAlignment="center"
-                    android:textColor="@color/transparent_black2"/>
-
-            </GridLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:divider="@drawable/line_timber"
-                android:showDividers="beginning">
+                android:orientation="vertical">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:columnCount="6"
+                    android:orientation="horizontal"
+                    android:rowCount="2">
+
+                    <TextView
+                        android:id="@+id/buy_panel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnSpan="3"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="@string/bidPanel"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/transparent_black2"/>
+
+                    <TextView
+                        android:id="@+id/sell_panel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnSpan="3"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="@string/sellPanel"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/transparent_black2"/>
+
+                    <TextView
+                        android:id="@+id/bid1_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnSpan="1"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="@string/bid1"
+                        android:textAlignment="center"
+                        android:textColor="@color/transparent_black2" />
+
+                    <TextView
+                        android:id="@+id/bid1_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnSpan="2"
+                        android:layout_columnWeight="2"
+                        android:layout_rowWeight="1"
+                        android:text="0"
+                        android:textAlignment="center"
+                        android:textColor="@color/transparent_black2" />
+
+                    <TextView
+                        android:id="@+id/sell1_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnSpan="1"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="@string/sell1"
+                        android:textAlignment="center"
+                        android:textColor="@color/transparent_black2"/>
+
+                    <TextView
+                        android:id="@+id/sell1_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnSpan="2"
+                        android:layout_columnWeight="2"
+                        android:layout_rowWeight="1"
+                        android:text="0"
+                        android:textAlignment="center"
+                        android:textColor="@color/transparent_black2"/>
+
+                </GridLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -375,9 +416,9 @@
                 </LinearLayout>
 
                 <android.support.v4.view.ViewPager
-                    android:id="@+id/chartviewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="430dp">
+                    android:layout_height="395dp"
+                    android:id="@+id/chartviewpager">
 
                 </android.support.v4.view.ViewPager>
             </LinearLayout>
@@ -423,7 +464,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/color_sky"
-                android:src="@drawable/button_select_change_state" />
+                android:src="@drawable/ic_favourite" />
 
             <Button
                 android:id="@+id/eachstock_sell_btn"

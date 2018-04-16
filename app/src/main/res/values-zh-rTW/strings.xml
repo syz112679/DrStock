@@ -55,6 +55,9 @@
     <string name="stock_sh_name">上證指數</string>
     <string name="stock_sz_name">深證成指</string>
     <string name="stock_chuang_name">創業板指</string>
+    <string name="stock_hsi_name">恆生指數</string>
+    <string name="stock_djia_name">道瓊斯</string>
+    <string name="stock_nsdk_name">納斯達克</string>
     <string name="stock_buy">買入</string>
     <string name="stock_sell">賣出</string>
 

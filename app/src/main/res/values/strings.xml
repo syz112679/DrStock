@@ -57,6 +57,9 @@
     <string name="stock_sh_name">SSE</string>
     <string name="stock_sz_name">SZSE</string>
     <string name="stock_chuang_name">GEI</string>
+    <string name="stock_hsi_name">HSI</string>
+    <string name="stock_djia_name">DJIA</string>
+    <string name="stock_nsdk_name">NASDAQ</string>
     <string name="stock_buy">Buy</string>
     <string name="stock_sell">Sell</string>
 
