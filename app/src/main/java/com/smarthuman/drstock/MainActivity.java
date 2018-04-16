@@ -628,7 +628,7 @@ public class MainActivity extends TitleActivity
 //            updateUserInfo();
 //        if(FirebaseAuth.getInstance().getCurrentUser() != null)
 //            getInfoFromDatabase();
-        if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0)
+        if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0 ){
             updateUserInfo();
             updateDatabase();
 
