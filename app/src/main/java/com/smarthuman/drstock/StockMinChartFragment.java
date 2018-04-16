@@ -93,7 +93,7 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            //System.out.println("-----Main setdata-----:"+response);
+                            System.out.println("-----Main setdata min-----:"+response);
                             Model.setDataF(response);
 
                             initChartF();
