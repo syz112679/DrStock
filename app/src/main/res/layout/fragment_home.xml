@@ -90,16 +90,101 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:id="@+id/chuang_index"
+                android:id="@+id/stock_chuang_index"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:id="@+id/chuang_change"
+                android:id="@+id/stock_chuang_change"
                 android:gravity="center"/>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25sp"
+            android:orientation="horizontal"
+            android:gravity="center" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/stock_hsi_name"
+                android:textColor="@color/myGrey"
+                android:textStyle="bold"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/stock_hsi_index"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:id="@+id/stock_hsi_change"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25sp"
+            android:orientation="horizontal"
+            android:gravity="center" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/stock_djia_name"
+                android:textColor="@color/myGrey"
+                android:textStyle="bold"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/stock_djia_index"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:id="@+id/stock_djia_change"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25sp"
+            android:orientation="horizontal"
+            android:gravity="center" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/stock_nsdk_name"
+                android:textColor="@color/myGrey"
+                android:textStyle="bold"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/stock_nsdk_index"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:id="@+id/stock_nsdk_change"
+                android:gravity="center"/>
+        </LinearLayout>
+
 
     </ViewFlipper>
 
