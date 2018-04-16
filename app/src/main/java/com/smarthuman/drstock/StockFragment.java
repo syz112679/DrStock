@@ -161,6 +161,8 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         inflater.inflate(R.menu.menu_main, menu);
     }
 
+
+
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        // Handle action bar item clicks here. The action bar will
@@ -213,6 +215,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
 
 
     public static String input2enqury(String inputID) {
+
 
         if (Character.isDigit(inputID.charAt(0))) {
 

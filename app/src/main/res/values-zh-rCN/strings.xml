@@ -1,0 +1,145 @@
+<resources>
+    <string name="app_name">DrStock</string>
+    <string name="title_home">主页</string>
+    <string name="title_stock">行情</string>
+    <string name="title_account">个人中心</string>
+    <string name="title_login">登录</string>
+
+    <string name="search_hint">股票搜索</string>
+
+    <string name="action_sign_in">登入或注册</string>
+    <string name="action_register">注册</string>
+    <string name="action_sign_in_short">登入</string>
+    <string name="action_sign_out">退出</string>
+    <string name="action_sign_up">注册</string>
+    <string name="action_send">发送</string>
+    <string name="action_back_sign_in">返回</string>
+    <string name="add_money">买入 1000</string>
+    <string name="add_to_favorite">添加到我的收藏</string>
+    <string name="buy_stock">买入</string>
+    <string name="chat_room">聊天室</string>
+
+    <string name="error_invalid_email">此电子邮箱地址无效</string>
+    <string name="error_invalid_password">密码太短或不匹配</string>
+    <string name="error_incorrect_password">密码错误</string>
+    <string name="error_field_required">必填选项</string>
+    <string name="my_stocks">我的股票</string>
+    <string name="my_favorites">我的收藏</string>
+    <string name="prompt_email">电子邮箱</string>
+    <string name="prompt_username">用户名</string>
+    <string name="prompt_password">密码</string>
+    <string name="prompt_password_again">确认密码</string>
+    <string name="prompt_msg">请输入</string>
+
+    <string name="permission_rationale">"电子邮件地址补全需要获取联系人权限."
+    </string>
+    <string name="sample_message">您好!</string>
+    <string name="text_you_have_earn">您当前赚取: </string>
+    <string name="text_your_total_money">您的总资产: </string>
+
+
+
+    <string name="action_settings">设置</string>
+    <string name="action_delete">删除</string>
+    <string name="action_detail">更多</string>
+    <string name="action_add">添加</string>
+
+    <string name="button_add_label">搜索</string>
+
+    <string name="stock_name_title">股票名称</string>
+    <string name="stock_now_title">指数</string>
+    <string name="stock_increase_percent_title">升跌百分比</string>
+    <string name="stock_increase_title">升跌</string>
+    <string name="stock_sh_name">上证指数</string>
+    <string name="stock_sz_name">深证成指</string>
+    <string name="stock_chuang_name">创业板指</string>
+    <string name="stock_buy">买入</string>
+    <string name="stock_sell">卖出</string>
+
+
+    //eachstock:
+    <string name="cancel">取消</string>
+    <string name="buy">买入</string>
+    <string name="sell">卖出</string>
+    <string name="high">最高价</string>
+    <string name="low">最低价</string>
+    <string name="open">开市价</string>
+    <string name="close">前收市价</string>
+    <string name="volume">成交量</string>
+    <string name="turnover">成交金额</string> // cheng jiao jin e
+
+    <string name="bidPanel">买盘</string>
+    <string name="sellPanel">卖盘</string>
+    <string name="bid1">买 1</string>
+    <string name="sell1">卖 1</string>
+
+    <string name="text_back">返回</string>
+    <string name="colour_setting">颜色设置</string>
+    <string name="rise_green">绿涨红跌</string>
+    <string name="refresh_rate_label">刷新频率</string>
+    <string name="per_10s">10s</string>
+    <string name="feedback">反馈</string>
+    <string name="credits">开发人员</string>
+    <string name="disclaimer">免责声明</string>
+    <string name="hotline_hk">热线电话(香港)</string>
+    <string name="hotline_mainland">热线电话(中国大陆)</string>
+    <string name="hotline_us">热线电话(美国)</string>
+    <string name="email">电子邮箱</string>
+    <string name="refreshSetting_mobileRefresh">蜂窝网络自动刷新</string>
+    <string name="refreshSetting_noRefresh">不刷新</string>
+    <string name="refreshSetting_wifiRefresh">WIFI自动刷新</string>
+    <string name="rise_red">红涨绿跌</string>
+    <string name="refreshActivity">刷新设置</string>
+    <string name="feedbackActivity">反馈</string>
+    <string name="creditsActivity">开发人员</string>
+    <string name="mainActivity">主页</string>
+    <string name="setting">设置</string>
+
+    <string name="minute">分时图</string>
+    <string name="one_month">一个月</string>
+    <string name="three_month">三个月</string>
+    <string name="one_year">一年</string>
+    <string name="three_year">三年</string>
+
+    <string name="rsi_10">10天</string>
+    <string name="rsi_14">14天</string>
+    <string name="rsi_20">20天</string>
+    <string name="loading">加载中...</string>
+
+    <string name="toast_you_dont_have_this_stock">您未购入此支股票</string>
+    <string name="toast_you_cant_sell_more_than_you_have">卖出数量错误：卖出数量大于拥有数量</string>
+    <string name="toast_you_have_earned">您已赚取 </string>
+    <string name="toast_you_have_lost">您已亏损 </string>
+    <string name="toast_you_dont_have_enough_money">您的资金不足</string>
+    <string name="toast_invalid_input">无效输入</string>
+    <string name="toast_buy_successfully">成功购买!</string>
+    <string name="toast_sorry_only_hk_graph">抱歉，当前账户仅限查阅港股行情图.</string>
+    <string name="toast_added_to_watchlist">成功添加</string>
+    <string name="toast_error">错误</string>
+
+
+
+    <string name="enter_the_amount_sell">请输入您想卖出的股票数额</string>
+    <string name="enter_the_amount_buy">请输入您想买入的股票数额</string>
+
+    <string name="programmer">程序员</string>
+    <string name="syz_E">SHI Yuzhou</string>
+    <string name="syz_C">施宇舟</string>
+    <string name="ljq_E">LIU Junqi</string>
+    <string name="ljq_C">刘俊琪</string>
+    <string name="lsh_E">LI Shuhan</string>
+    <string name="lsh_C">李纾涵</string>
+    <string name="wj_E">WANG Jing</string>
+    <string name="wj_C">王晶</string>
+    <string name="tjy_E">TANG Junyi</string>
+    <string name="tjy_C">唐峻逸</string>
+    <string name="gyx_E">GU Yuxuan</string>
+    <string name="gyx_C">谷宇轩</string>
+
+    <!--newly add-->
+    <string name="text_stock_id">股票代码</string>
+    <string name="text_stock_name">股票名称e</string>
+    <string name="text_current_Price">现价</string>
+    <string name="text_amount">数量</string>
+    <string name="text_bought_price">买入价格</string>
+</resources>

@@ -110,6 +110,7 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getContext(),R.string.toast_error,Toast.LENGTH_LONG).show();
                     Log.e("TAG", error.getMessage(), error);
                 }
             });
@@ -129,10 +130,13 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
                             initChart_Rsi();
 
                             loadChartData_Rsi10();
+
+
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getContext(),R.string.toast_error,Toast.LENGTH_LONG).show();
                     Log.e("TAG", error.getMessage(), error);
                 }
             });

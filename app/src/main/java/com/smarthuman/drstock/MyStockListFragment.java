@@ -78,7 +78,7 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
                                     int position, long id) {
                 // TODO Auto-generated method stub
                 Toast.makeText(getContext(),"clicked "+MainActivity.mStockRecords.get(position).getId(), Toast.LENGTH_SHORT).show();
-                String enqueryId = input2enqury(MainActivity.mStockRecords.get(position).getId());
+                String enqueryId = StockFragment.input2enqury(MainActivity.mStockRecords.get(position).getId());
                 Intent intent = new Intent(getActivity(), EachStockActivity.class);
                 intent.putExtra(MainActivity.EXTRA_MESSAGE, enqueryId);
                 startActivity(intent);
@@ -89,29 +89,6 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
 
 
         return view;
-    }
-
-    public static String input2enqury(String inputID) {
-
-        if (Character.isDigit(inputID.charAt(0))) {
-
-            if (inputID.length() < 5 || inputID.length() > 6) {
-                return null;
-            }
-
-            if (inputID.length() == 5) {
-                inputID = "hk" + inputID;
-            } else if (inputID.startsWith("6")) {
-                inputID = "sh" + inputID;
-            } else if (inputID.startsWith("0") || inputID.startsWith("3")) {
-                inputID = "sz" + inputID;
-            } else
-                return null;
-        } else {    // US
-            inputID = "gb_" + inputID;
-        }
-
-        return inputID;
     }
 
     @Override
