@@ -193,6 +193,7 @@ public class MainActivity extends TitleActivity
 
 
         mAuth = FirebaseAuth.getInstance();
+        //mAuth.signOut();
         mfirebaseUser = mAuth.getCurrentUser();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -213,6 +214,7 @@ public class MainActivity extends TitleActivity
         if (stockIds_ == null)
             return;
         StockIds_.add(stockIds_);
+        mFavorites=new ArrayList<>(StockIds_);
         System.out.println("addStockIds_:" + StockIds_ + ";");
     }
 
@@ -591,7 +593,7 @@ public class MainActivity extends TitleActivity
     @Override
     public void onDestroy() {
         super.onDestroy();  // Always call the superclass
-        saveStocksToPreferences();
+        //saveStocksToPreferences();
         //updateDatabase();
     }
 
@@ -681,8 +683,9 @@ public class MainActivity extends TitleActivity
         mMoney = 0.0;
         mEarning = 0.0;
         mBalance = 0.0;
-        mFavorites = new ArrayList<String>();
-        mStockRecords = new ArrayList<StockSnippet>();
+        mFavorites.clear();
+        mStockRecords.clear();
+        StockIds_.clear();
         mUserName = null;
     }
 

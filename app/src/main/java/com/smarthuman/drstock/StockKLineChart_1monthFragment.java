@@ -115,15 +115,9 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
             });
             RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
             mQueue.add(stringRequest);
-        } else{
-            Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
-        }
-
-        if (stock.marketId_.equals("HK")) {
-            String money18_rsi_url = "http://money18.on.cc/chartdata/full/rsi/" + stock.id_ + "_rsi_full.txt";
 
             rsiChart = (LineChart) view.findViewById(R.id.RSI_chart);
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, money18_rsi_url,
+            StringRequest stringRequestrsi = new StringRequest(Request.Method.GET, money18_rsi_url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -144,19 +138,51 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
                     Log.e("TAG", error.getMessage(), error);
                 }
             });
-            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
-            mQueue.add(stringRequest);
+            mQueue = Volley.newRequestQueue(this.getActivity());
+            mQueue.add(stringRequestrsi);
+            rsi10_Btn = (Button) view.findViewById(R.id.rsi_10_btn);
+            rsi10_Btn.setOnClickListener(this);
+            rsi14_Btn = (Button) view.findViewById(R.id.rsi_14_btn);
+            rsi14_Btn.setOnClickListener(this);
+            rsi20_Btn = (Button) view.findViewById(R.id.rsi_20_btn);
+            rsi20_Btn.setOnClickListener(this);
         } else{
             Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
         }
 
+//        if (stock.marketId_.equals("HK")) {
+//            String money18_rsi_url = "http://money18.on.cc/chartdata/full/rsi/" + stock.id_ + "_rsi_full.txt";
+//
+//            rsiChart = (LineChart) view.findViewById(R.id.RSI_chart);
+//            StringRequest stringRequest = new StringRequest(Request.Method.GET, money18_rsi_url,
+//                    new Response.Listener<String>() {
+//                        @Override
+//                        public void onResponse(String response) {
+//                            //System.out.println("-----Main setdata-----:"+response);
+//                            storedData = response;
+//
+//                            Model.setData_Rsi(response);
+//
+//                            initChart_Rsi();
+//
+//                            loadChartData_Rsi10();
+//
+//
+//                        }
+//                    }, new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Log.e("TAG", error.getMessage(), error);
+//                }
+//            });
+//            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
+//            mQueue.add(stringRequest);
+//        } else{
+//            Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
+//        }
 
-        rsi10_Btn = (Button) view.findViewById(R.id.rsi_10_btn);
-        rsi10_Btn.setOnClickListener(this);
-        rsi14_Btn = (Button) view.findViewById(R.id.rsi_14_btn);
-        rsi14_Btn.setOnClickListener(this);
-        rsi20_Btn = (Button) view.findViewById(R.id.rsi_20_btn);
-        rsi20_Btn.setOnClickListener(this);
+
+
 
         return view;
     }
