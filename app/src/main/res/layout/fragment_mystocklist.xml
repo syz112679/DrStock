@@ -46,7 +46,6 @@
                 android:text="@string/text_current_Price"
                 android:layout_weight="0.2"/>
 
-
         </LinearLayout>
 
         <ListView

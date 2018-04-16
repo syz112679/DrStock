@@ -322,6 +322,21 @@ public class EachStockActivity extends TitleActivity {
 //        TextView currency = findViewById(R.id.eachstock_currency);
 //        currency.setText(myStock.getCurrency());
 
+        TextView high = findViewById(R.id.high_data);
+        high.setText(myStock.getHigh());
+        TextView low = findViewById(R.id.low_data);
+        low.setText(myStock.getLow());
+
+        TextView close = findViewById(R.id.close_data);
+        close.setText(myStock.getClose());
+        TextView open = findViewById(R.id.open_data);
+        open.setText(myStock.getOpen());
+
+        TextView volume = findViewById(R.id.volume_data);
+        volume.setText(myStock.getVolume());
+        TextView turnover = findViewById(R.id.turnover_data);
+        turnover.setText(myStock.getTurnover());
+
         if (myStock.isRising()) {
             currentPrice.setTextColor(MainActivity.UpColor_);
             priceChange.setTextColor(MainActivity.UpColor_);

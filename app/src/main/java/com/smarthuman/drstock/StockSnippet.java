@@ -9,6 +9,7 @@ public class StockSnippet {
     private double boughtPrice;
     private double amount;
     private double currentPrice;
+
     private Stock stock;
 
     public StockSnippet(String id, double boughtPrice, double amount) {

@@ -140,7 +140,6 @@ public class Stock {
                 return values[30];
         }
     }
-
     public String getTime() {
         switch (marketId_) {
             case "US":
@@ -149,6 +148,69 @@ public class Stock {
                 return values[18];
             default:
                 return values[31];
+        }
+    }
+
+    public String getHigh() {
+        switch (marketId_) {
+            case "US":
+                return values[6];
+            case "HK":
+                return values[4];
+            default:
+                return values[4];
+        }
+    }
+    public String getLow() {
+        switch (marketId_) {
+            case "US":
+                return values[7];
+            case "HK":
+                return values[5];
+            default:
+                return values[5];
+        }
+    }
+
+    public String getClose() {
+        switch (marketId_) {
+            case "US":
+                return values[26];
+            case "HK":
+                return values[3];
+            default:
+                return values[2];
+        }
+    }
+    public String getOpen() {
+        switch (marketId_) {
+            case "US":
+                return values[5];
+            case "HK":
+                return values[2];
+            default:
+                return values[1];
+        }
+    }
+
+    public String getVolume() {
+        switch (marketId_) {
+            case "US":
+                return String.format("%.0f", Long.parseLong(values[10]) / (float)1000) + "k";
+            case "HK":
+                return String.format("%.0f", Long.parseLong(values[12]) / (float)1000) + "k";
+            default:
+                return String.format("%.0f", Long.parseLong(values[8]) / (float)1000) + "k";
+        }
+    }
+    public String getTurnover() {
+        switch (marketId_) {
+            case "US":
+                return "--";
+            case "HK":
+                return String.format("%.0f", Long.parseLong(values[11]) / (float)1000) + "k";
+            default:
+                return String.format("%.0f", Long.parseLong(values[9]) / (float)1000) + "k";
         }
     }
 

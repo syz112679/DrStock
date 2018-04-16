@@ -131,7 +131,6 @@ public class MainActivity extends TitleActivity
     public static ArrayList<StockSnippet> mStockRecords = new ArrayList<StockSnippet>();
     public static ArrayList<String> mFavorites = new ArrayList<String>();
 
-
     public SectionStatePagerAdapter mSectionStatePagerAdapter;
     static public ViewPager mViewPager;
 
@@ -631,7 +630,6 @@ public class MainActivity extends TitleActivity
         if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0 ){
             updateUserInfo();
             updateDatabase();
-
         }
     }
 
