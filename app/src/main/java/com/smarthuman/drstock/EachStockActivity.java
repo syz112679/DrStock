@@ -83,6 +83,17 @@ public class EachStockActivity extends TitleActivity {
         oneYearBtn.setOnClickListener(this);
         threeYearBtn = (Button) findViewById(R.id.three_year_btn);
         threeYearBtn.setOnClickListener(this);
+
+        // if it is favorited
+        int i=0;
+        for (String id: MainActivity.StockIds_) {
+            i++;
+            if(StockFragment.input2enqury(myStock.id_).equals( id) ) {
+                //TODO: it is favorited
+                System.out.println(" ****************it is favorited, i=" + i);
+            }
+        }
+
     }
 
 
@@ -96,9 +107,12 @@ public class EachStockActivity extends TitleActivity {
         switch (v.getId()) {
             case R.id.add_to_favorite:
                 Log.d("addstock", "here");
-                addStock(v);
-                Toast.makeText(getApplicationContext(), R.string.toast_added_to_watchlist, Toast.LENGTH_SHORT).show();
-
+                if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
+                    addStock(v);
+                    Toast.makeText(getApplicationContext(), R.string.toast_added_to_watchlist, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
+                }
 //                searchStock(v);
                 break;
             case R.id.min_graph_btn:
@@ -117,123 +131,132 @@ public class EachStockActivity extends TitleActivity {
                 setViewPager(4);
                 break;
             case R.id.eachstock_buy_btn:
-                Log.d("buy btn", "buy btn pressed");
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                final EditText edittext = new EditText(this);
-                alert.setMessage(R.string.enter_the_amount_buy);
-                alert.setTitle(R.string.buy);
+                if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
+                    Log.d("buy btn", "buy btn pressed");
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    final EditText edittext = new EditText(this);
+                    alert.setMessage(R.string.enter_the_amount_buy);
+                    alert.setTitle(R.string.buy);
 
-                alert.setView(edittext);
+                    alert.setView(edittext);
 
-                alert.setPositiveButton(R.string.buy, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        String input = edittext.getText().toString();
-                        Log.d("Alert","input is " + input);
+                    alert.setPositiveButton(R.string.buy, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            String input = edittext.getText().toString();
+                            Log.d("Alert","input is " + input);
 
-                        double amount = Double.parseDouble(input);
-                        double price = Double.parseDouble(myStock.getCurrentPrice_());
-                        if(amount<=0) {
-                            Toast.makeText(getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
-                        } else if(amount*price > MainActivity.mBalance){
-                            Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_enough_money, Toast.LENGTH_SHORT).show();
-                            Log.d("EachStockActivity", "your money:" + MainActivity.mMoney + ", needed:" + amount*price);
-                        } else {
+                            double amount = Double.parseDouble(input);
+                            double price = Double.parseDouble(myStock.getCurrentPrice_());
+                            if(amount<=0) {
+                                Toast.makeText(getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
+                            } else if(amount*price > MainActivity.mBalance){
+                                Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_enough_money, Toast.LENGTH_SHORT).show();
+                                Log.d("EachStockActivity", "your money:" + MainActivity.mMoney + ", needed:" + amount*price);
+                            } else {
 
-                            StockSnippet newStock = new StockSnippet(myStock.id_, price, amount);
-                            MainActivity.mBalance -= amount*price;
-                            boolean found = false;
-                            for(int i=0; i<MainActivity.mStockRecords.size(); i++) {
+                                StockSnippet newStock = new StockSnippet(myStock.id_, price, amount);
+                                MainActivity.mBalance -= amount*price;
+                                boolean found = false;
+                                for(int i=0; i<MainActivity.mStockRecords.size(); i++) {
+                                    if(MainActivity.mStockRecords.get(i).getId().equals(myStock.id_)) {
+                                        found = true;
+                                        double oldAmount = MainActivity.mStockRecords.get(i).getAmount();
+                                        double oldPrice = MainActivity.mStockRecords.get(i).getBoughtPrice();
+
+                                        MainActivity.mStockRecords.get(i).setBoughtPrice((oldAmount*oldPrice + amount*price) / (oldAmount + amount));
+                                        MainActivity.mStockRecords.get(i).setAmount(oldAmount+amount);
+                                        break;
+                                    }
+                                }
+                                if(!found) {
+                                    MainActivity.mStockRecords.add(newStock);
+                                    MainActivity.stockMap_.put(myStock.id_, myStock);
+//                                MainActivity.requireRefresh = true;
+                                }
+                                Toast.makeText(getApplicationContext(), R.string.toast_buy_successfully, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                    alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // what ever you want to do with No option.
+
+                        }
+                    });
+
+                    alert.show();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case R.id.eachstock_sell_btn:
+                if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
+                    Log.d("buy btn", "buy btn pressed");
+                    boolean sellFailure = false;
+                    AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
+                    final EditText edittext2 = new EditText(this);
+                    alert2.setMessage(R.string.enter_the_amount_sell);
+                    alert2.setTitle(R.string.sell);
+
+                    alert2.setView(edittext2);
+
+                    alert2.setPositiveButton(R.string.sell, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            String input = edittext2.getText().toString();
+                            Log.d("Alert","input is " + input);
+                            double amount = Double.parseDouble(input);
+                            double price = Double.parseDouble(myStock.getCurrentPrice_());
+
+                            boolean found =false;
+                            int i=0;
+                            for(; i<MainActivity.mStockRecords.size(); i++) {
                                 if(MainActivity.mStockRecords.get(i).getId().equals(myStock.id_)) {
                                     found = true;
-                                    double oldAmount = MainActivity.mStockRecords.get(i).getAmount();
-                                    double oldPrice = MainActivity.mStockRecords.get(i).getBoughtPrice();
-
-                                    MainActivity.mStockRecords.get(i).setBoughtPrice((oldAmount*oldPrice + amount*price) / (oldAmount + amount));
-                                    MainActivity.mStockRecords.get(i).setAmount(oldAmount+amount);
                                     break;
                                 }
                             }
                             if(!found) {
-                                MainActivity.mStockRecords.add(newStock);
-                                MainActivity.stockMap_.put(myStock.id_, myStock);
-//                                MainActivity.requireRefresh = true;
-                            }
-                            Toast.makeText(getApplicationContext(), R.string.toast_buy_successfully, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-                alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // what ever you want to do with No option.
-
-                    }
-                });
-
-                alert.show();
-                break;
-            case R.id.eachstock_sell_btn:
-                Log.d("buy btn", "buy btn pressed");
-                boolean sellFailure = false;
-                AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
-                final EditText edittext2 = new EditText(this);
-                alert2.setMessage(R.string.enter_the_amount_sell);
-                alert2.setTitle(R.string.sell);
-
-                alert2.setView(edittext2);
-
-                alert2.setPositiveButton(R.string.sell, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        String input = edittext2.getText().toString();
-                        Log.d("Alert","input is " + input);
-                        double amount = Double.parseDouble(input);
-                        double price = Double.parseDouble(myStock.getCurrentPrice_());
-
-                        boolean found =false;
-                        int i=0;
-                        for(; i<MainActivity.mStockRecords.size(); i++) {
-                            if(MainActivity.mStockRecords.get(i).getId().equals(myStock.id_)) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if(!found) {
-                            Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_this_stock, Toast.LENGTH_SHORT).show();
-                        } else {
-                            if(amount > MainActivity.mStockRecords.get(i).getAmount()) {
-                                Toast.makeText(getApplicationContext(), R.string.toast_you_cant_sell_more_than_you_have, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_this_stock, Toast.LENGTH_SHORT).show();
                             } else {
-                                double oldamount = MainActivity.mStockRecords.get(i).getAmount();
-                                double oldprice = MainActivity.mStockRecords.get(i).getBoughtPrice();
-                                double earning = amount*price - amount*oldprice;
-                                MainActivity.mStockRecords.get(i).setAmount(oldamount - amount);
-                                MainActivity.mBalance += amount*price;
-                                MainActivity.mMoney += earning;
-                                MainActivity.mEarning += earning;
-                                if(earning >=0 ) {
-                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " +  String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
-                                    System.out.println(R.string.toast_you_have_earned + " " + String.valueOf(earning));
+                                if(amount > MainActivity.mStockRecords.get(i).getAmount()) {
+                                    Toast.makeText(getApplicationContext(), R.string.toast_you_cant_sell_more_than_you_have, Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
-                                }
+                                    double oldamount = MainActivity.mStockRecords.get(i).getAmount();
+                                    double oldprice = MainActivity.mStockRecords.get(i).getBoughtPrice();
+                                    double earning = amount*price - amount*oldprice;
+                                    MainActivity.mStockRecords.get(i).setAmount(oldamount - amount);
+                                    MainActivity.mBalance += amount*price;
+                                    MainActivity.mMoney += earning;
+                                    MainActivity.mEarning += earning;
+                                    if(earning >=0 ) {
+                                        Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " +  String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
+                                        System.out.println(R.string.toast_you_have_earned + " " + String.valueOf(earning));
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
+                                    }
 
-                                if(oldamount == amount) {
-                                    MainActivity.mStockRecords.remove(i);
+                                    if(oldamount == amount) {
+                                        MainActivity.mStockRecords.remove(i);
+                                    }
                                 }
                             }
+
                         }
+                    });
 
-                    }
-                });
+                    alert2.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // what ever you want to do with No option.
 
-                alert2.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // what ever you want to do with No option.
+                        }
+                    });
 
-                    }
-                });
-
-                alert2.show();
+                    alert2.show();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
+                }
                 break;
 
         }

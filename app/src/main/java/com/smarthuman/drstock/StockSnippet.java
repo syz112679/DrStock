@@ -10,20 +10,19 @@ public class StockSnippet {
     private double amount;
     private double currentPrice;
 
-    private Stock stock;
+
 
     public StockSnippet(String id, double boughtPrice, double amount) {
         this.id = id;
         this.boughtPrice = boughtPrice;
         this.amount = amount;
-        stock = MainActivity.stockMap_.get(id);
     }
 
     public StockSnippet() {
         this.id = "00000";
         this.boughtPrice = 0.0;
         this.amount = 0.0;
-        stock = null;
+
     }
 
 
@@ -53,13 +52,19 @@ public class StockSnippet {
 
     // TODO: get current Price
     public double getCurrentPrice() {
-        stock = MainActivity.stockMap_.get(id);
+
+        Stock stock = MainActivity.stockMap_.get(id);
+        if(stock == null)
+            return 0;
         return Double.parseDouble(stock.getCurrentPrice_());
     }
 
     // TODO: get Stock Name
     public String getName() {
-        stock = MainActivity.stockMap_.get(id);
+
+        Stock stock = MainActivity.stockMap_.get(id);
+        if(stock == null)
+            return "-";
         return stock.name_;
     }
 

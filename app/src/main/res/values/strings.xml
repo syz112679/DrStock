@@ -30,6 +30,9 @@
     <string name="prompt_password">Password</string>
     <string name="prompt_password_again">Confirm Password</string>
     <string name="prompt_msg">Type a message</string>
+    <string name="login_process">Login in processing...</string>
+    <string name="problem_signin_msg">There was a problem signing in</string>
+
 
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
@@ -117,6 +120,7 @@
     <string name="toast_sorry_only_hk_graph">Sorry, you can only see HK stocks graph.</string>
     <string name="toast_added_to_watchlist">Added to watch list</string>
     <string name="toast_error">ERROR</string>
+    <string name="toast_signin_first">Please sign in first.</string>
 
     <string name="enter_the_amount_sell">Enter the amount you want to sell</string>
     <string name="enter_the_amount_buy">Enter the amount you want to buy</string>

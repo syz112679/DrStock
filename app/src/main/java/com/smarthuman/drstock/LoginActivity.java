@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (email.isEmpty())
             if (email.equals("") || password.equals("")) return;
-        Toast.makeText(this, "Login in progress...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.login_process, Toast.LENGTH_SHORT).show();
 
         // : Use FirebaseAuth to sign in with email & password
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -96,8 +96,8 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("FlashChat", "signInWithEmail() onComplete: " + task.isSuccessful());
 
                 if (!task.isSuccessful()) {
-                    Log.d("FlashChat", "Problem signing in: " + task.getException());
-                    showErrorDialog("There was a problem signing in");
+                    Log.d("login", "Problem signing in: " + task.getException());
+                    showErrorDialog(R.string.problem_signin_msg);
                 } else {
                     //login successfully
 
@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // : Show error on screen with an alert dialog
-    private void showErrorDialog(String message) {
+    private void showErrorDialog(int message) {
 
         new AlertDialog.Builder(this)
                 .setTitle("Oops")
