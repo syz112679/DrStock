@@ -144,7 +144,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                         postValues.put("money", ((MainActivity)getActivity()).mMoney);
                         postValues.put("balance", ((MainActivity)getActivity()).mBalance);
                         mMoney.setText(String.valueOf(MainActivity.mBalance));
-                        mTotalAsset.setText(String.valueOf(MainActivity.mMoney));
+                        mTotalAsset.setText(String.format ("%.2f",MainActivity.mMoney));
 
                     }
 
