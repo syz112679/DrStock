@@ -241,7 +241,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
     public void searchStock(View view) {
         EditText editText = (EditText) v.findViewById(R.id.editText_stockId);
         String inputID = editText.getText().toString();
-        String enquryId = input2enqury(inputID);
+        String enquryId = inputID;
 
         MainActivity.searchHistory.add(enquryId);
         System.out.println("--------searchHistory:");
@@ -249,7 +249,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         System.out.println("--------------------");
 
         Intent intent = new Intent(getActivity(), EachStockActivity.class);
-        intent.putExtra(MainActivity.EXTRA_MESSAGE, enquryId);
+        intent.putExtra(MainActivity.EXTRA_MESSAGE, inputID);
         startActivity(intent);
     }
 

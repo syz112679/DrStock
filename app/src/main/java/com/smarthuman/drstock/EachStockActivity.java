@@ -20,7 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
+import android.widget.Toast;
 /**
  * Created by shiyuzhou on 5/4/2018.
  */
@@ -29,6 +29,7 @@ public class EachStockActivity extends TitleActivity {
 
     public static String stockId_Market;
     public static Stock myStock;
+    public boolean invalidInput = false;
 
     private Button buyButton, sellButton;
     private ImageView addImg;
@@ -48,7 +49,7 @@ public class EachStockActivity extends TitleActivity {
 //        setTitle("Each Stock");
 //        setTitleBackground(R.color.titleBarDemo);
 //        setTitleBackground(MainActivity.UpColor_);
-
+        invalidInput = false;
         showBackward(getDrawable(R.drawable.ic_return), true);
 
 //        setGridLayout();
@@ -302,8 +303,18 @@ public class EachStockActivity extends TitleActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("", "---------response:\n" + response + "------------\n");
-                        sinaResponseToStocks(response);
+                        System.out.println("---------response:\n" + response + "------------\n");
+//                        Log.d("", "---------response:\n" + response + "------------\n");
+                        String right = response.split("=")[1];
+                        System.out.println("right: " + right);
+                        if (right.equals("\"\";\n") || right.equals("\"FAILED\";\n")) {
+                            invalidInput = true;
+                            Toast.makeText(getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            invalidInput = false;
+                            sinaResponseToStocks(response);
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -324,7 +335,7 @@ public class EachStockActivity extends TitleActivity {
 
         // if it is favorited
         int i=0;
-        for (String id: MainActivity.StockIds_) {
+        for (String id: MainActivity.getStockIds_()) {
             i++;
             if(StockFragment.input2enqury(myStock.id_).equals( id) ) {
                 addImg.setImageResource(R.drawable.ic_favourite_solid);
