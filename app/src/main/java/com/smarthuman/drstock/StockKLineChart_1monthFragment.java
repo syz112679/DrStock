@@ -1,6 +1,8 @@
 package com.smarthuman.drstock;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -74,6 +76,8 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
     private Button rsi10_Btn, rsi14_Btn, rsi20_Btn;
     public String storedData;
     Stock stock = ((EachStockActivity) getActivity()).myStock;
+    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -107,7 +111,6 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getContext(),R.string.toast_error,Toast.LENGTH_LONG).show();
                     Log.e("TAG", error.getMessage(), error);
                 }
             });
@@ -115,7 +118,7 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
             mQueue.add(stringRequest);
 
             rsiChart = (LineChart) view.findViewById(R.id.RSI_chart);
-            StringRequest stringRequestrsi = new StringRequest(Request.Method.GET, money18_rsi_url,
+            StringRequest stringRequest_rsi = new StringRequest(Request.Method.GET, money18_rsi_url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -128,7 +131,7 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
 
                             loadChartData_Rsi10();
 
-                            Log.d("render rsi 10 chart", "here");
+
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -138,52 +141,16 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
                 }
             });
             mQueue = Volley.newRequestQueue(this.getActivity());
-            mQueue.add(stringRequestrsi);
+            mQueue.add(stringRequest_rsi);
             rsi10_Btn = (Button) view.findViewById(R.id.rsi_10_btn);
             rsi10_Btn.setOnClickListener(this);
             rsi14_Btn = (Button) view.findViewById(R.id.rsi_14_btn);
             rsi14_Btn.setOnClickListener(this);
             rsi20_Btn = (Button) view.findViewById(R.id.rsi_20_btn);
             rsi20_Btn.setOnClickListener(this);
-
         } else{
             Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
         }
-
-//        if (stock.marketId_.equals("HK")) {
-//            String money18_rsi_url = "http://money18.on.cc/chartdata/full/rsi/" + stock.id_ + "_rsi_full.txt";
-//
-//            rsiChart = (LineChart) view.findViewById(R.id.RSI_chart);
-//            StringRequest stringRequest = new StringRequest(Request.Method.GET, money18_rsi_url,
-//                    new Response.Listener<String>() {
-//                        @Override
-//                        public void onResponse(String response) {
-//                            //System.out.println("-----Main setdata-----:"+response);
-//                            storedData = response;
-//
-//                            Model.setData_Rsi(response);
-//
-//                            initChart_Rsi();
-//
-//                            loadChartData_Rsi10();
-//
-//
-//                        }
-//                    }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    Log.e("TAG", error.getMessage(), error);
-//                }
-//            });
-//            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
-//            mQueue.add(stringRequest);
-//        } else{
-//            Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
-//        }
-
-
-
-
         return view;
     }
 
@@ -578,6 +545,9 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
 
         @Override
         public void onChartLongPressed(MotionEvent me) {
+            Intent intent = new Intent (getActivity(), Chart_3yearActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, stock.id_);
+            startActivity(intent);
 
         }
 
