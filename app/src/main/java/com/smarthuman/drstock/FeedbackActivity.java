@@ -17,7 +17,7 @@ public class FeedbackActivity extends TitleActivity {
         setContentView(R.layout.activity_feedback);
 
         setTitle(R.string.feedbackActivity);
-        showBackwardView(R.string.text_back, true);
+        showBackward(getDrawable(R.drawable.ic_return), true);
 
         findViewById(R.id.TableRow_disclaimer).setOnClickListener(this);
     }

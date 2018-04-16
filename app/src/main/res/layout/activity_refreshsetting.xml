@@ -37,7 +37,6 @@
             <TextView />
 
             <ImageView
-                android:id="@+id/imageView_mobile_noRefresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
@@ -55,7 +54,6 @@
             <TextView />
 
             <ImageView
-                android:id="@+id/imageView_mobile_5s"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
@@ -73,7 +71,6 @@
             <TextView />
 
             <ImageView
-                android:id="@+id/imageView_mobile_15s"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
@@ -91,7 +88,6 @@
             <TextView />
 
             <ImageView
-                android:id="@+id/imageView_mobile_30s"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
@@ -109,7 +105,6 @@
             <TextView />
 
             <ImageView
-                android:id="@+id/imageView_mobile_60s"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
@@ -150,7 +145,6 @@
             <TextView />
 
             <ImageView
-                android:id="@+id/imageView_wifi_noRefresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
@@ -168,7 +162,57 @@
             <TextView />
 
             <ImageView
-                android:id="@+id/imageView_wifi_5s"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/wifi_15s"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView android:text="15s" />
+
+            <TextView />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/wifi_30s"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView android:text="30s" />
+
+            <TextView />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_check_black_24dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/wifi_60s"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView android:text="60s" />
+
+            <TextView />
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"

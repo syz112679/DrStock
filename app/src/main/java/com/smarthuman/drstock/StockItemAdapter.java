@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by shiyuzhou on 10/4/2018.
  */
 
-public class StockItemAdapter  extends ArrayAdapter<StockSnippet> {
+public class StockItemAdapter extends ArrayAdapter<StockSnippet> {
     public StockItemAdapter(@NonNull Context context, int resource) {
         super(context, resource);
     }
@@ -54,6 +54,7 @@ public class StockItemAdapter  extends ArrayAdapter<StockSnippet> {
         tvCurPrice.setText(String.format ("%.2f", stock.getCurrentPrice()));
 
         // Return the completed view to render on screen
+        //System.out.println("called here, Stock list adapter");
         return convertView;
     }
 

@@ -48,19 +48,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minWidth="100dp"
-                    android:text="SHI Yuzhou" />
+                    android:text="@string/syz_E" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="施宇舟" />
+                    android:text="@string/syz_C" />
 
                 <TextView />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Leader Programmer" />
+                    android:text="@string/programmer" />
 
             </TableRow>
 
@@ -71,19 +71,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="LIU Junqi" />
+                    android:text="@string/ljq_E" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="刘俊琪" />
+                    android:text="@string/ljq_C" />
 
                 <TextView />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Programmer" />
+                    android:text="@string/programmer" />
 
             </TableRow>
 
@@ -94,19 +94,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="LI Shuhan" />
+                    android:text="@string/lsh_E" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="李舒涵" />
+                    android:text="@string/lsh_C" />
 
                 <TextView />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Programmer" />
+                    android:text="@string/programmer" />
 
             </TableRow>
 
@@ -117,19 +117,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="WANG Jing" />
+                    android:text="@string/wj_E" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="王晶" />
+                    android:text="@string/wj_C" />
 
                 <TextView />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Programmer" />
+                    android:text="@string/programmer" />
 
             </TableRow>
 
@@ -140,19 +140,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TANG Junyi" />
+                    android:text="@string/tjy_E" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="唐峻逸" />
+                    android:text="@string/tjy_C" />
 
                 <TextView />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Programmer" />
+                    android:text="@string/programmer" />
 
             </TableRow>
 
@@ -163,19 +163,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="GU Yuxuan" />
+                    android:text="@string/gyx_E" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="谷宇轩" />
+                    android:text="@string/gyx_C" />
 
                 <TextView />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Programmer" />
+                    android:text="@string/programmer" />
 
             </TableRow>
 

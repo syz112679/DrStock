@@ -216,6 +216,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
 
     public static String input2enqury(String inputID) {
 
+
         if (Character.isDigit(inputID.charAt(0))) {
 
             if (inputID.length() < 5 || inputID.length() > 6) {

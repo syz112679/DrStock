@@ -181,6 +181,8 @@ public class EachStockActivity extends TitleActivity {
                             }
                             if(!found) {
                                 MainActivity.mStockRecords.add(newStock);
+                                MainActivity.stockMap_.put(myStock.id_, myStock);
+//                                MainActivity.requireRefresh = true;
                             }
                             Toast.makeText(getApplicationContext(), R.string.toast_buy_successfully, Toast.LENGTH_SHORT).show();
                         }
@@ -299,7 +301,6 @@ public class EachStockActivity extends TitleActivity {
         }
     }
 
-
     public void querySinaStocks(String queryId) {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://hq.sinajs.cn/list=" + queryId;
@@ -358,6 +359,26 @@ public class EachStockActivity extends TitleActivity {
 //        TextView currency = findViewById(R.id.eachstock_currency);
 //        currency.setText(myStock.getCurrency());
 
+        TextView high = findViewById(R.id.high_data);
+        high.setText(myStock.getHigh());
+        TextView low = findViewById(R.id.low_data);
+        low.setText(myStock.getLow());
+
+        TextView close = findViewById(R.id.close_data);
+        close.setText(myStock.getClose());
+        TextView open = findViewById(R.id.open_data);
+        open.setText(myStock.getOpen());
+
+        TextView volume = findViewById(R.id.volume_data);
+        volume.setText(myStock.getVolume());
+        TextView turnover = findViewById(R.id.turnover_data);
+        turnover.setText(myStock.getTurnover());
+
+        TextView bid1 = findViewById(R.id.bid1_data);
+        bid1.setText(myStock.getBid1());
+        TextView sell1 = findViewById(R.id.sell1_data);
+        sell1.setText(myStock.getSell1());
+
         if (myStock.isRising()) {
             currentPrice.setTextColor(MainActivity.UpColor_);
             priceChange.setTextColor(MainActivity.UpColor_);
@@ -402,7 +423,6 @@ public class EachStockActivity extends TitleActivity {
     public void setViewPager(int index) {
         Log.d("EachStockActivity", "setViewPager called:" + index);
         mViewPager.setCurrentItem(index);
-
     }
 
 

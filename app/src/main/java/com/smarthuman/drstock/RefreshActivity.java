@@ -27,7 +27,7 @@ public class RefreshActivity extends TitleActivity {
         setContentView(R.layout.activity_refreshsetting);
 
         setTitle(R.string.refreshActivity);
-        showBackwardView(R.string.text_back, true);
+        showBackward(getDrawable(R.drawable.ic_return), true);
 
         initialize();
     }
@@ -86,42 +86,60 @@ public class RefreshActivity extends TitleActivity {
             case R.id.mobile_noRefresh:
                 MainActivity.enableMobileRefresh = false;
                 newMobileRow = (TableRow) tableLayout_mobile.getChildAt(1);
-                Toast.makeText(this, "enableMobileRefresh = false", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "enableMobileRefresh = false", Toast.LENGTH_LONG).show();
                 break;
             case R.id.mobile_5s:
                 MainActivity.enableMobileRefresh = true;
                 MainActivity.mobileRefreshTime = 5;
                 newMobileRow = (TableRow) tableLayout_mobile.getChildAt(2);
-                Toast.makeText(this, "mobileRefreshTime = 5", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "mobileRefreshTime = 5", Toast.LENGTH_LONG).show();
                 break;
             case R.id.mobile_15s:
                 MainActivity.enableMobileRefresh = true;
                 MainActivity.mobileRefreshTime = 15;
                 newMobileRow = (TableRow) tableLayout_mobile.getChildAt(3);
-                Toast.makeText(this, "mobileRefreshTime = 15", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "mobileRefreshTime = 15", Toast.LENGTH_LONG).show();
                 break;
             case R.id.mobile_30s:
                 MainActivity.enableMobileRefresh = true;
                 MainActivity.mobileRefreshTime = 30;
                 newMobileRow = (TableRow) tableLayout_mobile.getChildAt(4);
-                Toast.makeText(this, "mobileRefreshTime = 30", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "mobileRefreshTime = 30", Toast.LENGTH_LONG).show();
                 break;
             case R.id.mobile_60s:
                 MainActivity.enableMobileRefresh = true;
                 MainActivity.mobileRefreshTime = 60;
                 newMobileRow = (TableRow) tableLayout_mobile.getChildAt(5);
-                Toast.makeText(this, "mobileRefreshTime = 60", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "mobileRefreshTime = 60", Toast.LENGTH_LONG).show();
                 break;
             case R.id.wifi_noRefresh:
                 MainActivity.enableWifiRefresh = false;
                 newWifiRow = (TableRow) tableLayout_wifi.getChildAt(1);
-                Toast.makeText(this, "enableWifiRefresh = false", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "enableWifiRefresh = false", Toast.LENGTH_LONG).show();
                 break;
             case R.id.wifi_5s:
                 MainActivity.enableWifiRefresh = true;
                 MainActivity.wifiRefreshTime = 5;
                 newWifiRow = (TableRow) tableLayout_wifi.getChildAt(2);
-                Toast.makeText(this, "wifiRefreshTime = 5", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "wifiRefreshTime = 5", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.wifi_15s:
+                MainActivity.enableWifiRefresh = true;
+                MainActivity.wifiRefreshTime = 15;
+                newWifiRow = (TableRow) tableLayout_wifi.getChildAt(3);
+//                Toast.makeText(this, "wifiRefreshTime = 5", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.wifi_30s:
+                MainActivity.enableWifiRefresh = true;
+                MainActivity.wifiRefreshTime = 30;
+                newWifiRow = (TableRow) tableLayout_wifi.getChildAt(4);
+//                Toast.makeText(this, "wifiRefreshTime = 5", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.wifi_60s:
+                MainActivity.enableWifiRefresh = true;
+                MainActivity.wifiRefreshTime = 60;
+                newWifiRow = (TableRow) tableLayout_wifi.getChildAt(5);
+//                Toast.makeText(this, "wifiRefreshTime = 5", Toast.LENGTH_LONG).show();
                 break;
         }
 
