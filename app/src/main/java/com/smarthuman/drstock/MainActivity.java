@@ -629,6 +629,13 @@ public class MainActivity extends TitleActivity
             Log.d("MainActivity", "UpdateDatabase called" + mUserName + " " + mEmail);
             mFavorites = new ArrayList<String>(StockIds_);
 
+            if (mFavorites.isEmpty()) {
+                mFavorites.add("placeholder");
+            }
+
+            if(mStockRecords.isEmpty()) {
+                mStockRecords.add(new StockSnippet());
+            }
 
             UserInformation userInfo = new UserInformation(mUserName, mEmail);
             userInfo.setFavorites(mFavorites);
@@ -672,6 +679,13 @@ public class MainActivity extends TitleActivity
 
             }
         });
+
+        if (!mFavorites.isEmpty() && mFavorites.get(0).equals("placeholder")) {
+            mFavorites.remove(0);
+        }
+        if (!mStockRecords.isEmpty() && mStockRecords.get(0).getId().equals("00000")) {
+            mStockRecords.remove(0);
+        }
 
         if(mFavorites!=null)
             StockIds_= new HashSet<>(mFavorites);

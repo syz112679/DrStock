@@ -121,4 +121,12 @@
 
     <string name="enter_the_amount_sell">Enter the amount you want to sell</string>
     <string name="enter_the_amount_buy">Enter the amount you want to buy</string>
+
+     <!--newly add-->
+    <string name="text_stock_id">Stock ID</string>
+    <string name="text_stock_name">Stock Name</string>
+    <string name="text_current_Price">Current Price</string>
+    <string name="text_amount">Amount</string>
+    <string name="text_bought_price">Bid Price</string>
+
 </resources>

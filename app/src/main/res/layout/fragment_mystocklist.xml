@@ -15,6 +15,39 @@
             android:gravity="center_vertical"
             android:text="@string/my_stocks" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/text_stock_name"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/text_stock_id"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/text_bought_price"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/text_amount"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/text_current_Price"
+                android:layout_weight="0.2"/>
+
+
+        </LinearLayout>
         <ListView
             android:id="@+id/my_stocks_listview"
             android:layout_width="match_parent"
