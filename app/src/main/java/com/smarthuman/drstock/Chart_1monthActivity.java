@@ -1,6 +1,5 @@
 package com.smarthuman.drstock;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -75,7 +74,7 @@ public class Chart_1monthActivity extends AppCompatActivity implements  View.OnC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kline);
+        setContentView(R.layout.activity_landscapechart);
 
         Intent intent = getIntent();
         stockId = intent.getStringExtra(StockKLineChart_1monthFragment.EXTRA_MESSAGE);

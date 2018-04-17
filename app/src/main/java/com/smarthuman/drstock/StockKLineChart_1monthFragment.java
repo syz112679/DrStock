@@ -545,7 +545,7 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
 
         @Override
         public void onChartLongPressed(MotionEvent me) {
-            Intent intent = new Intent (getActivity(), Chart_3yearActivity.class);
+            Intent intent = new Intent (getActivity(), Chart_1monthActivity.class);
             intent.putExtra(EXTRA_MESSAGE, stock.id_);
             startActivity(intent);
 
