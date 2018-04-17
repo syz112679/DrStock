@@ -65,6 +65,7 @@ public class StockIndex {
             this.value = value;
             this.change = change;
             this.percent = percent;
+            isRising = percent.charAt(0) != '-';
         }
 
         String name_chi;
@@ -72,6 +73,7 @@ public class StockIndex {
         String value;
         String change;
         String percent;
+        boolean isRising;
     }
 
 }

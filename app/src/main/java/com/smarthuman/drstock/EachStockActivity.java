@@ -24,6 +24,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import android.widget.Toast;
+
+import io.reactivex.internal.util.ExceptionHelper;
+
 /**
  * Created by shiyuzhou on 5/4/2018.
  */
@@ -99,8 +102,6 @@ public class EachStockActivity extends TitleActivity {
         threeYearBtn = (Button) findViewById(R.id.three_year_btn);
         threeYearBtn.setOnClickListener(this);
 
-
-
     }
 
 
@@ -152,7 +153,7 @@ public class EachStockActivity extends TitleActivity {
                     final EditText edittext = new EditText(this);
                     String message = "\n" + getString(R.string.enter_the_amount_buy) + "\n";
                     if(!isHKstock) {
-                        message += getString(R.string.text_the_exchange_rate) + " " + exchangeRate + "HKD";
+                        message += getString(R.string.text_the_exchange_rate) + " " + String.format("%.3f", exchangeRate) + "HKD";
                     }
                     alert.setMessage(message);
                     alert.setTitle(R.string.buy);
@@ -222,7 +223,7 @@ public class EachStockActivity extends TitleActivity {
                     final EditText edittext2 = new EditText(this);
                     String message = "\n" + getString(R.string.enter_the_amount_sell) + "\n";
                     if(!isHKstock) {
-                        message += getString(R.string.text_the_exchange_rate) + " " + exchangeRate + "HKD";
+                        message += getString(R.string.text_the_exchange_rate) + " " + String.format("%.3f", exchangeRate) + "HKD";
                     }
                     alert2.setMessage(message);
                     alert2.setTitle(R.string.sell);
@@ -379,19 +380,23 @@ public class EachStockActivity extends TitleActivity {
         switch (myStock.marketId_) {
             case "US":
                 Log.d("EachStockActivity", "US market stock");
-                exchangeRate =7;
+                exchangeRate = Double.parseDouble(MainActivity.exchangeRate_[ExchangeRate.HKD][ExchangeRate.USD]) / 100;
                 isHKstock = false;
                 break;
             case "SZ":
                 Log.d("EachStockActivity", "SZ market stock");
+                exchangeRate = Double.parseDouble(MainActivity.exchangeRate_[ExchangeRate.HKD][ExchangeRate.RMB]) / 100;
                 isHKstock = false;
                 break;
             case "SH":
                 Log.d("EachStockActivity", "SH market stock");
+                exchangeRate = Double.parseDouble(MainActivity.exchangeRate_[ExchangeRate.HKD][ExchangeRate.RMB]) / 100;
                 isHKstock = false;
                 break;
             case "HK":
                 Log.d("EachStockActivity", "HK market stock");
+                exchangeRate = 1;
+                isHKstock = true;
                 break;
 
         }

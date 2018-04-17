@@ -122,7 +122,9 @@ public class MainActivity extends TitleActivity
     private static final int minPeriod = 2;
     public static boolean requireRefresh = false;
 
-    StockIndex stockIndex = new StockIndex();
+    public static StockIndex stockIndex = new StockIndex();
+    public static ExchangeRate exchangeRate = new ExchangeRate();
+    public static String[][] exchangeRate_ = new String[exchangeRate.currencyCount][exchangeRate.currencyCount];
     //--------------------------------------------------------------------------------------------------
 
     public static FirebaseUser mfirebaseUser;
@@ -315,10 +317,14 @@ public class MainActivity extends TitleActivity
         }
 
         TreeMap<String, Stock> stockMap = new TreeMap<>();
-        String indexResponse = "";
+        String indexResponse = "", exchangeRateResponse = "";
         for (int i = 0; i < stocks.length; i++) {
             if (i < StockIndex.totalNum) {
                 indexResponse += stocks[i] + ";";
+                continue;
+            }
+            if (i < StockIndex.totalNum + 3) {
+                exchangeRateResponse += stocks[i] + ";";
                 continue;
             }
 
@@ -333,12 +339,29 @@ public class MainActivity extends TitleActivity
 
         }
         stockIndex.updateIdex(indexResponse);
+        updateIndexView();
+
+        exchangeRate.updateExchangeRate(exchangeRateResponse);
+        exchangeRate_ = exchangeRate.getExchangeRate_();
+        updateFlipper();
 
         stockMap_ = stockMap;
 
         System.out.println("-------------stockMap:\n" + stockMap + "----------");
 
         return stockMap;
+    }
+
+    public void updateFlipper() {
+        TextView rmb = findViewById(R.id.rmb_value);
+        TextView usd = findViewById(R.id.usd_value);
+        TextView gbp = findViewById(R.id.gbp_value);
+
+        System.out.println("rmb: " + rmb);
+
+        rmb.setText(exchangeRate_[exchangeRate.RMB][exchangeRate.HKD]);
+        usd.setText(exchangeRate_[exchangeRate.USD][exchangeRate.HKD]);
+        gbp.setText(exchangeRate_[exchangeRate.GBP][exchangeRate.HKD]);
     }
 
     public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
@@ -396,18 +419,26 @@ public class MainActivity extends TitleActivity
 //        if (StockIds_.size() == 0)
 //            return;
 
-        String ids = stockIndex.enquiryId;
+        String ids = stockIndex.enquiryId; // 1.
+        ids += exchangeRate.enquiryId; // 2.
         // check every time to remove placeholder
         if(!mFavorites.isEmpty() && mFavorites.get(0).equals("placeholder")) {
+
             mFavorites.remove(0);
         }
+
+        if (!mFavorites.isEmpty())
+            System.out.println("mFavorites.get(0): "+mFavorites.get(0));
+
         StockIds_ = new HashSet<>(mFavorites);
+
         for (String id : StockIds_) {
             ids += id;
             ids += ",";
         }
 
-        ids += getStockRecords();
+        ids += getStockRecords(); // 4.
+
         System.out.println("ids: " + ids);
 
         querySinaStocks(ids);
@@ -438,18 +469,50 @@ public class MainActivity extends TitleActivity
     }
 
     public void updateIndexView() {
-        TextView sse = findViewById(R.id.stock_sh_index);
-        sse.setText(StockIndex.indexTreeMap.get("s_sh000001").value);
-        TextView szse = findViewById(R.id.stock_sz_index);
-        szse.setText(StockIndex.indexTreeMap.get("s_sz399001").value);
-        TextView gei = findViewById(R.id.stock_chuang_index);
-        gei.setText(StockIndex.indexTreeMap.get("s_sz399006").value);
-        TextView hsi = findViewById(R.id.stock_hsi_index);
-        hsi.setText(StockIndex.indexTreeMap.get("int_hangseng").value);
-        TextView dji = findViewById(R.id.stock_djia_index);
-        dji.setText(StockIndex.indexTreeMap.get("int_dji").value);
-        TextView nasdaq = findViewById(R.id.stock_nsdk_index);
-        nasdaq.setText(StockIndex.indexTreeMap.get("int_nasdaq").value);
+        StockIndex.Index index;
+        LinearLayout eachLinearLayout;
+
+        index = StockIndex.indexTreeMap.get("s_sh000001");
+        eachLinearLayout = findViewById(R.id.sh_index);
+        ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        for (int i = 1; i <= 2; i++)
+            ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
+
+        index = StockIndex.indexTreeMap.get("s_sz399001");
+        eachLinearLayout = findViewById(R.id.sz_index);
+        ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        for (int i = 1; i <= 2; i++)
+            ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
+
+        index = StockIndex.indexTreeMap.get("s_sz399006");
+        eachLinearLayout = findViewById(R.id.chuang_index);
+        ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        for (int i = 1; i <= 2; i++)
+            ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
+
+        index = StockIndex.indexTreeMap.get("int_hangseng");
+        eachLinearLayout = findViewById(R.id.hsi_index);
+        ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        for (int i = 1; i <= 2; i++)
+            ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
+
+        index = StockIndex.indexTreeMap.get("int_dji");
+        eachLinearLayout = findViewById(R.id.djia_index);
+        ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        for (int i = 1; i <= 2; i++)
+            ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
+
+        index = StockIndex.indexTreeMap.get("int_nasdaq");
+        eachLinearLayout = findViewById(R.id.nsdk_index);
+        ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        for (int i = 1; i <= 2; i++)
+            ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
     }
 
     protected void updateStockListView(TreeMap<String, Stock> stockMap) {
@@ -506,46 +569,6 @@ public class MainActivity extends TitleActivity
             if (!isIn) {
                 continue;
             }
-
-//            System.out.println("Stock stock");
-//            if (stock.id_.equals(ShIndex) || stock.id_.equals(SzIndex) || stock.id_.equals(ChuangIndex)) {
-//                Float dNow = Float.parseFloat(stock.now_);
-//                Float dYesterday = Float.parseFloat(stock.yesterday_);
-//                Float dIncrease = dNow - dYesterday;
-//                Float dPercent = dIncrease / dYesterday * 100;
-//                String change = String.format("%.2f", dPercent) + "% " + String.format("%.2f", dIncrease);
-//
-//                int indexId;
-//                int changeId;
-//                if (stock.id_.equals(ShIndex)) {
-//                    indexId = R.id.stock_sh_index;
-//                    changeId = R.id.stock_sh_change;
-//                } else if (stock.id_.equals(SzIndex)) {
-//                    indexId = R.id.stock_sz_index;
-//                    changeId = R.id.stock_sz_change;
-//                } else {
-//                    indexId = R.id.stock_chuang_index;
-//                    changeId = R.id.stock_chuang_change;
-//                }
-//
-//                TextView indexText = (TextView) v.findViewById(indexId);
-//                indexText.setText(stock.now_);
-//                int color = Color.BLACK;
-//                //System.out.println("-----|" + dIncrease + "|------");
-//                if (dIncrease > 0) {
-//                    color = UpColor_;
-//                } else if (dIncrease < 0) {
-//                    color = DownColor_;
-//                }
-//                //System.out.println("-----|" + color + "|------");
-//                indexText.setTextColor(color);
-//
-//                TextView changeText = (TextView) v.findViewById(changeId);
-//                changeText.setText(change);
-//                changeText.setTextColor(color);
-//
-//                continue;
-//            }
 
             TableRow row = new TableRow(this);
             row.setMinimumHeight(200); //////////////////////////////////////////////

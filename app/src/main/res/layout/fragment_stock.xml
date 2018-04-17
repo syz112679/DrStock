@@ -12,11 +12,13 @@
         android:tag="StockFragmentTag" >
 
         <LinearLayout
+            android:id="@+id/eachStock_linear1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/sh_index"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.33"
@@ -42,6 +44,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sz_index"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
@@ -69,6 +72,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/chuang_index"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
@@ -95,11 +99,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/eachStock_linear2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/hsi_index"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.33"
@@ -125,6 +131,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/djia_index"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
@@ -152,6 +159,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/nsdk_index"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.33"
