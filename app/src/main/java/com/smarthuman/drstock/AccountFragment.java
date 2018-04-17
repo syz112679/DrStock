@@ -166,6 +166,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
     public void onResume() {
 
         super.onResume();
+        MainActivity.requireRefresh=true;
         mUserName.setText(MainActivity.mUserName);
         mMoney.setText(String.format ("%.2f",MainActivity.mBalance));
         mTotalAsset.setText(String.format ("%.2f",MainActivity.mMoney));

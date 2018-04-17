@@ -2,59 +2,73 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true"
-    android:background="@drawable/chat_room_back">
+    android:background="@drawable/color_sky">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dip" >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/my_stocks" />
-
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/text_stock_name"
-                android:layout_weight="0.2"/>
+                android:textColor="@color/home_tab_bg"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/text_stock_id"
-                android:layout_weight="0.2"/>
+                android:textColor="@color/home_tab_bg"
+                android:gravity="left"
+                android:layout_weight="1"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/text_bought_price"
-                android:layout_weight="0.2"/>
+                android:gravity="center"
+                android:textColor="@color/home_tab_bg"
+                android:layout_weight="1"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/text_amount"
-                android:layout_weight="0.2"/>
+                android:textColor="@color/home_tab_bg"
+                android:gravity="center"
+                android:layout_weight="1"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/text_current_Price"
-                android:layout_weight="0.2"/>
-
+                android:gravity="right"
+                android:textColor="@color/home_tab_bg"
+                android:layout_weight="1"/>
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/line_timber" />
 
         <ListView
             android:id="@+id/my_stocks_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:background="@drawable/chat_room_back" >
+            android:textAlignment="viewEnd" >
         </ListView>
 
     </LinearLayout>
