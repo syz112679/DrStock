@@ -362,6 +362,10 @@ public class MainActivity extends TitleActivity
 
     public String getStockRecords() {
         String bought = "", enquiry = "";
+        // check every time to remove 00000
+        if(!mStockRecords.isEmpty() && mStockRecords.get(0).getId().equals("00000")) {
+            mStockRecords.remove(0);
+        }
         for (StockSnippet ss : mStockRecords) {
             enquiry = StockFragment.input2enqury(ss.getId());
             System.out.println("ss.getId():" + enquiry);
@@ -380,6 +384,10 @@ public class MainActivity extends TitleActivity
 //            return;
 
         String ids = stockIndex.enquiryId;
+        // check every time to remove placeholder
+        if(!mFavorites.isEmpty() && mFavorites.get(0).equals("placeholder")) {
+            mFavorites.remove(0);
+        }
         StockIds_ = new HashSet<>(mFavorites);
         for (String id : StockIds_) {
             ids += id;

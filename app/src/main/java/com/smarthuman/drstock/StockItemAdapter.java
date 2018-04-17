@@ -49,9 +49,9 @@ public class StockItemAdapter extends ArrayAdapter<StockSnippet> {
         // Populate the data into the template view using the data object
         tvID.setText(stock.getId());
         tvName.setText(stock.getName());
-        tvBoughtPrice.setText(String.format ("%.2f", stock.getBoughtPrice()));
+        tvBoughtPrice.setText(String.format ("%.2f", stock.getBoughtPrice()) + stock.getCurrency());
         tvAmount.setText(String.format ("%.2f", stock.getAmount()));
-        tvCurPrice.setText(String.format ("%.2f", stock.getCurrentPrice()));
+        tvCurPrice.setText(String.format ("%.2f", stock.getCurrentPrice()) + stock.getCurrency());
 
         // Return the completed view to render on screen
         //System.out.println("called here, Stock list adapter");

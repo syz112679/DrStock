@@ -172,7 +172,7 @@ public class EachStockActivity extends TitleActivity {
                             } else if(amount*price > MainActivity.mBalance){
                                 Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_enough_money, Toast.LENGTH_SHORT).show();
                                 Log.d("EachStockActivity", "your money:" + MainActivity.mMoney + ", needed:" + amount*price);
-                            } else if(precision < 0.01){
+                            } else if(precision < 0.01 && precision > 0){
                                 Toast.makeText(getApplicationContext(), R.string.text_precision_error, Toast.LENGTH_SHORT).show();
                             } else {
 
@@ -196,7 +196,7 @@ public class EachStockActivity extends TitleActivity {
                                     MainActivity.stockMap_.put(myStock.id_, myStock);
 //                                MainActivity.requireRefresh = true;
                                 }
-                                Toast.makeText(getApplicationContext(), R.string.toast_buy_successfully + String.valueOf(cost), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.toast_buy_successfully) + String.valueOf(cost), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -236,7 +236,7 @@ public class EachStockActivity extends TitleActivity {
                             double amount = Double.parseDouble(input);
                             double price = Double.parseDouble(myStock.getCurrentPrice_());
                             double precision = amount - ((int) amount);
-                            if(precision < 0.01){
+                            if(precision < 0.01 && precision > 0){
                                 Toast.makeText(getApplicationContext(), R.string.text_precision_error, Toast.LENGTH_SHORT).show();
                             } else {
                                 boolean found =false;

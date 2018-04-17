@@ -10,6 +10,7 @@ public class StockSnippet {
     private double boughtPrice;
     private double amount;
     private double currentPrice;
+    private String currency;
 
 
 
@@ -51,7 +52,7 @@ public class StockSnippet {
         this.amount = amount;
     }
 
-    // TODO: get current Price
+
     public double getCurrentPrice() {
 
         Stock stock = MainActivity.stockMap_.get(id);
@@ -60,7 +61,7 @@ public class StockSnippet {
         return Double.parseDouble(stock.getCurrentPrice_());
     }
 
-    // TODO: get Stock Name
+
     public String getName() {
 
         Stock stock = MainActivity.stockMap_.get(id);
@@ -68,6 +69,14 @@ public class StockSnippet {
             return "-";
         name = stock.name_;
         return name;
+    }
+
+    public String getCurrency() {
+        Stock stock = MainActivity.stockMap_.get(id);
+        if(stock == null)
+            return "-";
+        currency = stock.getCurrency();
+        return currency;
     }
 
     public void setCurrentPrice(double currentPrice) {
