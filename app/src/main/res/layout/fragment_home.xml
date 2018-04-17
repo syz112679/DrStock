@@ -26,7 +26,29 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="@string/stock_sz_name"
+                android:text="@string/currency_usd_name"
+                android:textColor="@color/myGrey"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/usd_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25sp"
+            android:orientation="horizontal"
+            android:gravity="center" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/currency_rmb_name"
                 android:textColor="@color/myGrey"
                 android:textStyle="bold"
                 android:gravity="center"/>
@@ -34,14 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:id="@+id/sz_index"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:id="@+id/sz_change"
+                android:id="@+id/rmb_value"
                 android:gravity="center"/>
         </LinearLayout>
 
@@ -54,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="@string/stock_sh_name"
+                android:text="@string/currency_gbp_name"
                 android:textColor="@color/myGrey"
                 android:textStyle="bold"
                 android:gravity="center"/>
@@ -62,128 +77,10 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:id="@+id/sh_index"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:id="@+id/sh_change"
+                android:id="@+id/gbp_value"
                 android:gravity="center"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="25sp"
-            android:orientation="horizontal"
-            android:gravity="center" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:text="@string/stock_chuang_name"
-                android:textColor="@color/myGrey"
-                android:textStyle="bold"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/stock_chuang_index"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:id="@+id/stock_chuang_change"
-                android:gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="25sp"
-            android:orientation="horizontal"
-            android:gravity="center" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:text="@string/stock_hsi_name"
-                android:textColor="@color/myGrey"
-                android:textStyle="bold"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/stock_hsi_index"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:id="@+id/stock_hsi_change"
-                android:gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="25sp"
-            android:orientation="horizontal"
-            android:gravity="center" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:text="@string/stock_djia_name"
-                android:textColor="@color/myGrey"
-                android:textStyle="bold"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/stock_djia_index"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:id="@+id/stock_djia_change"
-                android:gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="25sp"
-            android:orientation="horizontal"
-            android:gravity="center" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:text="@string/stock_nsdk_name"
-                android:textColor="@color/myGrey"
-                android:textStyle="bold"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/stock_nsdk_index"
-                android:gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:id="@+id/stock_nsdk_change"
-                android:gravity="center"/>
-        </LinearLayout>
 
 
     </ViewFlipper>

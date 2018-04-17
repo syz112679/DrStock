@@ -155,5 +155,8 @@
     <!--TODO:-->
     <string name="text_precision_error">Invalid. The minimum amount is 0.01</string>
     <string name="text_the_exchange_rate">The real time exchange rate to HKD is: </string>
-
+    <!--currency-->
+    <string name="currency_usd_name">USD</string>
+    <string name="currency_rmb_name">RMB</string>
+    <string name="currency_gbp_name">GBP</string>
 </resources>
