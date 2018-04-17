@@ -121,6 +121,7 @@ public class MainActivity extends TitleActivity
     private static int count = 0;
     private static final int minPeriod = 2;
     public static boolean requireRefresh = false;
+    public static boolean isPaused = false;
 
     public static StockIndex stockIndex = new StockIndex();
     public static ExchangeRate exchangeRate = new ExchangeRate();
@@ -163,6 +164,7 @@ public class MainActivity extends TitleActivity
 //        setBackward(getResources().getDrawable(R.drawable.ic_settings_black_24dp), "");
         context = getApplicationContext();
 
+        isPaused = false;
         Log.d("mainActivity", "LIne 126");
         Timer timer = new Timer("RefreshStocks");
         timer.schedule(new TimerTask() {
@@ -358,6 +360,8 @@ public class MainActivity extends TitleActivity
         TextView gbp = findViewById(R.id.gbp_value);
 
         System.out.println("rmb: " + rmb);
+        if (rmb == null)
+            return;
 
         rmb.setText(exchangeRate_[exchangeRate.RMB][exchangeRate.HKD]);
         usd.setText(exchangeRate_[exchangeRate.USD][exchangeRate.HKD]);
@@ -449,6 +453,9 @@ public class MainActivity extends TitleActivity
             refreshStocks();
             return;
         }
+
+        if (isPaused)
+            return;
 
         switch (NetWorkUtils.getAPNType(context)) {
             case NetWorkUtils.networkNo:
@@ -702,8 +709,15 @@ public class MainActivity extends TitleActivity
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        isPaused = true;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        isPaused = false;
         Log.d("MainActivity", "onResume: called");
 
         refreshStocks();

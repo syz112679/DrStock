@@ -59,7 +59,6 @@ public class MainChatActivity extends AppCompatActivity {
                 sendMessage();
             }
         });
-
     }
 
     // Retrieve the display name from the Shared Preferences
