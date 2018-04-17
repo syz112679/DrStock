@@ -20,6 +20,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import android.widget.Toast;
+
+import io.reactivex.internal.util.ExceptionHelper;
 
 /**
  * Created by shiyuzhou on 5/4/2018.
@@ -29,15 +35,19 @@ public class EachStockActivity extends TitleActivity {
 
     public static String stockId_Market;
     public static Stock myStock;
+    public boolean invalidInput = false;
 
     private Button buyButton, sellButton;
     private ImageView addImg;
-    private Button backButton, forwardButton;
+    private RefreshLayout refreshLayout;
     private Button minBtn, oneMonthBtn, threeMonthBtn, oneYearBtn, threeYearBtn;
 
 
     public ViewPager mViewPager;
     public ChartPagerAdapter mAdapter;
+
+    public double exchangeRate = 1;
+    public boolean isHKstock = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +58,7 @@ public class EachStockActivity extends TitleActivity {
 //        setTitle("Each Stock");
 //        setTitleBackground(R.color.titleBarDemo);
 //        setTitleBackground(MainActivity.UpColor_);
-
+        invalidInput = false;
         showBackward(getDrawable(R.drawable.ic_return), true);
 
 //        setGridLayout();
@@ -60,13 +70,21 @@ public class EachStockActivity extends TitleActivity {
 
         System.out.println("stockId_Market: " + stockId_Market);
 
+        refreshLayout = findViewById(R.id.refreshLayout_eachStock);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                querySinaStocks(getEnqueryId(stockId_Market));
+                refreshlayout.finishRefresh(2000);
+            }
+        });
+
         addImg = findViewById(R.id.add_to_favorite);
         addImg.setOnClickListener(this);
         buyButton = findViewById(R.id.eachstock_buy_btn);
         buyButton.setOnClickListener(this);
         sellButton = findViewById(R.id.eachstock_sell_btn);
         sellButton.setOnClickListener(this);
-
 
         mAdapter = new ChartPagerAdapter(getSupportFragmentManager());
 
@@ -84,16 +102,6 @@ public class EachStockActivity extends TitleActivity {
         threeYearBtn = (Button) findViewById(R.id.three_year_btn);
         threeYearBtn.setOnClickListener(this);
 
-        // if it is favorited
-        int i=0;
-        for (String id: MainActivity.StockIds_) {
-            i++;
-            if(StockFragment.input2enqury(myStock.id_).equals( id) ) {
-                //TODO: it is favorited
-                System.out.println(" ****************it is favorited, i=" + i);
-            }
-        }
-
     }
 
 
@@ -108,8 +116,16 @@ public class EachStockActivity extends TitleActivity {
             case R.id.add_to_favorite:
                 Log.d("addstock", "here");
                 if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
-                    addStock(v);
-                    Toast.makeText(getApplicationContext(), R.string.toast_added_to_watchlist, Toast.LENGTH_SHORT).show();
+                    if(MainActivity.checkStatus(myStock.getEnqueryId())){
+                        removeStock(v);
+                        addImg.setImageResource(R.drawable.ic_favourite);
+                        Toast.makeText(getApplicationContext(), R.string.toast_delete_from_watchlist, Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        addStock(v);
+                        addImg.setImageResource(R.drawable.ic_favourite_solid);
+                        Toast.makeText(getApplicationContext(), R.string.toast_added_to_watchlist, Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
                 }
@@ -135,7 +151,11 @@ public class EachStockActivity extends TitleActivity {
                     Log.d("buy btn", "buy btn pressed");
                     AlertDialog.Builder alert = new AlertDialog.Builder(this);
                     final EditText edittext = new EditText(this);
-                    alert.setMessage(R.string.enter_the_amount_buy);
+                    String message = "\n" + getString(R.string.enter_the_amount_buy) + "\n";
+                    if(!isHKstock) {
+                        message += getString(R.string.text_the_exchange_rate) + " " + String.format("%.3f", exchangeRate) + "HKD";
+                    }
+                    alert.setMessage(message);
                     alert.setTitle(R.string.buy);
 
                     alert.setView(edittext);
@@ -147,15 +167,19 @@ public class EachStockActivity extends TitleActivity {
 
                             double amount = Double.parseDouble(input);
                             double price = Double.parseDouble(myStock.getCurrentPrice_());
+                            double precision = amount - ((int) amount);
                             if(amount<=0) {
                                 Toast.makeText(getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
                             } else if(amount*price > MainActivity.mBalance){
                                 Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_enough_money, Toast.LENGTH_SHORT).show();
                                 Log.d("EachStockActivity", "your money:" + MainActivity.mMoney + ", needed:" + amount*price);
+                            } else if(precision < 0.01 && precision > 0){
+                                Toast.makeText(getApplicationContext(), R.string.text_precision_error, Toast.LENGTH_SHORT).show();
                             } else {
 
                                 StockSnippet newStock = new StockSnippet(myStock.id_, price, amount);
-                                MainActivity.mBalance -= amount*price;
+                                double cost = amount*price*exchangeRate;
+                                MainActivity.mBalance -= cost;
                                 boolean found = false;
                                 for(int i=0; i<MainActivity.mStockRecords.size(); i++) {
                                     if(MainActivity.mStockRecords.get(i).getId().equals(myStock.id_)) {
@@ -173,7 +197,7 @@ public class EachStockActivity extends TitleActivity {
                                     MainActivity.stockMap_.put(myStock.id_, myStock);
 //                                MainActivity.requireRefresh = true;
                                 }
-                                Toast.makeText(getApplicationContext(), R.string.toast_buy_successfully, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.toast_buy_successfully) + String.valueOf(cost), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -197,7 +221,11 @@ public class EachStockActivity extends TitleActivity {
                     boolean sellFailure = false;
                     AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
                     final EditText edittext2 = new EditText(this);
-                    alert2.setMessage(R.string.enter_the_amount_sell);
+                    String message = "\n" + getString(R.string.enter_the_amount_sell) + "\n";
+                    if(!isHKstock) {
+                        message += getString(R.string.text_the_exchange_rate) + " " + String.format("%.3f", exchangeRate) + "HKD";
+                    }
+                    alert2.setMessage(message);
                     alert2.setTitle(R.string.sell);
 
                     alert2.setView(edittext2);
@@ -208,41 +236,45 @@ public class EachStockActivity extends TitleActivity {
                             Log.d("Alert","input is " + input);
                             double amount = Double.parseDouble(input);
                             double price = Double.parseDouble(myStock.getCurrentPrice_());
-
-                            boolean found =false;
-                            int i=0;
-                            for(; i<MainActivity.mStockRecords.size(); i++) {
-                                if(MainActivity.mStockRecords.get(i).getId().equals(myStock.id_)) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if(!found) {
-                                Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_this_stock, Toast.LENGTH_SHORT).show();
+                            double precision = amount - ((int) amount);
+                            if(precision < 0.01 && precision > 0){
+                                Toast.makeText(getApplicationContext(), R.string.text_precision_error, Toast.LENGTH_SHORT).show();
                             } else {
-                                if(amount > MainActivity.mStockRecords.get(i).getAmount()) {
-                                    Toast.makeText(getApplicationContext(), R.string.toast_you_cant_sell_more_than_you_have, Toast.LENGTH_SHORT).show();
-                                } else {
-                                    double oldamount = MainActivity.mStockRecords.get(i).getAmount();
-                                    double oldprice = MainActivity.mStockRecords.get(i).getBoughtPrice();
-                                    double earning = amount*price - amount*oldprice;
-                                    MainActivity.mStockRecords.get(i).setAmount(oldamount - amount);
-                                    MainActivity.mBalance += amount*price;
-                                    MainActivity.mMoney += earning;
-                                    MainActivity.mEarning += earning;
-                                    if(earning >=0 ) {
-                                        Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " +  String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
-                                        System.out.println(R.string.toast_you_have_earned + " " + String.valueOf(earning));
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    if(oldamount == amount) {
-                                        MainActivity.mStockRecords.remove(i);
+                                boolean found =false;
+                                int i=0;
+                                for(; i<MainActivity.mStockRecords.size(); i++) {
+                                    if(MainActivity.mStockRecords.get(i).getId().equals(myStock.id_)) {
+                                        found = true;
+                                        break;
                                     }
                                 }
-                            }
+                                if(!found) {
+                                    Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_this_stock, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    if(amount > MainActivity.mStockRecords.get(i).getAmount()) {
+                                        Toast.makeText(getApplicationContext(), R.string.toast_you_cant_sell_more_than_you_have, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        double oldamount = MainActivity.mStockRecords.get(i).getAmount();
+                                        double oldprice = MainActivity.mStockRecords.get(i).getBoughtPrice();
+                                        double earning = amount*price*exchangeRate - amount*oldprice*exchangeRate;
+                                        MainActivity.mStockRecords.get(i).setAmount(oldamount - amount);
+                                        MainActivity.mBalance += amount*price*exchangeRate;
+                                        MainActivity.mMoney += earning;
+                                        MainActivity.mEarning += earning;
+                                        if(earning >=0 ) {
+                                            Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " +  String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
+                                            System.out.println(R.string.toast_you_have_earned + " " + String.valueOf(earning));
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
+                                        }
 
+                                        if(oldamount == amount) {
+                                            MainActivity.mStockRecords.remove(i);
+                                        }
+                                    }
+                                }
+
+                            }
                         }
                     });
 
@@ -270,6 +302,14 @@ public class EachStockActivity extends TitleActivity {
         System.out.println("StockIds_: " + MainActivity.getStockIds_() + ";");
     }
 
+    public void removeStock(View v) {
+        MainActivity.removeStockIds_(myStock.getEnqueryId());
+
+
+        System.out.println("remove favourite: " + myStock.getEnqueryId() + ";");
+        System.out.println("StockIds_: " + MainActivity.getStockIds_() + ";");
+    }
+
     public String getEnqueryId(String stockI_M) {
         System.out.println("stockI_M: " + stockI_M);
 
@@ -278,7 +318,6 @@ public class EachStockActivity extends TitleActivity {
         if (stockI_Ms.length == 1) {            // if stockI_M is already the enquryId
             return stockI_M;
         }
-
 
         if (stockI_Ms[1].equals("US")) {
             return "gb_" + stockI_Ms[0];
@@ -290,14 +329,25 @@ public class EachStockActivity extends TitleActivity {
     public void querySinaStocks(String queryId) {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://hq.sinajs.cn/list=" + queryId;
+        System.out.println("---------url: " + url);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("", "---------response:\n" + response + "------------\n");
-                        sinaResponseToStocks(response);
+                        System.out.println("---------response:\n" + response + "------------\n");
+//                        Log.d("", "---------response:\n" + response + "------------\n");
+                        String right = response.split("=")[1];
+                        System.out.println("right: " + right);
+                        if (right.equals("\"\";\n") || right.equals("\"FAILED\";\n")) {
+                            invalidInput = true;
+                            Toast.makeText(getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            invalidInput = false;
+                            sinaResponseToStocks(response);
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -315,6 +365,43 @@ public class EachStockActivity extends TitleActivity {
         Stock stockNow = new Stock(response);
 
         myStock = stockNow;
+
+        // if it is favorited
+        int i=0;
+        for (String id: MainActivity.getStockIds_()) {
+            i++;
+            if(StockFragment.input2enqury(myStock.id_).equals( id) ) {
+                addImg.setImageResource(R.drawable.ic_favourite_solid);
+                System.out.println(" ****************it is favorited, i=" + i);
+            }
+        }
+
+        //TODO: get exchangeRate
+        switch (myStock.marketId_) {
+            case "US":
+                Log.d("EachStockActivity", "US market stock");
+                exchangeRate = Double.parseDouble(MainActivity.exchangeRate_[ExchangeRate.HKD][ExchangeRate.USD]) / 100;
+                isHKstock = false;
+                break;
+            case "SZ":
+                Log.d("EachStockActivity", "SZ market stock");
+                exchangeRate = Double.parseDouble(MainActivity.exchangeRate_[ExchangeRate.HKD][ExchangeRate.RMB]) / 100;
+                isHKstock = false;
+                break;
+            case "SH":
+                Log.d("EachStockActivity", "SH market stock");
+                exchangeRate = Double.parseDouble(MainActivity.exchangeRate_[ExchangeRate.HKD][ExchangeRate.RMB]) / 100;
+                isHKstock = false;
+                break;
+            case "HK":
+                Log.d("EachStockActivity", "HK market stock");
+                exchangeRate = 1;
+                isHKstock = true;
+                break;
+
+        }
+
+
 
         setupViewPager(mViewPager);
         setViewPager(0);
@@ -373,6 +460,16 @@ public class EachStockActivity extends TitleActivity {
             currentPrice.setTextColor(MainActivity.DownColor_);
             priceChange.setTextColor(MainActivity.DownColor_);
             changePercent.setTextColor(MainActivity.DownColor_);
+        }
+
+        // if it is favorited
+        int i=0;
+        for (String id: MainActivity.getStockIds_()) {
+            i++;
+            if(StockFragment.input2enqury(myStock.id_).equals( id) ) {
+                //TODO: it is favorited
+                System.out.println(" ****************it is favorited, i=" + i);
+            }
         }
     }
 

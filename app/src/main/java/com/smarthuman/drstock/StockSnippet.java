@@ -6,9 +6,11 @@ package com.smarthuman.drstock;
 
 public class StockSnippet {
     private String id;
+    private String name;
     private double boughtPrice;
     private double amount;
     private double currentPrice;
+    private String currency;
 
 
 
@@ -50,7 +52,7 @@ public class StockSnippet {
         this.amount = amount;
     }
 
-    // TODO: get current Price
+
     public double getCurrentPrice() {
 
         Stock stock = MainActivity.stockMap_.get(id);
@@ -59,13 +61,22 @@ public class StockSnippet {
         return Double.parseDouble(stock.getCurrentPrice_());
     }
 
-    // TODO: get Stock Name
+
     public String getName() {
 
         Stock stock = MainActivity.stockMap_.get(id);
         if(stock == null)
             return "-";
-        return stock.name_;
+        name = stock.name_;
+        return name;
+    }
+
+    public String getCurrency() {
+        Stock stock = MainActivity.stockMap_.get(id);
+        if(stock == null)
+            return "-";
+        currency = stock.getCurrency();
+        return currency;  //HKD USD CNY
     }
 
     public void setCurrentPrice(double currentPrice) {

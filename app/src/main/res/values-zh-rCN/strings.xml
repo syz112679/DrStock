@@ -55,6 +55,9 @@
     <string name="stock_sh_name">上证指数</string>
     <string name="stock_sz_name">深证成指</string>
     <string name="stock_chuang_name">创业板指</string>
+    <string name="stock_hsi_name">恒生指数</string>
+    <string name="stock_djia_name">道琼斯</string>
+    <string name="stock_nsdk_name">纳斯达克</string>
     <string name="stock_buy">买入</string>
     <string name="stock_sell">卖出</string>
 
@@ -117,9 +120,11 @@
     <string name="toast_buy_successfully">成功购买!</string>
     <string name="toast_sorry_only_hk_graph">抱歉，当前账户仅限查阅港股行情图.</string>
     <string name="toast_added_to_watchlist">成功添加</string>
+    <string name="toast_delete_from_watchlist">成功移除</string>
+
     <string name="toast_error">错误</string>
 
-
+    <string name="toast_signin_first">请先登录.</string>
 
     <string name="enter_the_amount_sell">请输入您想卖出的股票数额</string>
     <string name="enter_the_amount_buy">请输入您想买入的股票数额</string>
@@ -140,8 +145,15 @@
 
     <!--newly add-->
     <string name="text_stock_id">股票代码</string>
-    <string name="text_stock_name">股票名称e</string>
+    <string name="text_stock_name">股票名称</string>
     <string name="text_current_Price">现价</string>
     <string name="text_amount">数量</string>
     <string name="text_bought_price">买入价格</string>
+    <!--TODO:-->
+    <string name="text_precision_error">无效.最低金额应为0.01</string>
+    <string name="text_the_exchange_rate">实时汇率（兑为港币）: </string>
+    <!--currency-->
+    <string name="currency_usd_name">美元</string>
+    <string name="currency_rmb_name">人民币</string>
+    <string name="currency_gbp_name">英镑</string>
 </resources>

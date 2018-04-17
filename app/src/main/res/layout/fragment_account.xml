@@ -72,19 +72,19 @@
 
     </TableLayout>
 
-    <TableLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
-        <TableRow>
             <Button
                 android:id="@+id/add_money_btn"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:alpha="0.75"
                 android:background="@drawable/button3"
+                android:layout_alignParentLeft="true"
                 android:onClick="addMoney"
                 android:text="@string/add_money"
                 android:textColor="@color/myWhite"
@@ -92,39 +92,31 @@
 
             <Button
                 android:id="@+id/display_my_stock"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:layout_marginLeft="50dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:background="@drawable/button2"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="20dp"
                 android:onClick="myStock"
                 android:text="@string/my_stocks"
                 android:textSize="18sp"
                 android:textColor="@color/myWhite"
                 android:alpha="0.75"/>
-        </TableRow>
 
-    </TableLayout>
+    </RelativeLayout>
 
-    <TableLayout
+    <Button
+        android:id="@+id/user_sign_out"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:alpha="0.75"
+        android:background="@drawable/button1"
+        android:onClick="signOut"
+        android:text="@string/action_sign_out"
+        android:textColor="@color/myWhite"
+        android:textSize="18sp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <TableRow>
-            <Button
-                android:id="@+id/user_sign_out"
-                android:layout_width="370dp"
-                android:layout_height="160dp"
-                android:alpha="0.75"
-                android:background="@drawable/button1"
-                android:onClick="signOut"
-                android:text="@string/action_sign_out"
-                android:textColor="@color/myWhite"
-                android:textSize="18sp" />
-        </TableRow>
-    </TableLayout>
+        android:layout_marginRight="20dp"/>
 
-
-
-</LinearLayout>
+    </LinearLayout>

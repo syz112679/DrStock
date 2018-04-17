@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -73,6 +74,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
@@ -99,25 +101,30 @@ public class MainActivity extends TitleActivity
 
     public final static String searchHistoryKey_ = "SearchHistory";
     public static HashSet<String> searchHistory  = new HashSet<>();
-    public final static String StockIdsKey_ = "StockIds";
-    public static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
-    public static TreeMap<String, Stock> stockMap_ = new TreeMap<>();
+    private final static String StockIdsKey_ = "StockIds";
+    private static HashSet<String> StockIds_ = new HashSet<>();        // [sz000001] [hk02318] [gb_lx]
+    public static TreeMap<String, Stock> stockMap_ = new TreeMap<>();   // inputId -> Stock
 
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
-    public static int UpColor_ = Color.rgb(0, 153, 102);
-    public static int DownColor_ = Color.rgb(255, 102, 102);
+    public static final int Green = Color.rgb(0, 153, 102);
+    public static final int Red = Color.rgb(255, 102, 102);
+    public static int UpColor_ = Green;
+    public static int DownColor_ = Red;
 
     public static boolean enableMobileRefresh = true;
     public static int mobileRefreshTime = 15;
     public static boolean enableWifiRefresh = true;
-    public static int wifiRefreshTime = 5;
+    public static int wifiRefreshTime = 15;
     private Context context;
 
     private static int count = 0;
     private static final int minPeriod = 2;
     public static boolean requireRefresh = false;
 
+    public static StockIndex stockIndex = new StockIndex();
+    public static ExchangeRate exchangeRate = new ExchangeRate();
+    public static String[][] exchangeRate_ = new String[exchangeRate.currencyCount][exchangeRate.currencyCount];
     //--------------------------------------------------------------------------------------------------
 
     public static FirebaseUser mfirebaseUser;
@@ -194,8 +201,16 @@ public class MainActivity extends TitleActivity
         mSectionStatePagerAdapter = new SectionStatePagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.fragment_container);
 
-        setupViewPager(mViewPager);
+        mViewPager.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                return true;
+            }
+        });
 
+        setupViewPager(mViewPager);
 
         mAuth = FirebaseAuth.getInstance();
         //mAuth.signOut();
@@ -203,6 +218,7 @@ public class MainActivity extends TitleActivity
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         if (mfirebaseUser != null) {
+            System.out.println("mfirebaseUser: " + mfirebaseUser);
             updateUserInfo();
         }
 
@@ -223,6 +239,23 @@ public class MainActivity extends TitleActivity
         System.out.println("addStockIds_:" + StockIds_ + ";");
     }
 
+    public static void removeStockIds_(String stockIds_) {
+        if (stockIds_ == null)
+            return;
+        StockIds_.remove(stockIds_);
+        mFavorites=new ArrayList<>(StockIds_);
+        System.out.println("removeStockIds_:" + StockIds_ + ";");
+    }
+
+    public static boolean checkStatus(String stockIds_){
+        for (String id : StockIds_) {
+            if(stockIds_.compareTo(id) == 0)
+                return true;
+        }
+        return false;
+    }
+
+
 //    @Override
 //    public void setTitle(int titleId) {
 //        TextView temp = (TextView) findViewById(R.id.text_title);
@@ -241,7 +274,7 @@ public class MainActivity extends TitleActivity
     @Override
     protected void onBackward(View backwardView) {
 //        Log.d("each", "onBackward");
-        Toast.makeText(this, "点击返回，可在此处调用finish()", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "点击返回", Toast.LENGTH_LONG).show();
         startActivity(new Intent(this, SettingActivity.class));
     }
 
@@ -278,23 +311,57 @@ public class MainActivity extends TitleActivity
     public TreeMap<String, Stock> sinaResponseToStocks(String response) {
         response = response.replaceAll("\n", "");
         String[] stocks = response.split(";");
-//        System.out.println("---------stocks:");
-//        for(String s:stocks) {
-//            System.out.println(s);
-//        }
-//        System.out.println("---------");
+        String test = stocks[0].split("=")[1];
+        if (test.equals("\"\";\n") || test.equals("\"FAILED\";\n")) {
+            return null;
+        }
 
         TreeMap<String, Stock> stockMap = new TreeMap<>();
-        for (String stock : stocks) {
-            Stock stockNow = new Stock(stock);
+        String indexResponse = "", exchangeRateResponse = "";
+        for (int i = 0; i < stocks.length; i++) {
+            if (i < StockIndex.totalNum) {
+                indexResponse += stocks[i] + ";";
+                continue;
+            }
+            if (i < StockIndex.totalNum + 3) {
+                exchangeRateResponse += stocks[i] + ";";
+                continue;
+            }
+
+            //判断是否为：
+            //var hq_str_sz0=""
+            System.out.println("each Stock: " + stocks[i]);
+            Stock stockNow = new Stock(stocks[i]);
+            if (stockNow.id_ == null) {
+                continue;
+            }
             stockMap.put(stockNow.id_, stockNow);           // lx -> Stock
+
         }
+        stockIndex.updateIdex(indexResponse);
+        updateIndexView();
+
+        exchangeRate.updateExchangeRate(exchangeRateResponse);
+        exchangeRate_ = exchangeRate.getExchangeRate_();
+        updateFlipper();
 
         stockMap_ = stockMap;
 
         System.out.println("-------------stockMap:\n" + stockMap + "----------");
 
         return stockMap;
+    }
+
+    public void updateFlipper() {
+        TextView rmb = findViewById(R.id.rmb_value);
+        TextView usd = findViewById(R.id.usd_value);
+        TextView gbp = findViewById(R.id.gbp_value);
+
+        System.out.println("rmb: " + rmb);
+
+        rmb.setText(exchangeRate_[exchangeRate.RMB][exchangeRate.HKD]);
+        usd.setText(exchangeRate_[exchangeRate.USD][exchangeRate.HKD]);
+        gbp.setText(exchangeRate_[exchangeRate.GBP][exchangeRate.HKD]);
     }
 
     public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
@@ -317,6 +384,7 @@ public class MainActivity extends TitleActivity
                         System.out.println(response);
                         System.out.println("*****************************************************************");
                         updateStockListView(sinaResponseToStocks(response));
+                        //updateIndexView();
                     }
                 },
                 new Response.ErrorListener() {
@@ -328,11 +396,18 @@ public class MainActivity extends TitleActivity
         queue.add(stringRequest);
     }
 
-    public void setStockRecords(String ids) {
-        for (StockSnippet ss : mStockRecords) {
-            System.out.println("ss.getId():" + ss.getId());
-            ids += ss.getId() + ",";
+    public String getStockRecords() {
+        String bought = "", enquiry = "";
+        // check every time to remove 00000
+        if(!mStockRecords.isEmpty() && mStockRecords.get(0).getId().equals("00000")) {
+            mStockRecords.remove(0);
         }
+        for (StockSnippet ss : mStockRecords) {
+            enquiry = StockFragment.input2enqury(ss.getId());
+            System.out.println("ss.getId():" + enquiry);
+            bought += enquiry + ",";
+        }
+        return bought;
     }
 
     public void refreshStocks() {
@@ -344,13 +419,26 @@ public class MainActivity extends TitleActivity
 //        if (StockIds_.size() == 0)
 //            return;
 
-        String ids = "";
+        String ids = stockIndex.enquiryId; // 1.
+        ids += exchangeRate.enquiryId; // 2.
+        // check every time to remove placeholder
+        if(!mFavorites.isEmpty() && mFavorites.get(0).equals("placeholder")) {
+
+            mFavorites.remove(0);
+        }
+
+        if (!mFavorites.isEmpty())
+            System.out.println("mFavorites.get(0): "+mFavorites.get(0));
+
+        StockIds_ = new HashSet<>(mFavorites);
+
         for (String id : StockIds_) {
             ids += id;
             ids += ",";
         }
 
-        setStockRecords(ids);
+        ids += getStockRecords(); // 4.
+
         System.out.println("ids: " + ids);
 
         querySinaStocks(ids);
@@ -380,6 +468,53 @@ public class MainActivity extends TitleActivity
         }
     }
 
+    public void updateIndexView() {
+        StockIndex.Index index;
+        LinearLayout eachLinearLayout;
+
+        index = StockIndex.indexTreeMap.get("s_sh000001");
+        eachLinearLayout = findViewById(R.id.sh_index);
+        ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        for (int i = 1; i <= 2; i++)
+            ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
+
+        index = StockIndex.indexTreeMap.get("s_sz399001");
+        eachLinearLayout = findViewById(R.id.sz_index);
+        ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        for (int i = 1; i <= 2; i++)
+            ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
+
+        index = StockIndex.indexTreeMap.get("s_sz399006");
+        eachLinearLayout = findViewById(R.id.chuang_index);
+        ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        for (int i = 1; i <= 2; i++)
+            ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
+
+        index = StockIndex.indexTreeMap.get("int_hangseng");
+        eachLinearLayout = findViewById(R.id.hsi_index);
+        ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        for (int i = 1; i <= 2; i++)
+            ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
+
+        index = StockIndex.indexTreeMap.get("int_dji");
+        eachLinearLayout = findViewById(R.id.djia_index);
+        ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        for (int i = 1; i <= 2; i++)
+            ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
+
+        index = StockIndex.indexTreeMap.get("int_nasdaq");
+        eachLinearLayout = findViewById(R.id.nsdk_index);
+        ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        for (int i = 1; i <= 2; i++)
+            ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
+    }
+
     protected void updateStockListView(TreeMap<String, Stock> stockMap) {
 
         // Table
@@ -391,73 +526,49 @@ public class MainActivity extends TitleActivity
         table.removeAllViews();
 
         // Title
-//        TableRow rowTitle = new TableRow(this);
-//
-//        TextView nameTitle = new TextView(this);
-//        nameTitle.setText(getResources().getString(R.string.stock_name_title));
-//        rowTitle.addView(nameTitle);
-//
-//        TextView nowTitle = new TextView(this);
-//        nowTitle.setGravity(Gravity.CENTER);
-//        nowTitle.setText(getResources().getString(R.string.stock_now_title));
-//        rowTitle.addView(nowTitle);
-//
-//        TextView percentTitle = new TextView(this);
-//        percentTitle.setGravity(Gravity.CENTER);
-//        percentTitle.setText(getResources().getString(R.string.stock_increase_percent_title));
-//        rowTitle.addView(percentTitle);
-//
-//        TextView increaseTitle = new TextView(this);
-//        increaseTitle.setGravity(Gravity.CENTER);
-//        increaseTitle.setText(getResources().getString(R.string.stock_increase_title));
-//        rowTitle.addView(increaseTitle);
-//
-//        table.addView(rowTitle);
+        TableRow rowTitle = new TableRow(this);
+
+        TextView nameTitle = new TextView(this);
+        nameTitle.setText(getResources().getString(R.string.stock_name_title));
+        rowTitle.addView(nameTitle);
+
+        TextView nowTitle = new TextView(this);
+        nowTitle.setGravity(Gravity.RIGHT);
+        nowTitle.setText(getResources().getString(R.string.stock_now_title));
+        rowTitle.addView(nowTitle);
+
+        TextView percentTitle = new TextView(this);
+        percentTitle.setGravity(Gravity.RIGHT);
+        percentTitle.setText(getResources().getString(R.string.stock_increase_percent_title));
+        rowTitle.addView(percentTitle);
+
+        TextView increaseTitle = new TextView(this);
+        increaseTitle.setGravity(Gravity.RIGHT);
+        increaseTitle.setText(getResources().getString(R.string.stock_increase_title));
+        rowTitle.addView(increaseTitle);
+
+        table.addView(rowTitle);
 
         //
 
+        if (stockMap == null) {
+            stockMap = stockMap_;
+        }
         Collection<Stock> stocks = stockMap.values();
 
         for (Stock stock : stocks) {
-//            System.out.println("Stock stock");
-//            if (stock.id_.equals(ShIndex) || stock.id_.equals(SzIndex) || stock.id_.equals(ChuangIndex)) {
-//                Float dNow = Float.parseFloat(stock.now_);
-//                Float dYesterday = Float.parseFloat(stock.yesterday_);
-//                Float dIncrease = dNow - dYesterday;
-//                Float dPercent = dIncrease / dYesterday * 100;
-//                String change = String.format("%.2f", dPercent) + "% " + String.format("%.2f", dIncrease);
-//
-//                int indexId;
-//                int changeId;
-//                if (stock.id_.equals(ShIndex)) {
-//                    indexId = R.id.stock_sh_index;
-//                    changeId = R.id.stock_sh_change;
-//                } else if (stock.id_.equals(SzIndex)) {
-//                    indexId = R.id.stock_sz_index;
-//                    changeId = R.id.stock_sz_change;
-//                } else {
-//                    indexId = R.id.stock_chuang_index;
-//                    changeId = R.id.stock_chuang_change;
-//                }
-//
-//                TextView indexText = (TextView) v.findViewById(indexId);
-//                indexText.setText(stock.now_);
-//                int color = Color.BLACK;
-//                //System.out.println("-----|" + dIncrease + "|------");
-//                if (dIncrease > 0) {
-//                    color = UpColor_;
-//                } else if (dIncrease < 0) {
-//                    color = DownColor_;
-//                }
-//                //System.out.println("-----|" + color + "|------");
-//                indexText.setTextColor(color);
-//
-//                TextView changeText = (TextView) v.findViewById(changeId);
-//                changeText.setText(change);
-//                changeText.setTextColor(color);
-//
-//                continue;
-//            }
+            boolean isIn = false;
+            for (String s : StockIds_) {
+                System.out.println("s: " + s + "; id_:" + stock.id_);
+                if (s.equals(StockFragment.input2enqury(stock.id_))) {
+                    isIn = true;
+                    break;
+                }
+            }
+            System.out.println("isIn: " + isIn);
+            if (!isIn) {
+                continue;
+            }
 
             TableRow row = new TableRow(this);
             row.setMinimumHeight(200); //////////////////////////////////////////////
@@ -489,7 +600,7 @@ public class MainActivity extends TitleActivity
             increaseValue.setGravity(Gravity.RIGHT);
 
             percent.setText(stock.getChangePercent() + "%");
-            increaseValue.setText("--");
+            increaseValue.setText(stock.getPriceChange());
             int color = Color.BLACK;
             if (stock.isRising()) {
                 color = UpColor_;
@@ -570,33 +681,6 @@ public class MainActivity extends TitleActivity
 
         return true;
     }
-
-//    public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
-//
-//        // Instantiate the RequestQueue.
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url = "http://hq.sinajs.cn/list=" + list;
-//        //http://hq.sinajs.cn/list=sh600000,sh600536
-//
-//        // Request a string response from the provided URL.
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-////                        System.out.println("***************************Response**************************");
-////                        System.out.println(response);
-////                        System.out.println("*****************************************************************");
-//                        searchHistory = StockFragment.sinaResponseToStocks(response);
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                    }
-//                });
-//
-//        queue.add(stringRequest);
-//    }
 
     public void setupViewPager(ViewPager viewPager) {
         SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());
@@ -692,7 +776,6 @@ public class MainActivity extends TitleActivity
             userInfo.setEarning(mEarning);
             userInfo.setSuperUser(false);
 
-
             mDatabaseReference.child("users").child(mUid).setValue(userInfo);
 
         }
@@ -734,6 +817,7 @@ public class MainActivity extends TitleActivity
             mStockRecords.remove(0);
         }
 
+        System.out.println("mFavorites: " + mFavorites);
         System.out.println("mStockRecords: " + mStockRecords);
 
         if(mFavorites!=null)

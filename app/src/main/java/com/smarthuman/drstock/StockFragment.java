@@ -1,25 +1,16 @@
 package com.smarthuman.drstock;
 
-import android.Manifest;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SyncStatusObserver;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,64 +19,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.TreeMap;
-import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.TreeMap;
-import java.util.Vector;
-import java.util.concurrent.TimeUnit;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -99,9 +42,6 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
-import static android.content.Context.NOTIFICATION_SERVICE;
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
-
 //--------------------------------------------------------------------------------------------------
 
 
@@ -114,7 +54,8 @@ public class StockFragment extends Fragment implements View.OnClickListener {
     private final static String SzIndex = "sz399001";
     private final static String ChuangIndex = "sz399006";
     private final static String StockIdsKey_ = "StockIds";
-    private Button addStockBtn;
+    private Button searchBtn;
+    private RefreshLayout refreshLayout;
     private View v;
 
 //    public static HashSet<String> MainActivity.StockIds_ = new HashSet();  // [sz000001] [hk02318] [gb_lx]
@@ -128,8 +69,18 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         initEdt();
         initPop();
 
-        addStockBtn = v.findViewById(R.id.stockFrag_searchStock);
-        addStockBtn.setOnClickListener(this);
+        searchBtn = v.findViewById(R.id.stockFrag_searchStock);
+        searchBtn.setOnClickListener(this);
+
+        refreshLayout = v.findViewById(R.id.refreshLayout_stockFragment);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                MainActivity.requireRefresh = true;
+                System.out.println("requireRefresh: " + MainActivity.requireRefresh);
+                refreshlayout.finishRefresh(2000);
+            }
+        });
 
 //        refreshStocks();
 
@@ -160,7 +111,6 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.menu_main, menu);
     }
-
 
 
 //    @Override
@@ -242,6 +192,10 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         EditText editText = (EditText) v.findViewById(R.id.editText_stockId);
         String inputID = editText.getText().toString();
         String enquryId = input2enqury(inputID);
+        if (enquryId == null) {
+            Toast.makeText(getActivity().getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         MainActivity.searchHistory.add(enquryId);
         System.out.println("--------searchHistory:");
@@ -419,6 +373,6 @@ public class StockFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)getActivity()).refreshStocks();
+        MainActivity.requireRefresh=true;
     }
 }

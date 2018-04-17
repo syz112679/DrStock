@@ -28,7 +28,10 @@
 
             <TextView />
 
-            <TextView />
+            <TextView
+                android:id="@+id/textView_risingColour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <Switch
                 android:id="@+id/switch_risingColour"

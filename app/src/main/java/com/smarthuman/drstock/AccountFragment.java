@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,6 +115,9 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
             case R.id.display_my_stock:
                 //Toast.makeText(getActivity(), "To My Stocks...", Toast.LENGTH_SHORT).show();
                 ((MainActivity)getActivity()).setViewPager(4);
+//                FragmentManager fm = getFragmentManager();
+//                MyStockListFragment fragm = (MyStockListFragment)fm.findFragmentByTag("StockListFragment");
+//                fragm.notifyAdapter();
                 break;
 
             case R.id.no_user_sign_in:

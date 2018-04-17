@@ -55,6 +55,9 @@
     <string name="stock_sh_name">上證指數</string>
     <string name="stock_sz_name">深證成指</string>
     <string name="stock_chuang_name">創業板指</string>
+    <string name="stock_hsi_name">恆生指數</string>
+    <string name="stock_djia_name">道瓊斯</string>
+    <string name="stock_nsdk_name">納斯達克</string>
     <string name="stock_buy">買入</string>
     <string name="stock_sell">賣出</string>
 
@@ -117,9 +120,10 @@
     <string name="toast_buy_successfully">成功購買!</string>
     <string name="toast_sorry_only_hk_graph">抱歉，當前帳戶僅限查閱港股行情圖.</string>
     <string name="toast_added_to_watchlist">成功添加</string>
+    <string name="toast_delete_from_watchlist">成功移除</string>
     <string name="toast_error">錯誤</string>
 
-
+    <string name="toast_signin_first">請先登錄.</string>
 
     <string name="enter_the_amount_sell">請輸入您想賣出的股票數額</string>
     <string name="enter_the_amount_buy">請輸入您想買入的股票數額</string>
@@ -144,4 +148,12 @@
     <string name="text_current_Price">現價</string>
     <string name="text_amount">數量</string>
     <string name="text_bought_price">買入價格</string>
+
+    <!--TODO:-->
+    <string name="text_precision_error">無效.最低金額應為0.01</string>
+    <string name="text_the_exchange_rate">實時匯率（兌為港幣）: </string>
+    <!--currency-->
+    <string name="currency_usd_name">美元</string>
+    <string name="currency_rmb_name">人民幣</string>
+    <string name="currency_gbp_name">英鎊</string>
 </resources>
