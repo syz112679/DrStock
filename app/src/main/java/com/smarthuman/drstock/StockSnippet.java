@@ -6,6 +6,7 @@ package com.smarthuman.drstock;
 
 public class StockSnippet {
     private String id;
+    private String name;
     private double boughtPrice;
     private double amount;
     private double currentPrice;
@@ -65,7 +66,8 @@ public class StockSnippet {
         Stock stock = MainActivity.stockMap_.get(id);
         if(stock == null)
             return "-";
-        return stock.name_;
+        name = stock.name_;
+        return name;
     }
 
     public void setCurrentPrice(double currentPrice) {

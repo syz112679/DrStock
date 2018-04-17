@@ -43,6 +43,9 @@ public class EachStockActivity extends TitleActivity {
     public ViewPager mViewPager;
     public ChartPagerAdapter mAdapter;
 
+    public double exchangeRate = 1;
+    public boolean isHKstock = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +99,8 @@ public class EachStockActivity extends TitleActivity {
         threeYearBtn = (Button) findViewById(R.id.three_year_btn);
         threeYearBtn.setOnClickListener(this);
 
+
+
     }
 
 
@@ -145,7 +150,11 @@ public class EachStockActivity extends TitleActivity {
                     Log.d("buy btn", "buy btn pressed");
                     AlertDialog.Builder alert = new AlertDialog.Builder(this);
                     final EditText edittext = new EditText(this);
-                    alert.setMessage(R.string.enter_the_amount_buy);
+                    String message = "\n" + getString(R.string.enter_the_amount_buy) + "\n";
+                    if(!isHKstock) {
+                        message += getString(R.string.text_the_exchange_rate) + " " + exchangeRate + "HKD";
+                    }
+                    alert.setMessage(message);
                     alert.setTitle(R.string.buy);
 
                     alert.setView(edittext);
@@ -157,11 +166,14 @@ public class EachStockActivity extends TitleActivity {
 
                             double amount = Double.parseDouble(input);
                             double price = Double.parseDouble(myStock.getCurrentPrice_());
+                            double precision = amount - ((int) amount);
                             if(amount<=0) {
                                 Toast.makeText(getApplicationContext(), R.string.toast_invalid_input, Toast.LENGTH_SHORT).show();
                             } else if(amount*price > MainActivity.mBalance){
                                 Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_enough_money, Toast.LENGTH_SHORT).show();
                                 Log.d("EachStockActivity", "your money:" + MainActivity.mMoney + ", needed:" + amount*price);
+                            } else if(precision < 0.01){
+                                Toast.makeText(getApplicationContext(), R.string.text_precision_error, Toast.LENGTH_SHORT).show();
                             } else {
 
                                 StockSnippet newStock = new StockSnippet(myStock.id_, price, amount);
@@ -207,7 +219,11 @@ public class EachStockActivity extends TitleActivity {
                     boolean sellFailure = false;
                     AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
                     final EditText edittext2 = new EditText(this);
-                    alert2.setMessage(R.string.enter_the_amount_sell);
+                    String message = "\n" + getString(R.string.enter_the_amount_sell) + "\n";
+                    if(!isHKstock) {
+                        message += getString(R.string.text_the_exchange_rate) + " " + exchangeRate + "HKD";
+                    }
+                    alert2.setMessage(message);
                     alert2.setTitle(R.string.sell);
 
                     alert2.setView(edittext2);
@@ -218,41 +234,45 @@ public class EachStockActivity extends TitleActivity {
                             Log.d("Alert","input is " + input);
                             double amount = Double.parseDouble(input);
                             double price = Double.parseDouble(myStock.getCurrentPrice_());
-
-                            boolean found =false;
-                            int i=0;
-                            for(; i<MainActivity.mStockRecords.size(); i++) {
-                                if(MainActivity.mStockRecords.get(i).getId().equals(myStock.id_)) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if(!found) {
-                                Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_this_stock, Toast.LENGTH_SHORT).show();
+                            double precision = amount - ((int) amount);
+                            if(precision < 0.01){
+                                Toast.makeText(getApplicationContext(), R.string.text_precision_error, Toast.LENGTH_SHORT).show();
                             } else {
-                                if(amount > MainActivity.mStockRecords.get(i).getAmount()) {
-                                    Toast.makeText(getApplicationContext(), R.string.toast_you_cant_sell_more_than_you_have, Toast.LENGTH_SHORT).show();
-                                } else {
-                                    double oldamount = MainActivity.mStockRecords.get(i).getAmount();
-                                    double oldprice = MainActivity.mStockRecords.get(i).getBoughtPrice();
-                                    double earning = amount*price - amount*oldprice;
-                                    MainActivity.mStockRecords.get(i).setAmount(oldamount - amount);
-                                    MainActivity.mBalance += amount*price;
-                                    MainActivity.mMoney += earning;
-                                    MainActivity.mEarning += earning;
-                                    if(earning >=0 ) {
-                                        Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " +  String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
-                                        System.out.println(R.string.toast_you_have_earned + " " + String.valueOf(earning));
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    if(oldamount == amount) {
-                                        MainActivity.mStockRecords.remove(i);
+                                boolean found =false;
+                                int i=0;
+                                for(; i<MainActivity.mStockRecords.size(); i++) {
+                                    if(MainActivity.mStockRecords.get(i).getId().equals(myStock.id_)) {
+                                        found = true;
+                                        break;
                                     }
                                 }
-                            }
+                                if(!found) {
+                                    Toast.makeText(getApplicationContext(), R.string.toast_you_dont_have_this_stock, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    if(amount > MainActivity.mStockRecords.get(i).getAmount()) {
+                                        Toast.makeText(getApplicationContext(), R.string.toast_you_cant_sell_more_than_you_have, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        double oldamount = MainActivity.mStockRecords.get(i).getAmount();
+                                        double oldprice = MainActivity.mStockRecords.get(i).getBoughtPrice();
+                                        double earning = amount*price - amount*oldprice;
+                                        MainActivity.mStockRecords.get(i).setAmount(oldamount - amount);
+                                        MainActivity.mBalance += amount*price;
+                                        MainActivity.mMoney += earning;
+                                        MainActivity.mEarning += earning;
+                                        if(earning >=0 ) {
+                                            Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " +  String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
+                                            System.out.println(R.string.toast_you_have_earned + " " + String.valueOf(earning));
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
+                                        }
 
+                                        if(oldamount == amount) {
+                                            MainActivity.mStockRecords.remove(i);
+                                        }
+                                    }
+                                }
+
+                            }
                         }
                     });
 
@@ -353,6 +373,29 @@ public class EachStockActivity extends TitleActivity {
                 System.out.println(" ****************it is favorited, i=" + i);
             }
         }
+
+        //TODO: get exchangeRate
+        switch (myStock.marketId_) {
+            case "US":
+                Log.d("EachStockActivity", "US market stock");
+                exchangeRate =7;
+                isHKstock = false;
+                break;
+            case "SZ":
+                Log.d("EachStockActivity", "SZ market stock");
+                isHKstock = false;
+                break;
+            case "SH":
+                Log.d("EachStockActivity", "SH market stock");
+                isHKstock = false;
+                break;
+            case "HK":
+                Log.d("EachStockActivity", "HK market stock");
+                break;
+
+        }
+
+
 
         setupViewPager(mViewPager);
         setViewPager(0);

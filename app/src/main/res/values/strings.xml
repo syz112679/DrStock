@@ -4,6 +4,7 @@
     <string name="title_stock">Stock</string>
     <string name="title_account">Account</string>
     <string name="title_login">Log In</string>
+    <string name="title_my_stock">My Stocks</string>
 
     <string name="search_hint">Search stocks</string>
 
@@ -35,8 +36,7 @@
 
 
     <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+        completions."</string>
     <string name="sample_message">Hello!</string>
     <string name="text_you_have_earn">You have earned: </string>
     <string name="text_your_total_money">Your total assets: </string>
@@ -144,11 +144,15 @@
     <string name="gyx_E">GU Yuxuan</string>
     <string name="gyx_C">谷宇轩</string>
 
-    <!--newly add-->
+
     <string name="text_stock_id">Stock ID</string>
     <string name="text_stock_name">Stock Name</string>
     <string name="text_current_Price">Current Price</string>
     <string name="text_amount">Amount</string>
     <string name="text_bought_price">Bid Price</string>
+
+    <!--newly add-->
+    <string name="text_precision_error">The minimum amount is 0.01</string>
+    <string name="text_the_exchange_rate">The real time exchange rate to HKD is: </string>
 
 </resources>

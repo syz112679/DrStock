@@ -96,7 +96,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
                 }
             }
         });
-
+//          news part
 //        listNews = (ListView) v.findViewById(R.id.listNews);
 //        loader = (ProgressBar) v.findViewById(R.id.loader);
 //        listNews.setEmptyView(loader);
