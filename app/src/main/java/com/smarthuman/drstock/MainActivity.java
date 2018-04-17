@@ -143,7 +143,6 @@ public class MainActivity extends TitleActivity
     static public ViewPager mViewPager;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -342,17 +341,11 @@ public class MainActivity extends TitleActivity
 
         }
         stockIndex.updateIdex(indexResponse);
-        if(!isPaused) {
-            if(mViewPager.getCurrentItem()==1) // in stock fragment
-                updateIndexView();
+        updateIndexView();
 
-            if(mViewPager.getCurrentItem()==0) { // in home fragment
-                exchangeRate.updateExchangeRate(exchangeRateResponse);
-                exchangeRate_ = exchangeRate.getExchangeRate_();
-
-                updateFlipper();
-            }
-        }
+        exchangeRate.updateExchangeRate(exchangeRateResponse);
+        exchangeRate_ = exchangeRate.getExchangeRate_();
+        updateFlipper();
 
         stockMap_ = stockMap;
 
@@ -461,8 +454,8 @@ public class MainActivity extends TitleActivity
             return;
         }
 
-        if (isPaused)
-            return;
+//        if (isPaused)
+//            return;
 
         switch (NetWorkUtils.getAPNType(context)) {
             case NetWorkUtils.networkNo:
@@ -728,13 +721,12 @@ public class MainActivity extends TitleActivity
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
         isPaused = false;
         Log.d("MainActivity", "onResume: called");
-        isPaused = false;
+
         refreshStocks();
 //        if(FirebaseAuth.getInstance().getCurrentUser() != null)
 //            updateUserInfo();
