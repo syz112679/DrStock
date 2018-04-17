@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
@@ -17,32 +17,43 @@
             android:layout_height="match_parent"
             android:id="@+id/tv_stock_name"
             android:text="Stock Name"
-            android:layout_weight="0.2"/>
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="match_parent"
-           android:id="@+id/tv_stock_id"
-           android:text="stock ID"
-           android:layout_weight="0.2"/>
+            android:gravity="bottom"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/tv_stock_id"
+            android:text="stock ID"
+            android:gravity="left"
+            android:layout_weight="1"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/tv_bought_price"
             android:text="bought_$"
-            android:layout_weight="0.2"/>
+            android:gravity="center"
+            android:layout_weight="1"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/tv_amount"
             android:text="amount"
-            android:layout_weight="0.2"/>
+            android:gravity="center"
+            android:layout_weight="1"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/tv_current_price"
             android:text="current_$"
-            android:layout_weight="0.2"/>
-
+            android:gravity="right"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 

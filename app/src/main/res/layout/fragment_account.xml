@@ -80,8 +80,8 @@
         android:layout_marginRight="20dp">
             <Button
                 android:id="@+id/add_money_btn"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:alpha="0.75"
                 android:background="@drawable/button3"
                 android:layout_alignParentLeft="true"
@@ -92,8 +92,8 @@
 
             <Button
                 android:id="@+id/display_my_stock"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:background="@drawable/button2"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="20dp"
@@ -119,4 +119,4 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"/>
 
-    </LinearLayout>
+</LinearLayout>
