@@ -73,7 +73,7 @@ public class Chart_1yearActivity extends AppCompatActivity implements  View.OnCl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kline);
+        setContentView(R.layout.activity_landscapechart);
 
         Intent intent = getIntent();
         stockId = intent.getStringExtra(StockKLineChart_1yearFragment.EXTRA_MESSAGE);
