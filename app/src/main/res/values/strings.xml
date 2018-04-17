@@ -119,7 +119,8 @@
     <string name="toast_you_have_lost">You have lost </string>
     <string name="toast_you_dont_have_enough_money">You do not have enough money</string>
     <string name="toast_invalid_input">Invalid input</string>
-    <string name="toast_buy_successfully">Buy successfully!</string>
+    <!--TODO:-->
+    <string name="toast_buy_successfully">Buy successfully! spend</string>
     <string name="toast_sorry_only_hk_graph">Sorry, you can only see HK stocks graph.</string>
     <string name="toast_added_to_watchlist">Added to watch list</string>
     <string name="toast_delete_from_watchlist">Delete from watch list</string>
@@ -151,8 +152,8 @@
     <string name="text_amount">Amount</string>
     <string name="text_bought_price">Bid Price</string>
 
-    <!--newly add-->
-    <string name="text_precision_error">The minimum amount is 0.01</string>
+    <!--TODO:-->
+    <string name="text_precision_error">Invalid. The minimum amount is 0.01</string>
     <string name="text_the_exchange_rate">The real time exchange rate to HKD is: </string>
 
 </resources>

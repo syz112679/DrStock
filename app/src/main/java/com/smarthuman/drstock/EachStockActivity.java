@@ -177,7 +177,8 @@ public class EachStockActivity extends TitleActivity {
                             } else {
 
                                 StockSnippet newStock = new StockSnippet(myStock.id_, price, amount);
-                                MainActivity.mBalance -= amount*price;
+                                double cost = amount*price*exchangeRate;
+                                MainActivity.mBalance -= cost;
                                 boolean found = false;
                                 for(int i=0; i<MainActivity.mStockRecords.size(); i++) {
                                     if(MainActivity.mStockRecords.get(i).getId().equals(myStock.id_)) {
@@ -195,7 +196,7 @@ public class EachStockActivity extends TitleActivity {
                                     MainActivity.stockMap_.put(myStock.id_, myStock);
 //                                MainActivity.requireRefresh = true;
                                 }
-                                Toast.makeText(getApplicationContext(), R.string.toast_buy_successfully, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), R.string.toast_buy_successfully + String.valueOf(cost), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -254,9 +255,9 @@ public class EachStockActivity extends TitleActivity {
                                     } else {
                                         double oldamount = MainActivity.mStockRecords.get(i).getAmount();
                                         double oldprice = MainActivity.mStockRecords.get(i).getBoughtPrice();
-                                        double earning = amount*price - amount*oldprice;
+                                        double earning = amount*price*exchangeRate - amount*oldprice*exchangeRate;
                                         MainActivity.mStockRecords.get(i).setAmount(oldamount - amount);
-                                        MainActivity.mBalance += amount*price;
+                                        MainActivity.mBalance += amount*price*exchangeRate;
                                         MainActivity.mMoney += earning;
                                         MainActivity.mEarning += earning;
                                         if(earning >=0 ) {
