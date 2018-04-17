@@ -481,6 +481,8 @@ public class MainActivity extends TitleActivity
 
         index = StockIndex.indexTreeMap.get("s_sh000001");
         eachLinearLayout = findViewById(R.id.sh_index);
+        if (index == null || eachLinearLayout == null)
+            return;
         ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
         ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
         for (int i = 1; i <= 2; i++)
@@ -488,6 +490,8 @@ public class MainActivity extends TitleActivity
 
         index = StockIndex.indexTreeMap.get("s_sz399001");
         eachLinearLayout = findViewById(R.id.sz_index);
+        if (index == null || eachLinearLayout == null)
+            return;
         ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
         ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
         for (int i = 1; i <= 2; i++)
@@ -495,6 +499,8 @@ public class MainActivity extends TitleActivity
 
         index = StockIndex.indexTreeMap.get("s_sz399006");
         eachLinearLayout = findViewById(R.id.chuang_index);
+        if (index == null || eachLinearLayout == null)
+            return;
         ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
         ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
         for (int i = 1; i <= 2; i++)
@@ -502,6 +508,8 @@ public class MainActivity extends TitleActivity
 
         index = StockIndex.indexTreeMap.get("int_hangseng");
         eachLinearLayout = findViewById(R.id.hsi_index);
+        if (index == null || eachLinearLayout == null)
+            return;
         ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
         ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
         for (int i = 1; i <= 2; i++)
@@ -509,6 +517,8 @@ public class MainActivity extends TitleActivity
 
         index = StockIndex.indexTreeMap.get("int_dji");
         eachLinearLayout = findViewById(R.id.djia_index);
+        if (index == null || eachLinearLayout == null)
+            return;
         ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
         ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
         for (int i = 1; i <= 2; i++)
@@ -516,6 +526,8 @@ public class MainActivity extends TitleActivity
 
         index = StockIndex.indexTreeMap.get("int_nasdaq");
         eachLinearLayout = findViewById(R.id.nsdk_index);
+        if (index == null || eachLinearLayout == null)
+            return;
         ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
         ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
         for (int i = 1; i <= 2; i++)
