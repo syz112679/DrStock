@@ -316,6 +316,9 @@ public class MainActivity extends TitleActivity
             //var hq_str_sz0=""
             System.out.println("each Stock: " + stocks[i]);
             Stock stockNow = new Stock(stocks[i]);
+            if (stockNow.id_ == null) {
+                continue;
+            }
             stockMap.put(stockNow.id_, stockNow);           // lx -> Stock
 
         }

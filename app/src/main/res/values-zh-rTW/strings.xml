@@ -148,4 +148,12 @@
     <string name="text_current_Price">現價</string>
     <string name="text_amount">數量</string>
     <string name="text_bought_price">買入價格</string>
+
+    <!--TODO:-->
+    <string name="text_precision_error">無效.最低金額應為0.01</string>
+    <string name="text_the_exchange_rate">實時匯率（兌為港幣）: </string>
+    <!--currency-->
+    <string name="currency_usd_name">美元</string>
+    <string name="currency_rmb_name">人民幣</string>
+    <string name="currency_gbp_name">英鎊</string>
 </resources>
