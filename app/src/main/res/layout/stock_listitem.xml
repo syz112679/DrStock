@@ -38,14 +38,14 @@
             android:layout_height="match_parent"
             android:id="@+id/tv_bought_price"
             android:text="bought_$"
-            android:gravity="center"
+            android:gravity="right"
             android:layout_weight="1"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/tv_amount"
             android:text="amount"
-            android:gravity="center"
+            android:gravity="right"
             android:layout_weight="1"/>
         <TextView
             android:layout_width="wrap_content"
