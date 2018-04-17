@@ -72,7 +72,7 @@ public class Chart_MinActivity extends AppCompatActivity{
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_combine);
+        setContentView(R.layout.activity_landscape_min);
 
         Intent intent = getIntent();
         stockId = intent.getStringExtra(StockMinChartFragment.EXTRA_MESSAGE);
