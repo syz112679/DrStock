@@ -454,8 +454,8 @@ public class MainActivity extends TitleActivity
             return;
         }
 
-        if (isPaused)
-            return;
+//        if (isPaused)
+//            return;
 
         switch (NetWorkUtils.getAPNType(context)) {
             case NetWorkUtils.networkNo:
@@ -723,13 +723,13 @@ public class MainActivity extends TitleActivity
     @Override
     public void onPause() {
         super.onPause();
-        isPaused = true;
+//        isPaused = true;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        isPaused = false;
+//        isPaused = false;
         Log.d("MainActivity", "onResume: called");
 
         refreshStocks();

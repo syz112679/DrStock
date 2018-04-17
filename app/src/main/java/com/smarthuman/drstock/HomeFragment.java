@@ -31,16 +31,6 @@ import java.util.HashMap;
 
 public class HomeFragment extends android.support.v4.app.Fragment {
 
-    private final static int UpColor_ = Color.rgb(51,153,102);
-    private final static int DownColor_ = Color.rgb(255, 102,102);
-    private final static int BackgroundColor_ = Color.WHITE;
-    private final static int HighlightColor_ = Color.rgb(210, 233, 255);
-    private final static String ShIndex = "sh000001";
-    private final static String SzIndex = "sz399001";
-    private final static String ChuangIndex = "sz399006";
-    private final static String StockIdsKey_ = "StockIds";
-    private final static int StockLargeTrade_ = 1000000;
-
     ViewFlipper viewFlipper;
     ImageView chatRoom_img;
     private View v;
@@ -97,19 +87,17 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             }
         });
 //          news part
-//        listNews = (ListView) v.findViewById(R.id.listNews);
-//        loader = (ProgressBar) v.findViewById(R.id.loader);
-//        listNews.setEmptyView(loader);
-//
-//
-//
-//        if(Function.isNetworkAvailable(getActivity().getApplicationContext()))
-//        {
-//            DownloadNews newsTask = new DownloadNews();
-//            newsTask.execute();
-//        }else{
-//            Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
-//        }
+        listNews = (ListView) v.findViewById(R.id.listNews);
+        loader = (ProgressBar) v.findViewById(R.id.loader);
+        listNews.setEmptyView(loader);
+
+        if(Function.isNetworkAvailable(getActivity().getApplicationContext()))
+        {
+            DownloadNews newsTask = new DownloadNews();
+            newsTask.execute();
+        }else{
+            Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+        }
 
 
         return v;
@@ -250,4 +238,9 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(R.string.title_home);
+    }
 }

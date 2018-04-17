@@ -265,7 +265,7 @@ public class EachStockActivity extends TitleActivity {
                                             Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_earned) + " " +  String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
                                             System.out.println(R.string.toast_you_have_earned + " " + String.valueOf(earning));
                                         } else {
-                                            Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.format ("%.2f",(earning)), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), getString(R.string.toast_you_have_lost) + " " + String.format ("%.2f",(-earning)), Toast.LENGTH_SHORT).show();
                                         }
 
                                         if(oldamount == amount) {
