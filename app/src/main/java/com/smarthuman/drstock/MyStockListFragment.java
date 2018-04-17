@@ -38,6 +38,10 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
 
             mMyStockListView = view.findViewById(R.id.my_stocks_listview);
 
+            // check every time to remove 00000
+            if(!MainActivity.mStockRecords.isEmpty() && MainActivity.mStockRecords.get(0).getId().equals("00000")) {
+                MainActivity.mStockRecords.remove(0);
+            }
 
             mStockAdapter = new StockItemAdapter(getActivity(), MainActivity.mStockRecords);
             mMyStockListView.setAdapter(mStockAdapter);

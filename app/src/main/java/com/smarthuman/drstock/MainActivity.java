@@ -143,6 +143,7 @@ public class MainActivity extends TitleActivity
     static public ViewPager mViewPager;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -341,11 +342,17 @@ public class MainActivity extends TitleActivity
 
         }
         stockIndex.updateIdex(indexResponse);
-        updateIndexView();
+        if(!isPaused) {
+            if(mViewPager.getCurrentItem()==1) // in stock fragment
+                updateIndexView();
 
-        exchangeRate.updateExchangeRate(exchangeRateResponse);
-        exchangeRate_ = exchangeRate.getExchangeRate_();
-        updateFlipper();
+            if(mViewPager.getCurrentItem()==0) { // in home fragment
+                exchangeRate.updateExchangeRate(exchangeRateResponse);
+                exchangeRate_ = exchangeRate.getExchangeRate_();
+
+                updateFlipper();
+            }
+        }
 
         stockMap_ = stockMap;
 
@@ -720,18 +727,14 @@ public class MainActivity extends TitleActivity
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        isPaused = true;
-    }
+
 
     @Override
     public void onResume() {
         super.onResume();
         isPaused = false;
         Log.d("MainActivity", "onResume: called");
-
+        isPaused = false;
         refreshStocks();
 //        if(FirebaseAuth.getInstance().getCurrentUser() != null)
 //            updateUserInfo();
@@ -740,6 +743,26 @@ public class MainActivity extends TitleActivity
         if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0 ){
             updateUserInfo();
             updateDatabase();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isPaused = true;
+        switch(mViewPager.getCurrentItem()){
+            case 0:
+                setTitle(R.string.title_home);
+                break;
+            case 1:
+                setTitle(R.string.title_stock);
+                break;
+            case 2: case 3:
+                setTitle(R.string.title_account);
+                break;
+            case 4:
+                setTitle(R.string.title_my_stock);
+                break;
         }
     }
 
