@@ -117,7 +117,7 @@
     <string name="toast_you_have_lost">您已亏损 </string>
     <string name="toast_you_dont_have_enough_money">您的资金不足</string>
     <string name="toast_invalid_input">无效输入</string>
-    <string name="toast_buy_successfully">成功购买!</string>
+    <string name="toast_buy_successfully">成功购买 </string>
     <string name="toast_sorry_only_hk_graph">抱歉，当前账户仅限查阅港股行情图.</string>
     <string name="toast_added_to_watchlist">成功添加</string>
     <string name="toast_delete_from_watchlist">成功移除</string>
