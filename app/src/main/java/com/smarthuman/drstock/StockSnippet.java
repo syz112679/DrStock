@@ -76,7 +76,7 @@ public class StockSnippet {
         if(stock == null)
             return "-";
         currency = stock.getCurrency();
-        return currency;
+        return currency;  //HKD USD CNY
     }
 
     public void setCurrentPrice(double currentPrice) {
