@@ -307,7 +307,6 @@
                             android:layout_columnWeight="1"
                             android:layout_rowWeight="1"
                             android:text="@string/bid1"
-                            android:textAlignment="center"
                             android:textColor="@color/transparent_black2" />
 
                         <TextView
@@ -329,7 +328,6 @@
                             android:layout_columnWeight="1"
                             android:layout_rowWeight="1"
                             android:text="@string/sell1"
-                            android:textAlignment="center"
                             android:textColor="@color/transparent_black2" />
 
                         <TextView
@@ -356,7 +354,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.2"
                             android:text="@string/minute"
-                            android:textSize="12dp" />
+                            android:textSize="11dp" />
 
                         <ImageView
                             android:layout_width="1dp"
@@ -371,7 +369,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.2"
                             android:text="@string/one_month"
-                            android:textSize="12dp" />
+                            android:textSize="11dp" />
 
                         <ImageView
                             android:layout_width="1dp"
@@ -386,7 +384,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.2"
                             android:text="@string/three_month"
-                            android:textSize="12dp" />
+                            android:textSize="11dp" />
 
                         <ImageView
                             android:layout_width="1dp"
@@ -401,7 +399,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.2"
                             android:text="@string/one_year"
-                            android:textSize="12dp" />
+                            android:textSize="11dp" />
 
                         <ImageView
                             android:layout_width="1dp"
@@ -416,7 +414,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.2"
                             android:text="@string/three_year"
-                            android:textSize="12dp" />
+                            android:textSize="11dp" />
 
                     </LinearLayout>
 
