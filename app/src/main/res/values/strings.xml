@@ -119,7 +119,6 @@
     <string name="toast_you_have_lost">You have lost </string>
     <string name="toast_you_dont_have_enough_money">You do not have enough money</string>
     <string name="toast_invalid_input">Invalid input</string>
-    <!--TODO:-->
     <string name="toast_buy_successfully">Buy successfully! spend</string>
     <string name="toast_sorry_only_hk_graph">Sorry, you can only see HK stocks graph.</string>
     <string name="toast_added_to_watchlist">Added to watch list</string>
@@ -152,11 +151,18 @@
     <string name="text_amount">Amount</string>
     <string name="text_bought_price">Bid Price</string>
 
-    <!--TODO:-->
+
     <string name="text_precision_error">Invalid. The minimum amount is 0.01</string>
     <string name="text_the_exchange_rate">The real time exchange rate to HKD is: </string>
     <!--currency-->
     <string name="currency_usd_name">USD</string>
     <string name="currency_rmb_name">RMB</string>
     <string name="currency_gbp_name">GBP</string>
+
+
+    <!--TODO: newly added-->
+    <string name="vertify_email">resend verification</string>
+    <string name="vertification_email_sent_to">verification email sent to </string>
+    <string name="vertification_email_failed">fail to send verification email</string>
+    <string name="go_to_vertify_email">This email is not verified</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.smarthuman.drstock;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,30 +15,28 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class LoginActivity extends AppCompatActivity {
 
     // : Add member variables here:
     private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
 
+    // Constants
+    public static final String LOGIN_PREF = "LoginPrefs";
+    public static final String PREF_EMAIL_KEY = "email";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +59,14 @@ public class LoginActivity extends AppCompatActivity {
 
         // : Grab an instance of FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
 
     }
 
     // Executed when Sign in button pressed
     public void signInExistingUser(View v)   {
         // : Call attemptLogin() here
+
         attemptLogin();
     }
 
@@ -86,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
 
         if (email.isEmpty())
             if (email.equals("") || password.equals("")) return;
-        Toast.makeText(this, R.string.login_process, Toast.LENGTH_SHORT).show();
 
         // : Use FirebaseAuth to sign in with email & password
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -100,10 +98,15 @@ public class LoginActivity extends AppCompatActivity {
                     showErrorDialog(R.string.problem_signin_msg);
                 } else {
                     //login successfully
-
-                    finish();
-                    MainActivity.updateUserInfo();
-                    MainActivity.setViewPager(0);
+                    //saveEmailtoPref();
+                    if(mUser!=null && mUser.isEmailVerified()) {
+                        finish();
+                        MainActivity.updateUserInfo();
+                        MainActivity.setViewPager(0);
+                    } else {
+                        Toast.makeText(LoginActivity.this,getString(R.string.go_to_vertify_email),
+                                    Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
@@ -124,5 +127,47 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    // : Save the display name to Shared Preferences
+    private void saveEmailtoPref() {
+        String email = mEmailView.getText().toString();
+        SharedPreferences prefs = getSharedPreferences(LOGIN_PREF, 0);
+        prefs.edit().putString(PREF_EMAIL_KEY, email).apply();
+    }
 
+
+    private void onVertifyEmail(View view) {
+        final String email = mEmailView.getText().toString();
+        mAuth.getCurrentUser()
+                .sendEmailVerification()
+                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //re-enable re-sent button
+                        findViewById(R.id.resend_email_btn).setEnabled(false);
+
+                        if(task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this,getString(R.string.vertification_email_sent_to) + " " +email,
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e("RegisterActivity","send vertification email failed", task.getException());
+                            Toast.makeText(LoginActivity.this,getString(R.string.vertification_email_sent_to) +" "+ email,
+                                    Toast.LENGTH_SHORT).show();
+                            findViewById(R.id.resend_email_btn).setEnabled(true);
+                        }
+                    }
+                });
+    }
+
+    private void onLoginGoogle(View v) {
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
+
+    private void onLoginFacebook(View v) {}
 }

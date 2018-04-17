@@ -64,6 +64,17 @@
         android:onClick="signInExistingUser"
         android:text="@string/action_sign_in_short"
         android:textStyle="bold"/>
+    <Button
+        android:id="@+id/resend_email_btn"
+        style="?android:textAppearanceMedium"
+        android:background="#fdeff9"
+        android:textColor="#5B86E5"
+        android:onClick="onVertifyEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/vertify_email"
+        android:textStyle="bold"/>
 
     <Button
         android:id="@+id/login_register_button"
@@ -76,5 +87,32 @@
         android:layout_marginTop="16dp"
         android:text="@string/action_register"
         android:textStyle="bold"/>
+    <Button
+        android:id="@+id/login_google_btn"
+        style="?android:textAppearanceMedium"
+        android:background="#fdeff9"
+        android:textColor="#d9a7c7"
+        android:onClick="onLoginGoogle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Google"
+        android:textStyle="bold"/>
+    <Button
+        android:id="@+id/login_facebook_btn"
+        style="?android:textAppearanceMedium"
+        android:background="#fdeff9"
+        android:textColor="#d9a7c7"
+        android:onClick="onLoginFacebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Facebook"
+        android:textStyle="bold"/>
+   <!--this is for reference-->
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/google_sign_in_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

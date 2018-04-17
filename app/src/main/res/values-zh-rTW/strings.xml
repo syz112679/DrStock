@@ -117,7 +117,7 @@
     <string name="toast_you_have_lost">您已虧損 </string>
     <string name="toast_you_dont_have_enough_money">您的資金不足</string>
     <string name="toast_invalid_input">無效輸入</string>
-    <string name="toast_buy_successfully">成功購買!</string>
+    <string name="toast_buy_successfully">成功購買!花費</string>
     <string name="toast_sorry_only_hk_graph">抱歉，當前帳戶僅限查閱港股行情圖.</string>
     <string name="toast_added_to_watchlist">成功添加</string>
     <string name="toast_delete_from_watchlist">成功移除</string>
@@ -149,11 +149,15 @@
     <string name="text_amount">數量</string>
     <string name="text_bought_price">買入價格</string>
 
-    <!--TODO:-->
     <string name="text_precision_error">無效.最低金額應為0.01</string>
     <string name="text_the_exchange_rate">實時匯率（兌為港幣）: </string>
     <!--currency-->
     <string name="currency_usd_name">美元</string>
     <string name="currency_rmb_name">人民幣</string>
     <string name="currency_gbp_name">英鎊</string>
+
+    <string name="vertify_email">再次發送驗證郵件</string>
+    <string name="vertification_email_sent_to">驗證郵件已發送 </string>
+    <string name="vertification_email_failed">驗證郵件發送失敗</string>
+    <string name="go_to_vertify_email">該郵箱未驗證</string>
 </resources>

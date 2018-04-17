@@ -215,7 +215,7 @@ public class MainActivity extends TitleActivity
         setupViewPager(mViewPager);
 
         mAuth = FirebaseAuth.getInstance();
-        //mAuth.signOut();
+        mAuth.signOut();
         mfirebaseUser = mAuth.getCurrentUser();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
