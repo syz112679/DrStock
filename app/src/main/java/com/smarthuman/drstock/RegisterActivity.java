@@ -148,10 +148,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("FlashChat", "createUser onComplete: " + task.isSuccessful());
+                        Log.d("RegisterActivity", "createUser onComplete: " + task.isSuccessful());
 
                         if(!task.isSuccessful()){
-                            Log.d("FlashChat", "user creation failed");
+                            Log.d("RegisterActivity", "user creation failed");
                             showErrorDialog("Registration attempt failed");
                         } else {
                             mAuth.getCurrentUser()
@@ -198,7 +198,7 @@ public class RegisterActivity extends AppCompatActivity {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mDatabaseReference.child("users").child(firebaseUser.getUid()).setValue(userInformation);
 
-        Log.d("FlashChat","user information saved ...");
+        Log.d("RegisterActivity","user information saved ...");
     }
 
    // : Save the display name to Shared Preferences

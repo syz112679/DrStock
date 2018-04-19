@@ -31,6 +31,19 @@ public class UserInformation {
         isSuperUser = false;
     }
 
+    public UserInformation(String userName) {
+        this.userName = userName;
+        this.email = "no_email";
+        this.money = 0;
+        this.balance = 0;
+        this.earning = 0;
+        this.myStocks = new ArrayList<StockSnippet>();
+        this.favorites = new ArrayList<String>();
+        favorites.add("placeholder");
+        myStocks.add(new StockSnippet());
+        isSuperUser = false;
+    }
+
     public void addStock(StockSnippet stock) {
         myStocks.add(stock);
     }

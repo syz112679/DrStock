@@ -157,8 +157,15 @@
     <string name="currency_rmb_name">人民币</string>
     <string name="currency_gbp_name">英镑</string>
 
+    <!--newly added-->
     <string name="vertify_email">再次发送验证邮件</string>
     <string name="vertification_email_sent_to">验证邮件已发送 </string>
     <string name="vertification_email_failed">验证邮件发送失败</string>
     <string name="go_to_vertify_email">该邮箱未验证</string>
+    <string name="have_verified_email">你已验证</string>
+
+    <string name="phone_number">手機號碼</string>
+    <string name="send_code">發送驗證碼</string>
+    <string name="resend_code">重新发送验证码</string>
+    <string name="SMS_code">驗證碼</string>
 </resources>
