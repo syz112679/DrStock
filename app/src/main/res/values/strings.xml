@@ -226,5 +226,10 @@
     <string name="language_set">Language</string>
     <string name="setting_language_auto">System Language</string>
     <string name="setting_language_title">Language Setting</string>
+    <string name="URL">https://newsapi.org/v2/top-headlines?country=gb&amp;apiKey=b0535990b1f343d79558e427bb29eec9</string>
+    <string name="newsurl1">https://newsapi.org/v1/articles?source=</string>
+    <string name="newsurl2">&amp;sortBy=top&amp;apiKey=</string>
+
+    <string name="invalid_phone_num">Please enter valid phone number</string>
 
 </resources>

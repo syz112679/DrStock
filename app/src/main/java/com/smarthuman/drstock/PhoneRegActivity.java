@@ -65,8 +65,10 @@ public class PhoneRegActivity extends AppCompatActivity {
         resendButton = (Button) findViewById(R.id.resendButton);
 
         verifyButton.setEnabled(false);
+        verifyButton.setVisibility(View.INVISIBLE);
         resendButton.setEnabled(false);
-
+        resendButton.setVisibility(View.INVISIBLE);
+        codeText.setVisibility(View.INVISIBLE);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -78,6 +80,10 @@ public class PhoneRegActivity extends AppCompatActivity {
 
         String phoneNumber = phoneText.getText().toString();
 
+        if(phoneNumber.length()<=6) {
+            Toast.makeText(getApplicationContext(),R.string.invalid_phone_num,Toast.LENGTH_SHORT).show();
+            return;
+        }
         setUpVerificatonCallbacks();
 
         Toast.makeText(getApplicationContext(), getString(R.string.SMS_has_been_sent) + " " + phoneNumber ,
@@ -100,7 +106,10 @@ public class PhoneRegActivity extends AppCompatActivity {
                             PhoneAuthCredential credential) {
 
                         resendButton.setEnabled(false);
+                        resendButton.setVisibility(View.INVISIBLE);
                         verifyButton.setEnabled(false);
+                        verifyButton.setVisibility(View.INVISIBLE);
+
                         codeText.setText("");
                         signInWithPhoneAuthCredential(credential);
                     }
@@ -127,8 +136,12 @@ public class PhoneRegActivity extends AppCompatActivity {
                         resendToken = token;
 
                         verifyButton.setEnabled(true);
+                        verifyButton.setVisibility(View.VISIBLE);
                         sendButton.setEnabled(false);
+                        sendButton.setVisibility(View.INVISIBLE);
                         resendButton.setEnabled(true);
+                        resendButton.setVisibility(View.VISIBLE);
+                        codeText.setVisibility(View.VISIBLE );
                     }
                 };
     }
@@ -154,7 +167,9 @@ public class PhoneRegActivity extends AppCompatActivity {
                             mUser = task.getResult().getUser();
                             codeText.setText("");
                             resendButton.setEnabled(false);
+                            resendButton.setVisibility(View.INVISIBLE);
                             verifyButton.setEnabled(false);
+                            verifyButton.setVisibility(View.INVISIBLE);
 
                             Toast.makeText(getApplicationContext(), R.string.login_process, Toast.LENGTH_SHORT).show();
                             saveUserInformationFire();
@@ -266,12 +281,6 @@ public class PhoneRegActivity extends AppCompatActivity {
 
 
 
-    }
-
-    public void onBack(View v) {
-        Intent intent = new Intent(this, com.smarthuman.drstock.LoginActivity.class);
-        finish();
-        startActivity(intent);
     }
 
 }
