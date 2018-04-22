@@ -61,6 +61,7 @@ public class LanguageActivity extends TitleActivity implements View.OnClickListe
         }
     }
 
+    public static int selectedLanguage;
     @Override
     public void onClick(View view) {
         int id = view.getId();
