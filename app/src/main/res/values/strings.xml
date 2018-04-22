@@ -217,4 +217,9 @@
     <!--TODO: Apr 22, 9:10pm-->
     <string name="text_selling_price">Selling price</string>
     <string name="text_buying_price">Buying price</string>
+    <!--language setting-->
+    <string name="language_set">Language</string>
+    <string name="setting_language_auto">System Language</string>
+    <string name="setting_language_title">Language Setting</string>
+
 </resources>

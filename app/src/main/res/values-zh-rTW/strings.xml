@@ -163,8 +163,18 @@
     <string name="go_to_vertify_email">該郵箱未驗證</string>
     <string name="have_verified_email">您已驗證</string>
 
-    <string name="phone_number">电话号码</string>
-    <string name="send_code">发送验证码</string>
+    <string name="phone_number">手機號碼</string>
+    <string name="send_code">發送驗證碼</string>
     <string name="resend_code">重新发送验证码</string>
-    <string name="SMS_code">验证码</string>
+    <string name="SMS_code">驗證碼</string>
+    <!--TODO:-->
+    <string name="invalid_code">您輸入的密碼無效</string>
+    <string name="sign_in_with_phone">電話號碼登錄</string>
+    <string name="back_to_email_sign_in">郵箱登錄</string>
+    <string name="SMS_has_been_sent">驗證碼已發送至您的手機</string>
+    <string name="Google_auth_fail">谷歌賬號授權失敗.</string>
+    <!--language setting-->
+    <string name="language_set">語言設置</string>
+    <string name="setting_language_auto">系統語言</string>
+    <string name="setting_language_title">語言設置</string>
 </resources>
