@@ -116,7 +116,7 @@ public class TitleActivity extends BaseActivity implements OnClickListener{
      */
     protected void onBackward(View backwardView) {
 //        Log.d("each", "onBackward");
-        //Toast.makeText(this, "点击返回", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "点击返回", Toast.LENGTH_LONG).show();
         finish();
     }
 

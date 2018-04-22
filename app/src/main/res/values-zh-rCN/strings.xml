@@ -169,6 +169,15 @@
     <string name="resend_code">重新发送验证码</string>
     <string name="SMS_code">验证码</string>
 
+    <!--TODO:-->
+    <string name="invalid_code">您输入的密码无效</string>
+    <string name="sign_in_with_phone">手机号码登录</string>
+    <string name="back_to_email_sign_in">邮箱登录</string>
+    <string name="SMS_has_been_sent">验证码已发送至您的手机</string>
+    <string name="Google_auth_fail">谷歌账号授权失败</string>
     <!--language setting-->
     <string name="language_set">语言设置</string>
+    <string name="setting_language_auto">系统语言</string>
+    <string name="setting_language_title">语言设置</string>
+
 </resources>

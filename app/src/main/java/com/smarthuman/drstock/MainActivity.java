@@ -249,8 +249,8 @@ public class MainActivity extends TitleActivity
             updateUserInfo();
         }
 //qiqi
-//        BottomNavigationView navigation = findViewById(R.id.navigation);
-//        navigation.setOnNavigationItemSelectedListener(this);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(this);
 
 
 

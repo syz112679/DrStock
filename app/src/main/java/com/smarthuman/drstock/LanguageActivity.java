@@ -84,6 +84,9 @@ public class LanguageActivity extends TitleActivity implements View.OnClickListe
                 setEnglishVisible();
                 selectedLanguage = LanguageType.LANGUAGE_EN;
                 break;
+            case R.id.button_backward:
+                finish();
+                return;
         }
         MultiLanguageUtil.getInstance().updateLanguage(selectedLanguage);
         Intent intent = new Intent(this, MainActivity.class);

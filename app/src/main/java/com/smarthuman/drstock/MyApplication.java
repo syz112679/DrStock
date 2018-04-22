@@ -7,14 +7,25 @@ import android.os.Bundle;
 
 import com.finddreams.languagelib.MultiLanguageUtil;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by liujunqi on 22/4/18.
  */
 
 public class MyApplication extends Application {
+
+    private static final String TAG = "JIGUANG-Example";
     @Override
     public void onCreate() {
         super.onCreate();
+        //Logger.d(TAG, "[ExampleApplication] onCreate");
+        super.onCreate();
+
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(getApplicationContext());     		// 初始化 JPush
+
+
         MultiLanguageUtil.init(this);
 //        MultiLanguageUtil.getInstance().setConfiguration();
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
