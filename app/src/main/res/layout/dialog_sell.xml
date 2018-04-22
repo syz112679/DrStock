@@ -1,46 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_height="match_parent"
+    android:columnCount="2"
+    android:rowCount="2"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/text_amount"/>
 
-    <EditText
-        android:id="@+id/sell_amount_et"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="29sp"
-        android:layout_marginRight="29sp"/>
+        android:textColorHint="@color/transparent_black2">
 
-</LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_selling_price"/>
-
-        <EditText
+        <AutoCompleteTextView
+            android:id="@+id/sell_amount_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/text_amount"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:textIsSelectable="false"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/transparent_black2">
+
+        <AutoCompleteTextView
             android:id="@+id/sell_price_et"
-            android:layout_marginLeft="29sp"
-            android:layout_marginRight="29sp"/>
-    </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/text_selling_price"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:textIsSelectable="false"/>
+
+    </android.support.design.widget.TextInputLayout>
+
 
 </LinearLayout>
