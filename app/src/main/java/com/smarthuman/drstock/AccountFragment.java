@@ -54,7 +54,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
 
         ((MainActivity)getActivity()).mfirebaseUser = ((MainActivity)getActivity()).mAuth.getCurrentUser();
         if( ((MainActivity)getActivity()).mfirebaseUser != null)
-            ((MainActivity)getActivity()).mUid = ((MainActivity)getActivity()).mfirebaseUser.getUid();
+            ((MainActivity)getActivity()).mUid = ((MainActivity)getActivity()).mUid;
 
         mUid = ((MainActivity)getActivity()).mUid;
 
@@ -102,7 +102,8 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         switch (v.getId()) {
             case R.id.sign_out:case R.id.user_sign_out:
                 ((MainActivity)getActivity()).mAuth.signOut();
-
+                ((MainActivity)getActivity()).GoogleSignOut();
+                ((MainActivity)getActivity()).FacebookSignOut();
                 Toast.makeText(getActivity(), "Signed Out...", Toast.LENGTH_SHORT).show();
 
                 ((MainActivity)getActivity()).setViewPager(2);

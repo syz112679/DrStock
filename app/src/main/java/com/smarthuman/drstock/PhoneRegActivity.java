@@ -1,7 +1,10 @@
 package com.smarthuman.drstock;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,9 +23,14 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneRegActivity extends AppCompatActivity {
@@ -31,7 +39,6 @@ public class PhoneRegActivity extends AppCompatActivity {
 
     private EditText phoneText;
     private EditText codeText;
-    private EditText mUsername;
     private Button verifyButton;
     private Button sendButton;
     private Button resendButton;
@@ -43,6 +50,7 @@ public class PhoneRegActivity extends AppCompatActivity {
     private PhoneAuthProvider.ForceResendingToken resendToken;
 
     private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     private DatabaseReference mDatabaseReference;
 
     @Override
@@ -118,7 +126,6 @@ public class PhoneRegActivity extends AppCompatActivity {
                         phoneVerificationId = verificationId;
                         resendToken = token;
 
-                        Toast.makeText(getApplicationContext(), R.string.login_process, Toast.LENGTH_SHORT).show();
                         verifyButton.setEnabled(true);
                         sendButton.setEnabled(false);
                         resendButton.setEnabled(true);
@@ -129,6 +136,8 @@ public class PhoneRegActivity extends AppCompatActivity {
     public void SignIn(View view) {
 
         String code = codeText.getText().toString();
+        if(code.equals(""))
+            return;
 
         PhoneAuthCredential credential =
                 PhoneAuthProvider.getCredential(phoneVerificationId, code);
@@ -142,15 +151,14 @@ public class PhoneRegActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             //successfully login
+                            mUser = task.getResult().getUser();
                             codeText.setText("");
                             resendButton.setEnabled(false);
                             verifyButton.setEnabled(false);
-                            //FirebaseUser user = task.getResult().getUser();
+
                             Toast.makeText(getApplicationContext(), R.string.login_process, Toast.LENGTH_SHORT).show();
                             saveUserInformationFire();
-                            finish();
-                            MainActivity.updateUserInfo();
-                            MainActivity.setViewPager(0);
+
 
                         } else {
                             if (task.getException() instanceof
@@ -180,15 +188,84 @@ public class PhoneRegActivity extends AppCompatActivity {
     }
 
     public void saveUserInformationFire() {
-        String userName = mUsername.getText().toString();
 
-        UserInformation userInformation = new UserInformation(userName);
+        final String Uid = mUser.getUid();
+        Toast.makeText(this, "getUid: " + Uid, Toast.LENGTH_SHORT).show();
 
-        FirebaseUser firebaseUser = mAuth.getCurrentUser();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        mDatabaseReference.child("users").child(firebaseUser.getUid()).setValue(userInformation);
+        // mUser = mAuth.getCurrentUser();
+        mDatabaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map<String, Object> postValues = new HashMap<String, Object>();
+                boolean uidExist = false;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getKey().equals(Uid)) {
+                        uidExist = true;
+                        break;
+                    }
+                }
 
-        Log.d("PhoneRegActivity","user information saved ...");
+                if (!uidExist) {
+
+                    final String phoneNumber = phoneText.getText().toString();
+
+                    AlertDialog alertDialog = new AlertDialog.Builder(PhoneRegActivity.this).create();
+                    alertDialog.setTitle(getString(R.string.prompt_username));
+                    alertDialog.setMessage(getString(R.string.set_username));
+                    final EditText edittext = new EditText(getApplicationContext());
+                    alertDialog.setView(edittext);
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    String userName = edittext.getText().toString();
+                                    UserInformation user = new UserInformation(userName, phoneNumber);
+                                    mDatabaseReference.child("users").child(Uid).setValue(user);
+
+                                    Log.d(TAG, "userName is " + userName);
+                                    Log.d(TAG, "user information saved ...");
+
+                                    MainActivity.mUid = Uid;
+                                    PhoneRegActivity.this.finish();
+                                    MainActivity.updateUserInfo();
+                                    MainActivity.setViewPager(0);
+                                }
+                            });
+                    alertDialog.show();
+
+
+
+
+                }
+
+                if(uidExist) {
+                    MainActivity.mUid = Uid;
+                    PhoneRegActivity.this.finish();
+                    MainActivity.updateUserInfo();
+                    MainActivity.setViewPager(0);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                MainActivity.mUid = Uid;
+//                PhoneRegActivity.this.finish();
+//                MainActivity.updateUserInfo();
+//                MainActivity.setViewPager(0);
+//            }
+//        }, 2000);
+
+
+
     }
 
     public void onBack(View v) {

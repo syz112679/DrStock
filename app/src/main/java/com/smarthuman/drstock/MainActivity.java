@@ -21,6 +21,20 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -143,6 +157,10 @@ public class MainActivity extends TitleActivity
     public static FirebaseUser mfirebaseUser;
     public static FirebaseAuth mAuth;
     public static DatabaseReference mDatabaseReference;
+    //Google
+    public static GoogleApiClient mGoogleApiClient;
+    public static boolean isGoogle = false;
+    public static boolean isFacebook = true;
 
     // --------- user info -------
     public static String mUid;
@@ -178,7 +196,6 @@ public class MainActivity extends TitleActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         setTitle(R.string.mainActivity);
         showBackward(getDrawable(R.drawable.ic_setup), true);
@@ -233,12 +250,17 @@ public class MainActivity extends TitleActivity
             }
         });
 
-        setupViewPager(mViewPager);
+
 
         mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
+        //mAuth.signOut();
+        //FacebookSignOut();
+        //GoogleSignOut();
         mfirebaseUser = mAuth.getCurrentUser();
+        mUid = mfirebaseUser.getUid();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        setupViewPager(mViewPager);
 
         if (mfirebaseUser != null) {
             System.out.println("mfirebaseUser: " + mfirebaseUser);
@@ -254,7 +276,7 @@ public class MainActivity extends TitleActivity
         registerMessageReceiver();
 
 
-        
+
 
 
     }
@@ -715,7 +737,7 @@ public class MainActivity extends TitleActivity
                 break;
 
             case R.id.navigation_account:
-                if (mAuth.getCurrentUser() != null) {
+                if (mAuth.getCurrentUser() != null || GoogleSignIn.getLastSignedInAccount(this)!=null || (AccessToken.getCurrentAccessToken() != null)) {
                     //fragment = new com.smarthuman.drstock.AccountFragment();
                     setTitle(R.string.title_account);
                     setViewPager(3);
@@ -779,7 +801,10 @@ public class MainActivity extends TitleActivity
             case 1:
                 setTitle(R.string.title_stock);
                 break;
-            case 2: case 3:
+            case 2:
+                setTitle(R.string.title_login);
+                break;
+            case 3:
                 setTitle(R.string.title_account);
                 break;
             case 4:
@@ -860,7 +885,7 @@ public class MainActivity extends TitleActivity
         final GenericTypeIndicator<ArrayList<StockSnippet>> stockRecord_t = new GenericTypeIndicator<ArrayList<StockSnippet>>() {};
 
 
-        mUid = mfirebaseUser.getUid();
+
         mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -904,6 +929,27 @@ public class MainActivity extends TitleActivity
         mStockRecords.clear();
         StockIds_.clear();
         mUserName = null;
+    }
+
+    public void FacebookSignOut() {
+
+        if(isFacebook) {
+            FirebaseAuth.getInstance().signOut();
+            LoginManager.getInstance().logOut();
+        }
+    }
+
+    public void GoogleSignOut() {
+        if(mGoogleApiClient!=null && isGoogle) {
+            // Google sign out
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(@NonNull Status status) {
+
+                        }
+                    });
+        }
     }
 
 

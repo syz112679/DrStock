@@ -21,8 +21,8 @@ public class UserInformation {
     public UserInformation(String userName, String email) {
         this.userName = userName;
         this.email = email;
-        this.money = 0;
-        this.balance = 0;
+        this.money = 50000;
+        this.balance = 50000;
         this.earning = 0;
         this.myStocks = new ArrayList<StockSnippet>();
         this.favorites = new ArrayList<String>();
@@ -34,8 +34,8 @@ public class UserInformation {
     public UserInformation(String userName) {
         this.userName = userName;
         this.email = "no_email";
-        this.money = 0;
-        this.balance = 0;
+        this.money = 50000;
+        this.balance = 50000;
         this.earning = 0;
         this.myStocks = new ArrayList<StockSnippet>();
         this.favorites = new ArrayList<String>();

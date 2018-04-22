@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "12358503525-j0pajl10a4pd1b2km49ev4ebe5ntkja7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smarthuman.drstock",
+            "certificate_hash": "18c955e951189c1dbbfb86bbd381cbf987371216"
+          }
+        },
+        {
+          "client_id": "12358503525-0up230fihq4c9ip931jah17r5orqfef1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smarthuman.drstock",
+            "certificate_hash": "699963a23960c4b92db5fb7b5758152b78a950d0"
+          }
+        },
+        {
           "client_id": "12358503525-ssv4inghjqnkm33ebhpapuie0g3h4ffi.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +45,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "12358503525-ssv4inghjqnkm33ebhpapuie0g3h4ffi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
