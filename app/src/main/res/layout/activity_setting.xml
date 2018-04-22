@@ -65,6 +65,29 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/tableRow_language"
+            android:gravity="center_vertical"
+            android:minHeight="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language_set"
+                />
+
+            <TextView />
+
+            <TextView />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
+
+        </TableRow>
+
+        <TableRow
             android:id="@+id/tableRow_feedback"
             android:gravity="center_vertical"
             android:minHeight="50dp">

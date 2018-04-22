@@ -41,19 +41,19 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/stock_icon"
+        android:name=".MyApplication"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/stock_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".ExampleApplication">
-
+        android:theme="@style/AppTheme">
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
-
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
@@ -148,6 +148,11 @@
         </activity>
 
         <activity
+            android:name="com.smarthuman.drstock.LanguageActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
             android:name="com.smarthuman.drstock.Chart_1monthActivity"
             android:screenOrientation="landscape">
         </activity>
@@ -171,6 +176,13 @@
             android:name="com.smarthuman.drstock.Chart_MinActivity"
             android:screenOrientation="landscape">
         </activity>
+
+        <activity
+            android:name="com.smarthuman.drstock.BaseActivity"
+            android:screenOrientation="landscape">
+
+        </activity>
+
 
 
 

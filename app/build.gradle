@@ -1,8 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'drstockKey'
+            keyPassword 'drstock'
+            storeFile file('/Users/shiyuzhou/keystores/android.jks')
+            storePassword 'drstock'
+        }
+    }
     compileSdkVersion 26
-    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.smarthuman.drstock"
         minSdkVersion 21
@@ -16,8 +23,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
@@ -45,15 +54,17 @@ dependencies {
     compile project(':MPChartLib')
     compile 'com.google.code.gson:gson:2.6.2'
 
+    compile project(':languagelib')
+
 //    compile 'com.android.volley:volley:1.0.0'
 
     compile 'com.squareup.picasso:picasso:2.5.2'
-
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.1'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.1'
     compile 'com.google.android.gms:play-services-auth:11.8.0'
-
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+    implementation 'org.greenrobot:eventbus:3.0.0'
 
     compile 'cn.jpush.api:jpush-client:3.2.15'
 
