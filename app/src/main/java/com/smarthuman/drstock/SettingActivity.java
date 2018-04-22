@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
@@ -13,6 +14,12 @@ import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.finddreams.languagelib.OnChangeLanguageEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by yuxuangu on 2018/4/14.
@@ -71,6 +78,12 @@ public class SettingActivity extends TitleActivity{
             settings[i] = (TableRow) settingTable.getChildAt(i);
             settings[i].setOnClickListener(this);
         }
+
+        //setContentView(R.layout.activity_main);
+        //setTitle(R.string.app_name);
+        EventBus.getDefault().register(this);
+
+
     }
 
     @Override
@@ -81,6 +94,10 @@ public class SettingActivity extends TitleActivity{
             case R.id.tableRow_refresh:
                 startActivity(new Intent(this, RefreshActivity.class));
                 break;
+            case R.id.tableRow_language:
+//                startActivity(new Intent(this, LoadLanguage.class));
+                startActivity(new Intent(this, LanguageActivity.class));
+                break;
             case R.id.tableRow_feedback:
                 startActivity(new Intent(this, FeedbackActivity.class));
                 break;
@@ -88,6 +105,18 @@ public class SettingActivity extends TitleActivity{
                 startActivity(new Intent(this, CreditsActivity.class));
                 break;
         }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onChangeLanguageEvent(OnChangeLanguageEvent event){
+        Log.d("onchange","ChangeLanguage");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
 }
