@@ -3,6 +3,7 @@ package com.smarthuman.drstock;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -136,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
     // : Create a Firebase user
     private void createFirebaseUser() {
 
-        String email = mEmailView.getText().toString();
+        final String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
 
@@ -146,17 +148,41 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("FlashChat", "createUser onComplete: " + task.isSuccessful());
+                        Log.d("RegisterActivity", "createUser onComplete: " + task.isSuccessful());
 
                         if(!task.isSuccessful()){
-                            Log.d("FlashChat", "user creation failed");
+                            Log.d("RegisterActivity", "user creation failed");
                             showErrorDialog("Registration attempt failed");
                         } else {
-                            saveDisplayName();
+                            mAuth.getCurrentUser()
+                                    .sendEmailVerification()
+                                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            //re-enable re-sent button
+
+                                            if(task.isSuccessful()) {
+                                                Toast.makeText(RegisterActivity.this,getString(R.string.vertification_email_sent_to) + email,
+                                                        Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Log.e("RegisterActivity","send vertification email failed", task.getException());
+                                                Toast.makeText(RegisterActivity.this,getString(R.string.vertification_email_sent_to) + email,
+                                                        Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        }
+                                    });
                             saveUserInformationFire();
-                            Intent intent = new Intent(RegisterActivity.this, com.smarthuman.drstock.LoginActivity.class);
-                            finish();
-                            startActivity(intent);
+                            final Intent intent = new Intent(RegisterActivity.this, com.smarthuman.drstock.LoginActivity.class);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    RegisterActivity.this.finish();
+                                    startActivity(intent);
+                                }
+                            }, 2000);
+
+
                         }
                     }
                 });
@@ -166,21 +192,21 @@ public class RegisterActivity extends AppCompatActivity {
         String userName = mUsernameView.getText().toString();
         String email = mEmailView.getText().toString();
 
-        com.smarthuman.drstock.UserInformation userInformation = new com.smarthuman.drstock.UserInformation(userName, email);
+        UserInformation userInformation = new UserInformation(userName, email);
 
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mDatabaseReference.child("users").child(firebaseUser.getUid()).setValue(userInformation);
 
-        Log.d("FlashChat","user information saved ...");
+        Log.d("RegisterActivity","user information saved ...");
     }
 
-    // : Save the display name to Shared Preferences
-    private void saveDisplayName() {
-        String displayName = mUsernameView.getText().toString();
-        SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, 0);
-        prefs.edit().putString(DISPLAY_NAME_KEY, displayName).apply();
-    }
+   // : Save the display name to Shared Preferences
+//    private void saveDisplayName() {
+//        String displayName = mUsernameView.getText().toString();
+//        SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, 0);
+//        prefs.edit().putString(DISPLAY_NAME_KEY, displayName).apply();
+//    }
 
     // : Create an alert dialog to show in case registration failed
     private void showErrorDialog(String message){

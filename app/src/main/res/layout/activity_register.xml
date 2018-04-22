@@ -114,16 +114,16 @@
             android:text="@string/action_sign_up"
             android:textStyle="bold"/>
 
-    <Button
-        android:id="@+id/back_sign_in_button"
-        style="?android:textAppearanceMedium"
-        android:background="#fdeff9"
-        android:textColor="#5B86E5"
-        android:onClick="backSignIn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/action_back_sign_in"
-        android:textStyle="bold"/>
+        <Button
+            android:id="@+id/back_sign_in_button"
+            style="?android:textAppearanceMedium"
+            android:background="#fdeff9"
+            android:textColor="#5B86E5"
+            android:onClick="backSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_back_sign_in"
+            android:textStyle="bold"/>
 
 </LinearLayout>

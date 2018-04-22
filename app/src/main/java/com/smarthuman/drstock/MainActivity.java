@@ -35,12 +35,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -242,7 +236,7 @@ public class MainActivity extends TitleActivity
         setupViewPager(mViewPager);
 
         mAuth = FirebaseAuth.getInstance();
-        //mAuth.signOut();
+        mAuth.signOut();
         mfirebaseUser = mAuth.getCurrentUser();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -756,16 +750,11 @@ public class MainActivity extends TitleActivity
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-//        isPaused = true;
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-//        isPaused = false;
+        isPaused = false;
         Log.d("MainActivity", "onResume: called");
 
         refreshStocks();
@@ -776,6 +765,26 @@ public class MainActivity extends TitleActivity
         if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0 ){
             updateUserInfo();
             updateDatabase();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isPaused = true;
+        switch(mViewPager.getCurrentItem()){
+            case 0:
+                setTitle(R.string.title_home);
+                break;
+            case 1:
+                setTitle(R.string.title_stock);
+                break;
+            case 2: case 3:
+                setTitle(R.string.title_account);
+                break;
+            case 4:
+                setTitle(R.string.title_my_stock);
+                break;
         }
     }
 

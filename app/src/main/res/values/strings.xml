@@ -5,6 +5,9 @@
     <string name="title_account">Account</string>
     <string name="title_login">Log In</string>
     <string name="title_my_stock">My Stocks</string>
+    <!--for Facebook login setup-->
+    <string name="facebook_app_id">129361257826891</string>
+    <string name="fb_login_protocol_scheme">fb129361257826891</string>
 
     <string name="search_hint">Search stocks</string>
 
@@ -182,4 +185,23 @@
 
 
 
+
+
+    <!-- newly added-->
+    <string name="vertify_email">resend verification</string>
+    <string name="vertification_email_sent_to">verification email sent to </string>
+    <string name="vertification_email_failed">fail to send verification email</string>
+    <string name="go_to_vertify_email">This email is not verified</string>
+    <string name="have_verified_email">You haved verified</string>
+
+    <string name="phone_number">Phone Number</string>
+    <string name="send_code">Send Code</string>
+    <string name="resend_code">Re-send Code</string>
+    <string name="SMS_code">code</string>
+    <!--TODO:-->
+    <string name="invalid_code">Your code entered is invalid</string>
+    <string name="sign_in_with_phone">Sign in with phone number</string>
+    <string name="back_to_email_sign_in">Email Sign In</string>
+    <string name="SMS_has_been_sent">Code has been sent to your phone</string>
+    <string name="Google_auth_fail">Google Authentication Failed.</string>
 </resources>

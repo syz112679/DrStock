@@ -87,17 +87,19 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             }
         });
 //          news part
-        listNews = (ListView) v.findViewById(R.id.listNews);
-        loader = (ProgressBar) v.findViewById(R.id.loader);
-        listNews.setEmptyView(loader);
-
-        if(Function.isNetworkAvailable(getActivity().getApplicationContext()))
-        {
-            DownloadNews newsTask = new DownloadNews();
-            newsTask.execute();
-        }else{
-            Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
-        }
+//        listNews = (ListView) v.findViewById(R.id.listNews);
+//        loader = (ProgressBar) v.findViewById(R.id.loader);
+//        listNews.setEmptyView(loader);
+//
+//
+//
+//        if(Function.isNetworkAvailable(getActivity().getApplicationContext()))
+//        {
+//            DownloadNews newsTask = new DownloadNews();
+//            newsTask.execute();
+//        }else{
+//            Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+//        }
 
 
         return v;
@@ -238,9 +240,4 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle(R.string.title_home);
-    }
 }
