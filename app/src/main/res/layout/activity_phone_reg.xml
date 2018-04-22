@@ -99,17 +99,5 @@
         android:textStyle="bold"/>
 
 
-    <Button
-        android:id="@+id/back_to_email_sign_in"
-        style="?android:textAppearanceMedium"
-        android:background="#fdeff9"
-        android:textColor="#5B86E5"
-        android:onClick="onBack"
-        android:text="@string/back_to_email_sign_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold"/>
-
 
 </LinearLayout>
