@@ -164,8 +164,11 @@
     <string name="go_to_vertify_email">该邮箱未验证</string>
     <string name="have_verified_email">你已验证</string>
 
-    <string name="phone_number">手機號碼</string>
-    <string name="send_code">發送驗證碼</string>
+    <string name="phone_number">电话号码</string>
+    <string name="send_code">发送验证码</string>
     <string name="resend_code">重新发送验证码</string>
-    <string name="SMS_code">驗證碼</string>
+    <string name="SMS_code">验证码</string>
+
+    <!--language setting-->
+    <string name="language_set">语言设置</string>
 </resources>

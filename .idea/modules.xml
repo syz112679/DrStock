@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/DrStock_github.iml" filepath="$PROJECT_DIR$/DrStock_github.iml" />
       <module fileurl="file://$PROJECT_DIR$/MPChartLib/MPChartLib.iml" filepath="$PROJECT_DIR$/MPChartLib/MPChartLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/languagelib/languagelib.iml" filepath="$PROJECT_DIR$/languagelib/languagelib.iml" />
     </modules>
   </component>
 </project>

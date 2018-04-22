@@ -204,4 +204,9 @@
     <string name="back_to_email_sign_in">Email Sign In</string>
     <string name="SMS_has_been_sent">Code has been sent to your phone</string>
     <string name="Google_auth_fail">Google Authentication Failed.</string>
+    <!--language setting-->
+    <string name="language_set">Language</string>
+    <string name="setting_language_auto">System Language</string>
+    <string name="setting_language_title">Language Setting</string>
+    <string name="setting_language_english"></string>
 </resources>

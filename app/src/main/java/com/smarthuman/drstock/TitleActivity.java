@@ -38,7 +38,7 @@ import android.widget.Toast;
  * @author gao_chun
  * 自定义标题栏
  */
-public class TitleActivity extends AppCompatActivity implements OnClickListener{
+public class TitleActivity extends BaseActivity implements OnClickListener{
 
     //private RelativeLayout mLayoutTitleBar;
     private TextView mTitleTextView;

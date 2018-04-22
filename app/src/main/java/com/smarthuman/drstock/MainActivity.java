@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.finddreams.languagelib.OnChangeLanguageEvent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -59,6 +60,10 @@ import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -179,7 +184,6 @@ public class MainActivity extends TitleActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         setTitle(R.string.mainActivity);
         showBackward(getDrawable(R.drawable.ic_setup), true);
 //        setBackward(getResources().getDrawable(R.drawable.ic_settings_black_24dp), "");
@@ -244,9 +248,10 @@ public class MainActivity extends TitleActivity
             System.out.println("mfirebaseUser: " + mfirebaseUser);
             updateUserInfo();
         }
+//qiqi
+//        BottomNavigationView navigation = findViewById(R.id.navigation);
+//        navigation.setOnNavigationItemSelectedListener(this);
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(this);
 
 
         JPushInterface.setDebugMode(true);
@@ -254,9 +259,12 @@ public class MainActivity extends TitleActivity
         registerMessageReceiver();
 
 
-        
 
 
+
+//        setContentView(R.layout.activity_main);
+//        setTitle(R.string.app_name);
+//        EventBus.getDefault().register(this);
     }
 
     public static HashSet<String> getStockIds_() {
