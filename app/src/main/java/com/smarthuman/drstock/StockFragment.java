@@ -374,6 +374,6 @@ public class StockFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         MainActivity.requireRefresh=true;
-        getActivity().setTitle(R.string.title_stock);
+        //getActivity().setTitle(R.string.title_stock);
     }
 }

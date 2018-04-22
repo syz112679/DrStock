@@ -94,6 +94,24 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 /*******************************************************************/
 
+
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import cn.jpush.android.api.InstrumentedActivity;
+import cn.jpush.android.api.JPushInterface;
+import  com.smarthuman.drstock.R;
+
 public class MainActivity extends TitleActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -143,6 +161,14 @@ public class MainActivity extends TitleActivity
     static public ViewPager mViewPager;
 
 
+    private MessageReceiver mMessageReceiver;
+    public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -158,6 +184,7 @@ public class MainActivity extends TitleActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         setTitle(R.string.mainActivity);
         showBackward(getDrawable(R.drawable.ic_setup), true);
@@ -226,6 +253,15 @@ public class MainActivity extends TitleActivity
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
+
+
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(getApplicationContext());
+        registerMessageReceiver();
+
+
+        
+
 
     }
 
@@ -860,5 +896,20 @@ public class MainActivity extends TitleActivity
         StockIds_.clear();
         mUserName = null;
     }
+
+
+
+
+    //for receive customer msg from jpush server
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(MESSAGE_RECEIVED_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+    }
+
+
 
 }
