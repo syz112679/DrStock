@@ -222,4 +222,6 @@
     <string name="setting_language_auto">System Language</string>
     <string name="setting_language_title">Language Setting</string>
 
+    <string name="invalid_phone_num">Please enter valid phone number</string>
+
 </resources>
