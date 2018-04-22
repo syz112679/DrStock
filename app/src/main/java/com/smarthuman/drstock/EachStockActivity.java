@@ -23,11 +23,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import android.widget.Toast;
-
-import io.reactivex.internal.util.ExceptionHelper;
+import java.util.Collection;
 
 /**
  * Created by shiyuzhou on 5/4/2018.
@@ -37,13 +36,12 @@ public class EachStockActivity extends TitleActivity {
 
     public static String stockId_Market;
     public static Stock myStock;
-    public boolean invalidInput = false;
+    public boolean invalidInput = false, inPlan = false;
 
     private Button buyButton, sellButton;
-    private ImageView addImg;
+    private ImageView addImg, add_to_plan;
     private RefreshLayout refreshLayout;
-    private Button minBtn, oneMonthBtn, threeMonthBtn, oneYearBtn, threeYearBtn;
-
+    private Button minBtn, oneMonthBtn, threeMonthBtn, oneYearBtn, threeYearBtn, changePlan, planDetails;
 
     public ViewPager mViewPager;
     public ChartPagerAdapter mAdapter;
@@ -80,6 +78,12 @@ public class EachStockActivity extends TitleActivity {
                 refreshlayout.finishRefresh(2000);
             }
         });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(1000);
+            }
+        });
 
         addImg = findViewById(R.id.add_to_favorite);
         addImg.setOnClickListener(this);
@@ -104,9 +108,12 @@ public class EachStockActivity extends TitleActivity {
         threeYearBtn = (Button) findViewById(R.id.three_year_btn);
         threeYearBtn.setOnClickListener(this);
 
+        add_to_plan = findViewById(R.id.add_to_plan);
+        changePlan = findViewById(R.id.changePlan);
+        changePlan.setOnClickListener(this);
+        planDetails = findViewById(R.id.planDetails);
+        planDetails.setOnClickListener(this);
     }
-
-
 
     // START: update the data of TextViews [Samuel_GU]
 
@@ -331,7 +338,30 @@ public class EachStockActivity extends TitleActivity {
                     Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.changePlan:
+                if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
+                    if (inPlan) {
+                        InvestmentPlan plan = InvestmentPlan.planTreeMap.get(myStock.getEnqueryId());
+                        double oldVolum = plan.baseVolum;
+                        // TODO: update the baseVolum or cancel plan
 
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.toast_add_first, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.add_to_plan:
+                if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
+                    // TODO: add to plans
+                    // TODO: input: baseVolum
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
+                }
+            case R.id.planDetails:
+                startActivity(new Intent(this, InvestmentPlanDetails.class));
+                break;
         }
     }
 
@@ -414,6 +444,14 @@ public class EachStockActivity extends TitleActivity {
             if(StockFragment.input2enqury(myStock.id_).equals( id) ) {
                 addImg.setImageResource(R.drawable.ic_favourite_solid);
                 System.out.println(" ****************it is favorited, i=" + i);
+            }
+        }
+
+        Collection<InvestmentPlan> plans = InvestmentPlan.planTreeMap.values();
+        for (InvestmentPlan p : plans) {
+            if (myStock.getEnqueryId().equals(p.enquiryId)) {
+                add_to_plan.setImageResource(R.drawable.ic_collection_fill);
+                inPlan = true;
             }
         }
 

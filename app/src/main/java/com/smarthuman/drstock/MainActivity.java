@@ -157,6 +157,14 @@ public class MainActivity extends TitleActivity
     public static StockIndex stockIndex = new StockIndex();
     public static ExchangeRate exchangeRate = new ExchangeRate();
     public static String[][] exchangeRate_ = new String[exchangeRate.currencyCount][exchangeRate.currencyCount];
+
+    public static View fragment_home;
+    public static View fragment_stock;
+    public static View fragment_login;
+    public static View fragment_account;
+    public static View fragment_mystocklist;
+
+
     //--------------------------------------------------------------------------------------------------
 
     public static FirebaseUser mfirebaseUser;
@@ -202,10 +210,31 @@ public class MainActivity extends TitleActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        initialize();
+    }
+
+    public static HashSet<String> getStockIds_() {
+        return StockIds_;
+    }
+
+    public static void addStockIds_(String stockIds_) {
+        if (stockIds_ == null)
+            return;
+        StockIds_.add(stockIds_);
+        mFavorites=new ArrayList<>(StockIds_);
+        System.out.println("addStockIds_:" + StockIds_ + ";");
+        if (mAuth.getCurrentUser() != null || (AccessToken.getCurrentAccessToken() != null)) {
+            updateUserInfo();
+        }
+    }
+
+    public void initialize() {
         setTitle(R.string.mainActivity);
         showBackward(getDrawable(R.drawable.ic_setup), true);
-//        setBackward(getResources().getDrawable(R.drawable.ic_settings_black_24dp), "");
         context = getApplicationContext();
+
+        System.out.println("fragment_home = " + fragment_home);
 
         isPaused = false;
         Log.d("mainActivity", "LIne 126");
@@ -288,18 +317,15 @@ public class MainActivity extends TitleActivity
 //        setContentView(R.layout.activity_main);
 //        setTitle(R.string.app_name);
 //        EventBus.getDefault().register(this);
-    }
 
-    public static HashSet<String> getStockIds_() {
-        return StockIds_;
-    }
 
-    public static void addStockIds_(String stockIds_) {
-        if (stockIds_ == null)
-            return;
-        StockIds_.add(stockIds_);
-        mFavorites=new ArrayList<>(StockIds_);
-        System.out.println("addStockIds_:" + StockIds_ + ";");
+
+        fragment_account = findViewById(R.id.fragment_account);
+        fragment_home = findViewById(R.id.fragment_home);
+        fragment_login = findViewById(R.id.fragment_login);
+        fragment_mystocklist = findViewById(R.id.fragment_mystocklist);
+        fragment_stock = findViewById(R.id.fragment_stock);
+
     }
 
     public static void removeStockIds_(String stockIds_) {
@@ -317,21 +343,6 @@ public class MainActivity extends TitleActivity
         }
         return false;
     }
-
-
-//    @Override
-//    public void setTitle(int titleId) {
-//        TextView temp = (TextView) findViewById(R.id.text_title);
-//        temp.setText(titleId);
-//    }
-//
-//    //设置标题内容
-//    @Override
-//    public void setTitle(CharSequence title) {
-//        TextView temp = (TextView) findViewById(R.id.text_title);
-//        temp.setText(title);
-//    }
-
 
 
     @Override
@@ -416,11 +427,17 @@ public class MainActivity extends TitleActivity
     }
 
     public void updateFlipper() {
+//        TextView rmb = (findViewById(R.id.fragment_home)).findViewById(R.id.rmb_value);
+//        TextView usd = fragment_home.findViewById(R.id.usd_value);
+//        TextView gbp = fragment_home.findViewById(R.id.gbp_value);
+//
+//        System.out.println("rmb1: " + rmb);
+
         TextView rmb = findViewById(R.id.rmb_value);
         TextView usd = findViewById(R.id.usd_value);
         TextView gbp = findViewById(R.id.gbp_value);
 
-        System.out.println("rmb: " + rmb);
+        System.out.println("rmb2: " + rmb);
         if (rmb == null)
             return;
 
@@ -572,7 +589,7 @@ public class MainActivity extends TitleActivity
         if (index == null || eachLinearLayout == null)
             return;
         ((TextView)eachLinearLayout.getChildAt(1)).setText(index.value);
-        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent + "%");
+        ((TextView)eachLinearLayout.getChildAt(2)).setText(index.percent);
         for (int i = 1; i <= 2; i++)
             ((TextView)eachLinearLayout.getChildAt(i)).setTextColor((index.isRising) ? MainActivity.UpColor_:MainActivity.DownColor_);
 

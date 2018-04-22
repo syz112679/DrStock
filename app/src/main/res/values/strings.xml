@@ -205,6 +205,11 @@
     <string name="back_to_email_sign_in">Email Sign In</string>
     <string name="SMS_has_been_sent">Code has been sent to your phone</string>
     <string name="Google_auth_fail">Google Authentication Failed.</string>
+    <string name="add_to_plan">Add to Plan</string>
+    <string name="plan_detail">Plan Details</string>
+    <string name="investmentPlanDetails">investment Plan Details</string>
+    <string name="investment_plan">Investment Plan</string>
+    <string name="toast_add_first">Please add to plan first</string>
 
     <string name="set_username">Set your user name</string>
     <string name="text_try_sip">Try our Smart Investment Plan</string>

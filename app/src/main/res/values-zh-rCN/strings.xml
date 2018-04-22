@@ -180,4 +180,9 @@
     <string name="setting_language_auto">系统语言</string>
     <string name="setting_language_title">语言设置</string>
 
+    <string name="add_to_plan">Add to Plan</string>
+    <string name="plan_detail">Plan Details</string>
+    <string name="investmentPlanDetails">investment Plan Details</string>
+    <string name="change_plan">Change Plan</string>
+    <string name="toast_add_first">Please add to plan first</string>
 </resources>

@@ -2,6 +2,7 @@
 
 <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.csom/apk/res-auto"
+    xmlns:app2="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refreshLayout_eachStock"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -424,6 +425,37 @@
                         android:layout_height="395dp">
 
                     </android.support.v4.view.ViewPager>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/changePlan"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/change_plan" />
+
+                    <ImageView
+                        android:id="@+id/add_to_plan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="50dp"
+                        app2:srcCompat="@drawable/ic_collection" />
+
+                    <Button
+                        android:id="@+id/planDetails"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/plan_detail" />
+
                 </LinearLayout>
 
 

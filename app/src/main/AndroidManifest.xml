@@ -153,6 +153,11 @@
         </activity>
 
         <activity
+            android:name="com.smarthuman.drstock.InvestmentPlanDetails"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
             android:name="com.smarthuman.drstock.Chart_1monthActivity"
             android:screenOrientation="landscape">
         </activity>
