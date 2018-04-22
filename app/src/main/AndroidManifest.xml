@@ -133,6 +133,11 @@
             android:screenOrientation="landscape">
         </activity>
 
+        <activity
+            android:name="com.smarthuman.drstock.USChart_Min_Activity"
+            android:screenOrientation="landscape">
+        </activity>
+
     </application>
 
 </manifest>

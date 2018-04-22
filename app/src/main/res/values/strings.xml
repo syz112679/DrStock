@@ -180,4 +180,8 @@
     <string name="back_to_email_sign_in">Email Sign In</string>
     <string name="SMS_has_been_sent">Code has been sent to your phone</string>
     <string name="Google_auth_fail">Google Authentication Failed.</string>
+
+    <string name="rsi_6">6 days</string>
+    <string name="rsi_12">12 days</string>
+    <string name="rsi_24">24 days</string>
 </resources>
