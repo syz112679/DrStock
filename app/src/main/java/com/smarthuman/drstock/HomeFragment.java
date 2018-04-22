@@ -36,7 +36,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     private View v;
 
     String API_KEY = "b0535990b1f343d79558e427bb29eec9"; // ### YOUE NEWS API HERE ###
-    String NEWS_SOURCE = "business-insider";
+//    String NEWS_SOURCE = "business-insider";
+    String NEWS_SOURCE = "cn";
     ListView listNews;
     ProgressBar loader;
 
@@ -86,7 +87,7 @@ public class HomeFragment extends android.support.v4.app.Fragment {
                 }
             }
         });
-          //news part
+//          news part
 //        listNews = (ListView) v.findViewById(R.id.listNews);
 //        loader = (ProgressBar) v.findViewById(R.id.loader);
 //        listNews.setEmptyView(loader);
@@ -192,7 +193,14 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             String xml = "";
 
             String urlParameters = "";
-            xml = Function.excuteGet("https://newsapi.org/v1/articles?source="+NEWS_SOURCE+"&sortBy=top&apiKey="+API_KEY, urlParameters);
+            String url1 = getString(R.string.newsurl1);
+            String url2 = getString(R.string.newsurl2);
+            String url = getString(R.string.URL);
+            System.out.println("url: " + url + ";");
+
+            xml = Function.excuteGet(url, urlParameters);
+//            xml = Function.excuteGet("https://newsapi.org/v2/top-headlines?country="+ NEWS_SOURCE + "&category=business&apiKey="+API_KEY, urlParameters);
+
             return  xml;
         }
         @Override
