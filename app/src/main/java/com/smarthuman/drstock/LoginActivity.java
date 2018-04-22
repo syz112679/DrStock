@@ -81,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
     private final String TAG = "LoginActivity";
     boolean isGoogle = false;
     private String Uid;
+    Button resendBtn;
 
 
     //Facebook
@@ -113,6 +114,9 @@ public class LoginActivity extends AppCompatActivity {
         // : Grab an instance of FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+
+        resendBtn = findViewById(R.id.resend_email_btn);
+        resendBtn.setVisibility(View.INVISIBLE);
 
         //**************Google Sign in***************************
         // Configure sign-in to request the user's ID, email address, and basic
@@ -229,6 +233,8 @@ public class LoginActivity extends AppCompatActivity {
                         MainActivity.updateUserInfo();
                         MainActivity.setViewPager(0);
                     } else {
+
+                        resendBtn.setVisibility(View.VISIBLE);
                         Toast.makeText(LoginActivity.this,getString(R.string.go_to_vertify_email),
                                     Toast.LENGTH_SHORT).show();
                     }
@@ -272,7 +278,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             //re-enable re-sent button
-                            findViewById(R.id.resend_email_btn).setEnabled(false);
+                            resendBtn.setEnabled(false);
 
                             if (task.isSuccessful()) {
                                 Toast.makeText(LoginActivity.this, getString(R.string.vertification_email_sent_to) + " " + email,

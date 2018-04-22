@@ -262,7 +262,8 @@ public class MainActivity extends TitleActivity
         //FacebookSignOut();
         //GoogleSignOut();
         mfirebaseUser = mAuth.getCurrentUser();
-        mUid = mfirebaseUser.getUid();
+        if(mfirebaseUser!=null)
+            mUid = mfirebaseUser.getUid();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         setupViewPager(mViewPager);
