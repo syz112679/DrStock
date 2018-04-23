@@ -183,11 +183,55 @@
     <string name="newsurl1">https://newsapi.org/v2/top-headlines?country=</string>
     <string name="newsurl2">&amp;category=business&amp;apiKey=</string>
 
-    <string name="add_to_plan">添加至慧定投</string>
-    <string name="plan_detail">慧定投详细说明</string>
-    <string name="investmentPlanDetails">investment Plan Details</string>
-    <string name="change_plan">Change Plan</string>
-    <string name="toast_add_first">Please add to plan first</string>
-    <string name="toast_click_change">Please click \"change\" button</string>
-    <string name="toast_plan_change">Plan changed!</string>
+    <string name="add_to_plan">添加至智能定投</string>
+    <string name="plan_detail">智能定投详细说明</string>
+    <string name="investmentPlanDetails">智能定投详细说明</string>
+    <string name="change_plan">改变定投计划</string>
+    <string name="toast_add_first">请先加入定投计划</string>
+    <string name="toast_click_change">请点击 \"改变\" 按钮</string>
+    <string name="toast_plan_change">定投计划已改变</string>
+    <string name="text_plan_title">我的定投</string>
+    <string name="text_base_volume">定投基数</string>
+    <string name="text_plan_frequency">定投频率</string>
+
+    <!--TODO-->
+    <string name="text_how_much_money_transfer">请输入你想转账的金额，转给用户：</string>
+    <string name="text_transfer_btn">转账</string>
+    <string name="transfer_success">转账成功！</string>
+    <string name="my_qr">我的二维码</string>
+
+    <string name="cannot_understand_qr">无法识别这个用户</string>
+    <string name="add_to_plan_success">定投加入成功！</string>
+    <string name="change_plan_success">定投计划改变成功</string>
+    <string name="delete_plan_success">定投计划删除</string>
+
+    <!--TODO Apr 23 13.21-->
+    <string name="text_SIP">Smart Investment Plan</string>
+    <string name="text_change_SIP">Change Smart Investment Plan</string>
+    <string name="text_enter_the_basevolume">Enter the base volume you want to invest every week</string>
+    <string name="ok">OK</string>
+    <string name="delete">Delete</string>
+    <string name="enter_new_plan_zero_for_deleting">Enter the new volume of your plan, enter zero or click on delete if you want to delete your plan</string>
+    <string name="plan_current_volume_is">Your current plan volume is: </string>
+    <!--TODO: Apr 22, 9:10pm-->
+    <string name="text_selling_price">Selling price</string>
+    <string name="text_buying_price">Buying price</string>
+
+
+    <!--TODO:Notification related-->
+    <string name="hello">Hello World, JPush!</string>
+    <string name="tag_hint">Tag can be number, alphabet, underscore, Chinese. Use , to split many tags.</string>
+    <string name="alias_hint">Alias can be number, alphabet, underscore, Chinese.</string>
+    <string name="mobilenumber_hint">The phone number can only start with a "+" or a number,other can only contain "-" and Numbers</string>
+    <string name="style_hint">style should be number</string>
+    <string name="error_style_empty">style cannot be empty</string>
+    <string name="error_alias_empty">alias cannot be empty</string>
+    <string name="error_tag_empty">tag cannot be empty</string>
+    <string name="error_tag_gs_empty">Invalid format</string>
+    <string name="mobilenumber_empty_guide">will clear last set phone number</string>
+    <string name="error_network">Failed to init due to network exception.</string>
+    <string name="logining">Running in background. Please see log.</string>
+    <string name="setting_su">Succeed to set</string>
+
+
 </resources>

@@ -19,7 +19,7 @@
     <string name="action_sign_up">Sign up</string>
     <string name="action_send">Send</string>
     <string name="action_back_sign_in">Back to Sign In</string>
-    <string name="add_money">Add 1000</string>
+    <string name="add_money">Money Transfer</string>
     <string name="add_to_favorite">Add To Favorites</string>
     <string name="buy_stock">Buy Stock</string>
     <string name="chat_room">Chat Room</string>
@@ -246,4 +246,14 @@
     <string name="text_base_volume">Base Volume</string>
     <string name="text_plan_frequency">Frequency</string>
 
+    <!--TODO-->
+    <string name="text_how_much_money_transfer">How much money you want to transfer to User:</string>
+    <string name="text_transfer_btn">Transfer</string>
+    <string name="transfer_success">Money transfer success!</string>
+    <string name="my_qr">My QR code</string>
+
+    <string name="cannot_understand_qr">Cannot recognize this user</string>
+    <string name="add_to_plan_success">Investment plan added sucessfully!</string>
+    <string name="change_plan_success">Investment plan changed</string>
+    <string name="delete_plan_success">Investment plan deleted</string>
 </resources>

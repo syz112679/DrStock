@@ -18,6 +18,17 @@ public class UserInformation {
 
     private boolean isSuperUser;
 
+    public UserInformation(String userName, String email, double money, double earning, double balance, ArrayList<StockSnippet> myStocks, ArrayList<String> favorites, boolean isSuperUser) {
+        this.userName = userName;
+        this.email = email;
+        this.money = money;
+        this.earning = earning;
+        this.balance = balance;
+        this.myStocks = myStocks;
+        this.favorites = favorites;
+        this.isSuperUser = isSuperUser;
+    }
+
     public UserInformation(String userName, String email) {
         this.userName = userName;
         this.email = email;

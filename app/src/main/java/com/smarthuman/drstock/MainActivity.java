@@ -957,6 +957,15 @@ public class MainActivity extends TitleActivity
         }
     }
 
+    static public void planTreeMap2mPlan () {
+        if(InvestmentPlan.planTreeMap != null ) {
+            mPlans = new ArrayList<InvestmentPlan>();
+            for (Map.Entry<String, InvestmentPlan> entry : InvestmentPlan.planTreeMap.entrySet()) {
+                mPlans.add(entry.getValue());
+            }
+        }
+    }
+
     void clearLocalData() {
         mMoney = 0.0;
         mEarning = 0.0;

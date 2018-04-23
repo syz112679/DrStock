@@ -81,7 +81,19 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
             }
         });
 
+        mMyPlanListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                //Toast.makeText(getContext(),MainActivity.mStockRecords.get(position).getName(), Toast.LENGTH_SHORT).show();
+                String enqueryId = MainActivity.mPlans.get(position).getEnquiryId();
+                Intent intent = new Intent(getActivity(), EachStockActivity.class);
+                intent.putExtra(MainActivity.EXTRA_MESSAGE, enqueryId);
+                startActivity(intent);
 
+            }
+        });
 
         return view;
     }
