@@ -1,7 +1,6 @@
 package com.smarthuman.drstock;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -346,12 +345,12 @@ public class EachStockActivity extends TitleActivity {
                         if (plan == null) {
                             oldVolumn = 0;
                         } else {
-                            oldVolumn = plan.baseVolum;
+                            oldVolumn = plan.baseVolumn;
                         }
 
                         final AlertDialog.Builder alert3 = new AlertDialog.Builder(this);
                         final EditText input_et = new EditText(this);
-                        String message = "\n" + getString(R.string.plan_current_volume_is) + String.valueOf(oldVolum) + "\n"
+                        String message = "\n" + getString(R.string.plan_current_volume_is) + String.valueOf(oldVolumn) + "\n"
                                 +getString(R.string.enter_new_plan_zero_for_deleting)+ "\n";
 
                         alert3.setMessage(message);
@@ -365,8 +364,16 @@ public class EachStockActivity extends TitleActivity {
                                 String baseVolume = input_et.getText().toString();
                                 double baseVolume_db = Double.parseDouble(baseVolume);
                                 //TODO: change to plans
-                                if (plan != null) {
-                                    InvestmentPlan.planTreeMap.get(myStock.getEnqueryId()).baseVolum = newVolum;
+                                InvestmentPlan p = InvestmentPlan.planTreeMap.get(myStock.getEnqueryId());
+                                if (p != null) {
+                                    if ( baseVolume_db == 0) {
+                                        InvestmentPlan.planTreeMap.remove(myStock.getEnqueryId());
+                                        inPlan = false;
+                                        add_to_plan.setImageResource(R.drawable.ic_collection);
+                                    } else {
+                                        p.baseVolumn = baseVolume_db;
+                                        Toast.makeText(getApplicationContext(), R.string.toast_plan_change, Toast.LENGTH_SHORT).show();
+                                    }
                                 }
 
                             }
@@ -376,8 +383,11 @@ public class EachStockActivity extends TitleActivity {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                //TODO: delete
                                 // what ever you want to do with No option.
-                                if (plan != null) {
+                                InvestmentPlan p = InvestmentPlan.planTreeMap.get(myStock.getEnqueryId());
+                                if (p != null) {
                                     InvestmentPlan.planTreeMap.remove(myStock.getEnqueryId());
+                                    inPlan = false;
+                                    add_to_plan.setImageResource(R.drawable.ic_collection);
                                     // TODO: mystock remove
                                 }
                             }
@@ -412,9 +422,7 @@ public class EachStockActivity extends TitleActivity {
                                 //TODO: add to plans
                                 add_to_plan.setImageResource(R.drawable.ic_collection_fill);
                                 inPlan = true;
-                                double baseVolumn = 0;
-                                InvestmentPlan.addPlan(new InvestmentPlan(myStock.getEnqueryId(), myStock.name_, baseVolumn, "W"));
-
+                                InvestmentPlan.addPlan(new InvestmentPlan(myStock.getEnqueryId(), myStock.name_, baseVolume_db, "W"));
 
                             }
                         });
@@ -422,7 +430,7 @@ public class EachStockActivity extends TitleActivity {
                         alert4.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 // what ever you want to do with No option.
-                                //TODO: delete plan
+                                // do nothing
                             }
                         });
 

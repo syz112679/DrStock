@@ -1,8 +1,6 @@
 package com.smarthuman.drstock;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.TreeMap;
 
 /**
@@ -19,12 +17,12 @@ public class InvestmentPlan {
         this.enquiryId = enquiryId;
     }
 
-    public double getBaseVolum() {
-        return baseVolum;
+    public double getBaseVolumn() {
+        return baseVolumn;
     }
 
-    public void setBaseVolum(double baseVolum) {
-        this.baseVolum = baseVolum;
+    public void setBaseVolumn(double baseVolumn) {
+        this.baseVolumn = baseVolumn;
     }
 
     public String getFrequency() {
@@ -46,14 +44,14 @@ public class InvestmentPlan {
     public String frequency;
     public String name;
     public String enquiryId;
-    public double baseVolum;
+    public double baseVolumn;
     public static TreeMap<String, InvestmentPlan> planTreeMap = new TreeMap<>();
 
     public InvestmentPlan(String eId, String n, double bv, String f) {
         // initialize the planTreeMap of current user
         enquiryId = eId;
         name = n;
-        baseVolum = bv;
+        baseVolumn = bv;
         frequency = f;
     }
 
@@ -74,7 +72,7 @@ public class InvestmentPlan {
     public static boolean changePlan(String eId, double bv) {
         InvestmentPlan ip = planTreeMap.get(eId);
         if (ip != null) {
-            ip.baseVolum = bv;
+            ip.baseVolumn = bv;
             return true;
         }
         return false;

@@ -189,4 +189,5 @@
     <string name="change_plan">Change Plan</string>
     <string name="toast_add_first">Please add to plan first</string>
     <string name="toast_click_change">Please click \"change\" button</string>
+    <string name="toast_plan_change">Plan changed!</string>
 </resources>

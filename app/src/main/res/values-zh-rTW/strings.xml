@@ -186,5 +186,6 @@
     <string name="newsurl1">https://newsapi.org/v2/top-headlines?country=</string>
     <string name="newsurl2">&amp;category=business&amp;apiKey=</string>
     <string name="toast_click_change">Please click \"change\" button</string>
+    <string name="toast_plan_change">Plan changed!</string>
 
 </resources>
