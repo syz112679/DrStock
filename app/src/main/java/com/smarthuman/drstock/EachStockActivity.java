@@ -181,7 +181,8 @@ public class EachStockActivity extends TitleActivity {
                     sip.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(getApplicationContext(),"go to SIP", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(),"go to SIP", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), InvestmentPlanDetails.class));
                         }
                     });
 
@@ -529,15 +530,16 @@ public class EachStockActivity extends TitleActivity {
             }
         }
 
-        Collection<InvestmentPlan> plans = InvestmentPlan.planTreeMap.values();
-        for (InvestmentPlan p : plans) {
-            if (myStock.getEnqueryId().equals(p.enquiryId)) {
-                add_to_plan.setImageResource(R.drawable.ic_collection_fill);
-                inPlan = true;
+        if(InvestmentPlan.planTreeMap != null) {
+            Collection<InvestmentPlan> plans = InvestmentPlan.planTreeMap.values();
+            for (InvestmentPlan p : plans) {
+                if (myStock.getEnqueryId().equals(p.enquiryId)) {
+                    add_to_plan.setImageResource(R.drawable.ic_collection_fill);
+                    inPlan = true;
+                }
             }
         }
 
-        //TODO: get exchangeRate
         switch (myStock.marketId_) {
             case "US":
                 Log.d("EachStockActivity", "US market stock");

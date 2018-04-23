@@ -88,6 +88,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
@@ -180,6 +181,7 @@ public class MainActivity extends TitleActivity
     public static String mUserName = "", mEmail = "";
     public static double mMoney=0.0, mEarning=0.0, mBalance=0.0;
     public static ArrayList<StockSnippet> mStockRecords = new ArrayList<StockSnippet>();
+    public static ArrayList<InvestmentPlan> mPlans = new ArrayList<InvestmentPlan>();
     public static ArrayList<String> mFavorites = new ArrayList<String>();
 
     public SectionStatePagerAdapter mSectionStatePagerAdapter;
@@ -946,6 +948,13 @@ public class MainActivity extends TitleActivity
         if(mFavorites!=null)
             StockIds_= new HashSet<>(mFavorites);
 
+        //TODO: need to change this
+        if(InvestmentPlan.planTreeMap != null ) {
+            mPlans = new ArrayList<InvestmentPlan>();
+            for (Map.Entry<String, InvestmentPlan> entry : InvestmentPlan.planTreeMap.entrySet()) {
+                mPlans.add(entry.getValue());
+            }
+        }
     }
 
     void clearLocalData() {
@@ -956,6 +965,10 @@ public class MainActivity extends TitleActivity
         mStockRecords.clear();
         StockIds_.clear();
         mUserName = null;
+
+        //TODO: handle InvestmentPlan.planTreeMap here
+        mPlans.clear();
+        InvestmentPlan.planTreeMap.clear();
     }
 
     public void FacebookSignOut() {

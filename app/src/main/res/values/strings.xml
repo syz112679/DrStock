@@ -242,4 +242,8 @@
     <string name="enter_new_plan_zero_for_deleting">Enter the new volume of your plan, enter zero or click on delete if you want to delete your plan</string>
     <string name="plan_current_volume_is">Your current plan volume is: </string>
     <string name="toast_plan_change">Plan changed!</string>
+    <string name="text_plan_title">My Investment Plans</string>
+    <string name="text_base_volume">Base Volume</string>
+    <string name="text_plan_frequency">Frequency</string>
+
 </resources>
