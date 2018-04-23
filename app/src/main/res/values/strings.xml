@@ -205,6 +205,11 @@
     <string name="back_to_email_sign_in">Email Sign In</string>
     <string name="SMS_has_been_sent">Code has been sent to your phone</string>
     <string name="Google_auth_fail">Google Authentication Failed.</string>
+    <string name="add_to_plan">Add to Plan</string>
+    <string name="plan_detail">Plan Details</string>
+    <string name="investmentPlanDetails">investment Plan Details</string>
+    <string name="investment_plan">Investment Plan</string>
+    <string name="toast_add_first">Please add to plan first</string>
 
     <string name="set_username">Set your user name</string>
     <string name="text_try_sip">Try our Smart Investment Plan</string>
@@ -226,6 +231,20 @@
     <string name="newsurl2">&amp;sortBy=top&amp;apiKey=</string>
 
     <string name="invalid_phone_num">Please enter valid phone number</string>
+    <string name="toast_click_change">Please click \"change\" button</string>
+
+    <!--TODO Apr 23 13.21-->
+    <string name="text_SIP">Smart Investment Plan</string>
+    <string name="text_change_SIP">Change Smart Investment Plan</string>
+    <string name="text_enter_the_basevolume">Enter the base volume you want to invest every week</string>
+    <string name="ok">OK</string>
+    <string name="delete">Delete</string>
+    <string name="enter_new_plan_zero_for_deleting">Enter the new volume of your plan, enter zero or click on delete if you want to delete your plan</string>
+    <string name="plan_current_volume_is">Your current plan volume is: </string>
+    <string name="toast_plan_change">Plan changed!</string>
+    <string name="text_plan_title">My Investment Plans</string>
+    <string name="text_base_volume">Base Volume</string>
+    <string name="text_plan_frequency">Frequency</string>
 
 
     <string name="rsi_6">6 days</string>

@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by shiyuzhou on 27/3/2018.
@@ -25,7 +26,9 @@ import java.util.List;
 public class MyStockListFragment extends android.support.v4.app.Fragment  {
 
     private ListView mMyStockListView;
+    private ListView mMyPlanListView;
     StockItemAdapter mStockAdapter;
+    PlanItemAdapter mPlanAdapter;
 
 
 
@@ -37,40 +40,29 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
         if(((MainActivity)getActivity()).mfirebaseUser != null) {
 
             mMyStockListView = view.findViewById(R.id.my_stocks_listview);
-
+            mMyPlanListView = view.findViewById(R.id.my_plans_listview);
             // check every time to remove 00000
             if(!MainActivity.mStockRecords.isEmpty() && MainActivity.mStockRecords.get(0).getId().equals("00000")) {
                 MainActivity.mStockRecords.remove(0);
             }
 
+            //stocks
             mStockAdapter = new StockItemAdapter(getActivity(), MainActivity.mStockRecords);
             mMyStockListView.setAdapter(mStockAdapter);
             mStockAdapter.notifyDataSetChanged();
-//            ((MainActivity) getActivity()).mDatabaseReference.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    if(getActivity()!=null) {
-//                        String userName = dataSnapshot.child("users").child(mUid).child("userName").getValue(String.class);
-//                        double money = dataSnapshot.child("users").child(mUid).child("money").getValue(double.class);
-//                        double earning = dataSnapshot.child("users").child(mUid).child("earning").getValue(double.class);
-//                        mMyStock.clear();
-//
-//
-//                        for (DataSnapshot child: dataSnapshot.child("users").child(mUid).child("myStocks").getChildren()) {
-//                            mMyStock.add(child.getValue(StockSnippet.class));
-//                        }
-//
-//                        mStockAdapter = new StockItemAdapter(getActivity(), mMyStock);
-//                        mStockAdapter.notifyDataSetChanged();
-//
-//                    }
+
+//            if(InvestmentPlan.planTreeMap != null ) {
+//                ArrayList<InvestmentPlan> plans = new ArrayList<InvestmentPlan> ();
+//                for(Map.Entry<String,InvestmentPlan> entry : InvestmentPlan.planTreeMap.entrySet()) {
+//                    plans.add(entry.getValue());
 //                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//            });
+                //plans
+                mPlanAdapter = new PlanItemAdapter(getActivity(), MainActivity.mPlans);
+                mMyPlanListView.setAdapter(mPlanAdapter);
+                mPlanAdapter.notifyDataSetChanged();
+            //}
+
+
         }
 
         // ListView setOnItemClickListener function apply here.
@@ -80,7 +72,7 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Toast.makeText(getContext(),MainActivity.mStockRecords.get(position).getName(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),MainActivity.mStockRecords.get(position).getName(), Toast.LENGTH_SHORT).show();
                 String enqueryId = StockFragment.input2enqury(MainActivity.mStockRecords.get(position).getId());
                 Intent intent = new Intent(getActivity(), EachStockActivity.class);
                 intent.putExtra(MainActivity.EXTRA_MESSAGE, enqueryId);
@@ -100,6 +92,8 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
         MainActivity.requireRefresh=true;
         getActivity().setTitle(R.string.title_my_stock);
         mStockAdapter.notifyDataSetChanged();
+        mPlanAdapter.notifyDataSetChanged();
+
 
     }
 
