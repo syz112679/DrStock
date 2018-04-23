@@ -11,18 +11,54 @@ import java.util.TreeMap;
 
 public class InvestmentPlan {
 
-    String enquiryId;
-    double baseVolum;
-    public static TreeMap<String, InvestmentPlan> planTreeMap;
-
-    private InvestmentPlan(String eId, double bv) {
-        // initialize the planTreeMap of current user
-        enquiryId = eId;
-        baseVolum = bv;
+    public String getEnquiryId() {
+        return enquiryId;
     }
 
-    public static boolean addPlan(String eId, double bv) {
-        planTreeMap.put(eId, new InvestmentPlan(eId, bv));
+    public void setEnquiryId(String enquiryId) {
+        this.enquiryId = enquiryId;
+    }
+
+    public double getBaseVolum() {
+        return baseVolum;
+    }
+
+    public void setBaseVolum(double baseVolum) {
+        this.baseVolum = baseVolum;
+    }
+
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String frequency;
+    public String name;
+    public String enquiryId;
+    public double baseVolum;
+    public static TreeMap<String, InvestmentPlan> planTreeMap = new TreeMap<>();
+
+    public InvestmentPlan(String eId, String n, double bv, String f) {
+        // initialize the planTreeMap of current user
+        enquiryId = eId;
+        name = n;
+        baseVolum = bv;
+        frequency = f;
+    }
+
+    public static boolean addPlan(InvestmentPlan plan) {
+        planTreeMap.put(plan.enquiryId, plan);
         return true;
     }
 

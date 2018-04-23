@@ -231,5 +231,6 @@
     <string name="newsurl2">&amp;sortBy=top&amp;apiKey=</string>
 
     <string name="invalid_phone_num">Please enter valid phone number</string>
+    <string name="toast_click_change">Please click \"change\" button</string>
 
 </resources>

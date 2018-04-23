@@ -342,8 +342,25 @@ public class EachStockActivity extends TitleActivity {
                 if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
                     if (inPlan) {
                         InvestmentPlan plan = InvestmentPlan.planTreeMap.get(myStock.getEnqueryId());
-                        double oldVolum = plan.baseVolum;
+                        double oldVolum;
+                        if (plan == null) {
+                            oldVolum = 0;
+                        } else {
+                            oldVolum = plan.baseVolum;
+                        }
+
                         // TODO: update the baseVolum or cancel plan
+                        double newVolum = 0;
+                        if (true) {
+                            if (plan != null) {
+                                InvestmentPlan.planTreeMap.get(myStock.getEnqueryId()).baseVolum = newVolum;
+                            }
+                        } else if (false) {
+                            if (plan != null) {
+                                InvestmentPlan.planTreeMap.remove(myStock.getEnqueryId());
+                                // TODO: mystock remove
+                            }
+                        }
 
                     } else {
                         Toast.makeText(getApplicationContext(), R.string.toast_add_first, Toast.LENGTH_SHORT).show();
@@ -354,8 +371,21 @@ public class EachStockActivity extends TitleActivity {
                 break;
             case R.id.add_to_plan:
                 if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
-                    // TODO: add to plans
-                    // TODO: input: baseVolum
+                    if (!inPlan) {
+
+                        // TODO: add to plans
+                        // TODO: input: baseVolum
+
+                        if (true) {
+                            add_to_plan.setImageResource(R.drawable.ic_collection_fill);
+                            inPlan = true;
+                            double baseVolumn = 0;
+                            InvestmentPlan.addPlan(new InvestmentPlan(myStock.getEnqueryId(), myStock.name_, baseVolumn, "W"));
+                        }
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.toast_click_change, Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
                 }
