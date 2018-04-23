@@ -206,20 +206,18 @@
     <string name="delete_plan_success">定投计划删除</string>
 
     <!--TODO Apr 23 13.21-->
-    <string name="text_SIP">Smart Investment Plan</string>
-    <string name="text_change_SIP">Change Smart Investment Plan</string>
-    <string name="text_enter_the_basevolume">Enter the base volume you want to invest every week</string>
-    <string name="ok">OK</string>
-    <string name="delete">Delete</string>
-    <string name="enter_new_plan_zero_for_deleting">Enter the new volume of your plan, enter zero or click on delete if you want to delete your plan</string>
-    <string name="plan_current_volume_is">Your current plan volume is: </string>
+    <string name="text_SIP">智慧投资方案</string>
+    <string name="text_change_SIP">修改投资方案</string>
+    <string name="text_enter_the_basevolume">请输入您每星期想投资的定投金额</string>
+    <string name="delete">删除</string>
+    <string name="enter_new_plan_zero_for_deleting">请输入新的定投金额（如果您想删除投资方案，请输入0或点击"删除"）</string>
+    <string name="plan_current_volume_is">您现在计划的定投金额为: </string>
     <!--TODO: Apr 22, 9:10pm-->
-    <string name="text_selling_price">Selling price</string>
-    <string name="text_buying_price">Buying price</string>
+    <string name="text_selling_price">卖出价格</string>
+    <string name="text_buying_price">买入价格</string>
 
 
     <!--TODO:Notification related-->
-    <string name="hello">Hello World, JPush!</string>
     <string name="tag_hint">Tag can be number, alphabet, underscore, Chinese. Use , to split many tags.</string>
     <string name="alias_hint">Alias can be number, alphabet, underscore, Chinese.</string>
     <string name="mobilenumber_hint">The phone number can only start with a "+" or a number,other can only contain "-" and Numbers</string>

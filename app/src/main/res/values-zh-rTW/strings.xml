@@ -203,17 +203,15 @@
     <string name="change_plan_success">定投計劃改變</string>
     <string name="delete_plan_success">定投計劃刪除</string>
 
-    <!--TODO Apr 23 13.21-->
-    <string name="text_SIP">Smart Investment Plan</string>
-    <string name="text_change_SIP">Change Smart Investment Plan</string>
-    <string name="text_enter_the_basevolume">Enter the base volume you want to invest every week</string>
-    <string name="ok">OK</string>
-    <string name="delete">Delete</string>
-    <string name="enter_new_plan_zero_for_deleting">Enter the new volume of your plan, enter zero or click on delete if you want to delete your plan</string>
-    <string name="plan_current_volume_is">Your current plan volume is: </string>
+    <string name="text_SIP">智慧投資方案</string>
+    <string name="text_change_SIP">修改投資方案</string>
+    <string name="text_enter_the_basevolume">請輸入您每星期想投資的定投金額</string>
+    <string name="delete">刪除</string>
+    <string name="enter_new_plan_zero_for_deleting">請輸入新的定頭金額（如果您想刪除投資方案，請輸入0或點擊"刪除"）</string>
+    <string name="plan_current_volume_is">您現在計畫的定頭金額為: </string>
     <!--TODO: Apr 22, 9:10pm-->
-    <string name="text_selling_price">Selling price</string>
-    <string name="text_buying_price">Buying price</string>
+    <string name="text_selling_price">賣出價格</string>
+    <string name="text_buying_price">買入價格</string>
 
 
 
