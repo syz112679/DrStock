@@ -183,4 +183,9 @@
     <string name="newsurl1">https://newsapi.org/v2/top-headlines?country=</string>
     <string name="newsurl2">&amp;category=business&amp;apiKey=</string>
 
+    <string name="add_to_plan">Add to Plan</string>
+    <string name="plan_detail">Plan Details</string>
+    <string name="investmentPlanDetails">investment Plan Details</string>
+    <string name="change_plan">Change Plan</string>
+    <string name="toast_add_first">Please add to plan first</string>
 </resources>

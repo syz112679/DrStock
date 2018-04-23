@@ -100,7 +100,7 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_out:case R.id.user_sign_out:
+            case R.id.fragment_account:case R.id.user_sign_out:
                 ((MainActivity)getActivity()).mAuth.signOut();
                 ((MainActivity)getActivity()).GoogleSignOut();
                 ((MainActivity)getActivity()).FacebookSignOut();
@@ -110,8 +110,6 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                 //((MainActivity)getActivity()).updateDatabase();
                 ((MainActivity)getActivity()).clearLocalData();
                 break;
-
-
 
             case R.id.display_my_stock:
                 //Toast.makeText(getActivity(), "To My Stocks...", Toast.LENGTH_SHORT).show();

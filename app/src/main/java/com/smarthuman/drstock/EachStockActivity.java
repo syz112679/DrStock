@@ -23,11 +23,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import android.widget.Toast;
-
-import io.reactivex.internal.util.ExceptionHelper;
+import java.util.Collection;
 
 /**
  * Created by shiyuzhou on 5/4/2018.
@@ -37,13 +36,12 @@ public class EachStockActivity extends TitleActivity {
 
     public static String stockId_Market;
     public static Stock myStock;
-    public boolean invalidInput = false;
+    public boolean invalidInput = false, inPlan = false;
 
     private Button buyButton, sellButton;
-    private ImageView addImg;
+    private ImageView addImg, add_to_plan;
     private RefreshLayout refreshLayout;
-    private Button minBtn, oneMonthBtn, threeMonthBtn, oneYearBtn, threeYearBtn;
-
+    private Button minBtn, oneMonthBtn, threeMonthBtn, oneYearBtn, threeYearBtn, changePlan, planDetails;
 
     public ViewPager mViewPager;
     public ChartPagerAdapter mAdapter;
@@ -80,6 +78,12 @@ public class EachStockActivity extends TitleActivity {
                 refreshlayout.finishRefresh(2000);
             }
         });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(1000);
+            }
+        });
 
         addImg = findViewById(R.id.add_to_favorite);
         addImg.setOnClickListener(this);
@@ -104,9 +108,12 @@ public class EachStockActivity extends TitleActivity {
         threeYearBtn = (Button) findViewById(R.id.three_year_btn);
         threeYearBtn.setOnClickListener(this);
 
+        add_to_plan = findViewById(R.id.add_to_plan);
+        changePlan = findViewById(R.id.changePlan);
+        changePlan.setOnClickListener(this);
+        planDetails = findViewById(R.id.planDetails);
+        planDetails.setOnClickListener(this);
     }
-
-
 
     // START: update the data of TextViews [Samuel_GU]
 
@@ -331,7 +338,85 @@ public class EachStockActivity extends TitleActivity {
                     Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.changePlan:
+                if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
+                    if (inPlan) {
+                        InvestmentPlan plan = InvestmentPlan.planTreeMap.get(myStock.getEnqueryId());
+                        double oldVolum = plan.baseVolum;
 
+                        final AlertDialog.Builder alert3 = new AlertDialog.Builder(this);
+                        final EditText input_et = new EditText(this);
+                        String message = "\n" + getString(R.string.plan_current_volume_is) + String.valueOf(oldVolum) + "\n"
+                                +getString(R.string.enter_new_plan_zero_for_deleting)+ "\n";
+
+                        alert3.setMessage(message);
+                        alert3.setTitle(R.string.text_change_SIP);
+                        alert3.setView(input_et);
+
+                        alert3.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener(){
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String baseVolume = input_et.getText().toString();
+                                double baseVolume_db = Double.parseDouble(baseVolume);
+                                //TODO: change to plans
+
+                            }
+                        });
+
+                        alert3.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                               //TODO: delete
+                                // what ever you want to do with No option.
+
+                            }
+                        });
+
+                        alert3.show();
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.toast_add_first, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.add_to_plan:
+                if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
+
+                    final AlertDialog.Builder alert4 = new AlertDialog.Builder(this);
+                    final EditText input_et = new EditText(this);
+                    String message = "\n" +getString(R.string.text_enter_the_basevolume)+ "\n";
+
+                    alert4.setMessage(message);
+                    alert4.setTitle(R.string.text_SIP);
+                    alert4.setView(input_et);
+
+                    alert4.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener(){
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String baseVolume = input_et.getText().toString();
+                            double baseVolume_db = Double.parseDouble(baseVolume);
+                            //TODO: add to plans
+
+                        }
+                    });
+
+                    alert4.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // what ever you want to do with No option.
+                        //TODO: delete plan
+                        }
+                    });
+
+                    alert4.show();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
+                }
+            case R.id.planDetails:
+                startActivity(new Intent(this, InvestmentPlanDetails.class));
+                break;
         }
     }
 
@@ -414,6 +499,14 @@ public class EachStockActivity extends TitleActivity {
             if(StockFragment.input2enqury(myStock.id_).equals( id) ) {
                 addImg.setImageResource(R.drawable.ic_favourite_solid);
                 System.out.println(" ****************it is favorited, i=" + i);
+            }
+        }
+
+        Collection<InvestmentPlan> plans = InvestmentPlan.planTreeMap.values();
+        for (InvestmentPlan p : plans) {
+            if (myStock.getEnqueryId().equals(p.enquiryId)) {
+                add_to_plan.setImageResource(R.drawable.ic_collection_fill);
+                inPlan = true;
             }
         }
 
@@ -551,8 +644,5 @@ public class EachStockActivity extends TitleActivity {
 
 
     // END: update the data of TextViews [Samuel_GU]
-
-
-
 
 }

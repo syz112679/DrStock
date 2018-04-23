@@ -72,7 +72,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         searchBtn = v.findViewById(R.id.stockFrag_searchStock);
         searchBtn.setOnClickListener(this);
 
-        refreshLayout = v.findViewById(R.id.refreshLayout_stockFragment);
+        refreshLayout = v.findViewById(R.id.fragment_stock);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
