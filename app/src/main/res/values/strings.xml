@@ -233,4 +233,12 @@
     <string name="invalid_phone_num">Please enter valid phone number</string>
     <string name="toast_click_change">Please click \"change\" button</string>
 
+    <!--TODO Apr 23 13.21-->
+    <string name="text_SIP">Smart Investment Plan</string>
+    <string name="text_change_SIP">Change Smart Investment Plan</string>
+    <string name="text_enter_the_basevolume">Enter the base volume you want to invest every week</string>
+    <string name="ok">OK</string>
+    <string name="delete">Delete</string>
+    <string name="enter_new_plan_zero_for_deleting">Enter the new volume of your plan, enter zero or click on delete if you want to delete your plan</string>
+    <string name="plan_current_volume_is">Your current plan volume is: </string>
 </resources>

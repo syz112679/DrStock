@@ -342,25 +342,48 @@ public class EachStockActivity extends TitleActivity {
                 if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
                     if (inPlan) {
                         InvestmentPlan plan = InvestmentPlan.planTreeMap.get(myStock.getEnqueryId());
-                        double oldVolum;
+                        double oldVolumn;
                         if (plan == null) {
-                            oldVolum = 0;
+                            oldVolumn = 0;
                         } else {
-                            oldVolum = plan.baseVolum;
+                            oldVolumn = plan.baseVolum;
                         }
 
-                        // TODO: update the baseVolum or cancel plan
-                        double newVolum = 0;
-                        if (true) {
-                            if (plan != null) {
-                                InvestmentPlan.planTreeMap.get(myStock.getEnqueryId()).baseVolum = newVolum;
+                        final AlertDialog.Builder alert3 = new AlertDialog.Builder(this);
+                        final EditText input_et = new EditText(this);
+                        String message = "\n" + getString(R.string.plan_current_volume_is) + String.valueOf(oldVolum) + "\n"
+                                +getString(R.string.enter_new_plan_zero_for_deleting)+ "\n";
+
+                        alert3.setMessage(message);
+                        alert3.setTitle(R.string.text_change_SIP);
+                        alert3.setView(input_et);
+
+                        alert3.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener(){
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String baseVolume = input_et.getText().toString();
+                                double baseVolume_db = Double.parseDouble(baseVolume);
+                                //TODO: change to plans
+                                if (plan != null) {
+                                    InvestmentPlan.planTreeMap.get(myStock.getEnqueryId()).baseVolum = newVolum;
+                                }
+
                             }
-                        } else if (false) {
-                            if (plan != null) {
-                                InvestmentPlan.planTreeMap.remove(myStock.getEnqueryId());
-                                // TODO: mystock remove
+                        });
+
+                        alert3.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                               //TODO: delete
+                                // what ever you want to do with No option.
+                                if (plan != null) {
+                                    InvestmentPlan.planTreeMap.remove(myStock.getEnqueryId());
+                                    // TODO: mystock remove
+                                }
                             }
-                        }
+                        });
+
+                        alert3.show();
 
                     } else {
                         Toast.makeText(getApplicationContext(), R.string.toast_add_first, Toast.LENGTH_SHORT).show();
@@ -372,17 +395,38 @@ public class EachStockActivity extends TitleActivity {
             case R.id.add_to_plan:
                 if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
                     if (!inPlan) {
+                        final AlertDialog.Builder alert4 = new AlertDialog.Builder(this);
+                        final EditText input_et = new EditText(this);
+                        String message = "\n" + getString(R.string.text_enter_the_basevolume) + "\n";
 
-                        // TODO: add to plans
-                        // TODO: input: baseVolum
+                        alert4.setMessage(message);
+                        alert4.setTitle(R.string.text_SIP);
+                        alert4.setView(input_et);
 
-                        if (true) {
-                            add_to_plan.setImageResource(R.drawable.ic_collection_fill);
-                            inPlan = true;
-                            double baseVolumn = 0;
-                            InvestmentPlan.addPlan(new InvestmentPlan(myStock.getEnqueryId(), myStock.name_, baseVolumn, "W"));
-                        }
+                        alert4.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String baseVolume = input_et.getText().toString();
+                                double baseVolume_db = Double.parseDouble(baseVolume);
+                                //TODO: add to plans
+                                add_to_plan.setImageResource(R.drawable.ic_collection_fill);
+                                inPlan = true;
+                                double baseVolumn = 0;
+                                InvestmentPlan.addPlan(new InvestmentPlan(myStock.getEnqueryId(), myStock.name_, baseVolumn, "W"));
+
+
+                            }
+                        });
+
+                        alert4.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // what ever you want to do with No option.
+                                //TODO: delete plan
+                            }
+                        });
+
+                        alert4.show();
                     } else {
                         Toast.makeText(getApplicationContext(), R.string.toast_click_change, Toast.LENGTH_SHORT).show();
                     }
@@ -619,8 +663,5 @@ public class EachStockActivity extends TitleActivity {
 
 
     // END: update the data of TextViews [Samuel_GU]
-
-
-
 
 }
