@@ -343,7 +343,36 @@ public class EachStockActivity extends TitleActivity {
                     if (inPlan) {
                         InvestmentPlan plan = InvestmentPlan.planTreeMap.get(myStock.getEnqueryId());
                         double oldVolum = plan.baseVolum;
-                        // TODO: update the baseVolum or cancel plan
+
+                        final AlertDialog.Builder alert3 = new AlertDialog.Builder(this);
+                        final EditText input_et = new EditText(this);
+                        String message = "\n" + getString(R.string.plan_current_volume_is) + String.valueOf(oldVolum) + "\n"
+                                +getString(R.string.enter_new_plan_zero_for_deleting)+ "\n";
+
+                        alert3.setMessage(message);
+                        alert3.setTitle(R.string.text_change_SIP);
+                        alert3.setView(input_et);
+
+                        alert3.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener(){
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String baseVolume = input_et.getText().toString();
+                                double baseVolume_db = Double.parseDouble(baseVolume);
+                                //TODO: change to plans
+
+                            }
+                        });
+
+                        alert3.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                               //TODO: delete
+                                // what ever you want to do with No option.
+
+                            }
+                        });
+
+                        alert3.show();
 
                     } else {
                         Toast.makeText(getApplicationContext(), R.string.toast_add_first, Toast.LENGTH_SHORT).show();
@@ -354,8 +383,34 @@ public class EachStockActivity extends TitleActivity {
                 break;
             case R.id.add_to_plan:
                 if(MainActivity.mfirebaseUser != null && MainActivity.mUserName!=null) {
-                    // TODO: add to plans
-                    // TODO: input: baseVolum
+
+                    final AlertDialog.Builder alert4 = new AlertDialog.Builder(this);
+                    final EditText input_et = new EditText(this);
+                    String message = "\n" +getString(R.string.text_enter_the_basevolume)+ "\n";
+
+                    alert4.setMessage(message);
+                    alert4.setTitle(R.string.text_SIP);
+                    alert4.setView(input_et);
+
+                    alert4.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener(){
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String baseVolume = input_et.getText().toString();
+                            double baseVolume_db = Double.parseDouble(baseVolume);
+                            //TODO: add to plans
+
+                        }
+                    });
+
+                    alert4.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // what ever you want to do with No option.
+                        //TODO: delete plan
+                        }
+                    });
+
+                    alert4.show();
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
                 }
@@ -589,8 +644,5 @@ public class EachStockActivity extends TitleActivity {
 
 
     // END: update the data of TextViews [Samuel_GU]
-
-
-
 
 }
