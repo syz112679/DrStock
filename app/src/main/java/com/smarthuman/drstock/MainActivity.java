@@ -875,6 +875,7 @@ public class MainActivity extends TitleActivity
         }
 
         stockInit = true;
+        System.out.println("--stockInit: " + stockInit);
     }
 
     @Override
