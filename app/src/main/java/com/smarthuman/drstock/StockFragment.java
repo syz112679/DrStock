@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -55,7 +56,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
     private final static String ChuangIndex = "sz399006";
     private final static String StockIdsKey_ = "StockIds";
     private Button searchBtn;
-    private Button top20Btn;
+    private ImageView top20Img;
     private RefreshLayout refreshLayout;
     private View v;
 
@@ -73,8 +74,8 @@ public class StockFragment extends Fragment implements View.OnClickListener {
         searchBtn = v.findViewById(R.id.stockFrag_searchStock);
         searchBtn.setOnClickListener(this);
 
-        top20Btn = v.findViewById(R.id.top_20);
-        top20Btn.setOnClickListener(this);
+        top20Img = v.findViewById(R.id.top_20);
+        top20Img.setOnClickListener(this);
 
         refreshLayout = v.findViewById(R.id.fragment_stock);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
