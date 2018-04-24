@@ -289,9 +289,9 @@ public class MainActivity extends TitleActivity
 
 
         mAuth = FirebaseAuth.getInstance();
-        //mAuth.signOut();
-        //FacebookSignOut();
-        //GoogleSignOut();
+        mAuth.signOut();
+        FacebookSignOut();
+        GoogleSignOut();
         mfirebaseUser = mAuth.getCurrentUser();
         if(mfirebaseUser!=null)
             mUid = mfirebaseUser.getUid();

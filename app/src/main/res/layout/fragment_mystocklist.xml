@@ -28,6 +28,10 @@
             android:layout_gravity="bottom"
             android:background="@drawable/line_timber" />
 
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart"
+            android:layout_width="match_parent"
+            android:layout_height="270sp" />
 
         <ImageView
             android:layout_marginTop="40dp"
@@ -95,10 +99,7 @@
             android:textAlignment="viewEnd" >
         </ListView>
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pie_chart"
-            android:layout_width="match_parent"
-            android:layout_height="270sp" />
+
 
     </LinearLayout>
 
