@@ -5,6 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/top_20"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:src="@drawable/top20_btn"
+        android:background="@drawable/chat_room_back"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -185,6 +192,8 @@
             </LinearLayout>
         </LinearLayout>
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -210,12 +219,8 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/top_20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/top20"
-            android:layout_gravity="center" />
+
+
 
         <!--ListView
             android:layout_width="wrap_content"
