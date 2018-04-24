@@ -59,6 +59,7 @@ public class PhoneRegActivity extends AppCompatActivity {
         setContentView(R.layout.activity_phone_reg);
 
         phoneText = (EditText) findViewById(R.id.phoneText);
+        phoneText.setVisibility(View.INVISIBLE);
         codeText = (EditText) findViewById(R.id.codeText);
         verifyButton = (Button) findViewById(R.id.verifyButton);
         sendButton = (Button) findViewById(R.id.sendSMS);
@@ -135,6 +136,7 @@ public class PhoneRegActivity extends AppCompatActivity {
                         phoneVerificationId = verificationId;
                         resendToken = token;
 
+                        phoneText.setVisibility(View.VISIBLE);
                         verifyButton.setEnabled(true);
                         verifyButton.setVisibility(View.VISIBLE);
                         sendButton.setEnabled(false);
