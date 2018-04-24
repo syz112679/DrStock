@@ -219,6 +219,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
+                mUser = mAuth.getCurrentUser();
                 Log.d(TAG, "signInWithEmail() onComplete: " + task.isSuccessful());
 
                 if (!task.isSuccessful()) {
@@ -232,11 +233,14 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                         MainActivity.updateUserInfo();
                         MainActivity.setViewPager(0);
+                        Log.d(TAG, "signInWithEmail() onComplete: " + task.isSuccessful());
                     } else if(mUser!=null && !mUser.isEmailVerified()){
 
                         resendBtn.setVisibility(View.VISIBLE);
                         Toast.makeText(LoginActivity.this,getString(R.string.go_to_vertify_email),
                                     Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d(TAG, "signInWithEmail() onComplete: " + task.isSuccessful());
                     }
                 }
 
