@@ -204,12 +204,12 @@
             android:orientation="horizontal">
 
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/editText_stockId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:maxLength="6" />
+                 />
 
             <Button
                 android:id="@+id/stockFrag_searchStock"

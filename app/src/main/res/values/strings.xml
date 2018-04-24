@@ -271,4 +271,5 @@
     <string name="change_plan">Change Plan</string>
 
     <string name="scan_btn">Scan</string>
+    <string name="toast_initi_complete">Initialization Complete!</string>
 </resources>
