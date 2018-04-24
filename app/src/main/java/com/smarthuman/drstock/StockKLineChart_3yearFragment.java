@@ -79,7 +79,8 @@ public class StockKLineChart_3yearFragment extends android.support.v4.app.Fragme
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_kline, container, false);
-
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
         //setContentView(R.layout.activity_kline);
         Stock stock = ((EachStockActivity) getActivity()).myStock;
         if (stock.marketId_.equals("HK")) {
@@ -143,7 +144,80 @@ public class StockKLineChart_3yearFragment extends android.support.v4.app.Fragme
             rsi14_Btn.setOnClickListener(this);
             rsi20_Btn = (Button) view.findViewById(R.id.rsi_20_btn);
             rsi20_Btn.setOnClickListener(this);
-        } else{
+        }
+//        else if(stock.marketId_.equals("US")){
+//            String alpha_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + stock.id_ + "&interval=1min&outputsize=full&apikey=OFUAIBJU9MLJZEKX";
+//            mChart = (CombinedChart) view.findViewById(R.id.kline_chart);
+//            StringRequest stringRequest = new StringRequest(Request.Method.GET, alpha_url,
+//                    new Response.Listener<String>() {
+//                        @Override
+//                        public void onResponse(String response) {
+//                            //System.out.println("-----Main setdata-----:"+response);
+//
+//                            Model.setData(response);
+//
+//                            initChart();
+//
+//                            loadChartUSData();
+//
+//
+//                        }
+//                    }, new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Log.e("TAG", error.getMessage(), error);
+//                }
+//            });
+//            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
+//            mQueue.add(stringRequest);
+//        }
+        else if(stock.marketId_.equals("SZ")||stock.marketId_.equals("SH")||stock.marketId_.equals("US")){
+            //https://gupiao.baidu.com/api/stocks/stockdaybar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=sh600185&step=3&start=20170823&count=80&fq_type=no&timestamp=1524394699327
+
+            String baiduurl;
+            if(stock.marketId_.equals("US")){
+                baiduurl = "https://gupiao.baidu.com/api/stocks/stockdaybar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=" + stock.marketId_.toLowerCase() + stock.id_.toUpperCase() + "&step=3&start=&count=720&fq_type=no&timestamp=" + ts;
+            }
+            else{
+                baiduurl = "https://gupiao.baidu.com/api/stocks/stockdaybar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=" + stock.marketId_.toLowerCase() + stock.id_ + "&step=3&start=&count=720&fq_type=no&timestamp=" + ts;
+            }
+            mChart = (CombinedChart) view.findViewById(R.id.kline_chart);
+            rsiChart = (LineChart) view.findViewById(R.id.RSI_chart);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, baiduurl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            //System.out.println("-----Main setdata-----:"+response);
+                            storedData = response;
+                            Model.setData(response);
+
+                            initChart();
+                            initChart_Rsi();
+
+                            loadChartCHNData();
+                            loadChartData_Rsi6();
+
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("TAG", error.getMessage(), error);
+                }
+            });
+            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
+            mQueue.add(stringRequest);
+            rsi10_Btn = (Button) view.findViewById(R.id.rsi_10_btn);
+            rsi10_Btn.setText(R.string.rsi_6);
+            rsi10_Btn.setOnClickListener(this);
+            rsi14_Btn = (Button) view.findViewById(R.id.rsi_14_btn);
+            rsi14_Btn.setText(R.string.rsi_12);
+            rsi14_Btn.setOnClickListener(this);
+            rsi20_Btn = (Button) view.findViewById(R.id.rsi_20_btn);
+            rsi20_Btn.setText(R.string.rsi_24);
+            rsi20_Btn.setOnClickListener(this);
+        }
+        else{
             Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
         }
         return view;
@@ -153,28 +227,52 @@ public class StockKLineChart_3yearFragment extends android.support.v4.app.Fragme
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rsi_10_btn:
-                Log.d("render rsi 10 chart", "here");
-                Model.setData_Rsi(storedData);
-                Log.d("stored data", storedData);
-                initChart_Rsi();
+                if(stock.marketId_.equals("HK")) {
+                    Model.setData_Rsi(storedData);
 
-                loadChartData_Rsi10();
+                    initChart_Rsi();
+
+                    loadChartData_Rsi10();
+                }
+                else{
+                    Model.setData(storedData);
+
+                    initChart_Rsi();
+
+                    loadChartData_Rsi6();
+                }
                 break;
             case R.id.rsi_14_btn:
-                Log.d("render rsi 14 chart", "here");
-                Model.setData_Rsi(storedData);
-                Log.d("stored data", storedData);
-                initChart_Rsi();
+                if(stock.marketId_.equals("HK")) {
+                    Model.setData_Rsi(storedData);
 
-                loadChartData_Rsi14();
+                    initChart_Rsi();
+
+                    loadChartData_Rsi14();
+                }
+                else {
+                    Model.setData(storedData);
+
+                    initChart_Rsi();
+
+                    loadChartData_Rsi12();
+                }
                 break;
             case R.id.rsi_20_btn:
-                Log.d("render rsi 20 chart", "here");
-                Model.setData_Rsi(storedData);
-                Log.d("stored data", storedData);
-                initChart_Rsi();
+                if(stock.marketId_.equals("HK")) {
+                    Model.setData_Rsi(storedData);
 
-                loadChartData_Rsi20();
+                    initChart_Rsi();
+
+                    loadChartData_Rsi20();
+                }
+                else{
+                    Model.setData(storedData);
+
+                    initChart_Rsi();
+
+                    loadChartData_Rsi24();
+                }
                 break;
         }
     }
@@ -217,11 +315,23 @@ public class StockKLineChart_3yearFragment extends android.support.v4.app.Fragme
         rightAxis.setEnabled(false);
 
         int[] colors = {colorMa5, colorMa10, colorMa20};
-        String[] labels = {"MA10", "MA20", "MA50"};
-        Legend legend = mChart.getLegend();
-        legend.setCustom(colors, labels);
-        legend.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
-        legend.setTextColor(Color.BLACK);
+        if(stock.marketId_.equals("HK")){
+            String[] labels = {"MA10", "MA20", "MA50"};
+            Legend legend = mChart.getLegend();
+            legend.setCustom(colors, labels);
+            legend.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
+            legend.setTextColor(Color.BLACK);
+        }
+        else{
+            String[] labels = {"MA5", "MA10", "MA20"};
+            Legend legend = mChart.getLegend();
+            legend.setCustom(colors, labels);
+            legend.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
+            legend.setTextColor(Color.BLACK);
+
+        }
+
+
 
         mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
@@ -242,6 +352,79 @@ public class StockKLineChart_3yearFragment extends android.support.v4.app.Fragme
             }
         });
 
+    }
+
+    //render CHN k line chart
+    private void loadChartCHNData() {
+        mChart.resetTracking();
+
+        candleEntries = Model.getCHNCandleEntries_3year();
+
+        itemcount = candleEntries.size();
+        System.out.println("----itemcount : "+itemcount);
+        //List<StockListBean.eachTime> stockBeans = Model.getData();
+        List<String> DateInfo = Model.getCHNDate();
+        xVals = new ArrayList<>();
+        for (int i = 719; i >= 0; i--) {
+            xVals.add(DateInfo.get(i));
+        }
+
+        combinedData = new CombinedData(xVals);
+
+        /*k line*/
+        candleData = generateCandleData();
+        combinedData.setData(candleData);
+
+        /*ma10*/
+        List<Entry> ma5Entries = Model.getMa5CHNEntries_3year();
+        /*ma20*/
+        List<Entry> ma10Entries = Model.getMa10CHNEntries_3year();
+        /*ma50*/
+        List<Entry> ma20Entries = Model.getMa20CHNEntries_3year();
+
+        lineData = generateMultiLineData(
+                generateLineDataSet(ma5Entries, colorMa5, "ma5"),
+                generateLineDataSet(ma10Entries, colorMa10, "ma10"),
+                generateLineDataSet(ma20Entries, colorMa20, "ma20"));
+
+        combinedData.setData(lineData);
+        mChart.setData(combinedData);//当前屏幕会显示所有的数据
+//        setOffset();
+//        mChart.setOnChartGestureListener(new CoupleChartGestureListener(
+//                mChart, rsiChart));
+//        rsiChart.setOnChartGestureListener(new CoupleChartGestureListener(
+//                rsiChart, mChart));
+        mChart.invalidate();
+    }
+
+    //render us stock k line chart
+    private void loadChartUSData() {
+        mChart.resetTracking();
+
+        candleEntries = Model.getUSCandleEntries_3year();
+
+        itemcount = candleEntries.size();
+        System.out.println("----itemcount : "+itemcount);
+        //List<StockListBean.eachTime> stockBeans = Model.getData();
+        List<String> DateInfo = Model.getUSDate();
+        xVals = new ArrayList<>();
+        for (int i = 740; i >= 0; i--) {
+            xVals.add(DateInfo.get(i));
+        }
+
+        combinedData = new CombinedData(xVals);
+
+        /*k line*/
+        candleData = generateCandleData();
+        combinedData.setData(candleData);
+
+        mChart.setData(combinedData);//当前屏幕会显示所有的数据
+//        setOffset();
+//        mChart.setOnChartGestureListener(new CoupleChartGestureListener(
+//                mChart, rsiChart));
+//        rsiChart.setOnChartGestureListener(new CoupleChartGestureListener(
+//                rsiChart, mChart));
+        mChart.invalidate();
     }
 
     private void loadChartData() {
@@ -426,6 +609,67 @@ public class StockKLineChart_3yearFragment extends android.support.v4.app.Fragme
 
 
     }
+
+    private void loadChartData_Rsi6(){
+        rsiChart.resetTracking();
+        List<Entry> lineEntries = Model.getRsi6Entries_3year();
+
+        itemcount = lineEntries.size();
+        System.out.println("----itemcount : "+itemcount);
+//        List<String> DateInfo = Model.getDate();
+        xVals = new ArrayList<>();
+        for (int i = 0; i < itemcount; i++) {
+            xVals.add(" ");
+        }
+
+        /*k line*/
+        LineDataSet set = generateLineDataSet(lineEntries, colorMa20, "rsi10");
+        LineData data = new LineData(xVals,set);
+        rsiChart.setData(data);
+        //setOffset();
+        rsiChart.invalidate();
+    }
+
+    private void loadChartData_Rsi12(){
+        rsiChart.resetTracking();
+        List<Entry> lineEntries = Model.getRsi12Entries_3year();
+
+        itemcount = lineEntries.size();
+        System.out.println("----itemcount : "+itemcount);
+//        List<String> DateInfo = Model.getDate();
+        xVals = new ArrayList<>();
+        for (int i = 0; i < itemcount; i++) {
+            xVals.add(" ");
+        }
+
+        /*k line*/
+        LineDataSet set = generateLineDataSet(lineEntries, colorMa20, "rsi14");
+        LineData data = new LineData(xVals,set);
+        rsiChart.setData(data);
+        //setOffset();
+        rsiChart.invalidate();
+    }
+
+    private void loadChartData_Rsi24(){
+        rsiChart.resetTracking();
+        List<Entry> lineEntries = Model.getRsi24Entries_3year();
+
+        itemcount = lineEntries.size();
+        System.out.println("----itemcount : "+itemcount);
+//        List<String> DateInfo = Model.getDate();
+        xVals = new ArrayList<>();
+        for (int i = 0; i < itemcount; i++) {
+            xVals.add(" ");
+        }
+
+        /*k line*/
+        LineDataSet set = generateLineDataSet(lineEntries, colorMa20, "rsi20");
+        LineData data = new LineData(xVals,set);
+        rsiChart.setData(data);
+        //setOffset();
+        rsiChart.invalidate();
+    }
+
 
     private void loadChartData_Rsi10(){
         rsiChart.resetTracking();

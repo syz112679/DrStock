@@ -3,6 +3,7 @@ package com.smarthuman.drstock;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
@@ -98,6 +99,7 @@ public class EachStockActivity extends TitleActivity {
         // END: update the data of TextViews [Samuel_GU]
         minBtn = (Button) findViewById(R.id.min_graph_btn);
         minBtn.setOnClickListener(this);
+        minBtn.setTextColor(Color.parseColor("#FF8559"));
         oneMonthBtn = (Button) findViewById(R.id.one_month_btn);
         oneMonthBtn.setOnClickListener(this);
         threeMonthBtn = (Button) findViewById(R.id.three_month_btn);
@@ -141,18 +143,43 @@ public class EachStockActivity extends TitleActivity {
 //                searchStock(v);
                 break;
             case R.id.min_graph_btn:
+                minBtn.setTextColor(Color.parseColor("#FF8559"));
+                oneMonthBtn.setTextColor(Color.parseColor("#000000"));
+                threeMonthBtn.setTextColor(Color.parseColor("#000000"));
+                oneYearBtn.setTextColor(Color.parseColor("#000000"));
+                threeYearBtn.setTextColor(Color.parseColor("#000000"));
                 setViewPager(0);
                 break;
             case R.id.one_month_btn:
+                oneMonthBtn.setTextColor(Color.parseColor("#FF8559"));
+                minBtn.setTextColor(Color.parseColor("#000000"));
+                threeMonthBtn.setTextColor(Color.parseColor("#000000"));
+                oneYearBtn.setTextColor(Color.parseColor("#000000"));
+                threeYearBtn.setTextColor(Color.parseColor("#000000"));
                 setViewPager(1);
                 break;
             case R.id.three_month_btn:
+                oneMonthBtn.setTextColor(Color.parseColor("#000000"));
+                minBtn.setTextColor(Color.parseColor("#000000"));
+                oneYearBtn.setTextColor(Color.parseColor("#000000"));
+                threeYearBtn.setTextColor(Color.parseColor("#000000"));
+                threeMonthBtn.setTextColor(Color.parseColor("#FF8559"));
                 setViewPager(2);
                 break;
             case R.id.one_year_btn:
+                oneYearBtn.setTextColor(Color.parseColor("#FF8559"));
+                oneMonthBtn.setTextColor(Color.parseColor("#000000"));
+                threeMonthBtn.setTextColor(Color.parseColor("#000000"));
+                minBtn.setTextColor(Color.parseColor("#000000"));
+                threeYearBtn.setTextColor(Color.parseColor("#000000"));
                 setViewPager(3);
                 break;
             case R.id.three_year_btn:
+                threeYearBtn.setTextColor(Color.parseColor("#FF8559"));
+                oneMonthBtn.setTextColor(Color.parseColor("#000000"));
+                threeMonthBtn.setTextColor(Color.parseColor("#000000"));
+                oneYearBtn.setTextColor(Color.parseColor("#000000"));
+                minBtn.setTextColor(Color.parseColor("#000000"));
                 setViewPager(4);
                 break;
             case R.id.eachstock_buy_btn:
