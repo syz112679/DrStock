@@ -130,33 +130,37 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
                 break;
 
             case R.id.add_money_btn:
+
+                Intent intent3 = new Intent(getActivity(), QRActivity.class);
+                startActivity(intent3);
+                break;
                 //addStockToAccount("000389", 1000, 38.5);
 
-                ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Map<String, Object> postValues = new HashMap<String,Object>();
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            postValues.put(snapshot.getKey(),snapshot.getValue());
-                        }
-
-
-                        ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).updateChildren(postValues);
-                        ((MainActivity)getActivity()).mMoney += 1000;
-                        ((MainActivity)getActivity()).mBalance += 1000;
-                        postValues.put("money", ((MainActivity)getActivity()).mMoney);
-                        postValues.put("balance", ((MainActivity)getActivity()).mBalance);
-                        mMoney.setText(String.valueOf(MainActivity.mBalance));
-                        mTotalAsset.setText(String.format ("%.2f",MainActivity.mMoney));
-
-                    }
-
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+//                ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        Map<String, Object> postValues = new HashMap<String,Object>();
+//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                            postValues.put(snapshot.getKey(),snapshot.getValue());
+//                        }
+//
+//
+//                        ((MainActivity)getActivity()).mDatabaseReference.child("users").child(mUid).updateChildren(postValues);
+//                        ((MainActivity)getActivity()).mMoney += 1000;
+//                        ((MainActivity)getActivity()).mBalance += 1000;
+//                        postValues.put("money", ((MainActivity)getActivity()).mMoney);
+//                        postValues.put("balance", ((MainActivity)getActivity()).mBalance);
+//                        mMoney.setText(String.valueOf(MainActivity.mBalance));
+//                        mTotalAsset.setText(String.format ("%.2f",MainActivity.mMoney));
+//
+//                    }
+//
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//
+//                    }
+//                });
 
         }
     }

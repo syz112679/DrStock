@@ -110,6 +110,7 @@ public class EachStockActivity extends TitleActivity {
         threeYearBtn.setOnClickListener(this);
 
         add_to_plan = findViewById(R.id.add_to_plan);
+        add_to_plan.setOnClickListener(this);
         changePlan = findViewById(R.id.changePlan);
         changePlan.setOnClickListener(this);
         planDetails = findViewById(R.id.planDetails);
@@ -391,7 +392,7 @@ public class EachStockActivity extends TitleActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 String baseVolume = input_et.getText().toString();
                                 double baseVolume_db = Double.parseDouble(baseVolume);
-                                //TODO: change to plans
+
                                 InvestmentPlan p = InvestmentPlan.planTreeMap.get(myStock.getEnqueryId());
                                 if (p != null) {
                                     if ( baseVolume_db == 0) {
@@ -402,22 +403,27 @@ public class EachStockActivity extends TitleActivity {
                                         p.baseVolumn = baseVolume_db;
                                         Toast.makeText(getApplicationContext(), R.string.toast_plan_change, Toast.LENGTH_SHORT).show();
                                     }
+                                    MainActivity.planTreeMap2mPlan();
+                                    Toast.makeText(getApplicationContext(),R.string.change_plan_success, Toast.LENGTH_SHORT).show();
                                 }
+
 
                             }
                         });
 
                         alert3.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                               //TODO: delete
+
                                 // what ever you want to do with No option.
                                 InvestmentPlan p = InvestmentPlan.planTreeMap.get(myStock.getEnqueryId());
                                 if (p != null) {
                                     InvestmentPlan.planTreeMap.remove(myStock.getEnqueryId());
                                     inPlan = false;
                                     add_to_plan.setImageResource(R.drawable.ic_collection);
-                                    // TODO: mystock remove
+                                    Toast.makeText(getApplicationContext(),R.string.delete_plan_success, Toast.LENGTH_SHORT).show();
+                                    MainActivity.planTreeMap2mPlan();
                                 }
+
                             }
                         });
 
@@ -447,11 +453,12 @@ public class EachStockActivity extends TitleActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 String baseVolume = input_et.getText().toString();
                                 double baseVolume_db = Double.parseDouble(baseVolume);
-                                //TODO: add to plans
+
                                 add_to_plan.setImageResource(R.drawable.ic_collection_fill);
                                 inPlan = true;
                                 InvestmentPlan.addPlan(new InvestmentPlan(myStock.getEnqueryId(), myStock.name_, baseVolume_db, "W"));
-
+                                MainActivity.planTreeMap2mPlan();
+                                Toast.makeText(getApplicationContext(),R.string.add_to_plan_success, Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -469,6 +476,7 @@ public class EachStockActivity extends TitleActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.toast_signin_first, Toast.LENGTH_SHORT).show();
                 }
+                break;
             case R.id.planDetails:
                 startActivity(new Intent(this, InvestmentPlanDetails.class));
                 break;
