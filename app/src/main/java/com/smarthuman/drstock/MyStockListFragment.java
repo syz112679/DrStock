@@ -105,7 +105,7 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
     public void onResume() {
         super.onResume();
         MainActivity.requireRefresh=true;
-        getActivity().setTitle(R.string.title_my_stock);
+       // getActivity().setTitle(R.string.title_my_stock);
         mStockAdapter.notifyDataSetChanged();
         mPlanAdapter.notifyDataSetChanged();
 

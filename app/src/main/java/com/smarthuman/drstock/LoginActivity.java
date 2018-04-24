@@ -230,6 +230,7 @@ public class LoginActivity extends AppCompatActivity {
                     //saveEmailtoPref();
 
                     if(mUser!=null && mUser.isEmailVerified()) {
+                        MainActivity.mUid = mUser.getUid();
                         finish();
                         MainActivity.updateUserInfo();
                         MainActivity.setViewPager(0);
@@ -240,7 +241,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this,getString(R.string.go_to_vertify_email),
                                     Toast.LENGTH_SHORT).show();
                     } else {
-                        Log.d(TAG, "signInWithEmail() onComplete: " + task.isSuccessful());
+                        Log.d(TAG, "signInWithEmail() else onComplete: " + task.isSuccessful());
                     }
                 }
 
@@ -389,6 +390,7 @@ public class LoginActivity extends AppCompatActivity {
         isFacebook = true;
 
         if (mUser != null) {
+            MainActivity.mUid = mUser.getUid();
             String userName = mUser.getDisplayName();
             String userEmail = mUser.getEmail();
             Uid = mUser.getUid();

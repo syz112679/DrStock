@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class MainChatActivity extends AppCompatActivity {
+public class MainChatActivity extends TitleActivity {
 
     private String mDisplayName;
     private ListView mChatListView;
@@ -34,6 +34,8 @@ public class MainChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_chat);
 
+        setTitle(R.string.chat_room);
+        showBackward(getDrawable(R.drawable.ic_return), true);
         // Set up the display name and get the Firebase reference
         setupDisplayName();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();

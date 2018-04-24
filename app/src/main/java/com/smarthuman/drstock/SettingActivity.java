@@ -27,7 +27,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class SettingActivity extends TitleActivity{
 
-    private int itemNum = 4;
+    private int itemNum = 5;
     private Switch risingColour;
     private TextView risingDisplay;
     private boolean isEnable = true;
