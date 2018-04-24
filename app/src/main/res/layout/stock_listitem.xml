@@ -3,7 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="40dp"
+    android:layout_height="wrap_content"
     android:id="@+id/singleStockContainer"
     android:orientation="vertical">
 
@@ -15,24 +15,57 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:text="@string/text_stock_name"
+            android:textColor="@color/home_tab_bg"
+            android:gravity="left"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/tv_stock_name"
             android:text="Stock Name"
-            android:gravity="bottom"
+            android:gravity="right"
             android:layout_weight="1"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/text_stock_id"
+            android:textColor="@color/home_tab_bg"
+            android:gravity="left"
+            android:layout_weight="1"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/tv_stock_id"
             android:text="stock ID"
-            android:gravity="left"
+            android:gravity="right"
             android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/text_bought_price"
+            android:gravity="left"
+            android:textColor="@color/home_tab_bg"
+            android:layout_weight="1"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -40,6 +73,22 @@
             android:text="bought_$"
             android:gravity="right"
             android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/text_amount"
+            android:textColor="@color/home_tab_bg"
+            android:gravity="left"
+            android:layout_weight="1"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -47,6 +96,22 @@
             android:text="amount"
             android:gravity="right"
             android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/text_current_Price"
+            android:gravity="left"
+            android:textColor="@color/home_tab_bg"
+            android:layout_weight="1"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -56,6 +121,5 @@
             android:layout_weight="1"/>
 
     </LinearLayout>
-
 
 </LinearLayout>

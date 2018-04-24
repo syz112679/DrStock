@@ -4,18 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/notitle">
+    android:theme="@style/notitle"
+    android:padding="10dp">
 
     <TableLayout
         android:id="@+id/TableLayout_mobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:divider="@drawable/line_h"
+        android:divider="@drawable/line_sky"
         android:showDividers="middle|end"
         android:stretchColumns="1">
 
         <TableRow
-            android:background="@android:color/darker_gray"
+            android:background="@drawable/color_sky"
             android:gravity="center_vertical"
             android:minHeight="20dp">
 
@@ -118,12 +119,12 @@
         android:id="@+id/TableLayout_wifi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:divider="@drawable/line_h"
+        android:divider="@drawable/line_sky"
         android:showDividers="middle|end"
         android:stretchColumns="1">
 
         <TableRow
-            android:background="@android:color/darker_gray"
+            android:background="@drawable/color_sky"
             android:gravity="center_vertical"
             android:minHeight="20dp">
 

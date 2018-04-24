@@ -15,18 +15,23 @@
         android:layout_height="wrap_content"
         android:text="@string/my_qr"
         android:textColor="@color/white"
+        android:textStyle="bold"
         android:textSize="25sp"/>
+
     <ImageView
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="300sp"
         android:id="@+id/qr_imageview"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/scan_btn"
         style="?android:textAppearanceMedium"
-        android:background="#fdeff9"
-        android:textColor="#5B86E5"
+        android:background="#ACB6E5"
+        android:textColor="@color/white"
         android:onClick="scan"/>
 
 </LinearLayout>
