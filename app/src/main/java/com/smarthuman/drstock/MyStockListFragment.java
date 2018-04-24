@@ -38,7 +38,7 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mystocklist, container, false);
-        mPieChart = view.findViewById(R.id.pie_chart);
+        //mPieChart = view.findViewById(R.id.pie_chart);
         //initChart();
         if(((MainActivity)getActivity()).mfirebaseUser != null) {
 

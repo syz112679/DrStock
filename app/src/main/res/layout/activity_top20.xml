@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/activity_top20list"
     android:fillViewport="true"
-    android:background="@drawable/color_sky">
+    android:background="@color/FloralWhite">
 
     <LinearLayout
         android:layout_width="match_parent"

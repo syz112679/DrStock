@@ -183,7 +183,7 @@
     <string name="investmentPlanDetails">智慧定投詳細說明</string>
     <string name="change_plan">改變定投</string>
     <string name="toast_add_first">請先加入定投計劃</string>
-    <string name="URL">https://newsapi.org/v2/top-headlines?country=hk&amp;apiKey=b0535990b1f343d79558e427bb29eec9</string>
+    <string name="URL">https://newsapi.org/v2/top-headlines?country=hk&amp;category=business&amp;apiKey=1dc8b434998d426c9ded34de0e58ec08</string>
     <string name="newsurl1">https://newsapi.org/v2/top-headlines?country=</string>
     <string name="newsurl2">&amp;category=business&amp;apiKey=</string>
     <string name="toast_click_change">請點擊 \"改變\" 按鈕</string>
@@ -232,6 +232,10 @@
 
     <string name="scan_btn">掃描二維碼</string>
 
+    <!--top 20 listview-->
+    <string name="change_percentage">百分比 %</string>
+    <string name="lv_volume">成交量</string>
+    <string name="current_price">現價</string>
 
 
 </resources>

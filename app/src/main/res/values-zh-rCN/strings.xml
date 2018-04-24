@@ -179,7 +179,7 @@
     <string name="language_set">语言设置</string>
     <string name="setting_language_auto">系统语言</string>
     <string name="setting_language_title">语言设置</string>
-    <string name="URL">https://newsapi.org/v2/top-headlines?country=cn&amp;category=business&amp;apiKey=b0535990b1f343d79558e427bb29eec9</string>
+    <string name="URL">https://newsapi.org/v2/top-headlines?country=cn&amp;category=business&amp;apiKey=1dc8b434998d426c9ded34de0e58ec08</string>
     <string name="newsurl1">https://newsapi.org/v2/top-headlines?country=</string>
     <string name="newsurl2">&amp;category=business&amp;apiKey=</string>
 
@@ -233,5 +233,9 @@
 
     <string name="scan_btn">扫描二维码</string>
 
+    <!--top 20 listview-->
+    <string name="change_percentage">百分比 %</string>
+    <string name="lv_volume">成交量</string>
+    <string name="current_price">现价</string>
 
 </resources>

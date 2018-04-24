@@ -35,9 +35,9 @@ public class HomeFragment extends android.support.v4.app.Fragment {
     ImageView chatRoom_img;
     private View v;
 
-    String API_KEY = "b0535990b1f343d79558e427bb29eec9"; // ### YOUE NEWS API HERE ###
+    String API_KEY = "1dc8b434998d426c9ded34de0e58ec08"; // ### YOUE NEWS API HERE ###
 //    String NEWS_SOURCE = "business-insider";
-    String NEWS_SOURCE = "cn";
+//    String NEWS_SOURCE = "cn";
     ListView listNews;
     ProgressBar loader;
 
@@ -101,8 +101,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
 //        }else{
 //            Toast.makeText(getActivity().getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
 //        }
-
-
+//
+//
         return v;
     }
 
@@ -193,8 +193,8 @@ public class HomeFragment extends android.support.v4.app.Fragment {
             String xml = "";
 
             String urlParameters = "";
-            String url1 = getString(R.string.newsurl1);
-            String url2 = getString(R.string.newsurl2);
+//            String url1 = getString(R.string.newsurl1);
+//            String url2 = getString(R.string.newsurl2);
             String url = getString(R.string.URL);
             System.out.println("url: " + url + ";");
 

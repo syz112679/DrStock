@@ -44,6 +44,7 @@ public class Top20Adapter extends ArrayAdapter<StockTop20> {
         tvID.setText(stock.getId());
         tvName.setText(stock.getName());
         tvChangePerc.setText(stock.getChangePerc());
+        tvChangePerc.setTextColor(MainActivity.UpColor_);
         tvVol.setText(stock.getVol());
         tvCurPrice.setText(stock.getCurrentPrice());
 
