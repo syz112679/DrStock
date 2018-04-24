@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -29,6 +30,7 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
     private ListView mMyPlanListView;
     StockItemAdapter mStockAdapter;
     PlanItemAdapter mPlanAdapter;
+    private PieChart mPieChart;
 
 
 
@@ -36,7 +38,8 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mystocklist, container, false);
-
+        mPieChart = view.findViewById(R.id.pie_chart);
+        //initChart();
         if(((MainActivity)getActivity()).mfirebaseUser != null) {
 
             mMyStockListView = view.findViewById(R.id.my_stocks_listview);

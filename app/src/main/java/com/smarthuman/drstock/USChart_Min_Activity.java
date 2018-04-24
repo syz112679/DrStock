@@ -6,15 +6,12 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,7 +21,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.MarkerView;
@@ -41,7 +37,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
@@ -52,11 +47,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Li Shuhan on 2018/4/12.
+ * Created by Li Shuhan on 2018/4/21.
  */
 
-public class StockMinChartFragment extends android.support.v4.app.Fragment {
-
+public class USChart_Min_Activity extends AppCompatActivity {
     private String TAG = "qqq";
     private LineChart lineChart;
     private BarChart barChart;
@@ -73,113 +67,43 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
     private int colorMa5;
     private int colorMa10;
     private int colorMa20;
-    Stock stock = ((EachStockActivity) getActivity()).myStock;
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-    Long tsLong = System.currentTimeMillis()/1000;
-    String ts = tsLong.toString();
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_combine, container, false);
-
-        //setContentView(R.layout.activity_kline);
-        Stock stock = ((EachStockActivity) getActivity()).myStock;
-//        if (stock.marketId_.equals("US")) {
-//            //https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&outputsize=full&apikey=OFUAIBJU9MLJZEKX
-//            String alpha_url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + stock.id_ + "&interval=1min&outputsize=full&apikey=OFUAIBJU9MLJZEKX";
-//            lineChart = (LineChart) view.findViewById(R.id.lchart);       //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
-//            barChart = (BarChart) view.findViewById(R.id.bchart);
-//            StringRequest stringRequest = new StringRequest(Request.Method.GET, alpha_url,
-//                    new Response.Listener<String>() {
-//                        @Override
-//                        public void onResponse(String response) {
-//                            //System.out.println("-----Main setdata min-----:"+response);
-//                            Model.setDataF(response);
-//
-//                            initChartF();
-//
-//                            loadChartUSDataF();
-//
-//
-//                        }
-//                    }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    Log.e("TAG", error.getMessage(), error);
-//                }
-//            });
-//            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
-//            mQueue.add(stringRequest);
-//        }
-        if(stock.marketId_.equals("HK")){
-            String money18url = "http://money18.on.cc/chartdata/d1/price/" + stock.id_ + "_price_d1.txt";
-            Log.d("url", "url is "+money18url);
-            //http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt
-            lineChart = (LineChart) view.findViewById(R.id.lchart);       //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
-            barChart = (BarChart) view.findViewById(R.id.bchart);
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, money18url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            System.out.println("-----Main setdata min-----:"+response);
-                            Model.setDataF(response);
-
-                            initChartF();
-
-                            loadChartDataF();
+    public static String stockId;
 
 
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("TAG", error.getMessage(), error);
-                }
-            });
-            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
-            mQueue.add(stringRequest);
-        }
-        else if(stock.marketId_.equals("SZ")||stock.marketId_.equals("SH")||stock.marketId_.equals("US")){
-            String baiduurl;
-            if(stock.marketId_.equals("US")){
-                baiduurl = "https://gupiao.baidu.com/api/stocks/stocktimeline?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=" + stock.marketId_.toLowerCase() + stock.id_.toUpperCase() + "&timestamp=" + ts;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_landscape_min);
+
+        Intent intent = getIntent();
+        stockId = intent.getStringExtra(StockMinChartFragment.EXTRA_MESSAGE);
+        String alpha_url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + stockId + "&interval=1min&outputsize=full&apikey=OFUAIBJU9MLJZEKX";
+        Log.d("url", "url is "+alpha_url);
+        //http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt
+        lineChart = (LineChart) findViewById(R.id.lchart);       //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
+        barChart = (BarChart) findViewById(R.id.bchart);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, alpha_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //System.out.println("-----Main setdata-----:"+response);
+                        Model.setDataF(response);
+
+                        initChartF();
+
+                        loadChartUSDataF();
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", error.getMessage(), error);
             }
-            else{
-                baiduurl = "https://gupiao.baidu.com/api/stocks/stocktimeline?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=" + stock.marketId_.toLowerCase() + stock.id_ + "&timestamp=" + ts;
-
-            }
-            Log.d("url", "url is "+ baiduurl);
-            //http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt
-            lineChart = (LineChart) view.findViewById(R.id.lchart);       //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
-            barChart = (BarChart) view.findViewById(R.id.bchart);
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, baiduurl,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            System.out.println("-----Main setdata min-----:"+response);
-                            Model.setDataF(response);
-
-                            initChartF();
-
-                            loadChartCHNDataF();
-
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("TAG", error.getMessage(), error);
-                }
-            });
-            RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
-            mQueue.add(stringRequest);
-        }
-        else{
-            Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
-        }
-        return view;
+        });
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        mQueue.add(stringRequest);
     }
 
-    // 分时图
     private void initChartF() {
         lineChart.setScaleEnabled(false);
         lineChart.setDrawBorders(false);
@@ -191,7 +115,7 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         lineChart.setDrawMarkerViews(true);
         lineChart.setTouchEnabled(true); // 设置是否可以触摸
         lineChart.setDragEnabled(true);// 是否可以拖拽
-        CustomMarkerView mv = new CustomMarkerView(this.getActivity(), R.layout.mymarkerview);
+        CustomMarkerView mv = new CustomMarkerView(this, R.layout.mymarkerview);
         lineChart.setMarkerView(mv);
 
         lineChart.setScaleXEnabled(true); //是否可以缩放 仅x轴
@@ -291,58 +215,6 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
 
     }
 
-    private void loadChartDataF(){
-        lineChart.resetTracking();
-        barChart.resetTracking();
-
-        List<Entry> lineEntries = Model.getLineEntries();
-        List<BarEntry> barEntries = Model.getBarEntries();
-
-        itemcount = barEntries.size();
-        linechartcount = lineEntries.size();
-        System.out.println("----itemcount : "+itemcount);
-        //List<StockListBean.eachTime> stockBeans = Model.getData();
-        List<String> MinInfo = Model.getMin();
-        xVals = new ArrayList<>();
-        for (int i = 0; i < itemcount; i++) {
-            xVals.add(MinInfo.get(i));
-        }
-        List<Integer> colorArray = new ArrayList<>();
-        List<Float> priceArr = Model.getPrice();
-        colorArray.add(getResources().getColor(R.color.text_grey));
-        for(int i = 1; i < linechartcount; i ++){
-            System.out.println("----check barchart values-----: barEntries[i-1]: "+ priceArr.get(i-1) + "; barEntries[i]: " + priceArr.get(i-1));
-            if(priceArr.get(i)>priceArr.get(i-1)){
-                colorArray.add(getResources().getColor(R.color.text_green));
-            }
-            else{
-                colorArray.add(getResources().getColor(R.color.text_red));
-            }
-        }
-        BarDataSet set2 = generateBarDataSet(barEntries, colorArray, "minVol");
-        set2.setHighlightEnabled(true);
-        //set2.setDrawHighlightIndicators(true);
-        set2.setHighLightColor(Color.BLACK);
-        BarData data2 = new BarData(xVals, set2);
-        barChart.setData(data2);
-
-        LineDataSet set1 = generateLineDataSet(lineEntries, getResources().getColor(R.color.line_chart_color), "minPrice");
-
-
-        LineData data = new LineData(xVals, set1);
-        lineChart.setData(data);
-
-
-
-        setOffset();
-        lineChart.setOnChartGestureListener(new CoupleChartGestureListener(
-                lineChart, barChart));
-        barChart.setOnChartGestureListener(new CoupleChartGestureListener(
-                barChart, lineChart));
-        lineChart.invalidate();
-        barChart.invalidate();
-    }
-
     //render us stock Min chart
     private void loadChartUSDataF(){
         lineChart.resetTracking();
@@ -367,61 +239,6 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         colorArray.add(getResources().getColor(R.color.text_grey));
         for(int i = 1; i < linechartcount; i ++){
             System.out.println("----check barchart values-----: barEntries[i-1]: "+ priceArr.get(i-1) + "; barEntries[i]: " + priceArr.get(i-1));
-            if(priceArr.get(i)>priceArr.get(i-1)){
-                colorArray.add(getResources().getColor(R.color.text_green));
-            }
-            else{
-                colorArray.add(getResources().getColor(R.color.text_red));
-            }
-        }
-        BarDataSet set2 = generateBarDataSet(barEntries, colorArray, "minVol");
-        set2.setHighlightEnabled(true);
-        //set2.setDrawHighlightIndicators(true);
-        set2.setHighLightColor(Color.BLACK);
-        BarData data2 = new BarData(xVals, set2);
-        barChart.setData(data2);
-
-        LineDataSet set1 = generateLineDataSet(lineEntries, getResources().getColor(R.color.line_chart_color), "minPrice");
-
-
-        LineData data = new LineData(xVals, set1);
-        lineChart.setData(data);
-
-
-
-        setOffset();
-        lineChart.setOnChartGestureListener(new CoupleChartGestureListener(
-                lineChart, barChart));
-        barChart.setOnChartGestureListener(new CoupleChartGestureListener(
-                barChart, lineChart));
-        lineChart.invalidate();
-        barChart.invalidate();
-    }
-
-    //render mainland stock min chart
-    private void loadChartCHNDataF(){
-        lineChart.resetTracking();
-        barChart.resetTracking();
-
-        List<Entry> lineEntries = Model.getCHNLineEntries();
-        List<BarEntry> barEntries = Model.getCHNBarEntries();
-
-        itemcount = barEntries.size();
-        linechartcount = lineEntries.size();
-        System.out.println("----itemcount : "+itemcount);
-        //List<StockListBean.eachTime> stockBeans = Model.getData();
-        List<String> MinInfo = Model.getCHNMin();
-        System.out.println("----CHN min---- : "+MinInfo);
-        List<Float> priceArr = new ArrayList<>();
-        xVals = new ArrayList<>();
-        for (int i = 0; i < itemcount; i++) {
-            xVals.add(MinInfo.get(i));
-            priceArr.add(lineEntries.get(i).getVal());
-        }
-        List<Integer> colorArray = new ArrayList<>();
-        colorArray.add(getResources().getColor(R.color.text_grey));
-        for(int i = 1; i < linechartcount; i ++){
-            //System.out.println("----check barchart values-----: barEntries[i-1]: "+ priceArr.get(i-1) + "; barEntries[i]: " + priceArr.get(i-1));
             if(priceArr.get(i)>priceArr.get(i-1)){
                 colorArray.add(getResources().getColor(R.color.text_green));
             }
@@ -513,7 +330,7 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         set.setDrawValues(false);
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         set.setDrawFilled(true);
-        Drawable drawable = ContextCompat.getDrawable(this.getActivity(), R.drawable.fade_red);
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_red);
         set.setFillDrawable(drawable);
 
         return set;
@@ -573,16 +390,16 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
 
         @Override
         public void onChartLongPressed(MotionEvent me) {
-            if(stock.marketId_.equals("HK")) {
-                Intent intent = new Intent(getActivity(), Chart_MinActivity.class);
-                intent.putExtra(EXTRA_MESSAGE, stock.id_);
-                startActivity(intent);
-            }
-            if(stock.marketId_.equals("US")) {
-                Intent intent = new Intent(getActivity(), USChart_Min_Activity.class);
-                intent.putExtra(EXTRA_MESSAGE, stock.id_);
-                startActivity(intent);
-            }
+//            if(stock.marketId_.equals("HK")) {
+//                Intent intent = new Intent(getActivity(), Chart_MinActivity.class);
+//                intent.putExtra(EXTRA_MESSAGE, stock.id_);
+//                startActivity(intent);
+//            }
+//            if(stock.marketId_.equals("US")) {
+//                Intent intent = new Intent(getActivity(), USChart_Min_Activity.class);
+//                intent.putExtra(EXTRA_MESSAGE, stock.id_);
+//                startActivity(intent);
+//            }
         }
 
         @Override
@@ -636,5 +453,7 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         }
 
     }
+
+
 
 }
