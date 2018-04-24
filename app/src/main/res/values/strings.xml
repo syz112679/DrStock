@@ -250,4 +250,12 @@
     <string name="rsi_6">6 days</string>
     <string name="rsi_12">12 days</string>
     <string name="rsi_24">24 days</string>
+
+    <string name="top20">Top 20</string>
+
+    <!--top 20 listview-->
+    <string name="change_percentage">Change %</string>
+    <string name="lv_volume">Volume</string>
+    <string name="current_price">Current Price</string>
+
 </resources>

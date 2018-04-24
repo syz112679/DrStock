@@ -190,9 +190,12 @@
         <activity
             android:name="com.smarthuman.drstock.BaseActivity"
             android:screenOrientation="landscape">
-
         </activity>
 
+        <activity
+            android:name="com.smarthuman.drstock.Top20_Activity"
+            android:screenOrientation="portrait">
+        </activity>
 
 
 

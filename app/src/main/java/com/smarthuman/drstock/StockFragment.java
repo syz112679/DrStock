@@ -55,6 +55,7 @@ public class StockFragment extends Fragment implements View.OnClickListener {
     private final static String ChuangIndex = "sz399006";
     private final static String StockIdsKey_ = "StockIds";
     private Button searchBtn;
+    private Button top20Btn;
     private RefreshLayout refreshLayout;
     private View v;
 
@@ -71,6 +72,9 @@ public class StockFragment extends Fragment implements View.OnClickListener {
 
         searchBtn = v.findViewById(R.id.stockFrag_searchStock);
         searchBtn.setOnClickListener(this);
+
+        top20Btn = v.findViewById(R.id.top_20);
+        top20Btn.setOnClickListener(this);
 
         refreshLayout = v.findViewById(R.id.fragment_stock);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -94,6 +98,11 @@ public class StockFragment extends Fragment implements View.OnClickListener {
                 Log.d("addstock", "here");
 //                addStock(v);
                 searchStock(v);
+                break;
+            case R.id.top_20:
+                Intent intent = new Intent(getActivity(), Top20_Activity.class);
+                startActivity(intent);
+                break;
         }
     }
 
