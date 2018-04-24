@@ -784,7 +784,6 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
             this.dstChart = dstChart;
         }
 
-
         @Override
         public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
 
@@ -800,7 +799,6 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
             Intent intent = new Intent (getActivity(), Chart_1monthActivity.class);
             intent.putExtra(EXTRA_MESSAGE, stock.id_);
             startActivity(intent);
-
         }
 
         @Override
@@ -820,13 +818,11 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
 
         @Override
         public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-            //Log.d(TAG, "onChartScale " + scaleX + "/" + scaleY + " X=" + me.getX() + "Y=" + me.getY());
             syncCharts();
         }
 
         @Override
         public void onChartTranslate(MotionEvent me, float dX, float dY) {
-            //Log.d(TAG, "onChartTranslate " + dX + "/" + dY + " X=" + me.getX() + "Y=" + me.getY());
             syncCharts();
         }
 
