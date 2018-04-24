@@ -174,6 +174,5 @@ public class AccountFragment extends android.support.v4.app.Fragment implements 
         mMoney.setText(String.format ("%.2f",MainActivity.mBalance));
         mTotalAsset.setText(String.format ("%.2f",MainActivity.mMoney));
         mEarning.setText(String.format ("%.2f",MainActivity.mEarning));
-        getActivity().setTitle(R.string.title_account);
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +39,7 @@ public class PhoneRegActivity extends AppCompatActivity {
     private static final String TAG = "PhoneAuth";
 
     private EditText phoneText;
+    private TextInputLayout codeTextLayout;
     private EditText codeText;
     private Button verifyButton;
     private Button sendButton;
@@ -61,6 +63,7 @@ public class PhoneRegActivity extends AppCompatActivity {
         phoneText = (EditText) findViewById(R.id.phoneText);
 
         codeText = (EditText) findViewById(R.id.codeText);
+        codeTextLayout = (TextInputLayout) findViewById(R.id.codeTextLayout) ;
         verifyButton = (Button) findViewById(R.id.verifyButton);
         sendButton = (Button) findViewById(R.id.sendSMS);
         resendButton = (Button) findViewById(R.id.resendButton);
@@ -69,7 +72,9 @@ public class PhoneRegActivity extends AppCompatActivity {
         verifyButton.setVisibility(View.INVISIBLE);
         resendButton.setEnabled(false);
         resendButton.setVisibility(View.INVISIBLE);
+        codeText.setHint("");
         codeText.setVisibility(View.INVISIBLE);
+        codeTextLayout.setVisibility(View.INVISIBLE);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -111,7 +116,6 @@ public class PhoneRegActivity extends AppCompatActivity {
                         verifyButton.setEnabled(false);
                         verifyButton.setVisibility(View.INVISIBLE);
 
-                        codeText.setText("");
                         signInWithPhoneAuthCredential(credential);
                     }
 
@@ -144,6 +148,9 @@ public class PhoneRegActivity extends AppCompatActivity {
                         resendButton.setEnabled(true);
                         resendButton.setVisibility(View.VISIBLE);
                         codeText.setVisibility(View.VISIBLE );
+                        codeTextLayout.setVisibility(View.VISIBLE);
+
+                        codeText.setHint(R.string.SMS_code);
 
                     }
                 };
