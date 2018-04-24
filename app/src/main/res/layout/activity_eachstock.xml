@@ -447,7 +447,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:minHeight="50dp"
-                        app2:srcCompat="@drawable/ic_collection" />
+                        android:src="@drawable/ic_collection"
+                        android:background="@drawable/color_sky"/>
 
                     <Button
                         android:id="@+id/planDetails"
