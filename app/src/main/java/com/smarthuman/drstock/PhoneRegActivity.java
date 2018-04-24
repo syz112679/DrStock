@@ -168,7 +168,7 @@ public class PhoneRegActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             //successfully login
                             mUser = task.getResult().getUser();
-                            codeText.setText("");
+                            //codeText.setText("");
                             resendButton.setEnabled(false);
                             resendButton.setVisibility(View.INVISIBLE);
                             verifyButton.setEnabled(false);
