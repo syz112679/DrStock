@@ -5,18 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/top_20"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:src="@drawable/top20_btn"
-        android:background="@drawable/chat_room_back"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:tag="StockFragmentTag" >
+
+        <ImageView
+            android:id="@+id/top_20"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:src="@drawable/top20_btn"
+            android:background="@drawable/chat_room_back"/>
 
         <LinearLayout
             android:id="@+id/eachStock_linear1"
