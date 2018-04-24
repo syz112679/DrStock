@@ -227,7 +227,7 @@ public class MainActivity extends TitleActivity
         mFavorites=new ArrayList<>(StockIds_);
         System.out.println("addStockIds_:" + StockIds_ + ";");
         if (mAuth.getCurrentUser() != null || (AccessToken.getCurrentAccessToken() != null)) {
-            updateUserInfo();
+            updateDatabase();
         }
     }
 
@@ -880,7 +880,7 @@ public class MainActivity extends TitleActivity
     }
 
 
-    public void updateDatabase() { // upload data to database
+    static public void updateDatabase() { // upload data to database
         if(mfirebaseUser != null) {
             Log.d("MainActivity", "UpdateDatabase called" + mUserName + " " + mEmail);
             mFavorites = new ArrayList<String>(StockIds_);
