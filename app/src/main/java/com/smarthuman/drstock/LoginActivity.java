@@ -232,7 +232,7 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                         MainActivity.updateUserInfo();
                         MainActivity.setViewPager(0);
-                    } else {
+                    } else if(mUser!=null && !mUser.isEmailVerified()){
 
                         resendBtn.setVisibility(View.VISIBLE);
                         Toast.makeText(LoginActivity.this,getString(R.string.go_to_vertify_email),
