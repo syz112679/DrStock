@@ -59,7 +59,7 @@ public class PhoneRegActivity extends AppCompatActivity {
         setContentView(R.layout.activity_phone_reg);
 
         phoneText = (EditText) findViewById(R.id.phoneText);
-        phoneText.setVisibility(View.INVISIBLE);
+
         codeText = (EditText) findViewById(R.id.codeText);
         verifyButton = (Button) findViewById(R.id.verifyButton);
         sendButton = (Button) findViewById(R.id.sendSMS);
@@ -144,6 +144,7 @@ public class PhoneRegActivity extends AppCompatActivity {
                         resendButton.setEnabled(true);
                         resendButton.setVisibility(View.VISIBLE);
                         codeText.setVisibility(View.VISIBLE );
+
                     }
                 };
     }
@@ -167,7 +168,7 @@ public class PhoneRegActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             //successfully login
                             mUser = task.getResult().getUser();
-                            codeText.setText("");
+                            //codeText.setText("");
                             resendButton.setEnabled(false);
                             resendButton.setVisibility(View.INVISIBLE);
                             verifyButton.setEnabled(false);
@@ -207,7 +208,7 @@ public class PhoneRegActivity extends AppCompatActivity {
     public void saveUserInformationFire() {
 
         final String Uid = mUser.getUid();
-        Toast.makeText(this, "getUid: " + Uid, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "getUid: " + Uid, Toast.LENGTH_SHORT).show();
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         // mUser = mAuth.getCurrentUser();
