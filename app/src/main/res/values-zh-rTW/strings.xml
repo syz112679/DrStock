@@ -14,7 +14,7 @@
     <string name="action_sign_up">註冊</string>
     <string name="action_send">發送</string>
     <string name="action_back_sign_in">返回</string>
-    <string name="add_money">增值 1000</string>
+    <string name="add_money">轉賬</string>
     <string name="add_to_favorite">添加到我的收藏</string>
     <string name="buy_stock">買入</string>
     <string name="chat_room">聊天室</string>
