@@ -445,6 +445,7 @@ public class MainActivity extends TitleActivity
                     public void onResponse(String response) {
                         System.out.println("Main***************************Response**************************");
                         System.out.println(response);
+//                        inLoop = false;
                         System.out.println("*****************************************************************");
                         updateStockListView(sinaResponseToStocks(response));
 
@@ -924,7 +925,8 @@ public class MainActivity extends TitleActivity
 
             case R.id.navigation_account:
                 if (mAuth.getCurrentUser() != null || GoogleSignIn.getLastSignedInAccount(this)!=null || (AccessToken.getCurrentAccessToken() != null)) {
-                    //fragment = new com.smarthuman.drstock.AccountFragment();
+                    inLoop = false;
+                    /// /fragment = new com.smarthuman.drstock.AccountFragment();
                     setTitle(R.string.title_account);
                     setViewPager(3);
                 } else {
