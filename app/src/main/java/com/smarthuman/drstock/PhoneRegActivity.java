@@ -208,7 +208,7 @@ public class PhoneRegActivity extends AppCompatActivity {
     public void saveUserInformationFire() {
 
         final String Uid = mUser.getUid();
-        Toast.makeText(this, "getUid: " + Uid, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "getUid: " + Uid, Toast.LENGTH_SHORT).show();
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         // mUser = mAuth.getCurrentUser();
