@@ -502,6 +502,10 @@ public class EachStockActivity extends TitleActivity {
     public String getEnqueryId(String stockI_M) {
         System.out.println("stockI_M: " + stockI_M);
 
+        // 1. stockI.M
+        // 2. enquery ID
+
+
         String[] stockI_Ms = stockI_M.split("\\.");
 
         if (stockI_Ms.length == 1) {            // if stockI_M is already the enquryId

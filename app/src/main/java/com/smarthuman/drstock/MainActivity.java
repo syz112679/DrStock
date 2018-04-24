@@ -640,7 +640,7 @@ public class MainActivity extends TitleActivity
             List<StockFullListBean.Result.Lists> lists = fullList[i].getResult().getLists();
             int length = Integer.parseInt(fullList[i].getResult().getTotline());
             for (int k = 0; k < length; k++) {
-                hanzi[hanziLength] = lists.get(k).getSname() + lists.get(k).getSymbol();
+                hanzi[hanziLength] = lists.get(k).getSname() + " " + lists.get(k).getSymbol();
                 hanziLength++;
             }
         }

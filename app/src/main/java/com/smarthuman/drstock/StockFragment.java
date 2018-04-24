@@ -186,6 +186,27 @@ public class StockFragment extends Fragment implements View.OnClickListener {
 
     public static String input2enqury(String inputID) {
 
+
+        String[] seperate = inputID.split("sh");
+        if (seperate.length == 2) {
+            return "sh" + seperate[1];
+        }
+
+        seperate = inputID.split("sz");
+        if (seperate.length == 2) {
+            return "sz" + seperate[1];
+        }
+
+        seperate = inputID.split("hk");
+        if (seperate.length == 2) {
+            return "hk" + seperate[1];
+        }
+
+        seperate = inputID.split("gb_");
+        if (seperate.length == 2) {
+            return "gb_" + seperate[1];
+        }
+
         if (Character.isDigit(inputID.charAt(0))) {
 
             if (inputID.length() < 5 || inputID.length() > 6) {
