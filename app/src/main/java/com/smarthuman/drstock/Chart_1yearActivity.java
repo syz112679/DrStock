@@ -189,6 +189,10 @@ public class Chart_1yearActivity extends AppCompatActivity implements  View.OnCl
         mChart.setAutoScaleMinMaxEnabled(true);
         mChart.setDragEnabled(true);
         mChart.setDrawOrder(new CombinedChart.DrawOrder[]{CombinedChart.DrawOrder.CANDLE, CombinedChart.DrawOrder.LINE});
+        mChart.setTouchEnabled(true);
+        mChart.setDrawMarkerViews(true);
+        CustomMarkerView mv = new CustomMarkerView(this, R.layout.mymarkerview);
+        mChart.setMarkerView(mv);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -600,7 +604,16 @@ public class Chart_1yearActivity extends AppCompatActivity implements  View.OnCl
         // content (user-interface)
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
-            tvContent.setText("" + e.getVal()); // set the entry-value as the display text
+            if (e instanceof CandleEntry) {
+                CandleEntry ce = (CandleEntry) e;
+                tvContent.setText("High: " + ce.getHigh());
+                tvContent.append("Low:" +ce.getLow());
+                tvContent.append("Open:" +ce.getOpen());
+                tvContent.append("Close:" +ce.getClose());
+            }
+            else {
+                tvContent.setText("" + e.getVal()); // set the entry-value as the display text
+            }
         }
 
         @Override

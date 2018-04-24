@@ -183,7 +183,7 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
             String baiduurl;
             if(stock.marketId_.equals("US")){
                 baiduurl = "https://gupiao.baidu.com/api/stocks/stockdaybar?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=" + stock.marketId_.toLowerCase() + stock.id_.toUpperCase() + "&step=3&start=&count=720&fq_type=no&timestamp=" + ts;
-                System.out.println("-----url-----: " + baiduurl);
+                System.out.println("-----TS-----: " + ts);
             }
             else{
 
@@ -868,13 +868,6 @@ public class StockKLineChart_1monthFragment extends android.support.v4.app.Fragm
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
             if (e instanceof CandleEntry) {
-                CandleEntry ce = (CandleEntry) e;
-                tvContent.setText("High: " + ce.getHigh());
-                tvContent.append("Low:" +ce.getLow());
-                tvContent.append("Open:" +ce.getOpen());
-                tvContent.append("Close:" +ce.getClose());
-            }
-            else {
                 tvContent.setText("" + e.getVal()); // set the entry-value as the display text
             }
         }
