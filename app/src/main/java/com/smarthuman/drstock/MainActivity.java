@@ -1,18 +1,15 @@
 package com.smarthuman.drstock;
 
-import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
@@ -22,20 +19,12 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.finddreams.languagelib.OnChangeLanguageEvent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,25 +34,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 /****************************************************/
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -75,56 +55,23 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
-import java.util.Vector;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 /*******************************************************************/
 
 
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
-import  com.smarthuman.drstock.R;
 
 public class MainActivity extends TitleActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -165,6 +112,10 @@ public class MainActivity extends TitleActivity
     public static View fragment_account;
     public static View fragment_mystocklist;
 
+    public static boolean inLoop = false;
+    public static boolean initBeanCalled = false;
+    public static boolean stockInit = false;
+
 
     //--------------------------------------------------------------------------------------------------
 
@@ -193,7 +144,6 @@ public class MainActivity extends TitleActivity
     public static final String KEY_TITLE = "title";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
-
 
 
     @Override
@@ -246,6 +196,12 @@ public class MainActivity extends TitleActivity
             public void run() {
                 count += minPeriod;
                 controlledRefreshStocks();
+                System.out.println("hanziComplete = " + hanziComplete + "; inLoop = " + inLoop + ";");
+                if (stockInit) {
+                    if (!hanziComplete && !inLoop) {
+                        initString();
+                    }
+                }
             }
         }, 0, minPeriod * 1000); // 10 seconds
         Log.d("mainActivity", "LIne 134");
@@ -323,13 +279,17 @@ public class MainActivity extends TitleActivity
 
 
 
-        fragment_account = findViewById(R.id.fragment_account);
-        fragment_home = findViewById(R.id.fragment_home);
-        fragment_login = findViewById(R.id.fragment_login);
-        fragment_mystocklist = findViewById(R.id.fragment_mystocklist);
-        fragment_stock = findViewById(R.id.fragment_stock);
+//        fragment_account = findViewById(R.id.fragment_account);
+//        fragment_home = findViewById(R.id.fragment_home);
+//        fragment_login = findViewById(R.id.fragment_login);
+//        fragment_mystocklist = findViewById(R.id.fragment_mystocklist);
+//        fragment_stock = findViewById(R.id.fragment_stock);
+//
+
+//        initViews();
 
     }
+
 
     public static void removeStockIds_(String stockIds_) {
         if (stockIds_ == null)
@@ -386,6 +346,7 @@ public class MainActivity extends TitleActivity
     // Samuel GU START
 
     public TreeMap<String, Stock> sinaResponseToStocks(String response) {
+        inLoop = false;
         response = response.replaceAll("\n", "");
         String[] stocks = response.split(";");
         String test = stocks[0].split("=")[1];
@@ -420,7 +381,9 @@ public class MainActivity extends TitleActivity
 
         exchangeRate.updateExchangeRate(exchangeRateResponse);
         exchangeRate_ = exchangeRate.getExchangeRate_();
-        updateFlipper();
+//        if (!stockInit) {
+            updateFlipper();
+//        }
 
         stockMap_ = stockMap;
 
@@ -436,6 +399,11 @@ public class MainActivity extends TitleActivity
 //
 //        System.out.println("rmb1: " + rmb);
 
+//        System.out.println("---stockInit: " + stockInit);
+//        if (stockInit) {
+//            return;
+//        }
+
         TextView rmb = findViewById(R.id.rmb_value);
         TextView usd = findViewById(R.id.usd_value);
         TextView gbp = findViewById(R.id.gbp_value);
@@ -447,6 +415,9 @@ public class MainActivity extends TitleActivity
         rmb.setText(exchangeRate_[exchangeRate.RMB][exchangeRate.HKD]);
         usd.setText(exchangeRate_[exchangeRate.USD][exchangeRate.HKD]);
         gbp.setText(exchangeRate_[exchangeRate.GBP][exchangeRate.HKD]);
+
+//        stockInit = true;
+//        System.out.println("---stockInit <- " + stockInit);
     }
 
     public void querySinaStocks(String list) {          // sz000001,hk02318,gb_lx
@@ -455,6 +426,13 @@ public class MainActivity extends TitleActivity
         // Instantiate the RequestQueue.
 //        System.out.println(this.this);
 //        Log.d("StockFragment", this);
+        if (inLoop) {
+            System.out.println("stockinloop: " + inLoop);
+            return;
+        }
+        inLoop = true;
+
+
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://hq.sinajs.cn/list=" + list;
         //http://hq.sinajs.cn/list=sh600000,sh600536
@@ -469,6 +447,8 @@ public class MainActivity extends TitleActivity
                         System.out.println(response);
                         System.out.println("*****************************************************************");
                         updateStockListView(sinaResponseToStocks(response));
+
+
                         //updateIndexView();
                     }
                 },
@@ -479,6 +459,8 @@ public class MainActivity extends TitleActivity
                 });
 
         queue.add(stringRequest);
+
+
     }
 
     public String getStockRecords() {
@@ -554,6 +536,178 @@ public class MainActivity extends TitleActivity
                 }
                 break;
         }
+    }
+
+    private static final String tag="QuickSearchActivity";
+    public static AutoCompleteTextView search;
+//    private SlidingDrawer mDrawer;
+
+    public SearchAdapter adapter=null;//
+    //需要读取
+    private final int maxLength = 30000;
+    public String[] hanzi = new String[maxLength];
+
+    public void initString(){
+        if (!responseComplete) {
+            nowapiGetList();
+            return;
+        }
+
+        if (hanziComplete) {
+            return;
+        }
+
+        if (initBeanCalled) {
+            return;
+        }
+
+        initBeanCalled = true;
+        initBean();
+        initHanzi();
+
+        System.out.println("--hanzi[" + (hanziLength - 1) + "] = " + hanzi[hanziLength - 1]);
+
+        if (!hanziComplete) {
+            handler.sendEmptyMessage(0);
+        }
+//        initAdapter();
+    }
+
+    public void initAdapter() {
+        //更新UI操作
+        search = (AutoCompleteTextView) findViewById(R.id.editText_stockId);
+        search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+                // TODO Auto-generated method stub
+
+//                Log.d(tag, "arg0:"+arg0);
+//                Log.d(tag, "arg1:"+arg1);
+//                Log.d(tag, "onItemClick:"+position);
+//                Log.d(tag, "id:"+id);
+
+//                System.out.println("---" + arg1.getId());
+//                search.setText("");
+            }
+
+        });
+
+        search.setThreshold(1);
+
+        adapter = new SearchAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, hanzi, SearchAdapter.ALL);//速度优先
+        System.out.println("***adapterComplete***");
+
+        search.setAdapter(adapter);//
+
+        hanziComplete = true;
+
+        System.out.println("***haziComplete***");
+
+        Toast.makeText(this, getString(R.string.toast_initi_complete), Toast.LENGTH_LONG).show();
+//        mDrawer = (SlidingDrawer) findViewById(R.id.slidingdrawer);
+//        stockInit = false;
+    }
+
+    private Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what){
+                case 0:
+                    System.out.println("------handler: hanziComplete = " + hanziComplete + ";");
+                    if (!hanziComplete) {
+                        initAdapter();
+                    }
+                    break;
+                default:break;
+            }
+        };
+    };
+
+    private void initBean() {
+
+        for (int i = 0; i < 3; i++) {
+//            System.out.println("stockMarket: " + i);
+            fullList[i] = new Gson().fromJson(rawResponse[i], StockFullListBean.class);
+        }
+
+    }
+
+    public static int hanziLength = 0;
+    private void initHanzi() {
+        hanziLength = 0;
+        for (int i = 0; i < 3; i++) {
+            System.out.println("stockMarket: " + i);
+            List<StockFullListBean.Result.Lists> lists = fullList[i].getResult().getLists();
+            int length = Integer.parseInt(fullList[i].getResult().getTotline());
+            for (int k = 0; k < length; k++) {
+                hanzi[hanziLength] = lists.get(k).getSname() + lists.get(k).getSymbol();
+                hanziLength++;
+            }
+        }
+
+        String[] tempHanzi = new String[hanziLength];
+        for (int i = 0; i < hanziLength; i++) {
+            tempHanzi[i] = hanzi[i];
+        }
+
+        hanzi = tempHanzi;
+
+
+    }
+
+    private static String app = "finance.stock_list";
+    private static final String[] categories = {"hs", "hk", "us"};
+    private static String category = "";
+    private static String appkey = "33123";
+    private static String sign = "72e5b6c5244d4624f0e268dbcee31be0";
+    private static String format = "json";
+    private static String[] rawResponse = new String[3];
+    private StockFullListBean[] fullList = new StockFullListBean[3];
+    private static int iteration = 0;
+    private static boolean responseComplete = false;
+    private static boolean hanziComplete = false;
+
+
+    private void nowapiGetList() {
+        if (inLoop) {
+            System.out.println("newapiinloop: " + inLoop);
+            return;
+        }
+        inLoop = true;
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        category = categories[iteration];
+
+        String url = "http://api.k780.com/?app=" + app + "&category=" + category + "&appkey=" + appkey + "&sign=" + sign + "&format=" + format;
+
+        System.out.println("--------url2: \n" + url + "\n------");
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println("Stock***************************Response**************************");
+                        System.out.println(response);
+                        System.out.println("*****************************************************************");
+                        rawResponse[iteration] = response;
+//                        fullList[iteration] = new Gson().fromJson(response, StockFullListBean.class);
+                        iteration++;
+                        inLoop = false;
+                        System.out.println("iteration = " + iteration);
+                        if (iteration >= 3) {
+                            responseComplete = true;
+                        }
+                        //updateIndexView();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+
+        queue.add(stringRequest);
     }
 
     public void updateIndexView() {
@@ -719,6 +873,9 @@ public class MainActivity extends TitleActivity
             table.addView(row);
             System.out.println("addRow!!!");
         }
+
+        stockInit = true;
+        System.out.println("--stockInit: " + stockInit);
     }
 
     @Override
@@ -806,6 +963,7 @@ public class MainActivity extends TitleActivity
     public void onResume() {
         super.onResume();
         isPaused = false;
+
         Log.d("MainActivity", "onResume: called");
 
         refreshStocks();

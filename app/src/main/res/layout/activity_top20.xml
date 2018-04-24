@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/activity_top20list"
     android:fillViewport="true"
-    android:background="@drawable/color_sky">
+    android:background="@color/FloralWhite">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,6 +11,78 @@
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/timber" />
+
+            <Button
+                android:id="@+id/top_up"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:text="@string/top_up"
+                android:textSize="11dp"/>
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/timber" />
+
+            <Button
+                android:id="@+id/top_down"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:text="@string/top_down"
+                android:textSize="11dp"/>
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/timber" />
+
+            <Button
+                android:id="@+id/top_vol"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:text="@string/top_vol"
+                android:textSize="11dp"/>
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/timber" />
+
+            <Button
+                android:id="@+id/top_turn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:text="@string/top_turn"
+                android:textSize="11dp"/>
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/timber" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

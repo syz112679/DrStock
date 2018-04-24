@@ -152,6 +152,8 @@ public class PhoneRegActivity extends AppCompatActivity {
 
                         codeText.setHint(R.string.SMS_code);
 
+                        Log.d(TAG, "code sent complete");
+
                     }
                 };
     }

@@ -226,9 +226,9 @@
     <string name="language_set">Language</string>
     <string name="setting_language_auto">System Language</string>
     <string name="setting_language_title">Language Setting</string>
-    <string name="URL">https://newsapi.org/v2/top-headlines?country=gb&amp;apiKey=b0535990b1f343d79558e427bb29eec9</string>
-    <string name="newsurl1">https://newsapi.org/v1/articles?source=</string>
-    <string name="newsurl2">&amp;sortBy=top&amp;apiKey=</string>
+    <string name="URL">https://newsapi.org/v2/top-headlines?country=gb&amp;category=business&amp;apiKey=1dc8b434998d426c9ded34de0e58ec08</string>
+    <!--<string name="newsurl1">https://newsapi.org/v1/articles?source=</string>-->
+    <!--<string name="newsurl2">&amp;sortBy=top&amp;apiKey=</string>-->
 
     <string name="invalid_phone_num">Please enter valid phone number</string>
     <string name="toast_click_change">Please click \"change\" button</string>
@@ -257,6 +257,10 @@
     <string name="change_percentage">Change %</string>
     <string name="lv_volume">Volume</string>
     <string name="current_price">Current Price</string>
+    <string name="top_up">UP Stocks</string>
+    <string name="top_down">DOWN Stocks</string>
+    <string name="top_vol">Sort by VOLUME</string>
+    <string name="top_turn">Sort by TURNOVER</string>
 
     <!--TODO-->
     <string name="text_how_much_money_transfer">How much money you want to transfer to User:</string>
@@ -271,4 +275,6 @@
     <string name="change_plan">Change Plan</string>
 
     <string name="scan_btn">Scan</string>
+    <string name="toast_initi_complete">Initialization Complete!</string>
+
 </resources>
