@@ -28,7 +28,16 @@
             android:layout_gravity="bottom"
             android:background="@drawable/line_timber" />
 
+
+        <ImageView
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/line_timber" />
+
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
@@ -90,6 +99,7 @@
             android:id="@+id/pie_chart"
             android:layout_width="match_parent"
             android:layout_height="270sp" />
+
     </LinearLayout>
 
 </ScrollView>

@@ -438,11 +438,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/change_plan" />
+                        android:text="@string/change_plan"/>
 
                     <ImageView
                         android:id="@+id/add_to_plan"
-                        android:layout_width="wrap_content"
+                        android:layout_width="61dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:minHeight="50dp"

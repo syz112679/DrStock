@@ -465,7 +465,7 @@ public class MainActivity extends TitleActivity
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("***************************Response**************************");
+                        System.out.println("Main***************************Response**************************");
                         System.out.println(response);
                         System.out.println("*****************************************************************");
                         updateStockListView(sinaResponseToStocks(response));
