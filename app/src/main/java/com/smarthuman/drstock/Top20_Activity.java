@@ -90,6 +90,7 @@ public class Top20_Activity extends TitleActivity {
                                                     int position, long id) {
                                 //Toast.makeText(getContext(),MainActivity.mStockRecords.get(position).getName(), Toast.LENGTH_SHORT).show();
                                 String enqueryId_d = StockFragment.input2enqury(top_u.get(position).getId());
+                                System.out.println("-----stock id-----: " + top_u.get(position).getId());
                                 Intent intent = new Intent(getApplicationContext(), EachStockActivity.class);
                                 intent.putExtra(MainActivity.EXTRA_MESSAGE, enqueryId_d);
                                 startActivity(intent);
@@ -144,6 +145,22 @@ public class Top20_Activity extends TitleActivity {
                 mStockAdapter_up.notifyDataSetChanged();
                 setListViewHeightBasedOnChildren(mTop20ListView);
 
+                mTop20ListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+                        //Toast.makeText(getContext(),MainActivity.mStockRecords.get(position).getName(), Toast.LENGTH_SHORT).show();
+                        String enqueryId_d = StockFragment.input2enqury(top_u.get(position).getId());
+                        System.out.println("-----stock id-----: " + top_u.get(position).getId());
+                        Intent intent = new Intent(getApplicationContext(), EachStockActivity.class);
+                        intent.putExtra(MainActivity.EXTRA_MESSAGE, enqueryId_d);
+                        startActivity(intent);
+
+
+
+                    }
+                });
                 break;
             case R.id.top_down:
 
@@ -164,7 +181,22 @@ public class Top20_Activity extends TitleActivity {
                 mStockAdapter_down.notifyDataSetChanged();
                 setListViewHeightBasedOnChildren(mTop20ListView);
 
+                mTop20ListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+                        //Toast.makeText(getContext(),MainActivity.mStockRecords.get(position).getName(), Toast.LENGTH_SHORT).show();
+                        String enqueryId_d = StockFragment.input2enqury(top_d.get(position).getId());
+                        System.out.println("-----stock id-----: " + top_d.get(position).getId());
+                        Intent intent = new Intent(getApplicationContext(), EachStockActivity.class);
+                        intent.putExtra(MainActivity.EXTRA_MESSAGE, enqueryId_d);
+                        startActivity(intent);
 
+
+
+                    }
+                });
                 break;
             case R.id.top_vol:
                 List<StockTop20ListBean.VolBean> volData = gson.fromJson(storeRes, StockTop20ListBean.class).getVol();
@@ -184,6 +216,22 @@ public class Top20_Activity extends TitleActivity {
                 mStockAdapter_vol.notifyDataSetChanged();
                 setListViewHeightBasedOnChildren(mTop20ListView);
 
+                mTop20ListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+                        //Toast.makeText(getContext(),MainActivity.mStockRecords.get(position).getName(), Toast.LENGTH_SHORT).show();
+                        String enqueryId_d = StockFragment.input2enqury(top_v.get(position).getId());
+                        System.out.println("-----stock id-----: " + top_v.get(position).getId());
+                        Intent intent = new Intent(getApplicationContext(), EachStockActivity.class);
+                        intent.putExtra(MainActivity.EXTRA_MESSAGE, enqueryId_d);
+                        startActivity(intent);
+
+
+
+                    }
+                });
                 break;
             case R.id.top_turn:
                 List<StockTop20ListBean.TurnOverBean> turnData = gson.fromJson(storeRes, StockTop20ListBean.class).getTo();
@@ -202,6 +250,23 @@ public class Top20_Activity extends TitleActivity {
                 mTop20ListView.setAdapter(mStockAdapter_turn);
                 mStockAdapter_turn.notifyDataSetChanged();
                 setListViewHeightBasedOnChildren(mTop20ListView);
+
+                mTop20ListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+                        //Toast.makeText(getContext(),MainActivity.mStockRecords.get(position).getName(), Toast.LENGTH_SHORT).show();
+                        String enqueryId_d = StockFragment.input2enqury(top_t.get(position).getId());
+                        System.out.println("-----stock id-----: " + top_t.get(position).getId());
+                        Intent intent = new Intent(getApplicationContext(), EachStockActivity.class);
+                        intent.putExtra(MainActivity.EXTRA_MESSAGE, enqueryId_d);
+                        startActivity(intent);
+
+
+
+                    }
+                });
                 break;
 
         }
