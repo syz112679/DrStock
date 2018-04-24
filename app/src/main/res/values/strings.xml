@@ -256,4 +256,6 @@
     <string name="add_to_plan_success">Investment plan added sucessfully!</string>
     <string name="change_plan_success">Investment plan changed</string>
     <string name="delete_plan_success">Investment plan deleted</string>
+
+    <string name="scan_btn">Scan</string>
 </resources>

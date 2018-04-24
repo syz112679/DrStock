@@ -231,5 +231,7 @@
     <string name="logining">Running in background. Please see log.</string>
     <string name="setting_su">Succeed to set</string>
 
+    <string name="scan_btn">扫描二维码</string>
+
 
 </resources>

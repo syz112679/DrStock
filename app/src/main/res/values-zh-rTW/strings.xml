@@ -230,6 +230,8 @@
     <string name="logining">Running in background. Please see log.</string>
     <string name="setting_su">Succeed to set</string>
 
+    <string name="scan_btn">掃描二維碼</string>
+
 
 
 </resources>
