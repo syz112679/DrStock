@@ -442,8 +442,9 @@
 
                     <ImageView
                         android:id="@+id/add_to_plan"
-                        android:layout_width="61dp"
-                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:minHeight="50dp"
                         app2:srcCompat="@drawable/ic_collection" />
