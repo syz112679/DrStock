@@ -29,14 +29,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void init() {
-        TextView tv_version = findViewById(R.id.tv_version);
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
-            tv_version.setText("version:"+packageInfo.versionName);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            tv_version.setText("version");
-        }
+
         //利用timer让此界面延迟3秒后跳转，timer有一个线程，该线程不断执行task
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
@@ -50,6 +43,6 @@ public class SplashActivity extends AppCompatActivity {
             }
         };
         //调度执行timerTask，第二个参数传入延迟时间（毫秒）
-        timer.schedule(timerTask,3000);
+        timer.schedule(timerTask,5000);
     }
 }
