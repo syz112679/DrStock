@@ -257,6 +257,10 @@
     <string name="change_percentage">Change %</string>
     <string name="lv_volume">Volume</string>
     <string name="current_price">Current Price</string>
+    <string name="top_up">UP Stocks</string>
+    <string name="top_down">DOWN Stocks</string>
+    <string name="top_vol">Sort by VOLUME</string>
+    <string name="top_turn">Sort by TURNOVER</string>
 
     <!--TODO-->
     <string name="text_how_much_money_transfer">How much money you want to transfer to User:</string>
@@ -272,4 +276,5 @@
 
     <string name="scan_btn">Scan</string>
     <string name="toast_initi_complete">Initialization Complete!</string>
+
 </resources>

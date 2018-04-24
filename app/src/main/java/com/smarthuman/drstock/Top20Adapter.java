@@ -39,7 +39,6 @@ public class Top20Adapter extends ArrayAdapter<StockTop20> {
         TextView tvVol = (TextView) convertView.findViewById(R.id.tv_vol);
         TextView tvCurPrice = (TextView) convertView.findViewById(R.id.tv_current_price);
 
-
         // Populate the data into the template view using the data object
         tvID.setText(stock.getId());
         tvName.setText(stock.getName());
@@ -48,8 +47,6 @@ public class Top20Adapter extends ArrayAdapter<StockTop20> {
         tvVol.setText(stock.getVol());
         tvCurPrice.setText(stock.getCurrentPrice());
 
-        // Return the completed view to render on screen
-        //System.out.println("called here, Stock list adapter");
         return convertView;
     }
 
