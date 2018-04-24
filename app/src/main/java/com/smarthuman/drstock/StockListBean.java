@@ -10,45 +10,14 @@ import java.util.Map;
  */
 
 public class StockListBean {
-    /*
-    JSON
-    {}chi_name
-        values:
-    {}high
-        []values:
-    {}eng_name
-        values:
-    {}vol
-        []values:
-    {}x_axis
-        []labels:
-    {}low
-        []values:
-    {}price_up_down
-        []values:
-    {}code
-        values:
-    {}open
-        []values:
-    {}price
-        []values:
-    {}sma50
-        []values:
-    {}sma20
-        []values:
-    {}sma10
-        []values:
-     */
-//single value:
+
     private cname chi_name;
     private ename eng_name;
     private codenum code;
-    //json array:
     private higharr high;
     private volarr vol;
     private datearr x_axis;
     private lowarr low;
-    //private price_up_downarr price_up_down;
     private openarr open;
     private closearr price;
     private sma50arr sma50;

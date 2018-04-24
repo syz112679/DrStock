@@ -224,7 +224,7 @@ public static List<Entry> getUSLineEntries(){
     }
 
 
-    //fenshi chart
+    //fenshi linechart
     public static List<Entry> getLineEntries(){
         List<Float> rawDataPrice = new Gson().fromJson(dataF, StockDayBean.class).getPrice().getValues();
         List<Entry> entries = new ArrayList<>();
@@ -234,10 +234,7 @@ public static List<Entry> getUSLineEntries(){
                 Entry entry = new Entry(price, i);
                 entries.add(entry);
             }
-            else{
-                //Entry entry = new Entry(rawDataPrice.get(i-1), i);
-                //entries.add(entry);
-            }
+            else{}
         }
         return entries;
     }

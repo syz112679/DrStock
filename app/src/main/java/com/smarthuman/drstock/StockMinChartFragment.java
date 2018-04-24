@@ -113,21 +113,17 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
 //        }
         if(stock.marketId_.equals("HK")){
             String money18url = "http://money18.on.cc/chartdata/d1/price/" + stock.id_ + "_price_d1.txt";
-            Log.d("url", "url is "+money18url);
-            //http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt
-            lineChart = (LineChart) view.findViewById(R.id.lchart);       //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
+            lineChart = (LineChart) view.findViewById(R.id.lchart);
             barChart = (BarChart) view.findViewById(R.id.bchart);
             StringRequest stringRequest = new StringRequest(Request.Method.GET, money18url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            System.out.println("-----Main setdata min-----:"+response);
                             Model.setDataF(response);
 
                             initChartF();
 
                             loadChartDataF();
-
 
                         }
                     }, new Response.ErrorListener() {
@@ -142,21 +138,20 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         else if(stock.marketId_.equals("SZ")||stock.marketId_.equals("SH")||stock.marketId_.equals("US")){
             String baiduurl;
             if(stock.marketId_.equals("US")){
-                baiduurl = "https://gupiao.baidu.com/api/stocks/stocktimeline?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=" + stock.marketId_.toLowerCase() + stock.id_.toUpperCase() + "&timestamp=" + ts;
+                baiduurl = "https://gupiao.baidu.com/api/stocks/stocktimeline?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code="
+                        + stock.marketId_.toLowerCase() + stock.id_.toUpperCase() + "&timestamp=" + ts;
             }
             else{
-                baiduurl = "https://gupiao.baidu.com/api/stocks/stocktimeline?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code=" + stock.marketId_.toLowerCase() + stock.id_ + "&timestamp=" + ts;
+                baiduurl = "https://gupiao.baidu.com/api/stocks/stocktimeline?from=pc&os_ver=1&cuid=xxx&vv=100&format=json&stock_code="
+                        + stock.marketId_.toLowerCase() + stock.id_ + "&timestamp=" + ts;
 
             }
-            Log.d("url", "url is "+ baiduurl);
-            //http://money18.on.cc/chartdata/d1/price/02318_price_d1.txt
-            lineChart = (LineChart) view.findViewById(R.id.lchart);       //http://money18.on.cc/chartdata/full/price/00700_price_full.txt
+            lineChart = (LineChart) view.findViewById(R.id.lchart);
             barChart = (BarChart) view.findViewById(R.id.bchart);
             StringRequest stringRequest = new StringRequest(Request.Method.GET, baiduurl,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            System.out.println("-----Main setdata min-----:"+response);
                             Model.setDataF(response);
 
                             initChartF();
@@ -173,9 +168,9 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
             RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
             mQueue.add(stringRequest);
         }
-        else{
-            Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
-        }
+//        else{
+//            Toast.makeText(getContext(),R.string.toast_sorry_only_hk_graph,Toast.LENGTH_LONG).show();
+//        }
         return view;
     }
 
@@ -193,14 +188,15 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         lineChart.setDragEnabled(true);// 是否可以拖拽
         CustomMarkerView mv = new CustomMarkerView(this.getActivity(), R.layout.mymarkerview);
         lineChart.setMarkerView(mv);
-
         lineChart.setScaleXEnabled(true); //是否可以缩放 仅x轴
         lineChart.setScaleYEnabled(true); //是否可以缩放 仅y轴
         lineChart.setPinchZoom(true);  //设置x轴和y轴能否同时缩放。默认是否
         lineChart.setDoubleTapToZoomEnabled(true);//设置是否可以通过双击屏幕放大图表。默认是true
         lineChart.setHighlightPerDragEnabled(true);//能否拖拽高亮线(数据点与坐标的提示线)，默认是true
-        lineChart.setDragDecelerationEnabled(true);//拖拽滚动时，手放开是否会持续滚动，默认是true（false是拖到哪是哪，true拖拽之后还会有缓冲）
-        lineChart.setDragDecelerationFrictionCoef(0.99f);//与上面那个属性配合，持续滚动时的速度快慢，[0,1) 0代表立即停止。
+        //拖拽滚动时，手放开是否会持续滚动，默认是true（false是拖到哪是哪，true拖拽之后还会有缓冲）
+        lineChart.setDragDecelerationEnabled(true);
+        //与上面那个属性配合，持续滚动时的速度快慢，[0,1) 0代表立即停止。
+        lineChart.setDragDecelerationFrictionCoef(0.99f);
 
         barChart.setScaleEnabled(false);
         barChart.setDrawBorders(false);
@@ -214,19 +210,14 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         Legend barChartLegend = barChart.getLegend();
         barChartLegend.setEnabled(false);
 
-
         //x轴
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelsToSkip(59);
-
-
-
         //左边y
         YAxis axisLeft = lineChart.getAxisLeft();
         axisLeft.setLabelCount(5, true);
         axisLeft.setDrawLabels(true);
-
         //右边y
         YAxis axisRight = lineChart.getAxisRight();
         axisRight.setEnabled(false);
@@ -235,13 +226,9 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         XAxis xAxisBar = barChart.getXAxis();
         xAxisBar.setDrawLabels(false);
         xAxisBar.setDrawGridLines(false);
-
         YAxis axisLeftBar = barChart.getAxisLeft();
         axisLeftBar.setDrawGridLines(false);
-
-
         YAxis axisRightBar = barChart.getAxisRight();
-        // axisRightBar.setDrawLabels(false);
         axisRightBar.setDrawGridLines(false);
 
         //y轴样式
@@ -257,15 +244,12 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         xAxis.setGridColor(getResources().getColor(R.color.edit_text_underline));
         xAxis.setAxisLineColor(getResources().getColor(R.color.edit_text_underline));
         axisLeft.setGridColor(getResources().getColor(R.color.edit_text_underline));
-        //axisRight.setAxisLineColor(getResources().getColor(R.color.edit_text_underline));
+
+
         lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
-//                barChart.setHighlightValue(new Highlight(h.getXIndex(), 0));
-
                 barChart.highlightValue(new Highlight(h.getXIndex(), 0));
-
-                // lineChart.setHighlightValue(h);
             }
 
             @Override
@@ -277,8 +261,6 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
             @Override
             public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
                 lineChart.highlightValue(new Highlight(h.getXIndex(), 0));
-                // lineChart.setHighlightValue(new Highlight(h.getXIndex(), 0));//此函数已经返回highlightBValues的变量，并且刷新，故上面方法可以注释
-                //barChart.setHighlightValue(h);
             }
 
             @Override
@@ -321,13 +303,12 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         }
         BarDataSet set2 = generateBarDataSet(barEntries, colorArray, "minVol");
         set2.setHighlightEnabled(true);
-        //set2.setDrawHighlightIndicators(true);
         set2.setHighLightColor(Color.BLACK);
         BarData data2 = new BarData(xVals, set2);
         barChart.setData(data2);
 
-        LineDataSet set1 = generateLineDataSet(lineEntries, getResources().getColor(R.color.line_chart_color), "minPrice");
-
+        LineDataSet set1 = generateLineDataSet(lineEntries,
+                getResources().getColor(R.color.line_chart_color), "minPrice");
 
         LineData data = new LineData(xVals, set1);
         lineChart.setData(data);
@@ -460,7 +441,7 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
         float lineRight = lineChart.getViewPortHandler().offsetRight();
         float barRight = barChart.getViewPortHandler().offsetRight();
         float offsetLeft, offsetRight;
- /*注：setExtraLeft...函数是针对图表相对位置计算，比如A表offLeftA=20dp,B表offLeftB=30dp,则A.setExtraLeftOffset(10),并不是30，还有注意单位转换*/
+
         if (barLeft < lineLeft) {
             offsetLeft = Utils.convertPixelsToDp(lineLeft-barLeft);
             barChart.setExtraLeftOffset(offsetLeft);
@@ -468,7 +449,7 @@ public class StockMinChartFragment extends android.support.v4.app.Fragment {
             offsetLeft = Utils.convertPixelsToDp(barLeft-lineLeft);
             lineChart.setExtraLeftOffset(offsetLeft);
         }
-  /*注：setExtra...函数是针对图表绝对位置计算，比如A表offRightA=20dp,B表offRightB=30dp,则A.setExtraLeftOffset(30),并不是10，还有注意单位转换*/
+
         if (barRight < lineRight) {
             offsetRight = Utils.convertPixelsToDp(lineRight);
             barChart.setExtraRightOffset(offsetRight);

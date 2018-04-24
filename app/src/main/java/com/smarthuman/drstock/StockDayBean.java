@@ -7,6 +7,37 @@ import java.util.List;
 
 public class StockDayBean {
 
+    private Date date;
+    private Eng_name eng_name;
+    private Chi_name chi_name;
+    private PrevCPrice prevCPrice;
+    private Price price;
+    private Vol vol;
+    private X_axis x_axis;
+
+    /*
+    "date":{"values":"20180424"},
+     "eng_name":{"values":"TENCENT"},
+	"chi_name":{"values":"é¨°è¨ŠæŽ§è‚¡"},
+    "prevCPrice":{"values":394.0},
+
+    JSON
+    {}date
+        values:
+    {}chi_name
+        values:
+    {}eng_name
+        values:
+    {}prevCPrice
+        values:
+    {}price
+        []values:
+    {}vol
+        []values:
+    {}x_axis
+        []labels:
+
+     */
     public Date getDate() {
         return date;
     }
@@ -63,13 +94,7 @@ public class StockDayBean {
         this.x_axis = x_axis;
     }
 
-    private Date date;
-    private Eng_name eng_name;
-    private Chi_name chi_name;
-    private PrevCPrice prevCPrice;
-    private Price price;
-    private Vol vol;
-    private X_axis x_axis;
+
 
     class Date {
         private String values;

@@ -26,7 +26,7 @@ import java.util.List;
  * Created by Li Shuhan on 2018/4/23.
  */
 
-public class Top20_Activity extends AppCompatActivity {
+public class Top20_Activity extends TitleActivity {
     public ListView mTop20ListView;
     public Top20Adapter mStockAdapter;
 
@@ -36,6 +36,8 @@ public class Top20_Activity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top20);
+        setTitle("Top20");
+        showBackward(getDrawable(R.drawable.ic_return), true);
 
         String money18url = "http://money18.on.cc/js/real/topStock_stock_s.js";
         mTop20ListView = findViewById(R.id.top20_listview);
