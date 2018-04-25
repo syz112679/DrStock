@@ -88,8 +88,8 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
             mChart.setTransparentCircleRadius(10);
 
             // enable rotation of the chart by touch
-            mChart.setRotationAngle(0);
-            mChart.setRotationEnabled(true);
+//            mChart.setRotationAngle(0);
+//            mChart.setRotationEnabled(true);
 
             addData();
 
@@ -140,7 +140,6 @@ public class MyStockListFragment extends android.support.v4.app.Fragment  {
        // getActivity().setTitle(R.string.title_my_stock);
         mStockAdapter.notifyDataSetChanged();
         mPlanAdapter.notifyDataSetChanged();
-
 
     }
 

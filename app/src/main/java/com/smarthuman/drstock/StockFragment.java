@@ -37,6 +37,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import io.reactivex.Observable;
@@ -93,6 +94,14 @@ public class StockFragment extends Fragment implements View.OnClickListener {
                 MainActivity.requireRefresh = true;
                 System.out.println("requireRefresh: " + MainActivity.requireRefresh);
                 refreshlayout.finishRefresh(2000);
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                MainActivity.hanziComplete = false;
+                MainActivity.initStockListCalled = false;
+                refreshlayout.finishLoadmore(2000);
             }
         });
 

@@ -54,6 +54,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -698,7 +700,7 @@ public class MainActivity extends TitleActivity
     private StockFullListBean[] fullList = new StockFullListBean[3];
     private static int iteration = 0;
     private static boolean responseComplete = false;
-    private static boolean hanziComplete = false;
+    public static boolean hanziComplete = false;
 
 
     private void nowapiGetList() {
