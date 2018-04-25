@@ -54,7 +54,10 @@ import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -115,7 +118,7 @@ public class MainActivity extends TitleActivity
     public static boolean inLoop = false;
     public static boolean initBeanCalled = false;
     public static boolean stockInit = false;
-
+    public static boolean initStockListCalled = false;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -196,14 +199,17 @@ public class MainActivity extends TitleActivity
             public void run() {
                 count += minPeriod;
                 controlledRefreshStocks();
-                System.out.println("hanziComplete = " + hanziComplete + "; inLoop = " + inLoop + ";");
-                if (stockInit) {
-                    if (!hanziComplete && !inLoop) {
-                        initString();
-                    }
+//                System.out.println("hanziComplete = " + hanziComplete + "; inLoop = " + inLoop + ";");
+//                if (stockInit) {
+//                    if (!hanziComplete && !inLoop) {
+//                        initString();
+//                    }
+//                }
+                if (!initStockListCalled) {
+                    initStockList();
                 }
             }
-        }, 0, minPeriod * 1000); // 10 seconds
+        }, 0, minPeriod * 1000); // 2 seconds
         Log.d("mainActivity", "LIne 134");
 
         //--------------------------------------------------------------------------------------------------
@@ -286,8 +292,33 @@ public class MainActivity extends TitleActivity
 //        fragment_stock = findViewById(R.id.fragment_stock);
 //
 
-//        initViews();
 
+    }
+
+    private void initStockList() {
+        System.out.println("hanziComplete: " + hanziComplete + "; stockInit: " + stockInit);
+
+        if (hanziComplete) {
+            return;
+        }
+
+        if (!stockInit) {
+            return;
+        }
+
+        initStockListCalled = true;
+
+        handler.sendEmptyMessage(0);
+    }
+
+    private void initRaw() {
+        InputStream inputStream = getResources().openRawResource(R.raw.stock_list_hs);
+        rawResponse[0] = TxtReader.getString(inputStream);
+        System.out.println(rawResponse[0].substring(0, 50));
+        inputStream = getResources().openRawResource(R.raw.stock_list_hk);
+        rawResponse[1] = TxtReader.getString(inputStream);
+        inputStream = getResources().openRawResource(R.raw.stock_list_us);
+        rawResponse[2] = TxtReader.getString(inputStream);
     }
 
 
@@ -445,6 +476,7 @@ public class MainActivity extends TitleActivity
                     public void onResponse(String response) {
                         System.out.println("Main***************************Response**************************");
                         System.out.println(response);
+//                        inLoop = false;
                         System.out.println("*****************************************************************");
                         updateStockListView(sinaResponseToStocks(response));
 
@@ -550,6 +582,8 @@ public class MainActivity extends TitleActivity
     public void initString(){
         if (!responseComplete) {
             nowapiGetList();
+
+//            responseComplete = true;
             return;
         }
 
@@ -614,9 +648,10 @@ public class MainActivity extends TitleActivity
             switch (msg.what){
                 case 0:
                     System.out.println("------handler: hanziComplete = " + hanziComplete + ";");
-                    if (!hanziComplete) {
-                        initAdapter();
-                    }
+                    initRaw();
+                    initBean();
+                    initHanzi();
+                    initAdapter();
                     break;
                 default:break;
             }
@@ -665,7 +700,7 @@ public class MainActivity extends TitleActivity
     private StockFullListBean[] fullList = new StockFullListBean[3];
     private static int iteration = 0;
     private static boolean responseComplete = false;
-    private static boolean hanziComplete = false;
+    public static boolean hanziComplete = false;
 
 
     private void nowapiGetList() {
@@ -924,7 +959,8 @@ public class MainActivity extends TitleActivity
 
             case R.id.navigation_account:
                 if (mAuth.getCurrentUser() != null || GoogleSignIn.getLastSignedInAccount(this)!=null || (AccessToken.getCurrentAccessToken() != null)) {
-                    //fragment = new com.smarthuman.drstock.AccountFragment();
+                    inLoop = false;
+                    /// /fragment = new com.smarthuman.drstock.AccountFragment();
                     setTitle(R.string.title_account);
                     setViewPager(3);
                 } else {
