@@ -251,9 +251,9 @@ public class MainActivity extends TitleActivity
 
 
         mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
-        FacebookSignOut();
-        GoogleSignOut();
+//        mAuth.signOut();
+//        FacebookSignOut();
+//        GoogleSignOut();
         mfirebaseUser = mAuth.getCurrentUser();
         if(mfirebaseUser!=null)
             mUid = mfirebaseUser.getUid();
@@ -1001,22 +1001,6 @@ public class MainActivity extends TitleActivity
         isPaused = false;
 
         Log.d("MainActivity", "onResume: called");
-
-        refreshStocks();
-//        if(FirebaseAuth.getInstance().getCurrentUser() != null)
-//            updateUserInfo();
-//        if(FirebaseAuth.getInstance().getCurrentUser() != null)
-//            getInfoFromDatabase();
-        if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0 ){
-            updateUserInfo();
-            updateDatabase();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        isPaused = true;
         switch(mViewPager.getCurrentItem()){
             case 0:
                 setTitle(R.string.title_home);
@@ -1034,6 +1018,22 @@ public class MainActivity extends TitleActivity
                 setTitle(R.string.title_my_stock);
                 break;
         }
+        refreshStocks();
+//        if(FirebaseAuth.getInstance().getCurrentUser() != null)
+//            updateUserInfo();
+//        if(FirebaseAuth.getInstance().getCurrentUser() != null)
+//            getInfoFromDatabase();
+        if(FirebaseAuth.getInstance().getCurrentUser() != null && mUserName!=null && mUserName.length()>0 ){
+            updateUserInfo();
+            updateDatabase();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isPaused = true;
+
     }
 
     // from GU's stock

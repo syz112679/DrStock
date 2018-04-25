@@ -123,7 +123,7 @@
     <string name="toast_you_have_lost">You have lost </string>
     <string name="toast_you_dont_have_enough_money">You do not have enough money</string>
     <string name="toast_invalid_input">Invalid input</string>
-    <!--TODO:-->
+
     <string name="toast_buy_successfully">Buy successfully! spend</string>
     <string name="toast_sorry_only_hk_graph">Sorry, you can only see HK stocks graph.</string>
     <string name="toast_added_to_watchlist">Added to watch list</string>

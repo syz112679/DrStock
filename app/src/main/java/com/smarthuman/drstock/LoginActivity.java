@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //Facebook
     public CallbackManager mCallbackManager;
-    boolean isFacebook = false;
+    boolean isFacebook = true;
 
     // Constants
     public static final String LOGIN_PREF = "LoginPrefs";
@@ -158,15 +158,16 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
         LoginButton facebookloginButton = (LoginButton) findViewById(R.id.facebook_login_button);
-        facebookloginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isGoogle = false;
-                isFacebook = true;
-                MainActivity.isGoogle = false;
-                MainActivity.isFacebook = true;
-            }
-        });
+//        facebookloginButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                isGoogle = false;
+//                isFacebook = true;
+//                MainActivity.isGoogle = false;
+//                MainActivity.isFacebook = true;
+//                Log.d(TAG, "facebook clicked");
+//            }
+//        });
         facebookloginButton.setReadPermissions("email", "public_profile");
         facebookloginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -188,6 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "facebook:onError", error);
                 // ...
             }
+
         });
     }
 
@@ -345,12 +347,13 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
             }
-            isGoogle = false;
+            //isGoogle = false;
         }
 
         else if(isFacebook) {
-            isFacebook = false;
+            //isFacebook = false;
             // Pass the activity result back to the Facebook SDK
+            Log.d(TAG,"OnActivityResult");
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -388,7 +391,7 @@ public class LoginActivity extends AppCompatActivity {
     public void FacebookLogin() {
         isGoogle = false;
         isFacebook = true;
-
+        Log.d(TAG, "line 392");
         if (mUser != null) {
             MainActivity.mUid = mUser.getUid();
             String userName = mUser.getDisplayName();

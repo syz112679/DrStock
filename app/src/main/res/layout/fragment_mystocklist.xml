@@ -1,17 +1,20 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:id="@+id/fragment_mystocklist"
     android:fillViewport="true"
     android:background="@drawable/color_sky">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
         <ListView
             android:id="@+id/my_stocks_listview"
@@ -28,10 +31,6 @@
             android:layout_gravity="bottom"
             android:background="@drawable/line_timber" />
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pie_chart"
-            android:layout_width="match_parent"
-            android:layout_height="270sp" />
 
         <ImageView
             android:layout_marginTop="40dp"
@@ -99,8 +98,11 @@
             android:textAlignment="viewEnd" >
         </ListView>
 
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart"
+            android:layout_width="match_parent"
+            android:layout_height="240sp" />
+</LinearLayout>
+    </ScrollView>
 
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
