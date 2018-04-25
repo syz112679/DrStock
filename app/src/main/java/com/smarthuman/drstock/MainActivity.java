@@ -55,6 +55,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -115,7 +116,7 @@ public class MainActivity extends TitleActivity
     public static boolean inLoop = false;
     public static boolean initBeanCalled = false;
     public static boolean stockInit = false;
-
+    public static boolean initStockListCalled = false;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -196,14 +197,17 @@ public class MainActivity extends TitleActivity
             public void run() {
                 count += minPeriod;
                 controlledRefreshStocks();
-                System.out.println("hanziComplete = " + hanziComplete + "; inLoop = " + inLoop + ";");
-                if (stockInit) {
-                    if (!hanziComplete && !inLoop) {
-                        initString();
-                    }
+//                System.out.println("hanziComplete = " + hanziComplete + "; inLoop = " + inLoop + ";");
+//                if (stockInit) {
+//                    if (!hanziComplete && !inLoop) {
+//                        initString();
+//                    }
+//                }
+                if (!initStockListCalled) {
+                    initStockList();
                 }
             }
-        }, 0, minPeriod * 1000); // 10 seconds
+        }, 0, minPeriod * 1000); // 2 seconds
         Log.d("mainActivity", "LIne 134");
 
         //--------------------------------------------------------------------------------------------------
@@ -286,8 +290,33 @@ public class MainActivity extends TitleActivity
 //        fragment_stock = findViewById(R.id.fragment_stock);
 //
 
-//        initViews();
 
+    }
+
+    private void initStockList() {
+        System.out.println("hanziComplete: " + hanziComplete + "; stockInit: " + stockInit);
+
+        if (hanziComplete) {
+            return;
+        }
+
+        if (!stockInit) {
+            return;
+        }
+
+        initStockListCalled = true;
+
+        handler.sendEmptyMessage(0);
+    }
+
+    private void initRaw() {
+        InputStream inputStream = getResources().openRawResource(R.raw.stock_list_hs);
+        rawResponse[0] = TxtReader.getString(inputStream);
+        System.out.println(rawResponse[0].substring(0, 50));
+        inputStream = getResources().openRawResource(R.raw.stock_list_hk);
+        rawResponse[1] = TxtReader.getString(inputStream);
+        inputStream = getResources().openRawResource(R.raw.stock_list_us);
+        rawResponse[2] = TxtReader.getString(inputStream);
     }
 
 
@@ -551,6 +580,8 @@ public class MainActivity extends TitleActivity
     public void initString(){
         if (!responseComplete) {
             nowapiGetList();
+
+//            responseComplete = true;
             return;
         }
 
@@ -615,9 +646,10 @@ public class MainActivity extends TitleActivity
             switch (msg.what){
                 case 0:
                     System.out.println("------handler: hanziComplete = " + hanziComplete + ";");
-                    if (!hanziComplete) {
-                        initAdapter();
-                    }
+                    initRaw();
+                    initBean();
+                    initHanzi();
+                    initAdapter();
                     break;
                 default:break;
             }
